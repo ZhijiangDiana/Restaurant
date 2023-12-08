@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="login" method="post">
+    <div>
+        <label for="username">Id:</label>
+        <input type="text" id="username" name="id" required>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+    <div>
+        <label for="captcha">Captcha:</label>
+        <input type="text" id="captcha" name="captcha" required>
+        <img src="captcha" alt="Captcha" onclick="this.src='captcha?'+Math.random();">
+    </div>
+    <div>
+        <input type="submit" value="Login">
+    </div>
+</form>
+<script>
+    // 如果希望在用户点击验证码时刷新验证码，可以使用以下JavaScript代码
+    document.querySelector('img[alt="Captcha"]').addEventListener('click', function() {
+        this.src = 'captcha?' + Math.random();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>交流社区</title>
+  <meta charset="UTF-8">
+</head>
+<body>
+
+<form action="UploadServlet" method="post" enctype="multipart/form-data">
+  <label for="title">标题:</label>
+  <input type="text" id="title" name="title"><br><br>
+
+  <label for="content">内容:</label>
+  <textarea id="content" name="content"></textarea><br><br>
+
+  <label for="image">图片:</label>
+  <input type="file" id="image" name="image" accept="image/*"><br><br>
+
+  <input type="submit" value="提交">
+</form>
+
+</body>
+</html>

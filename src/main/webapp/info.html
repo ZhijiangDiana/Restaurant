@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>评论展示</title>
+    <!-- 引入Element UI样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入Vue -->
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <!-- 引入Element UI组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        .at-user {
+            color: blue;
+        }
+        .reply-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header>评论列表</el-header>
+        <el-main>
+            <el-card class="box-card" v-for="comment in comments" :key="comment.id">
+                <div slot="header">
+                    <span>{{ comment.title }}</span>
+                    <el-tag>{{ comment.date }}</el-tag>
+                </div>
+                <div>{{ comment.content }}</div>
+                <div v-if="comment.img">
+                    <img :src="'data:image/png;base64,' + comment.img" alt="Comment Image" style="max-width: 100%;">
+                </div>
+                <div>
+                    <el-button :type="comment.liked ? 'danger' : 'info'" @click="toggleLike(comment)">
+                        {{ comment.liked ? '已赞' : '点赞' }}
+                    </el-button>
+                    <span>{{ comment.likes }} 喜欢</span>
+                    <el-button type="primary" @click="fetchReplies(comment)">评论</el-button>
+                </div>
+                <!-- 回复列表 -->
+                <div v-if="comment.replies && comment.replies.length">
+                    <el-pagination
+                            @current-change="page => handleReplyPageChange(comment, page)"
+                            :current-page="comment.currentPage"
+                            :page-size="5"
+                            layout="prev, pager, next"
+                            :total="comment.replies.length">
+                    </el-pagination>
+                    <ul>
+                        <li v-for="reply in paginatedReplies(comment)" :key="reply.id" class="reply-container">
+                            {{ reply.sender_name }} @ <span class="at-user">{{ reply.receiver_name }}</span> 说: {{ reply.content }}
+                            <el-button type="text" icon="el-icon-chat-dot-round" @click="openReplyBox(reply, comment)">回复</el-button>
+                        </li>
+                    </ul>
+                </div>
+            </el-card>
+        </el-main>
+    </el-container>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                comments: [],
+                currentUser: '' // 存储当前用户姓名
+            };
+        },
+        mounted() {
+            this.fetchComments();
+            this.fetchCurrentUser();
+        },
+        methods: {
+            fetchComments() {
+                fetch('http://localhost:8080/rest/ou', { method: 'Post' })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.comments = data.map(comment => ({
+                            ...comment,
+                            liked: false,
+                            likes: comment.likes || 0,
+                            replies: [],
+                            currentPage: 1
+                        }));
+                    })
+                    .catch(error => console.error('Error:', error));
+            },
+            fetchCurrentUser() {
+                fetch('http://localhost:8080/getCurrentUserName', { method: 'GET' })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.currentUser = data.name;
+                    })
+                    .catch(error => console.error('Error:', error));
+            },
+            toggleLike(comment) {
+                const wasLiked = comment.liked;
+                comment.liked = !comment.liked;
+                comment.likes += comment.liked ? 1 : -1;
+
+                const flag = comment.liked ? 0 : 1;
+
+                fetch('http://localhost:8080/rest/toggleLike', {
+                    method: 'POST',
+                    body: JSON.stringify({ commentId: comment.id, flag: flag }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Toggle like successful:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        comment.liked = wasLiked;
+                        comment.likes += wasLiked ? -1 : 1;
+                    });
+            },
+            fetchReplies(comment) {
+                fetch(`http://localhost:8080/rest/reply?commentId=${comment.id}`, { method: 'GET' })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.flag === "0") {
+                            comment.replies = JSON.parse(data.json);
+                            comment.currentPage = 1;
+                        } else {
+                            this.$message.error('加载回复失败');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            },
+            handleReplyPageChange(comment, page) {
+                comment.currentPage = page;
+            },
+            paginatedReplies(comment) {
+                const start = (comment.currentPage - 1) * 5;
+                const end = start + 5;
+                return comment.replies.slice(start, end);
+            },
+            openReplyBox(reply, comment) {
+                this.$prompt('请输入您的回复', '回复', {
+                    confirmButtonText: '发送',
+                    cancelButtonText: '取消',
+                }).then(({ value }) => {
+                    this.sendReply(comment.id, reply.id, value, reply.receiver_name, this.currentUser);
+                }).catch(() => {});
+            },
+            sendReply(commentId, replyId, content, receiverName, senderName) {
+                fetch(`http://localhost:8080/rest/sendReply`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        commentId,
+                        replyId,
+                        content,
+                        receiver: receiverName,
+                        sender: senderName
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.flag === "0") {
+                            this.fetchReplies(comment)
+                            this.$message.success('回复成功');
+                        } else {
+                            this.$message.error(data.message); // 显示错误信息
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    });
+</script>
+</body>
+</html>

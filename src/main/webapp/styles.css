@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.message {
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.message-title {
+    margin: 0;
+}
+
+.message-date {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.message-body {
+    margin-bottom: 15px;
+}
+
+.message-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.message-footer {
+    text-align: right;
+}
+
+.like-button, .comment-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.like-button:hover, .comment-button:hover {
+    background-color: #0056b3;
+}
