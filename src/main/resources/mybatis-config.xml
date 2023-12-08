@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 开启驼峰命名规则自动转换 -->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+    <!-- 给entity类的包起别名 -->
+    <typeAliases>
+        <package name="com.restaurant.restaurant.pojo.entity"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <!-- 连接信息 -->
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://118.25.43.33:3306/Restaurant?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Asia/Shanghai&amp;autoReconnect=true"/>
+                <property name="username" value="root"/>
+                <property name="password" value="114514"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!-- Mapper代理方式导入mapper包 -->
+        <package name="com.restaurant.restaurant.mapper"/>
+    </mappers>
+</configuration>

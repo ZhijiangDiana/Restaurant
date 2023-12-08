@@ -1,0 +1,15 @@
+<!-- 除了namesapce，mapper中的内容，其他的全都是模板可以复制 -->
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间，指表对应Mapper类的位置 -->
+<mapper namespace="com.restaurant.restaurant.mapper.UserMapper">
+
+    <select id="selectAll" resultType="User">
+        SELECT * FROM `Restaurant`.user;
+    </select>
+    <select id="selectById" resultType="User">
+        SELECT * FROM `Restaurant`.user WHERE user_id = #{id};
+    </select>
+</mapper>
