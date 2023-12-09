@@ -25,12 +25,12 @@ public class CalculateDishScore {
         sqlSession.close();
     }
 
-    private Pair<Double, Double> calculateDishScore(double dishScoreN, double weightSumN,
+    public Pair<Double, Double> calculateDishScore(double dishScoreN, double weightSumN,
                                     double userComment, int userExp, int userCommentsPerOnline) {
-        double weight = 10*Math.atan(0.002*(double)userExp) * 1/(double)userCommentsPerOnline;
+        double weight = 10*Math.atan(0.002*(double)userExp) * 1/(double)(userCommentsPerOnline+1);
         double weightSumN1 = weightSumN + weight;
         double dishScoreN1 = (dishScoreN*weightSumN + weight*userComment) / weightSumN1;
 
-        return new Pair<>(weightSumN1, dishScoreN1);
+        return new Pair<>(dishScoreN1, weightSumN1);
     }
 }
