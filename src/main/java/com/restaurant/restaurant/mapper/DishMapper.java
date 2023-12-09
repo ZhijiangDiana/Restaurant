@@ -15,6 +15,6 @@ public interface DishMapper {
     List<Dish> selectBySeries(@Param("series") int series);
     List<Dish> selectByPrice(@Param("minPrice") int minPrice,
                              @Param("maxPrice") int maxPrice); // 查找价格介于两者之间的菜品
-    List<Dish> selectByCanteen(@Param("canteen") String canteen);
+    List<Dish> selectByCanteen(@Param("canteen") String canteen);//查找这个菜所属的餐厅
     List<Dish> selectByScore(@Param("score") double score); // 查找比score高的菜品
 }

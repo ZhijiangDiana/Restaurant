@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface DishCommentMapper {
     List<DishComment> selectAll();
-    DishComment selectById(@Param("id") int id);
-    void insertComment(DishComment comment);
+    DishComment selectById(@Param("id") int id);//
+    void insertComment(DishComment comment);//添加评论
 }

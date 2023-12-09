@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间，指表对应Mapper类的位置 -->
+<mapper namespace="com.restaurant.restaurant.mapper.DishMapper">
+
+
+    <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum FROM `Restaurant`.dish;
+    </select>
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum FROM `Restaurant`.dish WHERE dish_id = #{id};
+    </select>
+    <select id="selectByIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT * FROM `Restaurant`.dish WHERE dish_id = #{id};
+    </select>
+    <select id="selectBySeries" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        select dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum from `Restaurant`.dish where series=#{series};
+    </select>
+    <select id="selectByPrice" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        select dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum  FROM  `Restaurant`.dish where price between #{minPrice} and #{maxPrice};
+    </select>
+    <select id="selectByCanteen" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        select dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum FROM  `Restaurant`.dish where price between #{minPrice} and #{maxPrice};
+    </select>
+    <select id="selectByScore" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        select dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum from `Restaurant`.dish where total_score>#{score};
+    </select>
+</mapper>

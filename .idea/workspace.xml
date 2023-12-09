@@ -2,58 +2,55 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="restaurant:war exploded" />
+      <artifact name="rest:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/HelloServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/GetCurrentUserName.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/LoginServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/OutServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/ReplyServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/SearchSpecificUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/SendReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/UploadServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/VerificationServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/Comment.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/LevelInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/R.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/Reply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/LoginService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/ExpLevelCaculate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/GenericVerification.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/MyConnection.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/SensitiveCommentFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/a.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/info.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/info.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/styles.css" afterDir="false" />
+    <list default="true" id="71dd47e2-3af2-4e06-a253-f3b4c5c5ee99" name="Changes" comment="大致架构">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/ReplyMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Announcement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Canteen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/CanteenAdmin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Message.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Reply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Report.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Vote.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/DishCommenMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/DishMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/ReplyMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishCommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishCommentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SqlTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="wu" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -62,11 +59,27 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../software/apache-maven-3.6.1" />
+        <option name="userSettingsFile" value="D:\software\apache-maven-3.6.1\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
+  &quot;associatedIndex&quot;: 6
 }</component>
-  <component name="ProjectId" id="2ZG3V4c7EJde6xzVqJlNoX6ClGu" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2Z7wxl8JI7efUXgiVVoL6FZ81pa" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -75,33 +88,89 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/14838/IdeaProjects/restaurant/src/main/webapp",
+    "git-widget-placeholder": "wuwu",
+    "last_opened_file_path": "C:/Users/qiwu/IdeaProjects/Restaurant/src/main/resources/com/restaurant/restaurant/mapper",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.5344828",
+    "settings.editor.selected.configurable": "SQL Dialects",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
+  <component name="RebelAgentSelection">
+    <selection>jr</selection>
+  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\14838\IdeaProjects\restaurant\src\main\webapp" />
-      <recent name="C:\Users\14838\IdeaProjects\restaurant\src\main\java\com\restaurant\restaurant" />
+      <recent name="C:\Users\qiwu\IdeaProjects\Restaurant\src\main\resources\com\restaurant\restaurant\mapper" />
+      <recent name="D:\java\code\rest\web\WEB-INF\lib" />
+      <recent name="D:\java\code\rest\web" />
+      <recent name="D:\java\code\rest" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration name="Local Tomcat 10.1.13" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Local Tomcat 10.1.13" ALTERNATIVE_JRE_ENABLED="false">
+  <component name="RunManager" selected="JUnit.SqlTest.UserMapperTest">
+    <configuration name="MybatisTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.rookies.MybatisTest" />
+      <module name="rest" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.rookies.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SqlTest.UserMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restaurant" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SqlTest" />
+      <option name="METHOD_NAME" value="UserMapperTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="rest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="rest" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 10.1.15" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.15" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/rest/a.html" />
+      <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=utf-8" />
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+      <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
       <deployment>
-        <artifact name="restaurant:war exploded">
+        <artifact name="rest:war exploded">
           <settings>
-            <option name="CONTEXT_PATH" value="/restaurant" />
+            <option name="CONTEXT_PATH" value="/rest" />
           </settings>
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="e0249259-e69d-40e3-a6ac-4840580d5a14" />
+        <option name="BASE_DIRECTORY_NAME" value="49ac8d19-418c-4de1-88e2-a8dc2f51466b" />
+        <option name="DEPLOY_TOMCAT_APPS" value="true" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -109,7 +178,10 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="63011" />
+        <option name="DEBUG_PORT" value="53379" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="JRebel Debug">
+        <option name="DEBUG_PORT" value="55209" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -127,6 +199,36 @@
         </SHUTDOWN>
       </ConfigurationWrapper>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="JRebel Executor">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
           <option name="USE_DEFAULT" value="true" />
@@ -174,25 +276,110 @@
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
-          <artifact name="restaurant:war exploded" />
+          <artifact name="rest:war exploded" />
         </option>
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SqlTest.UserMapperTest" />
+        <item itemvalue="Application.MybatisTest" />
+        <item itemvalue="Application.MybatisTest" />
+      </list>
+    </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
-    <task active="true" id="Default" summary="默认任务">
-      <changelist id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="" />
-      <created>1702034609613</created>
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="71dd47e2-3af2-4e06-a253-f3b4c5c5ee99" name="Changes" comment="" />
+      <created>1701786676528</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1702034609613</updated>
-      <workItem from="1702034610668" duration="111000" />
-      <workItem from="1702034727046" duration="464000" />
+      <updated>1701786676528</updated>
+      <workItem from="1701786677637" duration="5673000" />
+      <workItem from="1701840943213" duration="912000" />
+      <workItem from="1701843525491" duration="273000" />
+      <workItem from="1701843808713" duration="5000" />
+      <workItem from="1701855684563" duration="4613000" />
+      <workItem from="1701914029065" duration="7776000" />
+      <workItem from="1701926143765" duration="18000" />
+      <workItem from="1701959663110" duration="5560000" />
     </task>
+    <task id="LOCAL-00001" summary="大致架构">
+      <created>1701841159414</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1701841159414</updated>
+    </task>
+    <task id="LOCAL-00002" summary="大致架构">
+      <created>1701843090854</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1701843090854</updated>
+    </task>
+    <task id="LOCAL-00003" summary="大致架构">
+      <created>1701843742847</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1701843742847</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="wu" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$" />
+      <path value="$PROJECT_DIR$/.." />
+    </ignored-roots>
+    <MESSAGE value="大致架构" />
+    <option name="LAST_COMMIT_MESSAGE" value="大致架构" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
