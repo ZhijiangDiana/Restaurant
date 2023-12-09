@@ -17,4 +17,9 @@ public interface DishMapper {
                              @Param("maxPrice") int maxPrice); // 查找价格介于两者之间的菜品
     List<Dish> selectByCanteen(@Param("canteen") String canteen);
     List<Dish> selectByScore(@Param("score") double score); // 查找比score高的菜品
+    void insertDish(Dish dish); // 插入dish记录
+    void updateDishScore(@Param("dishId") int dishId,
+                         @Param("dishNewScore") double dishNewScore,
+                         @Param("newWeightSum") double newWeightSum); // 修改dish评分
+
 }

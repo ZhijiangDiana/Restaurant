@@ -11,6 +11,7 @@ public class Dish implements Serializable {
     private Integer price;
     private Integer priceSale;
     private Double totalScore;
+    private Double weightSum;
     private byte[] image;
 
     public static final int LU_DISH = 0; //鲁菜
@@ -84,6 +85,14 @@ public class Dish implements Serializable {
 
     public void setTotalScore(Double totalScore) {
         this.totalScore = totalScore;
+    }
+
+    public Double getWeightSum() {
+        return weightSum;
+    }
+
+    public void setWeightSum(Double weightSum) {
+        this.weightSum = weightSum;
     }
 
     public byte[] getImage() {
