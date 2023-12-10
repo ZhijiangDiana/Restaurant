@@ -3,7 +3,7 @@ package com.restaurant.restaurant.pojo.entity;
 public class CanteenAdmin {
    private Integer canteenId;
    private Integer userId;
-   private String         username;
+   private String username;
    private String password;
 
     @Override

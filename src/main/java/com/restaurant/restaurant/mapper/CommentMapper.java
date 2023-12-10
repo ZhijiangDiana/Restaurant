@@ -7,6 +7,14 @@ import java.util.List;
 
 public interface CommentMapper {
     List<Comment> selectAll();
+
+    List<Comment> selectAllByLikes();
+
+    List<Comment> selectAllDesc();
+
+    List<Comment> selectAllAsc();
     Comment selectById(@Param("id") int id);
     void insertComment(Comment comment);
+
+
 }

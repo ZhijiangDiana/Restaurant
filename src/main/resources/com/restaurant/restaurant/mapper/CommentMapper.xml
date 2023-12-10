@@ -5,13 +5,26 @@
 <!-- 命名空间，指表对应Mapper类的位置 -->
 <mapper namespace="com.restaurant.restaurant.mapper.CommentMapper">
     <insert id="insertComment" parameterType="Comment">
-        INSERT INTO comment (comment_id, user_id, dish_id, title, body, image, likes)
-        VALUES (#{commentId}, #{userId}, #{dishId}, #{title}, #{body}, #{image}, #{likes})
+        INSERT INTO comment (user_id,title, body, image, publish_time,likes)
+        VALUES (#{userId}, #{title}, #{body}, #{image}, #{publicTime}, #{likes})
     </insert>
 
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Comment">
-        select comment_id, user_id, dish_id, title, body, likes from 'Restaurant'.comment;
+        select * from comment;
     </select>
+
+    <select id="selectAllByLikes" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        select * from comment order by likes DESC ;
+    </select>
+
+    <select id="selectAllDesc" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        select * from comment order by publish_time DESC ;
+    </select>
+
+    <select id="selectAllAsc" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        select * from comment order by publish_time ASC ;
+    </select>
+
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Comment">
         select comment_id, user_id, dish_id, title, body,likes from 'Restaurant'.comment where comment_id=#{id};
     </select>

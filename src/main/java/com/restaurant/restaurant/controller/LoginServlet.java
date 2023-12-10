@@ -1,14 +1,20 @@
 package com.restaurant.restaurant.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.LevelInfo;
+import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
+import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.LoginService;
 import com.restaurant.restaurant.utils.Constants;
+import com.restaurant.restaurant.utils.FrontEndUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 
 
@@ -16,41 +22,42 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
-        String password = request.getParameter("password");
-        String captcha = request.getParameter("captcha");
-        System.out.println(id + password + captcha);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        StringBuilder sb = new StringBuilder();
+        String line;
+        try (BufferedReader reader = request.getReader()) {
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+        }
+        // 使用 Fastjson 解析 JSON 字符串
+        JSONObject jsonObject = JSON.parseObject(sb.toString());
+        // 从 JSON 对象中提取数据
+        String id = jsonObject.getString("id");
+        String password = jsonObject.getString("password");
+        String captcha = jsonObject.getString("captcha");
 
         // 验证验证码
         String sessionVerification = (String) request.getSession().getAttribute("verification");
-        System.out.println(sessionVerification);
+        System.out.println("账号:" + id +"密码：" +password+ sessionVerification);
+        // 验证登录信息
         LoginService loginService = new LoginService();
-        int isVerified = loginService.loginCheck(id,password,captcha,sessionVerification);
-        if (isVerified == Constants.LOGIN_INVALID){
-            System.out.println("fail");
-            // 写入信息 密码或账号错误
-            response.sendRedirect(request.getContextPath() + "/login.html");
-        }
-        else {
-            LevelInfo levelInfo = loginService.getExp(id,password,isVerified);
-            // 存入session中到各个页面显示
-            request.getSession().setAttribute("levelInfo",levelInfo);
-            // 下面存的名字应该是凭借id去查数据库找到的
-            request.getSession().setAttribute("username","  应该查数据库获得");
-            if(isVerified == Constants.USER_VERIFIED){
-                System.out.println("true");
-                request.getRequestDispatcher("/a.html").forward(request,response);
-            }
-            else if(isVerified == Constants.RESTAURANT_ADMIN_VERIFIED){
-                request.getRequestDispatcher("/restAdminInfo.jsp").forward(request,response);
-            }
-            else if(isVerified == Constants.ADMIN_VERIFIED){
-                request.getRequestDispatcher("/adminInfo.jsp").forward(request,response);
-            }
+        String info = loginService.loginCheck(id, password, captcha, sessionVerification);
+        User user = loginService.getUserById(id, password, captcha, sessionVerification);
+        CanteenAdmin canteenAdmin = loginService.getCanteenAdminById(id, password, captcha, sessionVerification);
+        // 向session中存一些重要信息
+        if(user != null){
+            System.out.println("你告诉我我没执行这个吗");
+            request.getSession().setAttribute("user",user);
+            request.getSession().setAttribute("userCommentsPerOnline",0);
         }
 
+        if(canteenAdmin != null){
+            request.getSession().setAttribute("canteenAdmin",canteenAdmin);
+            request.getSession().setAttribute("userCommentsPerOnline",0);
+        }
 
-
+        response.getWriter().print(info);
     }
 }
