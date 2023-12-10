@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间，指表对应Mapper类的位置 -->
+<mapper namespace="com.restaurant.restaurant.mapper.CommentMapper">
+    <insert id="insertComment" parameterType="Comment">
+        INSERT INTO comment (comment_id, user_id, dish_id, title, body, image, likes)
+        VALUES (#{commentId}, #{userId}, #{dishId}, #{title}, #{body}, #{image}, #{likes})
+    </insert>
+
+    <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        select comment_id, user_id, dish_id, title, body, likes from 'Restaurant'.comment;
+    </select>
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        select comment_id, user_id, dish_id, title, body,likes from 'Restaurant'.comment where comment_id=#{id};
+    </select>
+</mapper>

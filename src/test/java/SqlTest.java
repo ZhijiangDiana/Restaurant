@@ -1,3 +1,4 @@
+import com.restaurant.restaurant.mapper.DishMapper;
 import com.restaurant.restaurant.mapper.UserMapper;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
@@ -14,6 +15,7 @@ public class SqlTest {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         // 获取表对应的Mapper
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
         // 执行SQL语句
         List<User> userList = userMapper.selectAll();
