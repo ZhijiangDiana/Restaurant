@@ -7,7 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
-public class SearchDish {
+public class SearchDishService {
     // TODO: 2023/12/9 没写Controller层
     public List<Dish> searchDishBySeries(int series) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();

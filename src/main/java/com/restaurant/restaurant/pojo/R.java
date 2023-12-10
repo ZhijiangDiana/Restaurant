@@ -3,12 +3,12 @@ package com.restaurant.restaurant.pojo;
 public class R {
     private String message;
     private String flag;
-    private String json;
+    private Object object;
 
-    public R(String message, String flag, String json) {
+    public R(String message, String flag, Object object) {
         this.message = message;
         this.flag = flag;
-        this.json = json;
+        this.object = object;
     }
 
     public String getMessage() {
@@ -27,11 +27,11 @@ public class R {
         this.flag = flag;
     }
 
-    public String getJson() {
-        return json;
+    public Object getObject() {
+        return object;
     }
 
-    public void setJson(String json) {
-        this.json = json;
+    public void setObject(Object object) {
+        this.object = object;
     }
 }
