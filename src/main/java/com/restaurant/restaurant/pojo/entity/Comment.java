@@ -10,10 +10,19 @@ public class Comment implements Serializable {
     private String title;
     private String body;
     private byte[] image;
-    private Date publicTime;
+    private Date publishTime;
     private Integer likes;
 
     public Comment() {
+    }
+
+    public Comment(Integer userId, String title, String body, byte[] image, Date publishTime, Integer likes) {
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+        this.image = image;
+        this.publishTime = publishTime;
+        this.likes = likes;
     }
 
     public Integer getCommentId() {
@@ -65,11 +74,11 @@ public class Comment implements Serializable {
     }
 
     public Date getPublicTime() {
-        return publicTime;
+        return publishTime;
     }
 
-    public void setPublicTime(Date publicTime) {
-        this.publicTime = publicTime;
+    public void setPublicTime(Date publishTime) {
+        this.publishTime = publishTime;
     }
 
     @Override
@@ -80,7 +89,7 @@ public class Comment implements Serializable {
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 ", image=" + Arrays.toString(image) +
-                ", publicTime=" + publicTime +
+                ", publishTime=" + publishTime +
                 ", likes=" + likes +
                 '}';
     }

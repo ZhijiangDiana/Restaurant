@@ -1,7 +1,7 @@
 package com.restaurant.restaurant.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.restaurant.restaurant.pojo.Comment;
+import com.restaurant.restaurant.pojo.entity.Comment;
 import com.restaurant.restaurant.utils.MyConnection;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
@@ -30,30 +30,30 @@ public class OutServlet extends HttpServlet {
             List<Comment> commentList = new ArrayList<>();
             Comment comment = null;
             PrintWriter out = response.getWriter();
-            try {
-                Connection conn = MyConnection.getConnection();
-                String sql = "SELECT comment_id,title, content, image ,time FROM comment";
-                try (PreparedStatement statement = conn.prepareStatement(sql);
-                     ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
-                        Integer id = resultSet.getInt("comment_id");
-                        String title = resultSet.getString("title");
-                        String content = resultSet.getString("content");
-                        byte[] imgBytes = resultSet.getBytes("image");
-                        Date d = resultSet.getDate("time");
-                        String imgBase64 = Base64.getEncoder().encodeToString(imgBytes);
-                        comment = new Comment(id,title,content,imgBase64,d,10);
-                        commentList.add(comment);
-                    }
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
-                String s = JSON.toJSONString(commentList);
-                out.print(s);
+//            try {
+//                Connection conn = MyConnection.getConnection();
+//                String sql = "SELECT comment_id,title, content, image ,time FROM comment";
+//                try (PreparedStatement statement = conn.prepareStatement(sql);
+//                     ResultSet resultSet = statement.executeQuery()) {
+//                    while (resultSet.next()) {
+//                        Integer id = resultSet.getInt("comment_id");
+//                        String title = resultSet.getString("title");
+//                        String content = resultSet.getString("content");
+//                        byte[] imgBytes = resultSet.getBytes("image");
+//                        Date d = resultSet.getDate("time");
+//                        String imgBase64 = Base64.getEncoder().encodeToString(imgBytes);
+//                        comment = new Comment(id,title,content,imgBase64,d,10);
+//                        commentList.add(comment);
+//                    }
+//                }
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            } catch (ClassNotFoundException e) {
+//                throw new RuntimeException(e);
+//            }
+//
+//                String s = JSON.toJSONString(commentList);
+//                out.print(s);
 
     }
 }

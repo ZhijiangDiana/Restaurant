@@ -1,18 +1,21 @@
+import com.restaurant.restaurant.mapper.CommentMapper;
 import com.restaurant.restaurant.mapper.DishMapper;
 import com.restaurant.restaurant.mapper.UserMapper;
+import com.restaurant.restaurant.pojo.entity.Comment;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.List;
 
 public class SqlTest {
+    SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
     @Test
     public void UserMapperTest() {
         // DAO层封装食用方法：
         // 使用SqlSessionFactoryUtils创建SqlSession对象，SqlSessionFactory必须单例！！！
-        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         // 获取表对应的Mapper
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
@@ -28,5 +31,16 @@ public class SqlTest {
         System.out.println(xianBei);
 
         sqlSession.close();
+    }
+
+    @Test
+    public void CommentMapperTest(){
+        CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
+        List<Comment> comments = mapper.selectAll();
+        System.out.println(comments);
+        for (Comment comment1 : comments){
+            System.out.println(comment1);
+        }
+
     }
 }

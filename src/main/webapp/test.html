@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>评论展示</title>
+  <!-- 引入 Element UI 样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+
+<div id="app">
+  <el-table :data="comments" style="width: 100%">
+    <el-table-column prop="commentId" label="评论ID" width="100"></el-table-column>
+    <el-table-column prop="title" label="标题"></el-table-column>
+    <el-table-column prop="body" label="评论内容"></el-table-column>
+    <el-table-column prop="likes" label="点赞数" width="100"></el-table-column>
+    <el-table-column prop="formattedPublicTime" label="时间" width="100"></el-table-column>
+    <el-table-column prop="userId" label="用户ID" width="100"></el-table-column>
+    <el-table-column label="图片">
+      <template slot-scope="scope">
+        <div v-if="scope.row.image">
+          <!-- 确保这里的 scope.row.image 是 Base64 编码的字符串 -->
+          <img :src="'data:image/png;base64,' + scope.row.image" alt="Comment Image" style="max-width: 100%;">
+        </div>
+      </template>
+    </el-table-column>
+  </el-table>
+
+  <el-button type="primary" @click="showDialog = true">发表评论</el-button>
+
+  <!-- 发表评论的对话框 -->
+  <el-dialog title="发表评论" :visible.sync="showDialog">
+    <el-form ref="commentForm" :model="commentForm">
+      <el-form-item label="标题">
+        <el-input v-model="commentForm.title"></el-input>
+      </el-form-item>
+      <el-form-item label="评论内容">
+        <el-input type="textarea" v-model="commentForm.body"></el-input>
+      </el-form-item>
+      <el-form-item label="添加图片">
+        <input type="file" @change="handleFileChange">
+      </el-form-item>
+    </el-form>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="showDialog = false">取消</el-button>
+      <el-button type="primary" @click="submitComment">提交</el-button>
+    </div>
+  </el-dialog>
+</div>
+
+
+<!-- 引入 Vue 2 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+<!-- 引入 Element UI JS库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script>
+  new Vue({
+    el: '#app',
+    data: function() {
+      return {
+        comments: [],
+        showDialog: false, // 控制对话框显示
+        commentForm: { // 表单数据
+          title: '',
+          body: '',
+          image: null // 图片文件
+        }
+      };
+    },
+    mounted: function() {
+      this.fetchComments();
+    },
+    methods: {
+      fetchComments() {
+        fetch('http://localhost:8080/restaurant/showComments?type=40', { method: 'GET' })
+                .then(response => response.json())
+                .then(data => {
+                  // 确保 data.object 是一个数组
+                  if (Array.isArray(data.object)) {
+                    this.comments = data.object.map(comment => {
+                      return {
+                        ...comment,
+                        formattedPublicTime: this.formatDate(comment.publicTime)
+                      };
+                    });
+                  } else {
+                    console.error('预期的评论列表未找到:', data.object);
+                  }
+                })
+                .catch(error => console.error('Error:', error));
+      },
+      formatDate(milliseconds) {
+        const date = new Date(milliseconds);
+        return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+      },
+      fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      },
+      handleFileChange(event) {
+        const file = event.target.files[0];
+        if (file && file.type.match('image.*')) {
+          this.commentForm.image = file;
+        } else {
+          this.commentForm.image = null;
+          alert('请选择一个图像文件。');
+        }
+      },
+      async submitComment() {
+        let imageBase64 = null;
+
+        if (this.commentForm.image) {
+          try {
+            imageBase64 = await this.fileToBase64(this.commentForm.image);
+          } catch (error) {
+            console.error('Error converting image:', error);
+          }
+        }
+
+        let commentData = {
+          title: this.commentForm.title,
+          body: this.commentForm.body,
+          image: imageBase64
+        };
+
+        fetch('http://localhost:8080/restaurant/publishComment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(commentData)
+        })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(data => {
+                  if (data.flag === "0") {
+                    // 如果后端返回错误，显示错误消息
+                    alert(data.message); // 或者使用更复杂的弹窗库来显示错误
+                  } else {
+                    // 如果没有错误，处理正常的响应
+                    this.showDialog = false;
+                    this.fetchComments(); // 重新加载评论
+                  }
+                })
+                .catch(error => {
+                  console.error('Error:', error);
+                  // 可以在这里处理错误，例如显示错误消息
+                });
+      }
+      }
+    })
+</script>
+
+</body>
+</html>
