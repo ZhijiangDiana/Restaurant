@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.service;
+package com.restaurant.restaurant.service.dish;
 
 import com.restaurant.restaurant.mapper.DishMapper;
 import com.restaurant.restaurant.pojo.entity.Dish;
@@ -8,12 +8,11 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public class SearchDishService {
-    // TODO: 2023/12/9 没写Controller层
     public List<Dish> searchDishBySeries(int series) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectBySeries(series);
+        List<Dish> res = dishMapper.selectBySeriesWithFile(series);
         sqlSession.close();
 
         return res;
@@ -23,7 +22,7 @@ public class SearchDishService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectByPrice(minPrice, maxPrice);
+        List<Dish> res = dishMapper.selectByPriceWithFile(minPrice, maxPrice);
         sqlSession.close();
 
         return res;
@@ -33,7 +32,7 @@ public class SearchDishService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectByCanteen(canteenName);
+        List<Dish> res = dishMapper.selectByCanteenWithFile(canteenName);
         sqlSession.close();
 
         return res;
@@ -43,7 +42,7 @@ public class SearchDishService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectByScore(score);
+        List<Dish> res = dishMapper.selectByScoreWithFile(score);
         sqlSession.close();
 
         return res;

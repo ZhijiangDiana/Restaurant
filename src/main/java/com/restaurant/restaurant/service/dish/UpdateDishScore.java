@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.service;
+package com.restaurant.restaurant.service.dish;
 
 import com.restaurant.restaurant.mapper.DishMapper;
 import com.restaurant.restaurant.pojo.entity.Dish;
@@ -7,8 +7,7 @@ import com.restaurant.restaurant.utils.Pair;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
-public class CalculateDishScore {
-    // TODO: 2023/12/9 没写Controller
+public class UpdateDishScore {
     public void updateDishScore(int dishId, double userComment,
                                 User user, int userCommentsPerOnline) throws NullPointerException{
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
@@ -25,7 +24,7 @@ public class CalculateDishScore {
         sqlSession.close();
     }
 
-    public Pair<Double, Double> calculateDishScore(double dishScoreN, double weightSumN,
+    private Pair<Double, Double> calculateDishScore(double dishScoreN, double weightSumN,
                                     double userComment, int userExp, int userCommentsPerOnline) {
         double weight = 10*Math.atan(0.002*(double)userExp) * 1/(double)(userCommentsPerOnline+1);
         double weightSumN1 = weightSumN + weight;

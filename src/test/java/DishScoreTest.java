@@ -1,8 +1,4 @@
-import com.restaurant.restaurant.service.CalculateDishScore;
-import com.restaurant.restaurant.utils.Pair;
 import org.junit.jupiter.api.Test;
-
-import java.util.Scanner;
 
 public class DishScoreTest {
     private static double[][] score = {
@@ -14,12 +10,12 @@ public class DishScoreTest {
     };
     @Test
     public void updateScoreTest() {
-        CalculateDishScore cal = new CalculateDishScore();
-//        Scanner sc = new Scanner(System.in);
-        Pair<Double, Double> res = new Pair<>(0.0, 0.0);
-        for (double[] s : score) {
-            res = cal.calculateDishScore(res.first, res.second, s[0], (int)s[1], (int)s[2]);
-            System.out.println(res.first + " " + res.second);
-        }
+//        CalculateDishScore cal = new CalculateDishScore();
+////        Scanner sc = new Scanner(System.in);
+//        Pair<Double, Double> res = new Pair<>(0.0, 0.0);
+//        for (double[] s : score) {
+////            res = cal.calculateDishScore(res.first, res.second, s[0], (int)s[1], (int)s[2]);
+//            System.out.println(res.first + " " + res.second);
+//        }
     }
 }

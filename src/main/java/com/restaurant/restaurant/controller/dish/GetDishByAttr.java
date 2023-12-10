@@ -1,19 +1,18 @@
-package com.restaurant.restaurant.controller;
+package com.restaurant.restaurant.controller.dish;
 
 import java.io.*;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.entity.Dish;
-import com.restaurant.restaurant.service.SearchDishService;
+import com.restaurant.restaurant.service.dish.SearchDishService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
-@WebServlet(name = "SearchDish", value = "/SearchDish")
-public class SearchDish extends HttpServlet {
-    // TODO: 2023/12/10 未测试，等mapper出来之后测试 
+@WebServlet(name = "GetDishByAttr", value = "/GetDishByAttr")
+public class GetDishByAttr extends HttpServlet {
     private static final int SERIES = 0;
     private static final int PRICE = 1;
     private static final int CANTEEN = 2;
@@ -24,6 +23,13 @@ public class SearchDish extends HttpServlet {
 
     }
 
+    /**
+     * 传入option和对应的参数，0传入series，1传入minPrice和maxPrice，2传入canteen，3传入score
+     * @param req
+     * @param resp
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html; charset = UTF-8");

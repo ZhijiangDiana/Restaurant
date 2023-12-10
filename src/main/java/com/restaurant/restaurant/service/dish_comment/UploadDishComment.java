@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.service;
+package com.restaurant.restaurant.service.dish_comment;
 
 import com.restaurant.restaurant.mapper.DishCommentMapper;
 import com.restaurant.restaurant.pojo.entity.DishComment;
