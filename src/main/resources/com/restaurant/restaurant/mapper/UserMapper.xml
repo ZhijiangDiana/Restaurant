@@ -11,5 +11,6 @@
     <select id="selectById" resultType="User">
         SELECT * FROM `Restaurant`.user WHERE user_id = #{id} ;
 
+        select * from 'Restaurant'.dish where dish.canteen_id in(select canteen_id from 'Restaurant'.canteen where name=#{canteenname});
     </select>
 </mapper>

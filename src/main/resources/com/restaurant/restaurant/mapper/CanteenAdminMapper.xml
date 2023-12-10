@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.CanteenAdminMapper">
+    <select id="selectAll" resultType="com.restaurant.restaurant.mapper.CanteenAdminMapper">
+        select * from canteen_admin;
+    </select>
+    <select id="selectById" resultType="com.restaurant.restaurant.mapper.CanteenAdminMapper">
+        select * from canteen_admin where canteen_admin_id=#{id};
+    </select>
 </mapper>
