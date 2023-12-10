@@ -3,7 +3,7 @@ package com.restaurant.restaurant.utils;
 import com.restaurant.restaurant.pojo.LevelInfo;
 
 public class ExpLevelCaculate {
-    public static LevelInfo caculateLevel(int exp){
+    public static LevelInfo caculateLevel(Integer exp){
         if(exp <= 50)
             return new LevelInfo("Lv1",200-exp);
         else if(exp > 50 && exp <= 200)

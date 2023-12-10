@@ -2,10 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.AdminMapper">
 
-    <select id="selectAll" resultType="com.restaurant.restaurant.mapper.AdminMapper">
-        select * from 'Restaurant'.admin;
+    <insert id="insertAdmin" parameterType="Admin">
+        INSERT INTO admin
+        VALUES (#{adminId}, #{username}, #{password})
+    </insert>
+
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Admin">
+        select * from Restaurant.admin where admin_id=#{id};
     </select>
-    <select id="selectById" resultType="com.restaurant.restaurant.mapper.AdminMapper">
-        select * from 'Restaurant'.admin where admin_id=#{id};
-    </select>
+
 </mapper>

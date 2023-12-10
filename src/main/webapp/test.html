@@ -142,7 +142,7 @@
                   return response.json();
                 })
                 .then(data => {
-                  if (data.flag === "0") {
+                  if (data.flag === "1") {
                     // 如果后端返回错误，显示错误消息
                     alert(data.message); // 或者使用更复杂的弹窗库来显示错误
                   } else {
@@ -152,6 +152,7 @@
                   }
                 })
                 .catch(error => {
+                  alert(1212)
                   console.error('Error:', error);
                   // 可以在这里处理错误，例如显示错误消息
                 });

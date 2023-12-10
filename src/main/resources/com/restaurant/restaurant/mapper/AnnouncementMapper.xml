@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.AnnouncementMapper">
-    <select id="selectAll" resultType="com.restaurant.restaurant.mapper.AnnouncementMapper">
-        select * from announcement;
-    </select>
-    <select id="selectById" resultType="com.restaurant.restaurant.mapper.AnnouncementMapper">
-        select * from announcement where announcement_id=#{id};
-    </select>
 </mapper>

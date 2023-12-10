@@ -2,31 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Login</title>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 </head>
 <body>
-<form action="login" method="post">
-    <div>
-        <label for="username">Id:</label>
-        <input type="text" id="username" name="id" required>
-    </div>
-    <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-    </div>
-    <div>
-        <label for="captcha">Captcha:</label>
-        <input type="text" id="captcha" name="captcha" required>
-        <img src="captcha" alt="Captcha" onclick="this.src='captcha?'+Math.random();">
-    </div>
-    <div>
-        <input type="submit" value="Login">
-    </div>
-</form>
+<div id="app">
+    <el-form ref="loginForm" :model="loginForm" @submit.native.prevent="onSubmit">
+        <el-form-item label="Id:">
+            <el-input v-model="loginForm.id" required></el-input>
+        </el-form-item>
+        <el-form-item label="Password:">
+            <el-input type="password" v-model="loginForm.password" required></el-input>
+        </el-form-item>
+        <el-form-item label="Captcha:">
+            <el-input v-model="loginForm.captcha" required></el-input>
+            <img :src="captchaSrc" alt="Captcha" @click="refreshCaptcha">
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">Login</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+
 <script>
-    // 如果希望在用户点击验证码时刷新验证码，可以使用以下JavaScript代码
-    document.querySelector('img[alt="Captcha"]').addEventListener('click', function() {
-        this.src = 'captcha?' + Math.random();
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                loginForm: {
+                    id: '',
+                    password: '',
+                    captcha: ''
+                },
+                captchaSrc: 'http://localhost:8080/restaurant/captcha'
+            };
+        },
+        methods: {
+            onSubmit: function() {
+                fetch('http://localhost:8080/restaurant/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(this.loginForm)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        if (result.flag === "1") {
+                            this.$message.error(result.message);
+                        } else {
+                            window.location.href = 'http://localhost:8080/restaurant/test.html';
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('登录失败');
+                    });
+            },
+            refreshCaptcha: function() {
+                this.captchaSrc = 'http://localhost:8080/restaurant/captcha?' + Math.random();
+            }
+        }
     });
 </script>
 </body>

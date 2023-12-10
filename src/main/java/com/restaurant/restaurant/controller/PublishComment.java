@@ -3,6 +3,7 @@ package com.restaurant.restaurant.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.entity.Comment;
+import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.CommentService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import jakarta.servlet.ServletException;
@@ -16,6 +17,9 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
 
+/**
+ * 发布评论
+ */
 @WebServlet("/publishComment")
 public class PublishComment extends HttpServlet {
     @Override
@@ -35,17 +39,12 @@ public class PublishComment extends HttpServlet {
         String title = jsonObject.getString("title");
         String body = jsonObject.getString("body");
         String img = jsonObject.getString("image");
-        if (title == null || body == null || img == null){
-            response.getWriter().print(FrontEndUtils.objectToBody("有敏感词汇","0",null));
-            return;
-        }
-        img = img.substring(img.indexOf(",") + 1);
-        System.out.println(img);
-        byte[] imageBytes = Base64.getDecoder().decode(img);
-        Comment c = new Comment(1,title,body,imageBytes,new Date(),666);
+        User user = (User)request.getSession().getAttribute("User");
+
         CommentService commentService = new CommentService();
-        commentService.insertComment(c);
-        response.getWriter().print(FrontEndUtils.objectToBody("有敏感词汇","1",null));
+        String info = commentService.insertComment(user, title, body, img);
+
+        response.getWriter().print(info);
 
     }
 }

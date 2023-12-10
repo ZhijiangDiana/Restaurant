@@ -1,6 +1,6 @@
-import com.restaurant.restaurant.mapper.CommentMapper;
-import com.restaurant.restaurant.mapper.DishMapper;
-import com.restaurant.restaurant.mapper.UserMapper;
+import com.restaurant.restaurant.mapper.*;
+import com.restaurant.restaurant.pojo.entity.Admin;
+import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.Comment;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
@@ -42,5 +42,23 @@ public class SqlTest {
             System.out.println(comment1);
         }
 
+    }
+
+    @Test
+    public void AdminMapperTest(){
+        AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+        Admin admin = new Admin(1111,"原神哥","123456");
+        mapper.insertAdmin(admin);
+        sqlSession.commit();
+    }
+
+    @Test
+    public void CanteenAdminMapperTest(){
+        CanteenAdminMapper mapper = sqlSession.getMapper(CanteenAdminMapper.class);
+//        CanteenAdmin canteenAdmin = new CanteenAdmin(111111,1,"拟跌","123456");
+//        mapper.insertCanteenAdmin(canteenAdmin);
+//        sqlSession.commit();
+        CanteenAdmin canteenAdmin = mapper.selectById(111111);
+        System.out.println(canteenAdmin);
     }
 }

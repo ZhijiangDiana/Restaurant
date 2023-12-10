@@ -1,10 +1,11 @@
 package com.restaurant.restaurant.mapper;
 
+import com.restaurant.restaurant.pojo.entity.Admin;
+import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
 public interface CanteenAdminMapper {
-    List<CanteenAdminMapper> selectAll();
-    CanteenAdminMapper selectById(@Param("id") int id);
+    void insertCanteenAdmin(CanteenAdmin canteenAdmin);
+
+    CanteenAdmin selectById(@Param("id") int id);
 }
