@@ -9,24 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="71dd47e2-3af2-4e06-a253-f3b4c5c5ee99" name="Changes" comment="大致架构">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/AdminMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/AdminMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/AnnouncementMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/AnnouncementMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CanteenAdminMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CanteenAdminMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CanteenMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CanteenMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/MessageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/MessageMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/ReportMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/ReportMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/VoteMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/VoteMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/AdminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/AdminMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/AnnouncementMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/AnnouncementMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CanteenAdminMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CanteenAdminMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CanteenMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CanteenMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/MessageMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/MessageMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/ReportMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/ReportMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/VoteMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/VoteMapper.xml" afterDir="false" />
-    </list>
+    <list default="true" id="71dd47e2-3af2-4e06-a253-f3b4c5c5ee99" name="Changes" comment="BYD,数据库拖了好久，wuwuuw" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -86,7 +69,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "857f1c30",
+    "git-widget-placeholder": "a6661c00",
     "last_opened_file_path": "C:/Users/qiwu/IdeaProjects/Restaurant/src/main/resources/com/restaurant/restaurant/mapper",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -333,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1701843742847</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="BYD,数据库拖了好久，wuwuuw">
+      <option name="closed" value="true" />
+      <created>1702216810173</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1702216810173</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -365,7 +356,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/dev-merge" />
+                        <option value="wuwu" />
                       </list>
                     </value>
                   </entry>
@@ -383,7 +374,8 @@
       <path value="$PROJECT_DIR$/.." />
     </ignored-roots>
     <MESSAGE value="大致架构" />
-    <option name="LAST_COMMIT_MESSAGE" value="大致架构" />
+    <MESSAGE value="BYD,数据库拖了好久，wuwuuw" />
+    <option name="LAST_COMMIT_MESSAGE" value="BYD,数据库拖了好久，wuwuuw" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
