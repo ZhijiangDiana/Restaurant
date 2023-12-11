@@ -16,10 +16,6 @@
     <el-container style="height: 700px; border: 1px solid #eee">
         <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
             <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-            <el-select v-model="value" placeholder="请选择" class="my-select" @change="userChange">
-                <el-option v-for="item in options" :key="item.value" :label="item.label"
-                           :value="item.value"></el-option>
-            </el-select>
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
@@ -104,13 +100,7 @@
                         </el-col>
                         <el-col :span="6">
                             <div>
-                                <el-statistic :value="score" title="评分" :precision="1">
-                                    <template slot="suffix">
-                                            <span @click="like = !like" class="like">
-                                                <i class="el-icon-star-on" style="color:red" v-show="!!like"></i>
-                                                <i class="el-icon-star-off" v-show="!like"></i>
-                                            </span>
-                                    </template></el-statistic>
+                                <el-statistic :value="communication_number" title="交流社区参与人数"></el-statistic>
                             </div>
                         </el-col>
                     </el-row>
@@ -145,41 +135,11 @@
                         </el-col>
                     </el-row>
                 </div>
-                <div class="info">
-                    <el-row :gutter="20">
-                        <el-col :span="6">
-                            <div>
-                                <el-statistic :value="communication_number" title="交流社区参与人数"></el-statistic>
-                            </div>
-                        </el-col>
-
-                        <el-col :span="6">
-                            <div>
-                                <el-statistic :value="unread_message_number" title="未读消息">
-                                    <template slot="prefix">
-                                        <i class="el-icon-s-flag" style="color: red"></i>
-                                    </template>
-                                    <template slot="suffix">
-                                        <i class="el-icon-s-flag" style="color: blue"></i>
-                                    </template></el-statistic>
-                            </div>
-                        </el-col>
-                        <el-col :span="6">
-                            <div>
-                                <el-statistic :value="read_message_number" title="已读消息"></el-statistic>
-                            </div>
-                        </el-col>
-                        <el-col :span="6">
-                            <div>
-                                <el-statistic :value="all_message_number" title="全部消息"></el-statistic>
-                            </div>
-                        </el-col>
-                    </el-row>
-                </div>
                 <div class="wrapper">
                     <div class="inner">
-                        <p>通讯地址：上海理工大学516号   邮编：111111</p>
-                        <p>联系我们：12-3456-7891234</p>
+                        <p>版权所有 上海理工大学</p>
+                        <p>地址：上海市杨浦区军工路516号</p>
+                        <p>邮箱：jwc@usst.edu.cn</p>
                     </div>
                 </div>
             </el-main>
@@ -191,46 +151,18 @@
         el: '#app',
         data: function () {
             return {
-                options: [
-                    {
-                        value: '选项1',
-                        label: '系统管理员'
-                    },
-                    {
-                        value: '选项2',
-                        label: '食堂管理员'
-                    },
-                    {
-                        value: '选项3',
-                        label: '师生用户'
-                    }
-                ],
-                value: '选项1',
                 admin_number: 2,
                 restaurant_admin_number: 10,
                 user_number: 3000,
-                score: 9.1,
+                communication_number:1000,
                 restaurant_number: 6,
                 restaurant_canteen_number: 80,
                 restaurant_waiter_number:300,
-                dish_number:200,
-                communication_number:1000,
-                unread_message_number:14,
-                read_message_number:359,
-                all_message_number:373,
-
+                dish_number:200
             };
         },
         methods:{
-            userChange(){
-                if (this.value === '选项1') {
-                    window.location.href = 'http://localhost:8080/restaurant/admin/firstView.html';
-                } else if (this.value === '选项2') {
-                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/firstView.html';
-                } else if (this.value === '选项3') {
-                    window.location.href = 'http://localhost:8080/restaurant/user/firstView.html';
-                }
-            }
+
         }
     })
 </script>

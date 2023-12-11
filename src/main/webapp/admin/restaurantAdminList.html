@@ -16,10 +16,6 @@
     <el-container style="height: 700px; border: 1px solid #eee">
         <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
             <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-            <el-select v-model="value" placeholder="请选择" class="my-select" @change="userChange">
-                <el-option v-for="item in options" :key="item.value" :label="item.label"
-                           :value="item.value"></el-option>
-            </el-select>
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
@@ -87,22 +83,17 @@
                     <el-form-item label="姓名" style="margin-right: 40px;">
                         <el-input v-model="formInline.name" placeholder="姓名"></el-input>
                     </el-form-item>
-                    <el-form-item label="工龄" style="margin-right: 40px;">
-                        <el-input v-model="formInline.experience" placeholder="工龄"></el-input>
-                    </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">查询</el-button>
                     </el-form-item>
                 </el-form>
 
                 <el-table :data="tableData" border style="width: 100%">
-                    <el-table-column fixed="left" prop="id" label="工号" width="200">
+                    <el-table-column fixed="left" prop="id" label="工号" width="300">
                     </el-table-column>
                     <el-table-column prop="password" label="密码" width="300">
                     </el-table-column>
-                    <el-table-column prop="name" label="姓名" width="200">
-                    </el-table-column>
-                    <el-table-column prop="experience" label="工龄" width="200">
+                    <el-table-column prop="name" label="姓名" width="300">
                     </el-table-column>
                     <el-table-column fixed="right" label="操作" width="200">
                         <template slot-scope="scope">
@@ -133,9 +124,6 @@
                         <el-form-item label="姓名">
                             <el-input v-model="currentRow.name"></el-input>
                         </el-form-item>
-                        <el-form-item label="工龄">
-                            <el-input v-model="currentRow.experience"></el-input>
-                        </el-form-item>
                         <el-button @click="saveEdit" type="primary">保存</el-button>
                     </el-form>
                 </el-dialog>
@@ -150,8 +138,7 @@
             return {
                 formInline: {
                     id:'',
-                    name: '',
-                    experience:''
+                    name: ''
                 },
                 tableData: [
                     //     {
@@ -166,28 +153,12 @@
                     //     experience: 2
                     // },
                 ],
-                options: [
-                    {
-                        value: '选项1',
-                        label: '系统管理员'
-                    },
-                    {
-                        value: '选项2',
-                        label: '食堂管理员'
-                    },
-                    {
-                        value: '选项3',
-                        label: '师生用户'
-                    }
-                ],
-                value: '选项1',
                 currentPage: 1,
                 dialogVisible: false, // 控制对话框的显示和隐藏
                 currentRow: {
                     id:'',
                     password:'',
-                    name: '',
-                    experience: ''
+                    name: ''
                 }, // 当前选中行的数据
             };
         },
@@ -202,15 +173,6 @@
                 });
         },
         methods: {
-            userChange(){
-                if (this.value === '选项1') {
-                    window.location.href = 'http://localhost:8080/restaurant/admin/firstView.html';
-                } else if (this.value === '选项2') {
-                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/firstView.html';
-                } else if (this.value === '选项3') {
-                    window.location.href = 'http://localhost:8080/restaurant/user/firstView.html';
-                }
-            },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
             },
@@ -220,8 +182,7 @@
             onSubmit() {
                 const id = this.formInline.id;
                 const name = this.formInline.name;
-                const experience = this.formInline.experience;
-                axios.get(`/api/restaurant?id=${id}&name=${name}&experience=${experience}`)
+                axios.get(`/api/restaurant?id=${id}&name=${name}`)
                     .then(response => {
                         const data = response.data;
                         if (data.length > 0) {

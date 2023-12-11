@@ -16,10 +16,6 @@
     <el-container style="height: 700px; border: 1px solid #eee">
         <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
             <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-            <el-select v-model="value" placeholder="请选择" class="my-select" @change="userChange">
-                <el-option v-for="item in options" :key="item.value" :label="item.label"
-                           :value="item.value"></el-option>
-            </el-select>
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
@@ -150,22 +146,6 @@
                     //     address: '上海理工大学516号第二食堂'
                     // },
                 ],
-                options: [
-                    {
-                        value: '选项1',
-                        label: '系统管理员'
-                    },
-                    {
-                        value: '选项2',
-                        label: '食堂管理员'
-                    },
-                    {
-                        value: '选项3',
-                        label: '师生用户'
-                    }
-                    // 添加更多选项...
-                ],
-                value: '选项1',
                 currentPage: 1,
                 dialogVisible: false, // 控制对话框的显示和隐藏
                 currentRow: {
@@ -176,15 +156,6 @@
             };
         },
         methods: {
-            userChange(){
-                if (this.value === '选项1') {
-                    window.location.href = 'http://localhost:8080/restaurant/admin/firstView.html';
-                } else if (this.value === '选项2') {
-                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/firstView.html';
-                } else if (this.value === '选项3') {
-                    window.location.href = 'http://localhost:8080/restaurant/user/firstView.html';
-                }
-            },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
             },
