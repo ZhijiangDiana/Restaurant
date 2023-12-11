@@ -10,6 +10,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Base64;
 
+/**
+ * 考虑到某人在JavaIO方面有知识漏洞，同时也简化重复的操作
+ * 现将Controller层数据交互功能封装成utils供大家使用
+ * <p>
+ * 今后可能有更多功能，未完待续。。。
+ */
 public class FrontEndUtils {
     // TODO: 2023/12/10 未全面测试，需要测试 
     private FrontEndUtils(){}
@@ -47,10 +53,22 @@ public class FrontEndUtils {
         return JSON.toJSONString(respObj);// 大坑，fastjson乱用转义字符!!!.replace("\\\"", "\"")
     }
 
+    /**
+     * 将Base64（一种用字符串表示二进制流的方式）数据转为byte数组的函数
+     * 通常用于接收前端数据
+     * @param b64File
+     * @return
+     */
     public static byte[] b64ToBytes(String b64File) {
         return decoder.decode(b64File);
     }
 
+    /**
+     * 将byte数组转为Base64数据的函数
+     * 通常用于给前端发送数据
+     * @param byteFile
+     * @return
+     */
     public static String bytesToB64(byte[] byteFile) {
         return encoder.encodeToString(byteFile);
     }
