@@ -1,8 +1,5 @@
 import com.restaurant.restaurant.mapper.*;
-import com.restaurant.restaurant.pojo.entity.Admin;
-import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
-import com.restaurant.restaurant.pojo.entity.Comment;
-import com.restaurant.restaurant.pojo.entity.User;
+import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
@@ -21,14 +18,18 @@ public class SqlTest {
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
         // 执行SQL语句
-        List<User> userList = userMapper.selectAll();
-        for (User u : userList) {
-            System.out.println(u);
+//        List<User> userList = userMapper.selectAll();
+//        for (User u : userList) {
+//            System.out.println(u);
+//        }
+//        User diana = userMapper.selectById(1);
+//        System.out.println(diana);
+//        User xianBei = userMapper.selectById(114514);
+//        System.out.println(xianBei);
+        List<Reply> replies = userMapper.selectReplyById(1);
+        for (Reply reply : replies) {
+            System.out.println(reply);
         }
-        User diana = userMapper.selectById(1);
-        System.out.println(diana);
-        User xianBei = userMapper.selectById(114514);
-        System.out.println(xianBei);
 
         sqlSession.close();
     }
@@ -36,6 +37,8 @@ public class SqlTest {
     @Test
     public void CommentMapperTest(){
         CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
+//        mapper.updateLikeById(100,18);
+//        sqlSession.commit();
         List<Comment> comments = mapper.selectAll();
         System.out.println(comments);
         for (Comment comment1 : comments){
@@ -48,8 +51,16 @@ public class SqlTest {
     public void AdminMapperTest(){
         AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
         Admin admin = new Admin(1111,"原神哥","123456");
-        mapper.insertAdmin(admin);
-        sqlSession.commit();
+//        mapper.insertAdmin(admin);
+//        sqlSession.commit();
+        List<Reply> replies = mapper.selectReplyById(1);
+        List<DishComment> dishComments = mapper.selectDishCommentById(1);
+        for (Reply reply : replies) {
+            System.out.println(reply);
+        }
+        for (DishComment dishComment : dishComments) {
+            System.out.println(dishComment);
+        }
     }
 
     @Test
@@ -58,7 +69,27 @@ public class SqlTest {
 //        CanteenAdmin canteenAdmin = new CanteenAdmin(111111,1,"拟跌","123456");
 //        mapper.insertCanteenAdmin(canteenAdmin);
 //        sqlSession.commit();
+        List<Reply> replies = mapper.selectReplyById(111111);
+        for (Reply reply : replies) {
+            System.out.println(reply);
+        }
         CanteenAdmin canteenAdmin = mapper.selectById(111111);
         System.out.println(canteenAdmin);
+    }
+
+    @Test
+    public void ReplyMapperTest(){
+        ReplyMapper replyMapper = sqlSession.getMapper(ReplyMapper.class);
+        //Reply reply = new Reply(18,1,null,"日你的哥");
+        //replyMapper.insertUserReply(reply);
+        //sqlSession.commit();
+
+//        Reply reply = new Reply(18,null,111111,"什么时候能几波做完这个b项目");
+//        replyMapper.insertAdminReply(reply);
+//        sqlSession.commit();
+        List<Reply> replies = replyMapper.selectByCommentId(18);
+        for (Reply reply1 : replies){
+            System.out.println(reply1);
+        }
     }
 }

@@ -11,4 +11,5 @@
         select * from Restaurant.admin where admin_id=#{id};
     </select>
 
+
 </mapper>

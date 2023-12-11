@@ -68,4 +68,11 @@ public class Reply {
         this.canteenAdminId = canteenAdminId;
         this.body = body;
     }
+
+    public Reply(Integer commentId, Integer userId, Integer canteenAdminId, String body) {
+        this.commentId = commentId;
+        this.userId = userId;
+        this.canteenAdminId = canteenAdminId;
+        this.body = body;
+    }
 }

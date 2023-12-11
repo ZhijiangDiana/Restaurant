@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller;
+package com.restaurant.restaurant.controller.community;
 
 import com.restaurant.restaurant.HelloServlet;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;

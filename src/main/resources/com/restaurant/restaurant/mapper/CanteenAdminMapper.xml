@@ -10,4 +10,8 @@
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.CanteenAdmin">
         select * from Restaurant.canteen_admin where canteen_admin_id=#{id};
     </select>
+
+    <select id="selectReplyById" resultType="com.restaurant.restaurant.pojo.entity.Reply">
+        select * from Restaurant.reply where canteen_admin_id=#{id};
+    </select>
 </mapper>

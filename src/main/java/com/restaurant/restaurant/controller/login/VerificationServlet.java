@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller;
+package com.restaurant.restaurant.controller.login;
 
 import com.restaurant.restaurant.utils.GenericVerification;
 import jakarta.servlet.ServletException;

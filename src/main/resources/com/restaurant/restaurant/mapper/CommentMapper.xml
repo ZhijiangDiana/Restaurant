@@ -26,6 +26,11 @@
     </select>
 
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Comment">
-        select comment_id, user_id, dish_id, title, body,likes from 'Restaurant'.comment where comment_id=#{id};
+        select comment_id, user_id, title, body,likes from Restaurant.comment where comment_id=#{id};
     </select>
+
+    <update id="updateLikeById" parameterType="Comment">
+        update Restaurant.comment set likes =#{likes} where comment_id = #{id}
+    </update>
+
 </mapper>
