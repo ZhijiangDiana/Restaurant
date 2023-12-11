@@ -16,10 +16,6 @@
     <el-container style="height: 700px; border: 1px solid #eee">
         <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
             <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-            <el-select v-model="value" placeholder="请选择" class="my-select" @change="userChange">
-                <el-option v-for="item in options" :key="item.value" :label="item.label"
-                           :value="item.value"></el-option>
-            </el-select>
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
@@ -88,9 +84,6 @@
                     <el-form-item label="姓名" prop="name">
                         <el-input v-model="restaurantAdmin.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="工龄" prop="experience">
-                        <el-input v-model="restaurantAdmin.experience"></el-input>
-                    </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="addRestaurantAdmin">添加</el-button>
                         <el-button @click="resetForm">重置</el-button>
@@ -108,24 +101,8 @@
                 restaurantAdmin: {
                     id: '',
                     password: '',
-                    name: '',
-                    experience: ''
+                    name: ''
                 },
-                options: [
-                    {
-                        value: '选项1',
-                        label: '系统管理员'
-                    },
-                    {
-                        value: '选项2',
-                        label: '食堂管理员'
-                    },
-                    {
-                        value: '选项3',
-                        label: '师生用户'
-                    }
-                ],
-                value: '选项1',
             };
         },
         methods: {
@@ -133,7 +110,7 @@
                 this.$refs.restaurantAdminForm.validate(valid => {
                     if (valid) {
                         // 判断是否有字段未填写
-                        if (!this.restaurantAdmin.id || !this.restaurantAdmin.password || !this.restaurantAdmin.name || !this.restaurantAdmin.experience) {
+                        if (!this.restaurantAdmin.id || !this.restaurantAdmin.password || !this.restaurantAdmin.name) {
                             this.$message.error('请填写完整的食堂管理员信息');
                             return;
                         }
@@ -169,15 +146,6 @@
             resetForm() { //添加重置表单方法
                 this.$refs.restaurantAdminForm.resetFields();
             },
-            userChange(){
-                if (this.value === '选项1') {
-                    window.location.href = 'http://localhost:8080/restaurant/admin/firstView.html';
-                } else if (this.value === '选项2') {
-                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/firstView.html';
-                } else if (this.value === '选项3') {
-                    window.location.href = 'http://localhost:8080/restaurant/user/firstView.html';
-                }
-            }
         },
     })
 </script>

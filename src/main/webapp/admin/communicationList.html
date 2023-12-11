@@ -16,10 +16,6 @@
     <el-container style="height: 700px; border: 1px solid #eee">
         <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
             <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-            <el-select v-model="value" placeholder="请选择" class="my-select" @change="userChange">
-                <el-option v-for="item in options" :key="item.value" :label="item.label"
-                           :value="item.value"></el-option>
-            </el-select>
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
@@ -83,9 +79,6 @@
                     <el-form-item label="学号" style="margin-right: 40px;">
                         <el-input v-model="formInline.user_id" placeholder="学号"></el-input>
                     </el-form-item>
-                    <el-form-item label="餐品号" style="margin-right: 40px;">
-                        <el-input v-model="formInline.dish_id" placeholder="餐品ID"></el-input>
-                    </el-form-item>
                     <el-form-item label="标题" style="margin-right: 40px;">
                         <el-input v-model="formInline.title" placeholder="标题"></el-input>
                     </el-form-item>
@@ -97,13 +90,11 @@
                 <el-table :data="tableData" border style="width: 100%">
                     <el-table-column fixed="left" prop="user_id" label="学号" width="100">
                     </el-table-column>
-                    <el-table-column prop="dish_id" label="餐品号" width="100">
-                    </el-table-column>
                     <el-table-column prop="title" label="标题" width="200">
                     </el-table-column>
-                    <el-table-column prop="body" label="内容" width="400">
+                    <el-table-column prop="body" label="内容" width="500">
                     </el-table-column>
-                    <el-table-column prop="score" label="评分" width="100">
+                    <el-table-column prop="score" label="点赞" width="100">
                     </el-table-column>
                     <el-table-column fixed="right" label="操作" width="200">
                         <template slot-scope="scope">
@@ -172,21 +163,6 @@
                     //   score:'9.0'
                     // },
                 ],
-                options: [
-                    {
-                        value: '选项1',
-                        label: '系统管理员'
-                    },
-                    {
-                        value: '选项2',
-                        label: '食堂管理员'
-                    },
-                    {
-                        value: '选项3',
-                        label: '师生用户'
-                    }
-                ],
-                value: '选项1',
                 currentPage: 1,
                 dialogVisible: false, // 控制对话框的显示和隐藏
                 currentRow: {
@@ -209,15 +185,6 @@
                 });
         },
         methods: {
-            userChange(){
-                if (this.value === '选项1') {
-                    window.location.href = 'http://localhost:8080/restaurant/admin/firstView.html';
-                } else if (this.value === '选项2') {
-                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/firstView.html';
-                } else if (this.value === '选项3') {
-                    window.location.href = 'http://localhost:8080/restaurant/user/firstView.html';
-                }
-            },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
             },

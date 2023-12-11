@@ -1,15 +1,20 @@
 .info{
     margin-top: 60px;
-    padding: 10px;
+    padding: 20px;
 }
-
 .wrapper{
-    margin-top: 50px;
+    margin-top: 120px;
     background-color: #0fa9eb;
 }
 .inner{
+    text-align: center;
     padding: 10px;
-    margin: 10px;
+    margin: 20px;
+}
+.inner p{
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 16px;
 }
 
 .el-header {
@@ -33,20 +38,9 @@
 .header-title {
     font-size: 24px;
 }
-
 .header-select {
     margin-left: 20px;
 }
-
-.my-select {
-    margin-bottom: auto;
-}
-
-.my-select .el-input {
-    width: 220px;
-    /* 增加组件宽度 */
-}
-
 .custom-popper .el-select-dropdown {
     width: 200px;
     /* 设置下拉框宽度 */
