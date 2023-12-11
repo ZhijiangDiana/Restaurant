@@ -9,4 +9,14 @@
     <select id="selectByCommentId" resultType="com.restaurant.restaurant.pojo.entity.Reply">
         select * from reply where comment_id=#{CommentId};
     </select>
+
+    <insert id="insertUserReply" parameterType="Reply">
+        INSERT INTO reply (comment_id,user_id, canteen_admin_id, body)
+        VALUES (#{commentId}, #{userId}, null, #{body})
+    </insert>
+
+    <insert id="insertAdminReply" parameterType="Reply">
+        INSERT INTO reply (comment_id,user_id, canteen_admin_id, body)
+        VALUES (#{commentId}, null, #{canteenAdminId}, #{body})
+    </insert>
 </mapper>

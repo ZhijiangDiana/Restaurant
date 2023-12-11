@@ -16,5 +16,6 @@ public interface CommentMapper {
     Comment selectById(@Param("id") int id);
     void insertComment(Comment comment);
 
+    void updateLikeById(@Param("likes") int likes,@Param("id") int id);
 
 }

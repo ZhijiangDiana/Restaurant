@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller;
+package com.restaurant.restaurant.controller.community;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;

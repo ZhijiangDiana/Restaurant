@@ -12,4 +12,16 @@
         SELECT * FROM `Restaurant`.user WHERE user_id = #{id} ;
 
     </select>
+
+    <select id="selectCommentById" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        select * from Restaurant.comment where user_id=#{id};
+    </select>
+
+    <select id="selectReplyById" resultType="com.restaurant.restaurant.pojo.entity.Reply">
+        select * from Restaurant.reply where user_id=#{id};
+    </select>
+
+    <select id="selectDishCommentById" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
+        select * from Restaurant.dish_comment where user_id=#{id};
+    </select>
 </mapper>

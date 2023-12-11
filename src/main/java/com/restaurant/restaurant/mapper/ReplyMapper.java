@@ -8,4 +8,8 @@ import java.util.List;
 
 public interface ReplyMapper {
     List<Reply> selectByCommentId(@Param("CommentId") int CommentId);//根据评论的id进行回复
+
+    void insertUserReply(Reply reply);
+
+    void insertAdminReply(Reply reply);
 }
