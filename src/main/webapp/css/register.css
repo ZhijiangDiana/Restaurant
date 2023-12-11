@@ -1,3 +1,11 @@
+.my-select {
+    margin-bottom: auto;
+}
+
+.my-select .el-input {
+    width: 473px;
+    /* 增加组件宽度 */
+}
 .el-input {
     width: 50px;
     height: 40px;
@@ -17,7 +25,6 @@
     justify-content: center;
     align-items: center;
     margin-left: 90px;
-
 }
 .el-button:hover {
     background-color: #40a9ff;

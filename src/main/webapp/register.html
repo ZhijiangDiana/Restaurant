@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="css/login.css">
+    <title>Register</title>
+    <link rel="stylesheet" href="css/register.css">
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
@@ -20,15 +20,18 @@
                 <el-image :src="src1" style="width: 50px; height: 50px;"></el-image>
                 <span style="font-size: 35px; color: #333;">食堂点评交流系统，欢迎您</span>
             </div><br>
-            <form @submit="login">
+            <form @submit="register">
+                <el-select v-model="form.character" placeholder="请选择" class="my-select">
+                    <el-option v-for="item in options" :key="item.value" :label="item.label"
+                               :value="item.value"></el-option>
+                </el-select><br><br>
                 <el-input v-model="form.id" placeholder="请输入学号/工号" prefix-icon="el-icon-user"></el-input><br><br>
                 <el-input v-model="form.password" placeholder="请输入密码" show-password
                           prefix-icon="el-icon-lock"></el-input><br><br>
-                <el-input v-model="form.captcha" placeholder="请输入验证码"
-                          prefix-icon="el-icon-warning-outline"></el-input><br><br>
-                <img :src="captchaUrl" alt="Captcha" @click="refreshCaptcha"><br><br>
-                <button type="submit" class="btn">登录</button><br>
-                <button type="button" class="btn" @click="goToRegister">未有账号，注册一下吧</button>
+                <el-input v-model="form.repassword" placeholder="请再次输入密码" show-password
+                          prefix-icon="el-icon-lock"></el-input><br><br>
+                <button type="submit" class="btn">注册</button><br>
+                <button type="button" class="btn" @click="backToLogin">已有账号，返回登录界面</button>
             </form>
         </el-main>
     </el-container>
@@ -40,20 +43,39 @@
         data: function () {
             return {
                 form: {
+                    character:'',
                     id: '',
                     password: '',
-                    captcha: ''
+                    repassword:''
                 },
-                captchaUrl: 'http://localhost:8080/restaurant/captcha',
-                src1: 'https://tvax3.sinaimg.cn/crop.0.0.1242.1242.1024/6e8ddc55ly8fpxftv5ag3j20yi0yigoy.jpg'
+                src1: 'https://tvax3.sinaimg.cn/crop.0.0.1242.1242.1024/6e8ddc55ly8fpxftv5ag3j20yi0yigoy.jpg',
+                options: [
+                    {
+                        value: '选项1',
+                        label: '系统管理员'
+                    },
+                    {
+                        value: '选项2',
+                        label: '食堂管理员'
+                    },
+                    {
+                        value: '选项3',
+                        label: '师生用户'
+                    }
+                ],
+                value: '',
             };
         },
         methods: {
-            refreshCaptcha() {
-                this.captchaUrl = 'http://localhost:8080/restaurant/captcha?' + Math.random(); // 刷新验证码图片
-            },
-            login(event) {
+            register(event) {
                 event.preventDefault(); // 阻止默认的表单提交行为
+                if (this.form.character === '') {
+                    this.$message({
+                        message: '请选择注册角色',
+                        type: 'warning'
+                    });
+                    return;
+                }
                 if (this.form.id === '') {
                     this.$message({
                         message: '请输入学号/工号',
@@ -68,13 +90,21 @@
                     });
                     return;
                 }
-                if (this.form.captcha === '') {
+                if (this.form.repassword === '') {
                     this.$message({
-                        message: '请输入验证码',
+                        message: '请再次输入密码',
                         type: 'warning'
-                    })
+                    });
+                    return;
                 }
-                fetch('http://localhost:8080/restaurant/login', {
+                if (this.form.repassword !== this.form.password) {
+                    this.$message({
+                        message: '两次密码输入不一致',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                fetch('http://localhost:8080/restaurant/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -89,36 +119,21 @@
                     })
                     .then(result => {
                         if (result.flag === '0') {
-                            switch (result.object) {
-                                case 1:
-                                    window.location.href = 'user/firstView.html';
-                                    break;
-                                case 2:
-                                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/first.html';
-                                    break;
-                                case 3:
-                                    window.location.href = 'admin/firstView.html';
-                                    break;
-                                default:
-                                    window.location.href = 'http://localhost:8080/restaurant/login.html';
-                            }
+                            this.$message.success('注册成功');
+                            window.location.href = 'register.html';
                         } else {
                             this.$message.error(result.message);
                         }
                     })
                     .catch(error => {
-                        this.$message.error('登录失败');
+                        this.$message.error('注册失败');
                     });
             },
-            goToRegister() {
-                window.location.href = 'register.html';
-            }
+            backToLogin() {
+                window.location.href = 'http://localhost:8080/restaurant/login.html';
+            },
         },
     })
 </script>
 </body>
 </html>
-
-
-
-
