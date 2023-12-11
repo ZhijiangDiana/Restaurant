@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>食堂点评交流系统</title>
+    <link rel="stylesheet" href="../css/commentList.css">
+
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-container style="height: 700px; border: 1px solid #eee">
+        <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
+            <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
+            <el-select v-model="value" placeholder="请选择" class="my-select" @change="userChange">
+                <el-option v-for="item in options" :key="item.value" :label="item.label"
+                           :value="item.value"></el-option>
+            </el-select>
+        </el-header>
+        <el-container>
+            <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
+                <el-menu :default-openeds="['1']">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-house"></i>
+                            <span>首页</span>
+                        </template>
+                        <el-menu-item index="1-1">
+                            <a href="firstView.html" class="aside_item">综合信息</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span>食堂基本信息管理</span>
+                        </template>
+                        <el-menu-item index="2-1">
+                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="2-2">
+                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-user"></i>
+                            <span>账号管理</span>
+                        </template>
+                        <el-menu-item index="3-1">
+                            <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="3-2">
+                            <a href="addRestaurantAdmin.html" class="aside_item">添加食堂管理员</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="4">
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span>评价信息管理</span>
+                        </template>
+                        <el-menu-item index="4-1">
+                            <a href="commentList.html" class="aside_item">评价列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span>交流社区信息管理</span>
+                        </template>
+                        <el-menu-item index="5-1">
+                            <a href="communicationList.html" class="aside_item">帖子列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+
+            <el-main>
+                <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                    <el-form-item label="学号" style="margin-right: 40px;">
+                        <el-input v-model="formInline.user_id" placeholder="学号"></el-input>
+                    </el-form-item>
+                    <el-form-item label="餐品号" style="margin-right: 40px;">
+                        <el-input v-model="formInline.dish_id" placeholder="餐品ID"></el-input>
+                    </el-form-item>
+                    <el-form-item label="标题" style="margin-right: 40px;">
+                        <el-input v-model="formInline.title" placeholder="标题"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">查询</el-button>
+                    </el-form-item>
+                </el-form>
+
+                <el-table :data="tableData" border style="width: 100%">
+                    <el-table-column fixed="left" prop="user_id" label="学号" width="100">
+                    </el-table-column>
+                    <el-table-column prop="dish_id" label="餐品号" width="100">
+                    </el-table-column>
+                    <el-table-column prop="title" label="标题" width="200">
+                    </el-table-column>
+                    <el-table-column prop="body" label="内容" width="200">
+                    </el-table-column>
+                    <el-table-column prop="image" label="图片" width="200">
+                    </el-table-column>
+                    <el-table-column prop="like" label="点赞数" width="100">
+                    </el-table-column>
+                    <el-table-column fixed="right" label="操作" width="200">
+                        <template slot-scope="scope">
+                            <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
+                            <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <div class="block">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                   :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10"
+                                   layout="total, sizes, prev, pager, next, jumper" :total="40">
+                    </el-pagination>
+                </div>
+
+                <!-- 添加的 el-dialog 组件 -->
+                <el-dialog title="编辑" :visible.sync="dialogVisible">
+                    <!-- 编辑表单的内容 -->
+                    <el-form :model="currentRow" label-position="top">
+                        <!-- 表单项 -->
+                        <el-form-item label="学号">
+                            <el-input v-model="currentRow.user_id"></el-input>
+                        </el-form-item>
+                        <el-form-item label="餐品号">
+                            <el-input v-model="currentRow.dish_id"></el-input>
+                        </el-form-item>
+                        <el-form-item label="标题">
+                            <el-input v-model="currentRow.title"></el-input>
+                        </el-form-item>
+                        <el-form-item label="内容">
+                            <el-input v-model="currentRow.body"></el-input>
+                        </el-form-item>
+                        <el-form-item label="图片">
+                            <el-input v-model="currentRow.image"></el-input>
+                        </el-form-item>
+                        <el-form-item label="点赞">
+                            <el-input v-model="currentRow.like"></el-input>
+                        </el-form-item>
+                        <el-button @click="saveEdit" type="primary">保存</el-button>
+                    </el-form>
+                </el-dialog>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                formInline: {
+                    user_id:'',
+                    dish_id:'',
+                    title:''
+                },
+                tableData: [
+                    //     {
+                    //   user_id:'111111',
+                    //   dish_id:'1111111',
+                    //   title: '张三',
+                    //   body: 'hhhhhhh',
+                    //   image:'wait',
+                    //   like:'3'
+                    // }, {
+                    //   user_id:'111111',
+                    //   dish_id:'1111111',
+                    //   title: '张三',
+                    //   body: 'hhhhhhh',
+                    //   image:'wait',
+                    //   like:'3'
+                    // },
+                ],
+                options: [
+                    {
+                        value: '选项1',
+                        label: '系统管理员'
+                    },
+                    {
+                        value: '选项2',
+                        label: '食堂管理员'
+                    },
+                    {
+                        value: '选项3',
+                        label: '师生用户'
+                    }
+                ],
+                value: '选项1',
+                currentPage: 1,
+                dialogVisible: false, // 控制对话框的显示和隐藏
+                currentRow: {
+                    user_id:'',
+                    dish_id:'',
+                    title: '',
+                    body: '',
+                    image:'',
+                    like:''
+                }, // 当前选中行的数据
+            };
+        },
+        mounted() {
+            axios.get('/api/commentList')
+                .then(response => {
+                    this.tableData = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$message.error('获取数据失败，请重试');
+                });
+        },
+        methods: {
+            userChange(){
+                if (this.value === '选项1') {
+                    window.location.href = 'http://localhost:8080/restaurant/admin/firstView.html';
+                } else if (this.value === '选项2') {
+                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/firstView.html';
+                } else if (this.value === '选项3') {
+                    window.location.href = 'http://localhost:8080/restaurant/user/firstView.html';
+                }
+            },
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+            },
+            onSubmit() {
+                const user_id = this.formInline.user_id;
+                const dish_id=this.formInline.dish_id;
+                const title = this.formInline.title;
+                axios.get(`/api/comment?user_id=${user_id}&dish_id=${dish_id}&title=${title}`)
+                    .then(response => {
+                        const data = response.data;
+                        if (data.length > 0) {
+                            this.tableData = data;
+                        } else {
+                            this.$message.error('未查询到结果');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('查询失败，请重试');
+                    });
+            },
+            handleDelete(row) {
+                const index = this.tableData.indexOf(row);
+                if (index !== -1) {
+                    const id = row.id;
+                    axios.delete(`/api/comment/${id}`)
+                        .then(response => {
+                            this.tableData.splice(index, 1);
+                            this.$message.success('删除成功');
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            this.$message.error('删除失败，请重试');
+                        });
+                }
+            },
+            handleEdit(row) {
+                this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
+                this.dialogVisible = true; // 显示编辑对话框
+            },
+            saveEdit() {
+                // 处理编辑后的数据保存逻辑
+                const id = this.currentRow.id; // 从currentRow中获取id
+                axios.put('/api/comment/${id}', this.currentRow)
+                    .then(response => {
+                        const newData = response.data;
+                        this.tableData.push(newData); // 将返回的新数据添加到表格中
+                        this.dialogVisible = false; // 关闭编辑对话框
+                        this.message.success('保存成功');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.message.error('保存失败，请重试');
+                    });
+            }
+        },
+    })
+</script>
+</body>
+</html>

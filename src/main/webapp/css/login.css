@@ -1,0 +1,30 @@
+.el-input {
+    width: 50px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn {
+    width: 300px;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 16px;
+    background-color: #1e970e;
+    color: #fff;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 90px;
+}
+
+.el-button:hover {
+    background-color: #40a9ff;
+}
+
+.el-main {
+    margin-top: 180px;
+    margin-left: 120px;
+    margin-right: 120px;
+}

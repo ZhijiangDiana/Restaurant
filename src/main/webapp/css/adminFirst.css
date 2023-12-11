@@ -1,0 +1,67 @@
+.info{
+    margin-top: 60px;
+    padding: 10px;
+}
+
+.wrapper{
+    margin-top: 50px;
+    background-color: #0fa9eb;
+}
+.inner{
+    padding: 10px;
+    margin: 10px;
+}
+
+.el-header {
+    background-color: #0fa9eb;
+    color: #fff;
+    line-height: 60px;
+    display: flex;
+    align-items: center;
+    /* 垂直居中对齐 */
+}
+
+.header-container {
+    background-color: #0fa9eb;
+    color: #fff;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-title {
+    font-size: 24px;
+}
+
+.header-select {
+    margin-left: 20px;
+}
+
+.my-select {
+    margin-bottom: auto;
+}
+
+.my-select .el-input {
+    width: 220px;
+    /* 增加组件宽度 */
+}
+
+.custom-popper .el-select-dropdown {
+    width: 200px;
+    /* 设置下拉框宽度 */
+    max-height: 200px;
+    /* 设置下拉框最大高度 */
+    overflow-y: auto;
+    /* 添加滚动条 */
+}
+.aside_item{
+    text-decoration: none;
+}
+.el-aside {
+    color: #333;
+}
+
+.el-menu--collapse {
+    background-color: #f0f0f0;
+}

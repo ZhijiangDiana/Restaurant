@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" href="css/login.css">
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
@@ -10,44 +11,74 @@
 </head>
 <body>
 <div id="app">
-    <el-form ref="loginForm" :model="loginForm" @submit.native.prevent="onSubmit">
-        <el-form-item label="Id:">
-            <el-input v-model="loginForm.id" required></el-input>
-        </el-form-item>
-        <el-form-item label="Password:">
-            <el-input type="password" v-model="loginForm.password" required></el-input>
-        </el-form-item>
-        <el-form-item label="Captcha:">
-            <el-input v-model="loginForm.captcha" required></el-input>
-            <img :src="captchaSrc" alt="Captcha" @click="refreshCaptcha">
-        </el-form-item>
-        <el-form-item>
-            <el-button type="primary" @click="onSubmit">Login</el-button>
-        </el-form-item>
-    </el-form>
+    <el-container>
+        <el-aside width="750px">
+            <img src="image/aside_image.png" alt="Aside Image" style="width: 750px; height: 700px;">
+        </el-aside>
+        <el-main>
+            <div style="display: flex; align-items: center;">
+                <el-image :src="src1" style="width: 50px; height: 50px;"></el-image>
+                <span style="font-size: 35px; color: #333;">食堂点评交流系统，欢迎您</span>
+            </div><br>
+            <form @submit="login">
+                <el-input v-model="form.id" placeholder="请输入学号/工号" prefix-icon="el-icon-user"></el-input><br><br>
+                <el-input v-model="form.password" placeholder="请输入密码" show-password
+                          prefix-icon="el-icon-lock"></el-input><br><br>
+                <el-input v-model="form.captcha" placeholder="请输入验证码"
+                          prefix-icon="el-icon-warning-outline"></el-input><br><br>
+                <img :src="captchaUrl" alt="Captcha" @click="refreshCaptcha"><br><br>
+                <button type="submit" class="btn">登录</button>
+            </form>
+        </el-main>
+    </el-container>
 </div>
 
 <script>
     new Vue({
         el: '#app',
-        data: function() {
+        data: function () {
             return {
-                loginForm: {
+                form: {
                     id: '',
                     password: '',
                     captcha: ''
                 },
-                captchaSrc: 'http://localhost:8080/restaurant/captcha'
+                captchaUrl: 'http://localhost:8080/restaurant/captcha',
+                src1: 'https://tvax3.sinaimg.cn/crop.0.0.1242.1242.1024/6e8ddc55ly8fpxftv5ag3j20yi0yigoy.jpg'
             };
         },
         methods: {
-            onSubmit: function() {
+            refreshCaptcha() {
+                this.captchaUrl = 'http://localhost:8080/restaurant/captcha?' + Math.random(); // 刷新验证码图片
+            },
+            login(event) {
+                event.preventDefault(); // 阻止默认的表单提交行为
+                if (this.form.id === '') {
+                    this.$message({
+                        message: '请输入学号/工号',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                if (this.form.password === '') {
+                    this.$message({
+                        message: '请输入密码',
+                        type: 'warning'
+                    });
+                    return;
+                }
+                if (this.form.captcha === '') {
+                    this.$message({
+                        message: '请输入验证码',
+                        type: 'warning'
+                    })
+                }
                 fetch('http://localhost:8080/restaurant/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(this.loginForm)
+                    body: JSON.stringify(this.form)
                 })
                     .then(response => {
                         if (!response.ok) {
@@ -56,21 +87,34 @@
                         return response.json();
                     })
                     .then(result => {
-                        if (result.flag === "1") {
-                            this.$message.error(result.message);
+                        if (result.flag === '0') {
+                            switch (result.level) {
+                                case 1:
+                                    window.location.href = 'http://localhost:8080/restaurant/user/firstView.html';
+                                    break;
+                                case 2:
+                                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/first.html';
+                                    break;
+                                case 3:
+                                    window.location.href = 'http://localhost:8080/restaurant/admin/firstView.html';
+                                    break;
+                                default:
+                                    window.location.href = 'http://localhost:8080/restaurant/login.html';
+                            }
                         } else {
-                            window.location.href = 'http://localhost:8080/restaurant/test.html';
+                            this.$message.error(result.message);
                         }
                     })
                     .catch(error => {
                         this.$message.error('登录失败');
                     });
             },
-            refreshCaptcha: function() {
-                this.captchaSrc = 'http://localhost:8080/restaurant/captcha?' + Math.random();
-            }
-        }
-    });
+        },
+    })
 </script>
 </body>
 </html>
+
+
+
+
