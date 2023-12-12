@@ -43,7 +43,7 @@ public class LoginService {
                     CanteenAdminMapper mapper = sqlSession.getMapper(CanteenAdminMapper.class);
                     CanteenAdmin canteenAdmin = mapper.selectById(Integer.parseInt(id));
                     if(canteenAdmin.getPassword().equals(password)){
-                        return FrontEndUtils.objectToBody("食堂管理员你好","0",null);
+                        return FrontEndUtils.objectToBody("食堂管理员你好","0",Constants.RESTAURANT_ADMIN_VERIFIED);
                     }
                     else {
                         return FrontEndUtils.objectToBody("密码错误","1",null);
@@ -57,7 +57,7 @@ public class LoginService {
                     if(user.getPassword().equals(password)){
                         Integer experience = user.getExperience();
                         // obj设为了到servlet存session
-                        return FrontEndUtils.objectToBody(user.getUsername() + "你好","0",user);
+                        return FrontEndUtils.objectToBody(user.getUsername() + "你好","0",Constants.USER_VERIFIED);
                     }
                     else {
                         return FrontEndUtils.objectToBody("密码错误","1",null);

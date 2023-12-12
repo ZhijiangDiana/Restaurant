@@ -24,4 +24,10 @@
     <select id="selectDishCommentById" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
         select * from Restaurant.dish_comment where user_id=#{id};
     </select>
+
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO user (user_id,username, password, experience, is_forbidden)
+        VALUES (#{userId}, #{username}, #{password}, #{experience}, #{isForbidden})
+    </insert>
+
 </mapper>

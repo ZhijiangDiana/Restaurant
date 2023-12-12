@@ -12,6 +12,14 @@ public class User implements Serializable {
     public User() {
     }
 
+    public User(Integer userId, String username, String password, Integer experience, Boolean isForbidden) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.experience = experience;
+        this.isForbidden = isForbidden;
+    }
+
     public Integer getUserId() {
         return userId;
     }

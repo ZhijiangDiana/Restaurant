@@ -18,4 +18,6 @@ public interface UserMapper {
     List<DishComment> selectDishCommentById(@Param("id") int id);
 
     List<Reply> selectReplyById(@Param("id") int id);
+
+    void insertUser(User user);
 }

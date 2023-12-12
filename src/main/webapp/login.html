@@ -61,9 +61,9 @@
                     });
                     return;
                 }
-                if (this.form.id.length !== 6 && this.form.id.length !== 10) {
+                if (this.form.id.length !== 4 && this.form.id.length !== 6 && this.form.id.length !== 10) {
                     this.$message({
-                        message: '学号/工号格式错误，请输入六位或十位',
+                        message: '学号/工号格式错误',
                         type: 'warning'
                     });
                     this.form.id = '';  // 清空输入框
@@ -84,7 +84,7 @@
                         type: 'warning'
                     })
                 }
-                fetch('restaurant/login', {
+                fetch('/restaurant/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
