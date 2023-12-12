@@ -26,5 +26,6 @@ public interface DishMapper {
     void updateDishScore(@Param("dishId") int dishId,
                          @Param("dishNewScore") double dishNewScore,
                          @Param("newWeightSum") double newWeightSum); // 修改dish评分
+    List<Dish> selectByCanteenId(@Param("canteenId") int canteenId);
 
 }

@@ -77,4 +77,9 @@
         from `Restaurant`.dish
         where total_score>=#{score};
     </select>
+    <select id="selectByCanteenId" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum
+        FROM `Restaurant`.dish
+        WHERE canteen_id = #{canteenId};
+    </select>
 </mapper>
