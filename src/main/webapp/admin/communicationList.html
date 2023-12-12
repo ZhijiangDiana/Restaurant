@@ -175,7 +175,7 @@
             };
         },
         mounted() {
-            axios.get('/api/communicationList')
+            axios.get('/restaurant/communicationList')
                 .then(response => {
                     this.tableData = response.data;
                 })
@@ -195,7 +195,7 @@
                 const user_id = this.formInline.user_id;
                 const dish_id=this.formInline.dish_id;
                 const title = this.formInline.title;
-                axios.get(`/api/communication?user_id=${user_id}&dish_id=${dish_id}&title=${title}`)
+                axios.get(`/restaurant/communication?user_id=${user_id}&dish_id=${dish_id}&title=${title}`)
                     .then(response => {
                         const data = response.data;
                         if (data.length > 0) {
@@ -213,7 +213,7 @@
                 const index = this.tableData.indexOf(row);
                 if (index !== -1) {
                     const id = row.id;
-                    axios.delete(`/api/communication/${id}`)
+                    axios.delete(`/restaurant/communication/${id}`)
                         .then(response => {
                             this.tableData.splice(index, 1);
                             this.$message.success('删除成功');
@@ -231,7 +231,11 @@
             saveEdit() {
                 // 处理编辑后的数据保存逻辑
                 const id = this.currentRow.id; // 从currentRow中获取id
-                axios.put('/api/communication/${id}', this.currentRow)
+                axios.put('/restaurant/communication/${id}', JSON.stringify(this.currentRow), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                     .then(response => {
                         const newData = response.data;
                         this.tableData.push(newData); // 将返回的新数据添加到表格中

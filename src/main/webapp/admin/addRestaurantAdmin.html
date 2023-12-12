@@ -117,14 +117,14 @@
                         // 将表单数据转换为 JSON 格式
                         const requestData = JSON.stringify(this.restaurantAdmin);
                         // 发送 POST 请求给后端，传递表单数据
-                        axios.post('/api/addRestaurantAdmin', requestData, {
+                        axios.post('/restaurant/addRestaurantAdmin', requestData, {
                             headers: {
                                 'Content-Type': 'application/json'
                             }
                         })
                             .then(response => {
                                 const flag = response.data.flag;
-                                if (flag === 1) {
+                                if (flag === '0') {
                                     this.restaurantAdmin = {}; // 清空表单数据
                                     this.$message({
                                         message: '添加成功',

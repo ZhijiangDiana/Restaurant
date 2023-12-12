@@ -164,7 +164,7 @@
             },
             onSubmit() {
                 const name = this.formInline.name;
-                axios.get(`/api/restaurant?name=${name}`)
+                axios.get(`/restaurant/restaurant?name=${name}`)
                     .then(response => {
                         const data = response.data;
                         if (data.length > 0) {
@@ -182,7 +182,7 @@
                 const index = this.tableData.indexOf(row);
                 if (index !== -1) {
                     const id = row.id; // 假设后端要求传递被删除数据的 ID
-                    axios.delete(`/api/restaurant/${id}`)
+                    axios.delete(`/restaurant/restaurant/${id}`)
                         .then(response => {
                             this.tableData.splice(index, 1);
                             this.$message.success('删除成功');
@@ -200,7 +200,11 @@
             saveEdit() {
                 // 处理编辑后的数据保存逻辑
                 const id = this.currentRow.id;
-                axios.post('/api/save/${id}', this.currentRow)
+                axios.post(`/restaurant/save/${id}`, JSON.stringify(this.currentRow), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
                     .then(response => {
                         const newData = response.data;
                         this.tableData.push(newData); // 将返回的新数据添加到表格中
@@ -214,7 +218,7 @@
             }
         },
         mounted() {
-            axios.get('/api/restaurantList')
+            axios.get('/restaurant/restaurantList')
                 .then(response => {
                     const data = response.data;
                     this.tableData = data;
