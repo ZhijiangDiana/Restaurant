@@ -44,13 +44,13 @@
                     password: '',
                     captcha: ''
                 },
-                captchaUrl: 'http://localhost:8080/restaurant/captcha',
-                src1: 'https://tvax3.sinaimg.cn/crop.0.0.1242.1242.1024/6e8ddc55ly8fpxftv5ag3j20yi0yigoy.jpg'
+                captchaUrl: '/restaurant/captcha',
+                src1: 'image/icon.png'
             };
         },
         methods: {
             refreshCaptcha() {
-                this.captchaUrl = 'http://localhost:8080/restaurant/captcha?' + Math.random(); // 刷新验证码图片
+                this.captchaUrl = '/restaurant/captcha?' + Math.random(); // 刷新验证码图片
             },
             login(event) {
                 event.preventDefault(); // 阻止默认的表单提交行为
@@ -59,6 +59,16 @@
                         message: '请输入学号/工号',
                         type: 'warning'
                     });
+                    return;
+                }
+                if (this.form.id.length !== 6 && this.form.id.length !== 10) {
+                    this.$message({
+                        message: '学号/工号格式错误，请输入六位或十位',
+                        type: 'warning'
+                    });
+                    this.form.id = '';  // 清空输入框
+                    this.form.password = '';
+                    this.form.captcha = '';
                     return;
                 }
                 if (this.form.password === '') {
@@ -74,7 +84,7 @@
                         type: 'warning'
                     })
                 }
-                fetch('http://localhost:8080/restaurant/login', {
+                fetch('restaurant/login', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -91,16 +101,16 @@
                         if (result.flag === '0') {
                             switch (result.object) {
                                 case 1:
-                                    window.location.href = 'user/firstView.html';
+                                    window.location.href = '/restaurant/user/firstView.html';
                                     break;
                                 case 2:
-                                    window.location.href = 'http://localhost:8080/restaurant/restaurantAdmin/first.html';
+                                    window.location.href = '/restaurant/restaurantAdmin/first.html';
                                     break;
                                 case 3:
-                                    window.location.href = 'admin/firstView.html';
+                                    window.location.href = '/restaurant/admin/firstView.html';
                                     break;
                                 default:
-                                    window.location.href = 'http://localhost:8080/restaurant/login.html';
+                                    window.location.href = '/restaurant/login.html';
                             }
                         } else {
                             this.$message.error(result.message);

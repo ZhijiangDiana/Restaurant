@@ -21,10 +21,6 @@
                 <span style="font-size: 35px; color: #333;">食堂点评交流系统，欢迎您</span>
             </div><br>
             <form @submit="register">
-                <el-select v-model="form.character" placeholder="请选择" class="my-select">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label"
-                               :value="item.value"></el-option>
-                </el-select><br><br>
                 <el-input v-model="form.id" placeholder="请输入学号/工号" prefix-icon="el-icon-user"></el-input><br><br>
                 <el-input v-model="form.password" placeholder="请输入密码" show-password
                           prefix-icon="el-icon-lock"></el-input><br><br>
@@ -43,44 +39,34 @@
         data: function () {
             return {
                 form: {
-                    character:'',
                     id: '',
                     password: '',
                     repassword:''
                 },
-                src1: 'https://tvax3.sinaimg.cn/crop.0.0.1242.1242.1024/6e8ddc55ly8fpxftv5ag3j20yi0yigoy.jpg',
-                options: [
-                    {
-                        value: '选项1',
-                        label: '系统管理员'
-                    },
-                    {
-                        value: '选项2',
-                        label: '食堂管理员'
-                    },
-                    {
-                        value: '选项3',
-                        label: '师生用户'
-                    }
-                ],
-                value: '',
+                src1: 'image/icon.png',
             };
+        },
+        mounted() {
+
         },
         methods: {
             register(event) {
                 event.preventDefault(); // 阻止默认的表单提交行为
-                if (this.form.character === '') {
-                    this.$message({
-                        message: '请选择注册角色',
-                        type: 'warning'
-                    });
-                    return;
-                }
                 if (this.form.id === '') {
                     this.$message({
                         message: '请输入学号/工号',
                         type: 'warning'
                     });
+                    return;
+                }
+                if (this.form.id.length !== 6 && this.form.id.length !== 10) {
+                    this.$message({
+                        message: '学号/工号格式错误，请输入六位或十位',
+                        type: 'warning'
+                    });
+                    this.form.id = '';  // 清空输入框
+                    this.form.password = '';
+                    this.form.repassword = '';
                     return;
                 }
                 if (this.form.password === '') {
@@ -104,7 +90,7 @@
                     });
                     return;
                 }
-                fetch('http://localhost:8080/restaurant/register', {
+                fetch('restaurant/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -120,7 +106,7 @@
                     .then(result => {
                         if (result.flag === '0') {
                             this.$message.success('注册成功');
-                            window.location.href = 'register.html';
+                            window.location.href = 'login.html';
                         } else {
                             this.$message.error(result.message);
                         }
@@ -130,7 +116,7 @@
                     });
             },
             backToLogin() {
-                window.location.href = 'http://localhost:8080/restaurant/login.html';
+                window.location.href = 'login.html';
             },
         },
     })
