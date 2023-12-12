@@ -9,6 +9,7 @@ public class Canteen {
     private Date startTime;
     private Date         endTime;
     private String description;
+    private Integer report_count;
 
     @Override
     public String toString() {
@@ -70,13 +71,22 @@ public class Canteen {
         this.description = description;
     }
 
-    public Canteen(Integer canteenId, String name, String location, Date startTime, Date endTime, String description) {
+    public Integer getReport_count() {
+        return report_count;
+    }
+
+    public void setReport_count(Integer report_count) {
+        this.report_count = report_count;
+    }
+
+    public Canteen(Integer canteenId, String name, String location, Date startTime, Date endTime, String description, Integer report_count) {
         this.canteenId = canteenId;
         this.name = name;
         this.location = location;
         this.startTime = startTime;
         this.endTime = endTime;
         this.description = description;
+        this.report_count = report_count;
     }
 
     public Canteen() {
