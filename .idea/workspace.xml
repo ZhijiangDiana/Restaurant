@@ -9,16 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="注册页面修改">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/RegisterService.java" afterDir="false" />
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="登录注册页面逻辑跑通了">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/ExperienceCaculateService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/register/Register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/register/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Ruo's Code Description" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Ruo's Code Description" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/GetCurrentUserName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/current_user_info/GetCurrentUserName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/ReplyServlet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/PublishReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/PublishReply.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/UserMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/ReplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/ReplyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SqlTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,9 +259,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SqlTest.UserMapperTest" />
         <item itemvalue="JavaScript Debug.login.html" />
         <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
-        <item itemvalue="JUnit.SqlTest.UserMapperTest" />
         <item itemvalue="JUnit.SqlTest.CanteenAdminMapperTest" />
         <item itemvalue="JUnit.SqlTest.AdminMapperTest" />
       </list>
@@ -292,7 +295,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702368512183</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="登录注册页面逻辑跑通了">
+      <created>1702388836899</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1702388836899</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -325,7 +335,8 @@
     <MESSAGE value="大致架构" />
     <MESSAGE value="登录与系统管理员前端" />
     <MESSAGE value="注册页面修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="注册页面修改" />
+    <MESSAGE value="登录注册页面逻辑跑通了" />
+    <option name="LAST_COMMIT_MESSAGE" value="登录注册页面逻辑跑通了" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
