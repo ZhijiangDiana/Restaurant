@@ -22,6 +22,7 @@
             </div><br>
             <form @submit="register">
                 <el-input v-model="form.id" placeholder="请输入学号/工号" prefix-icon="el-icon-user"></el-input><br><br>
+                <el-input v-model="form.username" placeholder="请输入用户名" prefix-icon="el-icon-user"></el-input><br><br>
                 <el-input v-model="form.password" placeholder="请输入密码" show-password
                           prefix-icon="el-icon-lock"></el-input><br><br>
                 <el-input v-model="form.repassword" placeholder="请再次输入密码" show-password
@@ -40,6 +41,7 @@
             return {
                 form: {
                     id: '',
+                    username:'',
                     password: '',
                     repassword:''
                 },
@@ -57,6 +59,21 @@
                         message: '请输入学号/工号',
                         type: 'warning'
                     });
+                    this.form.id = '';  // 清空输入框
+                    this.form.username='';
+                    this.form.password = '';
+                    this.form.repassword = '';
+                    return;
+                }
+                if (this.form.username === '') {
+                    this.$message({
+                        message: '请输入用户名',
+                        type: 'warning'
+                    });
+                    this.form.id = '';  // 清空输入框
+                    this.form.username='';
+                    this.form.password = '';
+                    this.form.repassword = '';
                     return;
                 }
                 if (this.form.id.length !== 6 && this.form.id.length !== 10) {
@@ -65,6 +82,7 @@
                         type: 'warning'
                     });
                     this.form.id = '';  // 清空输入框
+                    this.form.username='';
                     this.form.password = '';
                     this.form.repassword = '';
                     return;
@@ -74,6 +92,10 @@
                         message: '请输入密码',
                         type: 'warning'
                     });
+                    this.form.id = '';  // 清空输入框
+                    this.form.username='';
+                    this.form.password = '';
+                    this.form.repassword = '';
                     return;
                 }
                 if (this.form.repassword === '') {
@@ -81,6 +103,10 @@
                         message: '请再次输入密码',
                         type: 'warning'
                     });
+                    this.form.id = '';  // 清空输入框
+                    this.form.username='';
+                    this.form.password = '';
+                    this.form.repassword = '';
                     return;
                 }
                 if (this.form.repassword !== this.form.password) {
@@ -88,6 +114,10 @@
                         message: '两次密码输入不一致',
                         type: 'warning'
                     });
+                    this.form.id = '';  // 清空输入框
+                    this.form.username='';
+                    this.form.password = '';
+                    this.form.repassword = '';
                     return;
                 }
                 fetch('/restaurant/register', {

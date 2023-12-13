@@ -59,6 +59,9 @@
                         message: '请输入学号/工号',
                         type: 'warning'
                     });
+                    this.form.id = '';  // 清空输入框
+                    this.form.password = '';
+                    this.form.captcha = '';
                     return;
                 }
                 if (this.form.id.length !== 4 && this.form.id.length !== 6 && this.form.id.length !== 10) {
@@ -76,13 +79,20 @@
                         message: '请输入密码',
                         type: 'warning'
                     });
+                    this.form.id = '';  // 清空输入框
+                    this.form.password = '';
+                    this.form.captcha = '';
                     return;
                 }
                 if (this.form.captcha === '') {
                     this.$message({
                         message: '请输入验证码',
                         type: 'warning'
-                    })
+                    });
+                    this.form.id = '';  // 清空输入框
+                    this.form.password = '';
+                    this.form.captcha = '';
+                    return;
                 }
                 fetch('/restaurant/login', {
                     method: 'POST',
