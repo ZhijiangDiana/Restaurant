@@ -30,4 +30,8 @@
         VALUES (#{userId}, #{username}, #{password}, #{experience}, #{isForbidden})
     </insert>
 
+    <update id="updateExpById" parameterType="User">
+        update Restaurant.user set experience =#{experience} where user_id = #{id}
+    </update>
+
 </mapper>

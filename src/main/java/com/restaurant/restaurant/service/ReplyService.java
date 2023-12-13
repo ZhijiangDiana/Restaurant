@@ -8,6 +8,7 @@ import com.restaurant.restaurant.pojo.ReplyShow;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.Reply;
 import com.restaurant.restaurant.pojo.entity.User;
+import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
@@ -60,6 +61,8 @@ public class ReplyService {
         else {
             Reply reply = new Reply(Integer.parseInt(commentId),Integer.parseInt(id),null,body);
             replyMapper.insertAdminReply(reply);
+            ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
+            experienceCaculateService.caculateExperience(Integer.parseInt(id), Constants.REPLY_EXP);
             sqlSession.commit();
         }
     }

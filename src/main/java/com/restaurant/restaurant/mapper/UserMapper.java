@@ -20,4 +20,6 @@ public interface UserMapper {
     List<Reply> selectReplyById(@Param("id") int id);
 
     void insertUser(User user);
+
+    void updateExpById(@Param("experience") int experience,@Param("id") int id);
 }

@@ -72,6 +72,10 @@ public class CommentService {
                     if (img == null){
                         Comment comment = new Comment(userId,title,body,null,new Date(),0);
                         mapper.insertComment(comment);
+                        // 更新经验
+                        ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
+                        Integer experience = experienceCaculateService.caculateExperience(userId,Constants.COMMUNITY_EXP);
+
                         sqlSession.commit();
                         return FrontEndUtils.objectToBody("发布成功","0",comment);
                     }

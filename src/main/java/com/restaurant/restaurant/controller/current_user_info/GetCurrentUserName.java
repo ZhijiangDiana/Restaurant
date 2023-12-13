@@ -1,6 +1,10 @@
-package com.restaurant.restaurant.controller;
+package com.restaurant.restaurant.controller.current_user_info;
 
 import com.alibaba.fastjson.JSON;
+import com.restaurant.restaurant.pojo.LevelInfo;
+import com.restaurant.restaurant.pojo.entity.User;
+import com.restaurant.restaurant.utils.ExpLevelCaculate;
+import com.restaurant.restaurant.utils.FrontEndUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,10 +19,7 @@ import java.io.PrintWriter;
 public class GetCurrentUserName extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = (String)request.getSession().getAttribute("username");
-        String s = JSON.toJSONString(username);
-        System.out.println(s);
-        System.out.println("sessionname " + username);
-        response.getWriter().print(s);
+        User user = (User)request.getSession().getAttribute("user");
+        FrontEndUtils.objectToBody(null,"0",user.getUsername());
     }
 }
