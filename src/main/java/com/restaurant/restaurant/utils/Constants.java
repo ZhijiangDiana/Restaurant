@@ -1,5 +1,8 @@
 package com.restaurant.restaurant.utils;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Constants {
     public static final int LOGIN_INVALID = 0;    // 认证失败
     public static final int USER_VERIFIED = 1;    // 师生用户
@@ -16,4 +19,27 @@ public class Constants {
     public static final Integer REPLY_EXP = 4;  // 回复加经验
     public static final Integer COMPLAINT_EXP = 5;  // 投诉加经验
     public static final Integer VOTE_EXP = 6;   // 投票加经验
+    public static final Set<String> SENSITIVEWORDS = new HashSet<>();
+
+    static {
+        // 在这里添加敏感词
+        SENSITIVEWORDS.add("tm");
+        SENSITIVEWORDS.add("nm");
+        SENSITIVEWORDS.add("nmsl");
+        SENSITIVEWORDS.add("cs");
+        SENSITIVEWORDS.add("sb");
+        SENSITIVEWORDS.add("rz");
+        SENSITIVEWORDS.add("弱智");
+        SENSITIVEWORDS.add("妈逼");
+        SENSITIVEWORDS.add("你妈");
+        // ... 还可以添加更多敏感词
+    }
+
+    public static Boolean containSensitive(String text){
+        for (String word : SENSITIVEWORDS){
+            if (text.contains(word))
+                return false;
+        }
+        return true;
+    }
 }

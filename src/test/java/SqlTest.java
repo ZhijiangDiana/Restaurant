@@ -1,11 +1,13 @@
 import com.restaurant.restaurant.mapper.*;
 import com.restaurant.restaurant.pojo.entity.*;
+import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class SqlTest {
     SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
@@ -93,5 +95,12 @@ public class SqlTest {
         for (Reply reply1 : replies){
             System.out.println(reply1);
         }
+    }
+
+    @Test
+    public void sensitiveFilter(){
+        Set<String> sensitivewords = Constants.SENSITIVEWORDS;
+        String s = "aewf";
+        System.out.println(Constants.containSensitive(s));
     }
 }
