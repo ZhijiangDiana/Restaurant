@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+       .el-menu--inline .el-menu-item {
+            background-color: #244235  !important;
+        }
+
+        .el-menu-item:hover,
+       .el-submenu__title:hover {
+            color: #fff !important;
+        }
+
+       .el-submenu__title:hover i {
+            color: #fff !important;
+        }
+
+        .el-aside{
+            transition: width.3s;
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+        }
+        .logo_title{
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all .3s;
+        }
+        .el-header{
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+            display: flex;
+            align-items: center;
+        }
+       .el-header-buttons {
+           display: flex;
+       }
+       .el-form-buttons .el-button{
+           background-color: beige;/* 按钮之间的右边距 */
+           color:black;
+       }
+       .el-header-buttons .el-button {
+           margin-left: 80px;
+           background-color: beige;/* 按钮之间的右边距 */
+           color:black;
+       }
+       .el-main-buttons .el-button{
+           background-color: beige;
+           color:black;
+           margin-left: 50px;
+       }
+       .el-card {
+           background-color: #244235 ;
+           color: #fff; /* 文本颜色为白色 */
+           margin: 20px; /* 添加一些边距，使内容离边框有一定距离 */
+       }
+
+       .el-card__header {
+           background-color: #244235 ; /* 与 el-menu 的背景色相同 */
+       }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div >
+        <el-container>
+            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#244235 "  >
+                <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+
+                    <span class="logo_title" v-show="!isCollapse">USST</span>
+                </div>
+                <el-menu :collapse="isCollapse"  background-color="#244235" text-color="rgba(255,255,255,0.65)">
+                    <el-menu-item>
+                        <i class="el-icon-house"></i>
+                        <span slot="title">系统首页</span>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">交流社区</span>
+                    </el-menu-item>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>信息管理</span>
+                        </template>
+                        <el-menu-item  >
+                            用户信息
+                        </el-menu-item>
+                        <el-menu-item >
+                            管理员信息
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-container>
+
+                <el-header style="background-color: #244235">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
+
+                    <div class="el-header-buttons">
+
+                        <el-button type="primary" @click="sortByHotness">按热度</el-button>
+                        <el-button type="primary" @click="sortByTime">按时间</el-button>
+                        <el-button type="primary" @click="sortByAscending">正序</el-button>
+                        <el-button type="primary" @click="sortByDescending">倒序</el-button>
+                        <el-button type="primary" @click="addComment">添加评论</el-button>
+                    </div>
+                </el-header>
+                <el-main>
+                    <el-card>
+
+                        <div>
+                            <h2>帖子标题</h2>
+                            <div>
+                                <span>发表人: 用户名</span>
+                            </div>
+                            <div style="width: 200px;height: 200px">
+                                <el-image
+                                        style="width: 100%;height: 100%"
+                                        src="image/hotpot.png"
+                                        alt="帖子图片"
+                               ></el-image>
+                            </div>
+                            <p>帖子内容</p>
+                            <div style="margin-top: 10px; text-align: center;" class="el-main-buttons">
+
+                                <el-button type="primary" icon="el-icon-thumb">点赞</el-button>
+                                <el-button type="primary" icon="el-icon-chat-dot-round">评论</el-button>
+                                <el-button type="primary" icon="el-icon-share">转发</el-button>
+                            </div>
+                        </div>
+                        <!-- 其他帖子内容，可以根据需要添加 -->
+                        <el-form style="margin-top: 20px;">
+                            <el-form-item label="评论内容">
+                                <el-input type="textarea" v-model="commentContent" placeholder="请输入评论内容"></el-input>
+                            </el-form-item>
+                            <el-form-item class="el-form-buttons">
+                                <el-button type="primary" @click="submitComment">发表评论</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return{
+                isCollapse:false,
+                asideWidth:'200px',
+                collapseIcon:'el-icon-s-fold'
+            }
+        },
+        methods:{
+            handleCollapse(){
+                this.isCollapse=!this.isCollapse
+                this.asideWidth=this.isCollapse ? '64px':'200px'
+                this.collapseIcon=this.isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold'
+            },
+            sortByHotness() {
+                // Handle logic for sorting by hotness
+                console.log('1');
+            },
+            sortByTime() {
+                // Handle logic for sorting by time
+                console.log('Sort by time');
+            },
+            sortByAscending() {
+                // Handle logic for sorting in ascending order
+                console.log('Sort in ascending order');
+            },
+            sortByDescending() {
+                // Handle logic for sorting in descending order
+                console.log('Sort in descending order');
+            },
+            addComment() {
+                // Handle logic for adding a comment
+                console.log('Add comment');
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
+
+
+
+
