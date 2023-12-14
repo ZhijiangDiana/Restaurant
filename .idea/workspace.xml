@@ -10,8 +10,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="登录注册页面逻辑跑通了">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/LegalSpeakFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/PublishReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/PublishReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/UserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/UserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/RegisterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/RegisterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/SensitiveCommentFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/UserMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/SqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SqlTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -106,7 +113,7 @@
       <recent name="C:\Users\14838\IdeaProjects\restaurant\src\main\java\com\restaurant\restaurant" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SqlTest.sensitiveFilter">
+  <component name="RunManager" selected="Tomcat Server.Local Tomcat 10.1.13">
     <configuration name="SqlTest.CanteenAdminMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="restaurant" />
       <option name="PACKAGE_NAME" value="" />
@@ -261,8 +268,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
         <item itemvalue="JUnit.SqlTest.UserMapperTest" />
+        <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
         <item itemvalue="JavaScript Debug.login.html" />
         <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
         <item itemvalue="JUnit.SqlTest.CanteenAdminMapperTest" />
@@ -280,6 +287,7 @@
       <workItem from="1702034610668" duration="111000" />
       <workItem from="1702034727046" duration="464000" />
       <workItem from="1702358755646" duration="7109000" />
+      <workItem from="1702550043680" duration="2661000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />
@@ -321,7 +329,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="dev-3" />
+                        <option value="origin/dev-4" />
                       </list>
                     </value>
                   </entry>

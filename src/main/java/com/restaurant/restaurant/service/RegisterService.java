@@ -5,7 +5,7 @@ import com.restaurant.restaurant.mapper.UserMapper;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.FrontEndUtils;
-import com.restaurant.restaurant.utils.SensitiveCommentFilter;
+import com.restaurant.restaurant.utils.LegalSpeakFilter;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,7 +24,7 @@ public class RegisterService {
         User user = userMapper.selectById(Integer.parseInt(id));
         CanteenAdmin canteenAdmin = canteenAdminMapper.selectById(Integer.parseInt(id));
         // 姓名敏感
-        if (SensitiveCommentFilter.commentFilter(name)) {
+        if (LegalSpeakFilter.filterSensitiveWords(name)) {
             return FrontEndUtils.objectToBody("姓名涉及敏感信息", "1", null);
         }
         // 不是正确格式
@@ -35,7 +35,7 @@ public class RegisterService {
         else {
             // 按照id找不到说明没注册过 且符合格式问题 直接添加
             if (user == null && canteenAdmin == null) {
-                User newUser = new User(Integer.parseInt(id), name, password, 0, false);
+                User newUser = new User(Integer.parseInt(id), name, password, 0, false,0);
                 userMapper.insertUser(newUser);
                 sqlSession.commit();
                 return FrontEndUtils.objectToBody("注册成功", "0", null);

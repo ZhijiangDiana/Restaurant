@@ -22,4 +22,6 @@ public interface UserMapper {
     void insertUser(User user);
 
     void updateExpById(@Param("experience") int experience,@Param("id") int id);
+
+    void updateIllegalityById(@Param("illegality") int illegality, @Param("id") int id);
 }

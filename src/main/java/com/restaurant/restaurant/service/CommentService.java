@@ -7,7 +7,7 @@ import com.restaurant.restaurant.pojo.ShowAllPublishedInfo;
 import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.FrontEndUtils;
-import com.restaurant.restaurant.utils.SensitiveCommentFilter;
+import com.restaurant.restaurant.utils.LegalSpeakFilter;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
@@ -64,8 +64,11 @@ public class CommentService {
                 return FrontEndUtils.objectToBody("内容为空,请补充完整","1",null);
             }
             else {
-                if (SensitiveCommentFilter.commentFilter(body) == true){
+                if (LegalSpeakFilter.filterSensitiveWords(body) || LegalSpeakFilter.filterSensitiveWords(title)){
                     return FrontEndUtils.objectToBody("涉及敏感发言，请谨言慎行","1",null);
+                }
+                else if (LegalSpeakFilter.banFromSpeaking(user.getUserId())) {
+                    return FrontEndUtils.objectToBody("过往有不积极行为,暂禁发言", "1", null);
                 }
                 else {
                     Integer userId = user.getUserId();

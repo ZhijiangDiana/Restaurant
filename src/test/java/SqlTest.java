@@ -28,7 +28,7 @@ public class SqlTest {
 //        System.out.println(diana);
 //        User xianBei = userMapper.selectById(114514);
 //        System.out.println(xianBei);
-        userMapper.updateExpById(114514,1);
+        userMapper.updateIllegalityById(114514,1);
         sqlSession.commit();
         List<User> users = userMapper.selectAll();
         for (User user : users) {

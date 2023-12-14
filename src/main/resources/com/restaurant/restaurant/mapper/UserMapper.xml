@@ -34,4 +34,8 @@
         update Restaurant.user set experience =#{experience} where user_id = #{id}
     </update>
 
+    <update id="updateIllegalityById" parameterType="User">
+        update Restaurant.user set illegality = #{illegality} where user_id = #{id}
+    </update>
+
 </mapper>

@@ -8,16 +8,18 @@ public class User implements Serializable {
     private String password;
     private Integer experience;
     private Boolean isForbidden;
+    private Integer illegality;
 
     public User() {
     }
 
-    public User(Integer userId, String username, String password, Integer experience, Boolean isForbidden) {
+    public User(Integer userId, String username, String password, Integer experience, Boolean isForbidden, Integer illegality) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.experience = experience;
         this.isForbidden = isForbidden;
+        this.illegality = illegality;
     }
 
     public Integer getUserId() {
@@ -60,6 +62,15 @@ public class User implements Serializable {
         isForbidden = forbidden;
     }
 
+
+    public Integer getIllegality() {
+        return illegality;
+    }
+
+    public void setIllegality(Integer illegality) {
+        this.illegality = illegality;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -68,6 +79,7 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", experience=" + experience +
                 ", isForbidden=" + isForbidden +
+                ", illegality=" + illegality +
                 '}';
     }
 }

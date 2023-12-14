@@ -2,11 +2,9 @@ package com.restaurant.restaurant.controller.community;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.restaurant.restaurant.pojo.entity.User;
-import com.restaurant.restaurant.service.ExperienceCaculateService;
 import com.restaurant.restaurant.service.ReplyService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
-import com.restaurant.restaurant.utils.SensitiveCommentFilter;
+import com.restaurant.restaurant.utils.LegalSpeakFilter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,9 +39,13 @@ public class PublishReply extends HttpServlet {
             return ;
         }
 
-        if (SensitiveCommentFilter.commentFilter(body) == true){
+        if (LegalSpeakFilter.filterSensitiveWords(body) == true){
             response.getWriter().print(FrontEndUtils.objectToBody("涉及敏感发言","1",null));
             return ;
+        }
+
+        if (LegalSpeakFilter.banFromSpeaking(Integer.parseInt(id))){
+            response.getWriter().print(FrontEndUtils.objectToBody("由于过往潜在不文明行为被禁止评论","1",null));
         }
 
         ReplyService replyService = new ReplyService();
