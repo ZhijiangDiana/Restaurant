@@ -7,6 +7,8 @@ import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.ReportReply;
 import com.restaurant.restaurant.service.canteen.ReportService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import com.restaurant.restaurant.utils.LegalSpeakFilter;
+import com.restaurant.restaurant.utils.Pair;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -42,8 +44,6 @@ public class UploadReportReply extends HttpServlet {
             resp.setStatus(500);
             return;
         }
-
-        // TODO: 2023/12/14 没写敏感词检测，等zjy合并完之后再写
 
         ReportReply reportReply = new ReportReply();
         reportReply.setCanteenAdminId(canteenAdmin.getCanteenAdminId());

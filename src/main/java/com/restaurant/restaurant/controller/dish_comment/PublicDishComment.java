@@ -10,6 +10,8 @@ import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.dish.UpdateDishScore;
 import com.restaurant.restaurant.service.dish_comment.UploadDishComment;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import com.restaurant.restaurant.utils.LegalSpeakFilter;
+import com.restaurant.restaurant.utils.Pair;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -55,7 +57,16 @@ public class PublicDishComment extends HttpServlet {
             return;
         }
 
-        // TODO: 2023/12/14 使用zjy写的过滤器
+        Pair<Boolean, Boolean> banOrSensitive = LegalSpeakFilter.isBanOrSensitive(title + body, user.getUserId());
+        if (banOrSensitive.first) {
+            resp.setStatus(403);
+            pw.print(FrontEndUtils.objectToBody("被禁言了还狗叫啥","1",null));
+            return;
+        } else if (banOrSensitive.second) {
+            resp.setStatus(403);
+            pw.print(FrontEndUtils.objectToBody("你在狗叫什么", "1", null));
+            return;
+        }
 
         DishComment dishComment = new DishComment();
         dishComment.setUserId(user.getUserId());

@@ -7,6 +7,8 @@ import com.restaurant.restaurant.pojo.entity.Report;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.canteen.ReportService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import com.restaurant.restaurant.utils.LegalSpeakFilter;
+import com.restaurant.restaurant.utils.Pair;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -44,7 +46,16 @@ public class UploadReport extends HttpServlet {
             return;
         }
 
-        // TODO: 2023/12/14 没写敏感词检测，等zjy合并完之后再写
+        Pair<Boolean, Boolean> banOrSensitive = LegalSpeakFilter.isBanOrSensitive(title + body, user.getUserId());
+        if (banOrSensitive.first) {
+            resp.setStatus(403);
+            pw.print(FrontEndUtils.objectToBody("被禁言了还狗叫啥","1",null));
+            return;
+        } else if (banOrSensitive.second) {
+            resp.setStatus(403);
+            pw.print(FrontEndUtils.objectToBody("你在狗叫什么", "1", null));
+            return;
+        }
 
         Report report = new Report();
         report.setUserId(user.getUserId());
