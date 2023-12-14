@@ -38,8 +38,8 @@ public class Constants {
     public static Boolean containSensitive(String text){
         for (String word : SENSITIVEWORDS){
             if (text.contains(word))
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 }
