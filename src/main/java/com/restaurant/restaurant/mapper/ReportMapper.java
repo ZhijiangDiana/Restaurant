@@ -1,10 +1,12 @@
 package com.restaurant.restaurant.mapper;
 
+import com.restaurant.restaurant.pojo.entity.Report;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface ReportMapper {
-    List<ReportMapper> selectAll();
-    ReportMapper selectById(@Param("id") int id);
+    List<Report> selectAll();
+    Report selectById(@Param("id") int id);
+    void insertReport(Report report);
 }

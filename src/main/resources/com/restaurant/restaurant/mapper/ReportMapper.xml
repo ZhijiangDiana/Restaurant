@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.ReportMapper">
+    <insert id="insertReport">
+        INSERT INTO `Restaurant`.report (user_id, canteen_id, title, body)
+        VALUES (#{userId}, #{canteenId}, #{title}, #{body});
+    </insert>
+    <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Report">
+        SELECT * FROM `Restaurant`.report;
+    </select>
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Report">
+        SELECT * FROM `Restaurant`.report
+        WHERE report_id = #{id};
+    </select>
 </mapper>

@@ -8,4 +8,5 @@ import java.util.List;
 public interface CanteenMapper {
     List<Canteen> selectAll();
     Canteen selectById(@Param("id") int id);
+    void increaseReportById(@Param("id") int id);
 }
