@@ -37,5 +37,10 @@
     <update id="updateIllegalityById" parameterType="User">
         update Restaurant.user set illegality = #{illegality} where user_id = #{id}
     </update>
+    <update id="increaseIllegalityById">
+        UPDATE `Restaurant`.user
+        SET illegality = illegality + #{illegality}
+        WHERE user_id = #{id};
+    </update>
 
 </mapper>

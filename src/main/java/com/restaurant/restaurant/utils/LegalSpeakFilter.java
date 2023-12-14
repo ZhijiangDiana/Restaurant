@@ -59,7 +59,7 @@ public class LegalSpeakFilter {
     private static void increaseIllegality(int increasePoints, int id) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-        userMapper.updateIllegalityById(increasePoints, id);
+        userMapper.increaseIllegalityById(increasePoints, id);
         sqlSession.commit();
         sqlSession.close();
     }
