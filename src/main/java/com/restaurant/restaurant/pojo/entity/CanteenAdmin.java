@@ -1,19 +1,20 @@
 package com.restaurant.restaurant.pojo.entity;
 
 public class CanteenAdmin {
-   private Integer canteenId;
-   private Integer userId;
-   private String username;
-   private String password;
+    private Integer canteenAdminId;
+    private Integer canteenId;
+    private String username;
+    private String password;
 
-    @Override
-    public String toString() {
-        return "CanteenAdmin{" +
-                "canteenId=" + canteenId +
-                ", userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+    public CanteenAdmin() {
+    }
+
+    public Integer getCanteenAdminId() {
+        return canteenAdminId;
+    }
+
+    public void setCanteenAdminId(Integer canteenAdminId) {
+        this.canteenAdminId = canteenAdminId;
     }
 
     public Integer getCanteenId() {
@@ -22,14 +23,6 @@ public class CanteenAdmin {
 
     public void setCanteenId(Integer canteenId) {
         this.canteenId = canteenId;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getUsername() {
@@ -48,13 +41,13 @@ public class CanteenAdmin {
         this.password = password;
     }
 
-    public CanteenAdmin(Integer canteenId, Integer userId, String username, String password) {
-        this.canteenId = canteenId;
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-    }
-
-    public CanteenAdmin() {
+    @Override
+    public String toString() {
+        return "CanteenAdmin{" +
+                "canteenAdminId=" + canteenAdminId +
+                ", canteenId=" + canteenId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }
