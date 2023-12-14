@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="yes" name="apple-touch-fullscreen">
+    <meta name="full-screen" content="yes">
+    <meta content="default" name="apple-mobile-web-app-status-bar-style">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="browsermode" content="application">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="x5-orientation" content="portrait">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="x5-page-mode" content="app">
+    <base target="_blank">
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="css/chat.css">
+</head>
+
+<body>
+<div class="abs cover contaniner" id="app">
+    <button id="chatToggle" @click="toggleChat">打开聊天框</button>
+    <div v-if="isShowChat" class="abs cover pnl">
+        <div class="top pnl-head" style="padding: 20px ; color: white;">
+            <div id="chatMes" v-show="chatMes" style="text-align: center;color: white;font-family: 新宋体">
+                正在和 <font face="楷体">{{toName}}</font> 聊天
+            </div>
+        </div>
+        <!--聊天区开始-->
+        <div class="abs cover pnl-body" id="pnlBody">
+            <div class="abs cover pnl-left" id="initBackground" style="background-color: white; width: 100%">
+                <div class="abs cover pnl-left" id="chatArea" v-show="isShowChat">
+                    <div class="abs cover pnl-msgs scroll" id="show">
+                        <div class="pnl-list" id="hists"><!-- 历史消息 --></div>
+                        <div class="pnl-list" id="msgs" v-for="message in historyMessage">
+
+                            <!-- 消息这展示区域 -->
+                            <div class="msg guest" v-if="message.toName">
+                                <div class="msg-right">
+                                    <div class="msg-host headDefault"></div>
+                                    <div class="msg-ball">{{message.message}}</div>
+                                </div>
+                            </div>
+                            <div class="msg robot" v-else>
+                                <div class="msg-left" worker="">
+                                    <div class="msg-host photo"
+                                         style="background-image: url(img/avatar/Member002.jpg)"></div>
+                                    <div class="msg-ball">{{message.message}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="abs bottom pnl-text">
+                        <div class="abs cover pnl-input">
+                            <textarea class="scroll" id="context_text" @keyup.enter="submit" wrap="hard" placeholder="在此输入文字信息..."
+                                      v-model="sendMessage.message"></textarea>
+                            <div class="abs atcom-pnl scroll hide" id="atcomPnl">
+                                <ul class="atcom" id="atcom"></ul>
+                            </div>
+                        </div>
+
+                        <div class="abs br pnl-btn" id="submit" @click="submit"
+                             style="background-color: rgb(120, 130, 255); color: rgb(255, 255, 255);">
+                            发送
+                        </div>
+                    </div>
+                </div>
+
+                <!--聊天区 结束-->
+                <div class="abs right pnl-right">
+                    <div class="slider-container hide"></div>
+                    <div class="pnl-right-content">
+                        <div class="pnl-tabs">
+                            <div class="tab-btn active" id="hot-tab">消息列表</div>
+                        </div>
+                        <div class="pnl-hot">
+                            <ul class="rel-list unselect">
+                                <!--已读未读应该从数据域里获取-->
+                                <li class="rel-item" v-for="friend in friendsList"><a @click='showChat(friend)'>{{friend}}   已读</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/vue.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    let ws;
+    new Vue({
+        el: "#app",
+        data() {
+            return {
+                isShowChat: false,
+                chatMes: false,
+                isOnline: true,
+                username:"",
+                toName: "",
+                sendMessage: {
+                    toName: "",
+                    message: ""
+                },
+                inputMessage: "",
+                historyMessage: [
+                    /*{toName: "李四", message: "你好,张三"},
+                    {toName: "李四", message: "在吗"},
+                    {toName: "李四", message: "怎么不说话"},
+                    {fromName: "张三", message: "你好,李四"}*/
+                ],
+                friendsList: [
+                   /* "李四",
+                    "王五"*/
+                ],
+                systemMessages : [
+                    /*"张三",
+                    "李四"*/
+                ]
+            }
+        },
+        created() {
+            this.init();
+        },
+        methods: {
+            async init() {
+                await axios.get("/restaurant/getUsername").then(res => {
+                    this.username = res.data;
+                });
+
+                //创建webSocket对象
+                ws = new WebSocket("ws://localhost:8080/restaurant/chat");
+
+                //给ws绑定事件
+                ws.onopen = this.onOpen;
+                //接收到服务端推送的消息后触发
+                ws.onmessage = this.onMessage;
+
+                ws.onclose = this.onClose;
+            },
+            toggleChat() {
+                this.isShowChat = !this.isShowChat;
+            },
+            showChat(name) {
+                this.toName = name;
+                //清除聊天区的数据
+                let history = sessionStorage.getItem(this.toName);
+                if (!history) {
+                    this.historyMessage = [];
+                } else {
+                    this.historyMessage = JSON.parse(history);
+                }
+                //展示聊天对话框
+                this.isShowChat = true;
+                //显示“正在和谁聊天”
+                this.chatMes = true;
+            },
+            submit() {
+                this.sendMessage.toName = this.toName;
+                this.historyMessage.push(JSON.parse(JSON.stringify(this.sendMessage)));
+                sessionStorage.setItem(this.toName, JSON.stringify(this.historyMessage));
+                ws.send(JSON.stringify(this.sendMessage));
+                this.sendMessage.message = "";
+            },
+            onOpen() {
+                this.isOnline = true;
+            },
+            onClose() {
+                this.isOnline = false;
+            },
+            onMessage(evt) {
+                //获取服务端推送过来的消息
+                var dataStr = evt.data;
+                //将dataStr 转换为json对象
+                var res = JSON.parse(dataStr);
+
+                //判断是否是系统消息
+                if(res.system) {
+                    //系统消息  好友列表展示
+                    var names = res.message;
+                    this.friendsList = [];
+                    this.systemMessages = [];
+                    for (let i = 0; i < names.length; i++) {
+                        if(names[i] != this.username) {
+                            this.friendsList.push(names[i]);
+                            this.systemMessages.push(names[i]);
+                        }
+                    }
+                }else {
+                    //非系统消息 存在浏览器的session里,不存数据库里
+                    var history = sessionStorage.getItem(res.fromName);
+                    if (!history) {
+                        this.historyMessage = [res];
+                    } else {
+                        this.historyMessage.push(res);
+                    }
+                    sessionStorage.setItem(res.fromName, JSON.stringify(this.historyMessage));
+                }
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>

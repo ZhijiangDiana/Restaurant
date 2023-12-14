@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>黑马畅聊-登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords"
+          content="Transparent Sign In Form Responsive Widget,Login form widgets, Sign up Web forms , Login signup Responsive web form,Flat Pricing table,Flat Drop downs,Registration Forms,News letter Forms,Elements"/>
+    <script type="application/x-javascript">
+        addEventListener("load", function () {
+            setTimeout(hideURLbar, 0);
+        }, false);
+
+        function hideURLbar() {
+            window.scrollTo(0, 1);
+        }
+    </script>
+
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <link rel="icon" href="img/chat.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="css/font-awesome.css"/> <!-- Font-Awesome-Icons-CSS -->
+    <link rel="stylesheet" href="css/login1.css" type="text/css" media="all"/> <!-- Style-CSS -->
+</head>
+
+
+<body class="background">
+<div class="header-w3l">
+    <h1>黑马畅聊</h1>
+</div>
+<div class="main-content-agile" id="app">
+    <div class="sub-main-w3">
+        <h2>登录</h2>
+        <form id="loginForm">
+            <div class="icon1">
+                <input placeholder="用户名" id="username" v-model="user.username" type="text"/>
+            </div>
+
+            <div class="icon2">
+                <input placeholder="密码" id="password" v-model="user.password" type="password"/>
+            </div>
+
+            <div class="clear"></div>
+            <input type="button" id="btn1" @click="login" value="登录"/>
+			<div class="icon1">
+                <span id="err_msg" style="color: red; ">{{errMessage}}</span>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="footer">
+    <p>北京传智播客教育科技有限公司 版权所有Copyright 2006-2019  All Rights Reserved </p>
+</div>
+<script src="js/vue.js"></script>
+<script src="js/axios-0.18.0.js"></script>
+<script>
+    new Vue({
+        el:"#app",
+        data() {
+            return {
+                errMessage: "",
+                user:{
+                    username:"",
+                    password:""
+                }
+            }
+        },
+        methods: {
+            login() {
+                axios.get("http://localhost:8080/restaurant/Login?username="+this.user.username +"&password="+this.user.password).then(res => {
+                    //判断登陆是否成功
+                    if(res.data.flag === '0') {
+                        location.href = "main.html"
+                    } else {
+                        this.errMessage = res.data.message;
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>
