@@ -9,6 +9,7 @@ public class DishComment implements Serializable {
     private Double score;
     private String tittle;
     private String body;
+    private byte[] image;
 
     public DishComment() {
     }
@@ -59,6 +60,14 @@ public class DishComment implements Serializable {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @Override

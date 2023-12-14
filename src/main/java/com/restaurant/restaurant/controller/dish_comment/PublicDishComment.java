@@ -35,9 +35,17 @@ public class PublicDishComment extends HttpServlet {
         Double score = reqJson.getDouble("score");
         String title = reqJson.getString("title");
         String body = reqJson.getString("body");
+        byte[] image = reqJson.getBytes("image");
 
         User user = (User) session.getAttribute("user");
         Integer userCommentsPerOnline = (Integer) session.getAttribute("userCommentsPerOnline");
+
+//        // 测试
+//        user = new User();
+//        user.setUserId(1);
+//        user.setExperience(114);
+//        userCommentsPerOnline = 1;
+
         if (user == null || userCommentsPerOnline == null || dishId == null || score == null ||
                 title == null || body == null) {
             resp.setStatus(500);
@@ -47,12 +55,15 @@ public class PublicDishComment extends HttpServlet {
             return;
         }
 
+        // TODO: 2023/12/14 使用zjy写的过滤器
+
         DishComment dishComment = new DishComment();
         dishComment.setUserId(user.getUserId());
         dishComment.setDishId(dishId);
         dishComment.setScore(score);
         dishComment.setTittle(title);
         dishComment.setBody(body);
+        dishComment.setImage(image);
 
         UploadDishComment uploadDishComment = new UploadDishComment();
         UpdateDishScore updateDishScore = new UpdateDishScore();
