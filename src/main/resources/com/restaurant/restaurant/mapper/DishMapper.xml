@@ -14,6 +14,16 @@
         WHERE dish_id = #{dishId};
     </update>
 
+    <delete id="deleteDishById">
+        DELETE FROM `Restaurant`.dish
+        WHERE dish_Id = #{dish_id}
+    </delete>
+
+    <update id="updateDish">
+        UPDATE `Restaurant`.dish
+        SET dish_id = #{dishId},dish_name = #{dishName},canteen_id = #{canteenId},series = #{series},price = #{price},price_sale = #{priceSale},total_score = #{totalScore}, weight_sum=#{weightSum}
+        WHERE dish_id = #{dishId};
+    </update>
 
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Dish">
         SELECT dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum
@@ -77,4 +87,6 @@
         from `Restaurant`.dish
         where total_score>=#{score};
     </select>
+
+
 </mapper>

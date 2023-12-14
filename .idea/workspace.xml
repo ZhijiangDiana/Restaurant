@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="restaurant:war exploded" />
+      <artifact name="restaurant:war" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,12 +10,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/canteen_manager/DeleteDish.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/canteen_manager/PostAnnouncement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/canteen_manager/PostDish.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/canteen_manager/UpDateDish.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/canteen_manager/Delete_Dish.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/canteen_manager/SelectAnnouncement.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/canteen_manager/Update_Dish.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/canteen_manager/UploadDish.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/dish_comment/PublicDishComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/dish_comment/PublicDishComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/AnnouncementMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/AnnouncementMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Dish.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Dish.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/AnnouncementMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/AnnouncementMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/DishMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/DishMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/info.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/info.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -34,7 +58,7 @@
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
-        <option name="accountId" value="652b36bb-1889-4c86-8f06-1fcf802c5b2f" />
+        <option name="accountId" value="29a79aa3-0a06-457c-af31-37e2ad6d0a44" />
         <option name="url" value="https://github.com/ZhijiangDiana/Restaurant.git" />
       </UrlAndAccount>
     </option>
@@ -45,6 +69,9 @@
     <option name="FILTER_INFO" value="true" />
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -69,9 +96,11 @@
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.14971977&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -86,7 +115,7 @@
       <recent name="C:\Users\14838\IdeaProjects\restaurant\src\main\java\com\restaurant\restaurant" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Local Tomcat 10.1.13">
+  <component name="RunManager" selected="Tomcat 服务器.Tomcat 10.1.15">
     <configuration name="MybatisTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.rookies.MybatisTest" />
       <module name="rest" />
@@ -110,20 +139,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Local Tomcat 10.1.13" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.15" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/restaurant/login.html" />
-      <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=utf-8" />
-      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
-      <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
+    <configuration name="Tomcat 10.1.15" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.15" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <artifact name="restaurant:war exploded">
+        <artifact name="restaurant:war">
           <settings>
-            <option name="CONTEXT_PATH" value="/restaurant" />
+            <option name="CONTEXT_PATH" value="/restaurant_war" />
           </settings>
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="e0249259-e69d-40e3-a6ac-4840580d5a14" />
+        <option name="BASE_DIRECTORY_NAME" value="ebec0d5d-64a4-405f-9ba2-fb856274f183" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -131,7 +157,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="63011" />
+        <option name="DEBUG_PORT" value="54276" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -196,14 +222,14 @@
       <method v="2">
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
-          <artifact name="restaurant:war exploded" />
+          <artifact name="restaurant:war" />
         </option>
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.MybatisTest" />
       <item itemvalue="JUnit.SqlTest.UserMapperTest" />
-      <item itemvalue="Tomcat Server.Local Tomcat 10.1.13" />
+      <item itemvalue="Tomcat 服务器.Tomcat 10.1.15" />
+      <item itemvalue="应用程序.MybatisTest" />
     </list>
     <recent_temporary>
       <list>
@@ -221,6 +247,10 @@
       <updated>1702034609613</updated>
       <workItem from="1702034610668" duration="111000" />
       <workItem from="1702034727046" duration="464000" />
+      <workItem from="1702379994608" duration="10674000" />
+      <workItem from="1702457035248" duration="12340000" />
+      <workItem from="1702475529194" duration="133000" />
+      <workItem from="1702529788511" duration="1772000" />
     </task>
     <servers />
   </component>
