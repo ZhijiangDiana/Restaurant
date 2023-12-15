@@ -4,11 +4,12 @@ import java.util.Date;
 
 public class Canteen {
     private Integer canteenId;
-    private String         name;
+    private String name;
     private String location;
     private Date startTime;
-    private Date         endTime;
+    private Date endTime;
     private String description;
+    private byte[] image;
     private Integer reportCount;
 
     @Override
@@ -79,14 +80,23 @@ public class Canteen {
         this.reportCount = reportCount;
     }
 
-    public Canteen(Integer canteenId, String name, String location, Date startTime, Date endTime, String description, Integer report_count) {
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public Canteen(Integer canteenId, String name, String location, Date startTime, Date endTime, String description, byte[] image, Integer reportCount) {
         this.canteenId = canteenId;
         this.name = name;
         this.location = location;
         this.startTime = startTime;
         this.endTime = endTime;
         this.description = description;
-        this.reportCount = report_count;
+        this.image = image;
+        this.reportCount = reportCount;
     }
 
     public Canteen() {

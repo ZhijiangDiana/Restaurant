@@ -1,7 +1,7 @@
 package com.restaurant.restaurant.pojo.entity;
 
 public class Announcement {
-    private Integer announcementID;
+    private Integer announcementId;
     private Integer canteenId;
     private String title;
     private String body;
@@ -9,8 +9,8 @@ public class Announcement {
     public Announcement() {
     }
 
-    public Announcement(Integer announcementID, Integer canteenId, String title, String body) {
-        this.announcementID = announcementID;
+    public Announcement(Integer announcementId, Integer canteenId, String title, String body) {
+        this.announcementId = announcementId;
         this.canteenId = canteenId;
         this.title = title;
         this.body = body;
@@ -19,19 +19,19 @@ public class Announcement {
     @Override
     public String toString() {
         return "Announcement{" +
-                "announcementID=" + announcementID +
+                "announcementID=" + announcementId +
                 ", canteenId=" + canteenId +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 '}';
     }
 
-    public Integer getAnnouncementID() {
-        return announcementID;
+    public Integer getAnnouncementId() {
+        return announcementId;
     }
 
-    public void setAnnouncementID(Integer announcementID) {
-        this.announcementID = announcementID;
+    public void setAnnouncementId(Integer announcementId) {
+        this.announcementId = announcementId;
     }
 
     public Integer getCanteenId() {
