@@ -57,24 +57,6 @@ public class PublicDishComment extends HttpServlet {
             return;
         }
 
-//        Pair<Boolean, Boolean> banOrSensitive = LegalSpeakFilter.isBanOrSensitive(title + body, user.getUserId());
-//        if (banOrSensitive.first) {
-//            resp.setStatus(403);
-//            pw.print(FrontEndUtils.objectToBody("被禁言了还狗叫啥","1",null));
-//            return;
-//        } else if (banOrSensitive.second) {
-//            resp.setStatus(403);
-//            pw.print(FrontEndUtils.objectToBody("你在狗叫什么", "1", null));
-//            return;
-//        }
-        // 狗叫检测
-        String message = LegalSpeakFilter.returnMessage(title + body, user.getUserId());
-        if (message != null) {
-            resp.setStatus(403);
-            pw.print(FrontEndUtils.objectToBody(message,"1",null));
-            return;
-        }
-
         DishComment dishComment = new DishComment();
         dishComment.setUserId(user.getUserId());
         dishComment.setDishId(dishId);

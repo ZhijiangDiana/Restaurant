@@ -13,9 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 
 
 @WebServlet("/login")
@@ -47,10 +51,13 @@ public class LoginServlet extends HttpServlet{
         User user = loginService.getUserById(id, password, captcha, sessionVerification);
         CanteenAdmin canteenAdmin = loginService.getCanteenAdminById(id, password, captcha, sessionVerification);
         // 向session中存一些重要信息
+        HttpSession session = request.getSession();
         if(user != null){
             System.out.println("你告诉我我没执行这个吗");
-            request.getSession().setAttribute("user",user);
-            request.getSession().setAttribute("userCommentsPerOnline",0);
+            session.setAttribute("user",user);
+            session.setAttribute("userCommentsPerOnline",0);
+            Queue<Date> commentQueue = new LinkedList<>();
+            session.setAttribute("commentQueue", commentQueue);
         }
 
         if(canteenAdmin != null){

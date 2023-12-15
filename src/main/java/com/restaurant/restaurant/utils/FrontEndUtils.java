@@ -24,16 +24,21 @@ public class FrontEndUtils {
 
     /**
      * 将json格式的请求体转成JSONObject，可以使用getXxx来获取参数
+     * 流只能读一次，所以多次读取时JSONObject将放在request中
      * @param req
      * @return
      * @throws IOException
      */
     public static JSONObject bodyToJson(HttpServletRequest req) throws IOException {
-        BufferedReader reqBr = req.getReader();
-        String reqText = IOUtils.toString(reqBr);
-        IOUtils.closeQuietly(reqBr);
-
-        return JSON.parseObject(reqText);
+        JSONObject reqJson = (JSONObject) req.getAttribute("reqJson");
+        if (reqJson == null) {
+            BufferedReader reqBr = req.getReader();
+            String reqText = IOUtils.toString(reqBr);
+            IOUtils.closeQuietly(reqBr);
+            reqJson = JSON.parseObject(reqText);
+            req.setAttribute("reqJson", reqJson);
+        }
+        return reqJson;
     }
 
     /**
