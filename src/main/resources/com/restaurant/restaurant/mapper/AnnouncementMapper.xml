@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.AnnouncementMapper">
-    <select id="getAnnouncement" resultType="com.restaurant.restaurant.pojo.entity.Announcement">
-        SELECT * from `Restaurant`.announcement;
+    <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Announcement">
+        SELECT * FROM `Restaurant`.announcement;
+    </select>
+    <select id="selectByCanteenId" resultType="com.restaurant.restaurant.pojo.entity.Announcement">
+        SELECT * FROM `Restaurant`.announcement
+        WHERE canteen_id = #{canteenId};
     </select>
 </mapper>

@@ -92,6 +92,10 @@
         FROM `Restaurant`.dish
         WHERE canteen_id = #{canteenId};
     </select>
+    <select id="selectByCanteenIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT * FROM `Restaurant`.dish
+        WHERE canteen_id = #{canteenId};
+    </select>
 
 
 </mapper>

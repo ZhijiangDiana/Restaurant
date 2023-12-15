@@ -40,10 +40,10 @@ public class CommentFilter implements Filter {
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
         Queue<Date> commentQueue = (Queue<Date>) session.getAttribute("commentQueue");
 
-        // 测试
-        user = new User();
-        user.setUserId(1);
-        commentQueue = new LinkedList<>();
+//        // 测试
+//        user = new User();
+//        user.setUserId(1);
+//        commentQueue = new LinkedList<>();
 
         // 登录检测
         String message;
