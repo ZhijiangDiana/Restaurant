@@ -32,7 +32,7 @@ public class PublicDishComment extends HttpServlet {
         HttpSession session = req.getSession(true);
 
         JSONObject reqJson = FrontEndUtils.bodyToJson(req);
-
+        System.out.println(reqJson==null);
         Integer dishId = reqJson.getInteger("dishId");
         Double score = reqJson.getDouble("score");
         String title = reqJson.getString("title");

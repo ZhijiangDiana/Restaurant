@@ -116,4 +116,15 @@ public class Dish implements Serializable {
                 ", image=" + image +
                 '}';
     }
+
+    public Dish(Integer dishId, Integer canteenId, String dishName, Integer series, Integer price, Integer priceSale, Double totalScore, byte[] image) {
+        this.dishId = dishId;
+        this.canteenId = canteenId;
+        this.dishName = dishName;
+        this.series = series;
+        this.price = price;
+        this.priceSale = priceSale;
+        this.totalScore = totalScore;
+        this.image = image;
+    }
 }
