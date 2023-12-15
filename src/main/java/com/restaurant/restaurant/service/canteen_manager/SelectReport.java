@@ -16,7 +16,9 @@ public class SelectReport {
         ReportMapper reportMapper = sqlSession.getMapper(ReportMapper.class);
 
         List<Report> reportList = new ArrayList<>();
-        reportList = reportMapper.getAllReports();
+        reportList = reportMapper.selectAll();
+
+        sqlSession.close();
         return reportList;
     }
 }

@@ -17,6 +17,7 @@ public class SelectAnnouncement {
         List<Announcement> announcementList = new ArrayList<>();
         announcementList = announcementMapper.getAnnouncement();
 
+        sqlSession.close();
         return announcementList;
     }
 }
