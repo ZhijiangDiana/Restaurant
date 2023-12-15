@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>社区交流</title>
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
@@ -42,25 +42,43 @@
            background-color: beige;/* 按钮之间的右边距 */
            color:black;
        }
-       .el-header-buttons .el-button {
-           margin-left: 80px;
-           background-color: beige;/* 按钮之间的右边距 */
-           color:black;
-       }
        .el-main-buttons .el-button{
            background-color: beige;
            color:black;
            margin-left: 50px;
        }
-       .el-card {
+       #card_message1 {
            background-color: #244235 ;
            color: #fff; /* 文本颜色为白色 */
            margin: 20px; /* 添加一些边距，使内容离边框有一定距离 */
        }
 
-       .el-card__header {
+       .el-card{
            background-color: #244235 ; /* 与 el-menu 的背景色相同 */
+           margin-left: 20px;
+           margin-right: 20px;
        }
+       .el-main-reply-buttons {
+
+           display: flex;
+           gap: 2px; /* 调整按钮之间的间隔 */
+       }
+       .el-main-reply-buttons .el-button{
+           background-color: beige;/* 按钮之间的右边距 */
+           color:black;
+       }
+
+
+       .message-list {
+           max-height: 200px;
+           overflow: hidden;
+           transition: max-height 0.3s ease-out;
+           border: 1px solid #ddd;
+           padding: 10px;
+           margin: 10px;
+       }
+
+
     </style>
 </head>
 <body>
@@ -99,18 +117,9 @@
 
                 <el-header style="background-color: #244235">
                     <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
-
-                    <div class="el-header-buttons">
-
-                        <el-button type="primary" @click="sortByHotness">按热度</el-button>
-                        <el-button type="primary" @click="sortByTime">按时间</el-button>
-                        <el-button type="primary" @click="sortByAscending">正序</el-button>
-                        <el-button type="primary" @click="sortByDescending">倒序</el-button>
-                        <el-button type="primary" @click="addComment">添加评论</el-button>
-                    </div>
                 </el-header>
                 <el-main>
-                    <el-card>
+                    <el-card id="card_message1">
 
                         <div>
                             <h2>帖子标题</h2>
@@ -125,12 +134,6 @@
                                ></el-image>
                             </div>
                             <p>帖子内容</p>
-                            <div style="margin-top: 10px; text-align: center;" class="el-main-buttons">
-
-                                <el-button type="primary" icon="el-icon-thumb">点赞</el-button>
-                                <el-button type="primary" icon="el-icon-chat-dot-round">评论</el-button>
-                                <el-button type="primary" icon="el-icon-share">转发</el-button>
-                            </div>
                         </div>
                         <!-- 其他帖子内容，可以根据需要添加 -->
                         <el-form style="margin-top: 20px;">
@@ -139,8 +142,59 @@
                             </el-form-item>
                             <el-form-item class="el-form-buttons">
                                 <el-button type="primary" @click="submitComment">发表评论</el-button>
+                                <el-button type="primary" icon="el-icon-thumb">点赞</el-button>
                             </el-form-item>
                         </el-form>
+                    </el-card>
+                    <el-card id="reply">
+                        <div style="display: flex">
+                            <div>
+                                <h3 style="color: #f0f0f0">全部回复</h3>
+                            </div>
+                            <div class="el-main-reply-buttons" style="display: flex;justify-content: end;margin-left: 800px">
+                                <el-button type="primary" @click="sortByHotness">热门</el-button>
+                                <el-button type="primary" @click="sortByAscending">正序</el-button>
+                                <el-button type="primary" @click="sortByDescending">倒序</el-button>
+                            </div>
+                        </div>
+                    </el-card>
+                    <el-card style="margin-left: 20px; margin-right: 20px;">
+                        <div>
+                            <div style="display: flex">
+                                <div>
+                                    <p style="color: white">用户名lv12</p>
+                                </div>
+                                <div class="el-main-reply-buttons" style="margin-left: 1000px">
+                                    <el-button type="primary" icon="el-icon-thumb"></el-button>
+                                </div>
+                            </div>
+                            <div>
+                                <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                                <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                                <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                                <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                                <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                                <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                            </div>
+                            <div>
+                                <span style="color: white">8小时前</span>
+                            </div>
+                            <div>
+                                <div class="message-list" id="messageList" style="max-height:300px">
+                                    <div>
+                                        <p>Message 1</p>
+                                        <p>Message 2</p>
+                                        <p>Message 3</p>
+                                        <p>Message 4</p>
+                                        <p>Message 5</p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
                     </el-card>
                 </el-main>
             </el-container>
@@ -156,7 +210,9 @@
             return{
                 isCollapse:false,
                 asideWidth:'200px',
-                collapseIcon:'el-icon-s-fold'
+                collapseIcon:'el-icon-s-fold',
+                isMessageListExpanded:false,
+
             }
         },
         methods:{
@@ -184,7 +240,8 @@
             addComment() {
                 // Handle logic for adding a comment
                 console.log('Add comment');
-            }
+            },
+
         }
 
     })
