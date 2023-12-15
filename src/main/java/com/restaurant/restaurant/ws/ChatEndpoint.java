@@ -3,6 +3,8 @@ package com.restaurant.restaurant.ws;
 import com.alibaba.fastjson.JSON;
 import com.restaurant.restaurant.config.GetHttpSessionConfig;
 import com.restaurant.restaurant.mapper.MessageMapper;
+import com.restaurant.restaurant.pojo.entity.Message;
+import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.MessageUtils;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import com.restaurant.restaurant.ws.pojo.Info;
@@ -15,13 +17,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.codehaus.plexus.component.annotations.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -32,9 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @ServerEndpoint(value = "/chat",configurator = GetHttpSessionConfig.class)
 public class ChatEndpoint {
-    // 我应该查所有和我聊过天的人的信息
 
     private static final Map<String,Session> onlineUsers = new ConcurrentHashMap<>();
+    private static final Map<String,Session> relatedUsers = new ConcurrentHashMap<>();  // 和当前用户说过话的相关人的对象
 
     private HttpSession httpSession;
 
@@ -44,15 +42,25 @@ public class ChatEndpoint {
      */
     @OnOpen
     public void onOpen(Session session, EndpointConfig config) {
+        // 所有人如果打开会话框 都会进这个方法
         // 查数据库取出所有跟我聊过天的人的信息
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
-        //mapper.selectById()
+
+        // 能够成功拿到
+        ServletContext servletContext = (ServletContext) session.getUserProperties().get("servletContext");
+        List<User> userList = (List<User>) servletContext.getAttribute("userList");
+
         //1，将session进行保存
         this.httpSession = (HttpSession) session.getUserProperties().get("httpSession");
         String user = (String) this.httpSession.getAttribute("username");
+        List<Message> messageMappers = mapper.selectAll();
+        sqlSession.close();
+
+        // onlineUsers的列表可以从servletcontext里拿 不一定要进入这个聊天框，只要登录了餐厅管理就算在线
+
         onlineUsers.put(user,session);
-        //2，广播消息。需要将登陆的所有的用户推送给所有的用户
+        //2，广播消息。需要将登陆的所有的用户推送给所有的用户 不广播 只把和自己聊过天的人的信息展示
         String message = MessageUtils.getMessage(true,null,getFriends());
         broadcastAllUsers(message);
     }
@@ -91,6 +99,13 @@ public class ChatEndpoint {
             //获取 消息接收方的用户名
             String toName = msg.getToName();
             String mess = msg.getMessage();
+            String fromId = msg.getFromId();
+            String toId = msg.getToId();
+            // 形成Message存入数据库中 TODO:判断狗叫
+            Message message1 = new Message(Integer.parseInt(fromId),Integer.parseInt(toId),new Date(),mess);
+            SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+            MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
+
             //获取消息接收方用户对象的session对象
             Session session = onlineUsers.get(toName);
             String user = (String) this.httpSession.getAttribute("username");

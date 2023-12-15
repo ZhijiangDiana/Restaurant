@@ -10,6 +10,8 @@ import lombok.Data;
  */
 @Data
 public class Info {
+    private String fromId;
     private String toName;
+    private String toId;
     private String message;
 }

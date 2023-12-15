@@ -103,4 +103,13 @@ public class SqlTest {
         String s = "aewf";
         System.out.println(Constants.containSensitive(s));
     }
+
+    @Test
+    public void messageTest(){
+        MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
+        List<Message> messages = mapper.selectById(1);
+        for (Message message : messages) {
+            System.out.println(message);
+        }
+    }
 }

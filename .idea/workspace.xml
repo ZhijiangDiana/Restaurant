@@ -9,67 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="敏感行为的判断以及被ban的人不许狗叫发言了，告诫我们要注意素质发言。">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/config/GetHttpSessionConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/TestLogin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/register/GetUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/Person.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/Result.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/utils/MessageUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/ChatEndpoint.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/pojo/Info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/pojo/ResultMessage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/bootstrap.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/chat.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/font-awesome.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/login1.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member001.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member002.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member003.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member004.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member005.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member006.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member007.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member008.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/avatar/Member009.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/box_head.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/chat.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/chat_bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_01.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_02.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_04.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_05.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_06.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_07.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_08.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_09.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_19.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/emoji/emoji_24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/login_bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/img/upload.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/axios-0.18.0.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/bootstrap.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/vue.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/login1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/main.html" afterDir="false" />
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="登录注册页面逻辑跑通了">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/TestLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/TestLogin.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/MessageMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/MessageMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/ChatEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/ChatEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/pojo/Info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/pojo/Info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/MessageMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/MessageMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/chat.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/chat.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login1.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SqlTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +39,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev-3" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -178,22 +129,12 @@
       <recent name="D:\java\code\register\src\main\webapp" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Local Tomcat 10.1.13">
-    <configuration name="SqlTest.CanteenAdminMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.SqlTest.messageTest">
+    <configuration name="SqlTest.ReplyMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="restaurant" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="SqlTest" />
-      <option name="METHOD_NAME" value="CanteenAdminMapperTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="SqlTest.CommentMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="restaurant" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SqlTest" />
-      <option name="METHOD_NAME" value="CommentMapperTest" />
+      <option name="METHOD_NAME" value="ReplyMapperTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -204,6 +145,16 @@
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="SqlTest" />
       <option name="METHOD_NAME" value="UserMapperTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SqlTest.messageTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restaurant" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SqlTest" />
+      <option name="METHOD_NAME" value="messageTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -221,17 +172,6 @@
     </configuration>
     <configuration name="login.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/restaurant/login.html">
       <method v="2" />
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="Local Tomcat 10.1.13" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.15" ALTERNATIVE_JRE_ENABLED="false">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/restaurant/login1.html" />
@@ -325,19 +265,19 @@
     </configuration>
     <list>
       <item itemvalue="JavaScript Debug.login.html" />
+      <item itemvalue="JUnit.SqlTest.ReplyMapperTest" />
+      <item itemvalue="JUnit.SqlTest.messageTest" />
       <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
-      <item itemvalue="JUnit.SqlTest.CanteenAdminMapperTest" />
-      <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
       <item itemvalue="JUnit.SqlTest.UserMapperTest" />
       <item itemvalue="Tomcat Server.Local Tomcat 10.1.13" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SqlTest.messageTest" />
+        <item itemvalue="JUnit.SqlTest.ReplyMapperTest" />
         <item itemvalue="JUnit.SqlTest.UserMapperTest" />
         <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
         <item itemvalue="JavaScript Debug.login.html" />
-        <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
-        <item itemvalue="JUnit.SqlTest.CanteenAdminMapperTest" />
       </list>
     </recent_temporary>
   </component>

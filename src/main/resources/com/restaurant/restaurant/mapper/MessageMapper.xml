@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.MessageMapper">
+    <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Message">
+        select * from message ;
+    </select>
+
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Message">
+        select * from message where receiver_user_id = #{id} or sender_user_id = #{id};
+    </select>
+
+    <insert id="insertMessage" parameterType="Message">
+        INSERT INTO message (sender_user_id,receiver_user_id , send_time, body)
+        VALUES (#{senderUserId}, #{receiverUserId}, #{sendTime}, #{body})
+    </insert>
 </mapper>
