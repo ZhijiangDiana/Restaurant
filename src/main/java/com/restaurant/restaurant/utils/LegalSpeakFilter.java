@@ -15,6 +15,16 @@ public class LegalSpeakFilter {
     private LegalSpeakFilter() {}
     private static final int INCREASE_ONCE = 1;
 
+    public static String returnMessage(String text, int userId) {
+        Pair<Boolean, Boolean> banOrSensitive = LegalSpeakFilter.isBanOrSensitive(text, userId);
+        if (banOrSensitive.first)
+            return "被禁言了还狗叫啥";
+        else if (banOrSensitive.second)
+            return "你在狗叫什么";
+        else
+            return null;
+    }
+
     /**
      * 发言前先调这个，检查这条评论是否能发出去
      * @param text
@@ -25,7 +35,7 @@ public class LegalSpeakFilter {
         Pair<Boolean, Boolean> res = new Pair<>();
         res.first = banFromSpeaking(userId);
         res.second = filterSensitiveWords(text);
-        if (res.second)
+        if (!res.first && res.second)
             increaseIllegality(INCREASE_ONCE, userId);
         return res;
     }
