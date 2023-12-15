@@ -14,7 +14,6 @@
 <div class="container">
     <c:forEach items="${sessionScope.commentList}" var="comment">
        ${comment.title}
-
     </c:forEach>
     aszfdkjasdziklofjhol
 </div>
