@@ -36,7 +36,7 @@
             </div>
 
             <div class="icon2">
-                <input placeholder="密码" id="password" v-model="user.password" type="password"/>
+                <input placeholder="账号" id="id" v-model="user.id" type="text"/>
             </div>
 
             <div class="clear"></div>
@@ -59,13 +59,13 @@
                 errMessage: "",
                 user:{
                     username:"",
-                    password:""
+                    id:""
                 }
             }
         },
         methods: {
             login() {
-                axios.get("http://localhost:8080/restaurant/Login?username="+this.user.username +"&password="+this.user.password).then(res => {
+                axios.get("http://localhost:8080/restaurant/Login?username="+this.user.username +"&userId="+this.user.id).then(res => {
                     //判断登陆是否成功
                     if(res.data.flag === '0') {
                         location.href = "main.html"

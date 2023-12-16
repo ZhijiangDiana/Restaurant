@@ -25,153 +25,189 @@
 </head>
 
 <body>
-<div class="abs cover contaniner" id="app">
+<div class="container" id="app">
+    <!-- 铃铛图标 -->
+    <div class="notification-bell" @click="showNotifications">
+        <i class="bell-icon">🔔</i>
+    </div>
+
+    <!-- 用户名字列表 -->
+    <div class="names-list">
+        <ul>
+            <li v-for="user in allUserList" :key="user.userId">
+                {{ user.username }}
+                <button @click.stop="showChat(user)">发送信息</button>
+            </li>
+
+        </ul>
+    </div>
+
     <button id="chatToggle" @click="toggleChat">打开聊天框</button>
-    <div v-if="isShowChat" class="abs cover pnl">
-        <div class="top pnl-head" style="padding: 20px ; color: white;">
-            <div id="chatMes" v-show="chatMes" style="text-align: center;color: white;font-family: 新宋体">
-                正在和 <font face="楷体">{{toName}}</font> 聊天
+
+    <div v-if="isShowChat" class="chat-panel">
+        <!-- 聊天头部 -->
+        <div class="chat-header">
+            <div id="chatMes" v-show="chatMes">
+                正在和 <span class="chat-partner-name">{{toName}}</span> 聊天
             </div>
         </div>
-        <!--聊天区开始-->
-        <div class="abs cover pnl-body" id="pnlBody">
-            <div class="abs cover pnl-left" id="initBackground" style="background-color: white; width: 100%">
-                <div class="abs cover pnl-left" id="chatArea" v-show="isShowChat">
-                    <div class="abs cover pnl-msgs scroll" id="show">
-                        <div class="pnl-list" id="hists"><!-- 历史消息 --></div>
-                        <div class="pnl-list" id="msgs" v-for="message in historyMessage">
 
-                            <!-- 消息这展示区域 -->
-                            <div class="msg guest" v-if="message.toName">
-                                <div class="msg-right">
-                                    <div class="msg-host headDefault"></div>
-                                    <div class="msg-ball">{{message.message}}</div>
-                                </div>
-                            </div>
-                            <div class="msg robot" v-else>
-                                <div class="msg-left" worker="">
-                                    <div class="msg-host photo"
-                                         style="background-image: url(img/avatar/Member002.jpg)"></div>
-                                    <div class="msg-ball">{{message.message}}</div>
-                                </div>
+        <!-- 聊天主体 -->
+        <div class="chat-body">
+            <div class="chat-area" id="chatArea" v-show="isShowChat">
+                <!-- 聊天消息展示区域 -->
+                <div class="chat-messages" id="show">
+                    <div class="pnl-list" id="msgs" v-for="message in historyMessage">
+                        <!-- 消息展示 -->
+                        <div class="msg guest" v-if="message.fromName">
+                            <div class="msg-right">
+                                <div class="msg-host photo"
+                                     style="background-image: url(img/avatar/Member003.jpg)"></div>
+                                <div class="msg-ball">{{message.message}}</div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="abs bottom pnl-text">
-                        <div class="abs cover pnl-input">
-                            <textarea class="scroll" id="context_text" @keyup.enter="submit" wrap="hard" placeholder="在此输入文字信息..."
-                                      v-model="sendMessage.message"></textarea>
-                            <div class="abs atcom-pnl scroll hide" id="atcomPnl">
-                                <ul class="atcom" id="atcom"></ul>
+                        <div class="msg robot" v-else>
+                            <div class="msg-left" worker="">
+                                <div class="msg-host photo"
+                                     style="background-image: url(img/avatar/Member002.jpg)"></div>
+                                <div class="msg-ball">{{message.message}}</div>
                             </div>
-                        </div>
-
-                        <div class="abs br pnl-btn" id="submit" @click="submit"
-                             style="background-color: rgb(120, 130, 255); color: rgb(255, 255, 255);">
-                            发送
                         </div>
                     </div>
                 </div>
 
-                <!--聊天区 结束-->
-                <div class="abs right pnl-right">
-                    <div class="slider-container hide"></div>
-                    <div class="pnl-right-content">
-                        <div class="pnl-tabs">
-                            <div class="tab-btn active" id="hot-tab">消息列表</div>
-                        </div>
-                        <div class="pnl-hot">
-                            <ul class="rel-list unselect">
-                                <!--已读未读应该从数据域里获取-->
-                                <li class="rel-item" v-for="friend in friendsList"><a @click='showChat(friend)'>{{friend}}   已读</a>
-                                </li>
-                            </ul>
-                        </div>
+                <!-- 输入区域 -->
+                <div class="chat-input">
+                    <textarea id="context_text" @keyup.enter="submit" placeholder="在此输入文字信息..." v-model="sendMessage.message"></textarea>
+                    <button class="send-button" id="submit" @click="submit">发送</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 聊天侧边栏 -->
+        <div class="chat-sidebar">
+            <div class="friends-list">
+                <div class="chat-sidebar">
+                    <div class="friends-list">
+                        <ul>
+                            历史记录<br><br>
+                            <li v-for="user in relatedUserList" @click='showChat(user)'>{{ user.username }}在线</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script src="js/vue.js"></script>
 <script src="js/axios-0.18.0.js"></script>
 <script>
     let ws;
+
     new Vue({
         el: "#app",
         data() {
             return {
+                unreadMessages: [], // 存储未读消息
                 isShowChat: false,
+                allUserList: [], // 存储用户列表
+                relatedUserList:[],// 和我通过话的
+                selectedUser: null, // 当前选中的用户对象
                 chatMes: false,
                 isOnline: true,
-                username:"",
+                username: "",
+                userId: "", // 假设您在某处设置了当前登录用户的ID
                 toName: "",
                 sendMessage: {
-                    fromId:"",
+                    fromId: "",
                     toName: "",
-                    toId:"",
+                    toId: "",
                     message: ""
                 },
                 inputMessage: "",
-                historyMessage: [
-                    /*{toName: "李四", message: "你好,张三"},
-                    {toName: "李四", message: "在吗"},
-                    {toName: "李四", message: "怎么不说话"},
-                    {fromName: "张三", message: "你好,李四"}*/
-                ],
-                friendsList: [
-                   /* "李四",
-                    "王五"*/
-                ],
-                systemMessages : [
-                    /*"张三",
-                    "李四"*/
-                ]
-            }
+                historyMessage: [],
+                friendsList: [],
+                systemMessages: []
+            };
         },
         created() {
-            this.init();
+            this.fetchAllUserList();
+            this.initWebSocket();   //
+            // 模拟设置当前用户的ID，实际情况应从登录信息中获取
+            this.fetchUserId();
         },
         methods: {
-            async init() {
-                await axios.get("/restaurant/getUsername").then(res => {
-                    this.username = res.data;
-                });
-
-                //创建webSocket对象
-                ws = new WebSocket("ws://localhost:8080/restaurant/chat");
-
-                //给ws绑定事件
+            async fetchUserId(){
+                const response = await axios.get('/restaurant/fetchUserId');
+                this.userId = response.data;
+            },
+            async fetchAllUserList() {
+                try {
+                    const response = await axios.get('/restaurant/fetchPeople');
+                    this.allUserList = response.data.object; // 假设后端直接返回用户列表数组
+                } catch (error) {
+                    console.error('Error fetching user list:', error);
+                }
+            },
+            fetchRelatedUserList(){
+                alert(this.userId)
+                axios.get('/restaurant/fetchPeople?userId=' + this.userId)
+                    .then(response => {
+                        this.relatedUserList = response.data.object;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching history messages:', error);
+                    });
+            },
+            initWebSocket() {
+                ws = new WebSocket(`ws://localhost:8080/restaurant/chat`);
                 ws.onopen = this.onOpen;
-                //接收到服务端推送的消息后触发
                 ws.onmessage = this.onMessage;
-
                 ws.onclose = this.onClose;
             },
             toggleChat() {
-                this.isShowChat = !this.isShowChat;
+                this.isShowChat = !this.isShowChat; // 切换聊天框的显示状态
             },
-            showChat(name) {
-                this.toName = name;
-                //清除聊天区的数据
-                let history = sessionStorage.getItem(this.toName);
-                if (!history) {
-                    this.historyMessage = [];
-                } else {
-                    this.historyMessage = JSON.parse(history);
-                }
-                //展示聊天对话框
+            showNotifications() {
+                this.fetchRelatedUserList()
                 this.isShowChat = true;
-                //显示“正在和谁聊天”
+                this.initWebSocket(0)
+                // 这里可以处理显示未读消息的逻辑
+            },
+            showChat(user) {
+                this.selectedUser = user;
+                if (user.username === undefined){
+                    this.toName = user;
+                }
+                else {
+                    this.toName = user.username;
+                }
+                this.initWebSocket(); // 假设user对象有userId属性
+                this.isShowChat = true;
                 this.chatMes = true;
+                this.fetchHistoryMessages(user.userId);
+            },
+            fetchHistoryMessages(toId) {
+                axios.get('/restaurant/getOfflineMessages?fromId=' + this.userId + '&toId=' + toId)
+                    .then(response => {
+                        this.historyMessage = response.data;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching history messages:', error);
+                    });
             },
             submit() {
-                this.sendMessage.toName = this.toName;
-                this.historyMessage.push(JSON.parse(JSON.stringify(this.sendMessage)));
-                sessionStorage.setItem(this.toName, JSON.stringify(this.historyMessage));
-                ws.send(JSON.stringify(this.sendMessage));
-                this.sendMessage.message = "";
+                if(this.selectedUser) {
+                    this.sendMessage.fromId = this.userId;
+                    this.sendMessage.toId = this.selectedUser.userId;
+                    this.sendMessage.toName = this.selectedUser.username;
+                    this.$nextTick(() => {
+                        this.sendMessage.message = "";
+                    });
+                    ws.send(JSON.stringify(this.sendMessage));
+                    this.sendMessage.message = "";
+                }
             },
             onOpen() {
                 this.isOnline = true;
@@ -180,38 +216,37 @@
                 this.isOnline = false;
             },
             onMessage(evt) {
-                //获取服务端推送过来的消息
-                var dataStr = evt.data;
-                //将dataStr 转换为json对象
-                var res = JSON.parse(dataStr);
-
-                //判断是否是系统消息
+                const res = JSON.parse(evt.data);
                 if(res.system) {
-                    //系统消息  好友列表展示
+                    // 处理系统消息
                     var names = res.message;
                     this.friendsList = [];
                     this.systemMessages = [];
                     for (let i = 0; i < names.length; i++) {
-                        if(names[i] != this.username) {
+                        if (names[i] != this.username) {
                             this.friendsList.push(names[i]);
                             this.systemMessages.push(names[i]);
                         }
                     }
                 }else {
-                    //非系统消息 存在浏览器的session里,不存数据库里
-                    var history = sessionStorage.getItem(res.fromName);
-                    if (!history) {
-                        this.historyMessage = [res];
-                    } else {
-                        this.historyMessage.push(res);
+                    if(res.message === 0){
+                        this.fetchHistoryMessages(res.fromName);
                     }
-                    sessionStorage.setItem(res.fromName, JSON.stringify(this.historyMessage));
+                    else {
+                        //非系统消息 且双方都在线,存在浏览器的session里,不存数据库里
+                        var history = sessionStorage.getItem(res.fromName);
+                        // if (!history) {
+                        //     this.historyMessage = [res];
+                        // } else {
+                            this.historyMessage.push(res);
+                        // }
+                        sessionStorage.setItem(res.fromName, JSON.stringify(this.historyMessage));
+                    }
                 }
             }
         }
     });
-
-
 </script>
+
 </body>
 </html>

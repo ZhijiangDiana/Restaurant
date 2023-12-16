@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller;
+package com.restaurant.restaurant.controller.chat;
 
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.entity.User;
@@ -20,26 +20,24 @@ public class TestLogin extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
+        // 这里懒得改了
         String username = req.getParameter("username");
-        String password1 = req.getParameter("password");
         req.getSession().setAttribute("username",username);
-        Random random = new Random();
 
-        // 生成2000000000至2200000000范围内的随机数
-        Integer id = 2000000000 + random.nextInt(200000001);
+        String userId = req.getParameter("userId");
+        System.out.println(userId);
+        req.getSession().setAttribute("userId",userId);
 
 
         List<User> userList = (List<User>) req.getServletContext().getAttribute("userList");
         if (userList == null){
             userList = new ArrayList<>();
-            userList.add(new User(id,username,password1,0,false,0));
+            userList.add(new User(Integer.parseInt(userId),username,"111",0,false,0));
             req.getServletContext().setAttribute("userList",userList);
         }
         else
-            userList.add(new User(id,username,password1,0,false,0));
+            userList.add(new User(Integer.parseInt(userId),username,"111",0,false,0));
 
-        String password = req.getParameter("password");
-        System.out.println(username + password);
         resp.getWriter().print(FrontEndUtils.objectToBody(null,"0",null));
     }
 }
