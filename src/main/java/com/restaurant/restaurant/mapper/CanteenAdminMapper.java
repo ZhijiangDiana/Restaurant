@@ -16,4 +16,6 @@ public interface CanteenAdminMapper {
     List<Reply> selectReplyById(@Param("id") int id);
 
     void updateCanteenData(Canteen canteen);
+
+    int selectByName(@Param("name") String name);
 }
