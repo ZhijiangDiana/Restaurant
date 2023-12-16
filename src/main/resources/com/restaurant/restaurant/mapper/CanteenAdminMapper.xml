@@ -14,4 +14,23 @@
     <select id="selectReplyById" resultType="com.restaurant.restaurant.pojo.entity.Reply">
         select * from Restaurant.reply where canteen_admin_id=#{id};
     </select>
+    <select id="selectByName" resultType="java.lang.Integer">
+        SELECT canteen_id
+        FROM `Restaurant`.canteen_admin t1
+        JOIN `Restaurant`.canteen t2 ON t1.canteen_id = t2.canteen_id
+        WHERE username  = #{username}
+    </select>
+
+    <update id="updateCanteenData" parameterType="Canteen">
+        UPDATE `Restaurant`.canteen
+        SET canteen_id = #{canteenId},
+            name = #{name},
+            location = #{location},
+            start_time = #{startTime},
+            end_time = #{endTime},
+            description = #{description},
+            image = #{image},
+            report_count = #{reportCount}
+        WHERE canteen_id = #{canteenId}
+    </update>
 </mapper>

@@ -11,4 +11,6 @@ public interface CanteenMapper {
     Canteen selectById(@Param("id") int id);
     Canteen selectByIdWithFile(@Param("id") int id);
     void increaseReportById(@Param("id") int id);
+
+
 }
