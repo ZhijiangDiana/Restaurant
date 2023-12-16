@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.VoteMapper">
+    <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Vote">
+        SELECT *
+        from `Restaurant`.vote
+    </select>
+    <select id="selectById" resultType="com.restaurant.restaurant.mapper.VoteMapper">
+
+    </select>
+    <update id="updateVote">
+        UPDATE `Restaurant`.vote
+        SET vote_id = #{voteId},
+            canteen_id = #{canteenId},
+            result = #{result}
+        WHERE vote_id = #{voteId} AND canteen_id = #{canteenId}
+    </update>
 </mapper>
