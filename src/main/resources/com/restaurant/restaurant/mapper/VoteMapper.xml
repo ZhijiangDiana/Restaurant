@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.VoteMapper">
+    <insert id="insertVote" useGeneratedKeys="true" keyProperty="voteId">
+        INSERT INTO `Restaurant`.vote (canteen_id, start_time, end_time, title)
+        VALUES (#{canteenId}, #{startTime}, #{endTime}, #{title});
+    </insert>
+    <update id="updateResult">
+        UPDATE `Restaurant`.vote
+        SET result = #{result} WHERE vote_id = #{voteId};
+    </update>
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Vote">
         SELECT *
         from `Restaurant`.vote
     </select>
-    <select id="selectById" resultType="com.restaurant.restaurant.mapper.VoteMapper">
-
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Vote">
+        SELECT * FROM `Restaurant`.vote
+        WHERE canteen_id = #{id};
     </select>
-    <update id="updateVote">
-        UPDATE `Restaurant`.vote
-        SET vote_id = #{voteId},
-            canteen_id = #{canteenId},
-            result = #{result}
-        WHERE vote_id = #{voteId} AND canteen_id = #{canteenId}
-    </update>
+    <select id="selectFinishedByCanteenId" resultType="com.restaurant.restaurant.pojo.entity.Vote">
+        SELECT * FROM `Restaurant`.vote
+        WHERE canteen_id = #{canteenId} and result IS NOT NULL;
+    </select>
+    <select id="selectRunning" resultType="com.restaurant.restaurant.pojo.entity.Vote">
+        SELECT * FROM `Restaurant`.vote
+        WHERE result IS NULL;
+    </select>
 </mapper>

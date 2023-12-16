@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>发起投票</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // 定义一个全局变量来存储投票选项
+        var options = [];
+        var max = 0;
+
+        // 在页面加载完成后执行
+        $(function() {
+            // 绑定增加选项按钮的点击事件
+            $("#addOption").click(function() {
+                addOption();
+            });
+
+            // 绑定删除选项按钮的点击事件
+            $("#options").on("click", ".deleteOption", function() {
+                deleteOption($(this).parent());
+            });
+
+            // 绑定表单提交事件
+            $("#voteForm").submit(function(event) {
+                // 阻止表单默认提交行为
+                event.preventDefault();
+
+                // 获取所有文本框的所有值
+                var j = 0
+                for (var i = 1; i <= max; i++) {
+                    var oneOption = document.getElementById("option" + i)
+                    if (oneOption == null)
+                        continue
+                    options[j] = oneOption.value
+                    j ++
+                }
+
+                // 构造投票选项的JSON对象
+                var data = {
+                    "canteenId": 1,
+                    "title": $("#question").val(),
+                    "choices": options,
+                    "startTime": $("#startTime").val(),
+                    "endTime": $("#endTime").val()
+                };
+
+                console.log(data)
+
+                // 发送异步请求
+                $.ajax({
+                    url: "/restaurant/UploadVote",
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: "application/json;charset=utf-8",
+                    success: function() {
+                        alert("投票创建成功！");
+                        // 清除表单数据
+                        $("#question").val("");
+                        $("#options").empty();
+                        $("#startTime").val("");
+                        $("#endTime").val("");
+                        options = [];
+                        addOption();
+                    },
+                    error: function() {
+                        alert("投票创建失败，请稍后重试。");
+                    }
+                });
+            });
+
+            // 添加一个初始选项
+            addOption();
+        });
+
+        // 增加一个选项
+        function addOption() {
+            max ++
+            var optionHtml = `
+                <div class="option">
+                    <label for="option${max}">选项：</label>
+                    <input type="text" name="option${max}" id="option${max}" required>
+                    <button type="button" class="deleteOption">删除</button>
+                </div>
+            `;
+            $("#options").append(optionHtml);
+            options.push("");
+        }
+
+        // 删除一个选项
+        function deleteOption($option) {
+            var index = $option.index();
+            $option.remove();
+            options.splice(index, 1);
+        }
+    </script>
+</head>
+<body>
+<h1>发起投票</h1>
+<form id="voteForm">
+    <div>
+        <label for="question">问题：</label>
+        <input type="text" id="question" name="question" required>
+    </div>
+    <div id="options">
+        <!-- 选项列表将动态生成 -->
+    </div>
+    <button type="button" id="addOption">增加选项</button>
+    <div>
+        <label for="startTime">开始时间：</label>
+        <input type="datetime-local" id="startTime" name="startTime" required>
+    </div>
+    <div>
+        <label for="endTime">结束时间：</label>
+        <input type="datetime-local" id="endTime" name="endTime" required>
+    </div>
+    <button type="submit">提交</button>
+</form>
+</body>
+</html>

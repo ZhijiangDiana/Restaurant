@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface VoteMapper {
     List<Vote> selectAll();
-    VoteMapper selectById(@Param("id") int id);
-
-    void updateVote(Vote vote);
+    Vote selectById(@Param("id") int id);
+    List<Vote> selectFinishedByCanteenId(@Param("canteenId") int id);
+    List<Vote> selectRunning();
+    void insertVote(Vote vote);
+    void updateResult(Vote vote);
 }
