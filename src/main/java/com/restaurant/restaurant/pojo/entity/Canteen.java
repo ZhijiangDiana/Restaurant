@@ -1,5 +1,6 @@
 package com.restaurant.restaurant.pojo.entity;
 
+import java.awt.*;
 import java.util.Date;
 
 public class Canteen {
@@ -11,6 +12,7 @@ public class Canteen {
     private String description;
     private Integer reportCount;
 
+    private byte[] image;
     @Override
     public String toString() {
         return "Canteen{" +
@@ -79,13 +81,14 @@ public class Canteen {
         this.reportCount = reportCount;
     }
 
-    public Canteen(Integer canteenId, String name, String location, Date startTime, Date endTime, String description, Integer report_count) {
+    public Canteen(Integer canteenId, String name, String location, Date startTime, Date endTime, String description, byte[] image,Integer report_count) {
         this.canteenId = canteenId;
         this.name = name;
         this.location = location;
         this.startTime = startTime;
         this.endTime = endTime;
         this.description = description;
+        this.image = image;
         this.reportCount = report_count;
     }
 

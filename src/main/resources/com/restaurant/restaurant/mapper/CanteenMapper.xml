@@ -6,6 +6,7 @@
         SET report_count = report_count + 1
         WHERE canteen_id = #{id};
     </update>
+    <update id="updateCanteenData"></update>
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.Canteen">
         SELECT * FROM `Restaurant`.canteen;
     </select>

@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "PostAnnouncement" ,  value = "/PostAnnouncement")
-public class PostAnnouncement extends HttpServlet {
+@WebServlet(name = "GetAnnouncement" ,  value = "/GetAnnouncement")
+public class GetAnnouncement extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setHeader("Access-Control-Allow-Origin", "http://localhost:7000");
