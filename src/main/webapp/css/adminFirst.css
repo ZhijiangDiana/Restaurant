@@ -1,10 +1,13 @@
+#app{
+    background-color: #fff;
+}
 .info{
     margin-top: 60px;
     padding: 20px;
 }
 .wrapper{
     margin-top: 120px;
-    background-color: #0fa9eb;
+    background-color: #953131;
 }
 .inner{
     text-align: center;
@@ -18,44 +21,19 @@
 }
 
 .el-header {
-    background-color: #0fa9eb;
-    color: #fff;
     line-height: 60px;
     display: flex;
     align-items: center;
     /* 垂直居中对齐 */
 }
-
-.header-container {
-    background-color: #0fa9eb;
+.aside_item_title{
     color: #fff;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.header-title {
-    font-size: 24px;
-}
-.header-select {
-    margin-left: 20px;
-}
-.custom-popper .el-select-dropdown {
-    width: 200px;
-    /* 设置下拉框宽度 */
-    max-height: 200px;
-    /* 设置下拉框最大高度 */
-    overflow-y: auto;
-    /* 添加滚动条 */
 }
 .aside_item{
     text-decoration: none;
+    padding-left: 20px;
+    color: #fff;
 }
 .el-aside {
     color: #333;
-}
-
-.el-menu--collapse {
-    background-color: #f0f0f0;
 }

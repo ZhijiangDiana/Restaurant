@@ -9,71 +9,76 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div id="app">
-    <el-container style="height: 700px; border: 1px solid #eee">
-        <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
-            <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-        </el-header>
-        <el-container>
-            <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['1']">
-                    <el-submenu index="1">
-                        <template slot="title">
-                            <i class="el-icon-house"></i>
-                            <span>首页</span>
-                        </template>
-                        <el-menu-item index="1-1">
-                            <a href="firstView.html" class="aside_item">综合信息</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="2">
-                        <template slot="title">
-                            <i class="el-icon-s-shop"></i>
-                            <span>食堂基本信息管理</span>
-                        </template>
-                        <el-menu-item index="2-1">
-                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
-                        </el-menu-item>
-                        <el-menu-item index="2-2">
-                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="3">
-                        <template slot="title">
-                            <i class="el-icon-user"></i>
-                            <span>账号管理</span>
-                        </template>
-                        <el-menu-item index="3-1">
-                            <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
-                        </el-menu-item>
-                        <el-menu-item index="3-2">
-                            <a href="addRestaurantAdmin.html" class="aside_item">添加食堂管理员</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="4">
-                        <template slot="title">
-                            <i class="el-icon-star-on"></i>
-                            <span>评价信息管理</span>
-                        </template>
-                        <el-menu-item index="4-1">
-                            <a href="commentList.html" class="aside_item">评价列表</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="5">
-                        <template slot="title">
-                            <i class="el-icon-chat-line-round"></i>
-                            <span>交流社区信息管理</span>
-                        </template>
-                        <el-menu-item index="5-1">
-                            <a href="communicationList.html" class="aside_item">帖子列表</a>
-                        </el-menu-item>
-                    </el-submenu>
-                </el-menu>
-            </el-aside>
+    <el-container>
+        <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
+            <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+                <span class="logo_title" v-show="!isCollapse">USST</span>
+            </div>
+            <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+                <el-submenu>
+                    <template slot="title">
+                        <i class="el-icon-house"></i>
+                        <span class="aside_item_title">首页</span>
+                    </template>
+                    <el-menu-item>
+                        <a href="firstView.html" class="aside_item">综合信息</a>
+                    </el-menu-item>
+                </el-submenu>
+                <el-submenu>
+                    <template slot="title">
+                        <i class="el-icon-s-shop"></i>
+                        <span class="aside_item_title">食堂基本信息管理</span>
+                    </template>
+                    <el-menu-item>
+                        <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                    </el-menu-item>
+                </el-submenu>
 
+                <el-submenu>
+                    <template slot="title">
+                        <i class="el-icon-user"></i>
+                        <span class="aside_item_title">账号管理</span>
+                    </template>
+                    <el-menu-item>
+                        <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <a href="addRestaurantAdmin.html" class="aside_item">添加食堂管理员</a>
+                    </el-menu-item>
+                </el-submenu>
+
+                <el-submenu>
+                    <template slot="title">
+                        <i class="el-icon-star-on"></i>
+                        <span class="aside_item_title">评价信息管理</span>
+                    </template>
+                    <el-menu-item>
+                        <a href="commentList.html" class="aside_item">评价列表</a>
+                    </el-menu-item>
+                </el-submenu>
+                <el-submenu>
+
+                    <template slot="title">
+                        <i class="el-icon-chat-line-round"></i>
+                        <span class="aside_item_title">交流社区信息管理</span>
+                    </template>
+                    <el-menu-item>
+                        <a href="communicationList.html" class="aside_item">帖子列表</a>
+                    </el-menu-item>
+                </el-submenu>
+
+            </el-menu>
+        </el-aside>
+        <el-container>
+            <el-header style="background-color: #953131">
+                <i :class="collapseIcon" style="font-size:26px;color: #fff;" @click="handleCollapse"></i>
+            </el-header>
             <el-main>
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
                     <el-form-item label="学号" style="margin-right: 40px;">
@@ -97,7 +102,7 @@
                     </el-table-column>
                     <el-table-column prop="title" label="标题" width="200">
                     </el-table-column>
-                    <el-table-column prop="body" label="内容" width="200">
+                    <el-table-column prop="body" label="内容" width="300">
                     </el-table-column>
                     <el-table-column prop="image" label="图片" width="200">
                     </el-table-column>
@@ -153,10 +158,13 @@
         el: '#app',
         data: function () {
             return {
+                isCollapse: false,
+                asideWidth: '200px',
+                collapseIcon: 'el-icon-s-fold',
                 formInline: {
-                    user_id:'',
-                    dish_id:'',
-                    title:''
+                    user_id: '',
+                    dish_id: '',
+                    title: ''
                 },
                 tableData: [
                     //     {
@@ -178,12 +186,12 @@
                 currentPage: 1,
                 dialogVisible: false, // 控制对话框的显示和隐藏
                 currentRow: {
-                    user_id:'',
-                    dish_id:'',
+                    user_id: '',
+                    dish_id: '',
                     title: '',
                     body: '',
-                    image:'',
-                    like:''
+                    image: '',
+                    like: ''
                 }, // 当前选中行的数据
             };
         },
@@ -198,6 +206,11 @@
                 });
         },
         methods: {
+            handleCollapse() {
+                this.isCollapse = !this.isCollapse
+                this.asideWidth = this.isCollapse ? '64px' : '200px'
+                this.collapseIcon = this.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
+            },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
             },
@@ -208,6 +221,18 @@
                 const user_id = this.formInline.user_id;
                 const dish_id=this.formInline.dish_id;
                 const title = this.formInline.title;
+                if (user_id === '') {
+                    this.$message.warning('请输入学号');
+                    return;
+                }
+                if (dish_id === '') {
+                    this.$message.warning('请输入餐品号');
+                    return;
+                }
+                if (title === '') {
+                    this.$message.warning('请输入标题');
+                    return;
+                }
                 axios.get(`/restaurant/comment?user_id=${user_id}&dish_id=${dish_id}&title=${title}`)
                     .then(response => {
                         const data = response.data;
@@ -265,3 +290,5 @@
 </script>
 </body>
 </html>
+
+
