@@ -2,6 +2,7 @@ package com.restaurant.restaurant.controller.vote;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.restaurant.restaurant.pojo.RunningVote;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.Vote;
 import com.restaurant.restaurant.service.vote.StoreVoteResultTask;
@@ -41,12 +42,12 @@ public class UploadVote extends HttpServlet {
         String title = jsonObject.getString("title");
         JSONArray choices = jsonObject.getJSONArray("choices");
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
-        Map<Integer, Map<String, Integer>> votes =
-                (Map<Integer, Map<String, Integer>>) context.getAttribute("votes");
+        Map<Integer, RunningVote> votes =
+                (Map<Integer, RunningVote>) context.getAttribute("votes");
 
-//        // 测试用
-//        canteenAdmin = new CanteenAdmin();
-//        canteenAdmin.setCanteenId(1);
+        // 测试用
+        canteenAdmin = new CanteenAdmin();
+        canteenAdmin.setCanteenId(1);
 
         // 参数判空
         if (canteenAdmin == null || canteenId == null ||
@@ -76,8 +77,9 @@ public class UploadVote extends HttpServlet {
         List<String> choiceList = choices.toJavaList(String.class);
         for (String choice : choiceList)  // 遍历choices，将voteResult表放入context中
             voteResult.put(choice, 0);
-        votes.put(voteId, voteResult);
-        context.setAttribute("votes", votes);
+        Set<Integer> voteUsers = new HashSet<>();
+        RunningVote runningVote = new RunningVote(voteResult, voteUsers);
+        votes.put(voteId, runningVote);
 
         // 定时器，启动！
         Timer collectResultTimer = new Timer(true);
@@ -97,7 +99,7 @@ public class UploadVote extends HttpServlet {
         super.init();
 
         ServletContext context = getServletContext();
-        Map<Integer, Map<String, Integer>> vote = new HashMap<>();
+        Map<Integer, RunningVote> vote = new HashMap<>();
         context.setAttribute("votes", vote);
     }
 }

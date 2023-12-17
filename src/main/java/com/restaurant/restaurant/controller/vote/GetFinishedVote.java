@@ -13,11 +13,10 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "GetVote",value = "/GetVote")
-public class GetVote extends HttpServlet {
+@WebServlet(name = "GetFinishedVote",value = "/GetFinishedVote")
+public class GetFinishedVote extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
@@ -26,9 +25,9 @@ public class GetVote extends HttpServlet {
         HttpSession session = req.getSession(true);
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
 
-//        // 测试用
-//        canteenAdmin = new CanteenAdmin();
-//        canteenAdmin.setCanteenId(1);
+        // 测试用
+        canteenAdmin = new CanteenAdmin();
+        canteenAdmin.setCanteenId(1);
 
         if (canteenAdmin == null) {
             resp.setStatus(500);

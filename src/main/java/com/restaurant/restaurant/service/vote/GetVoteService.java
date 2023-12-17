@@ -3,17 +3,24 @@ package com.restaurant.restaurant.service.vote;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.mapper.VoteMapper;
+import com.restaurant.restaurant.pojo.RunningVote;
 import com.restaurant.restaurant.pojo.entity.Vote;
+import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class GetVoteService {
+    public static final int CAN_VOTE = 0;
+    public static final int HAS_VOTED = 1;
+    public static final int VOTE_FINISHED = 2;
+    /**
+     * 食堂管理员调用，获得本食堂id下所有已完成的投票
+     * @param canteenId 食堂id
+     * @return
+     */
     public List<Vote> getCanteenFinishedVotes(int canteenId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
@@ -25,20 +32,46 @@ public class GetVoteService {
     }
 
     public List<Vote> getRunningVotes(ServletContext context) {
-        Map<Integer, Map<String, Integer>> votes =
-                new HashMap<>((Map<Integer, Map<String, Integer>>) context.getAttribute("votes"));
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
 
-        List<Vote> voteList = voteMapper.selectRunning();
-        for (Vote vote : voteList) {
-            Map<String, Integer> oneVote = votes.get(vote.getVoteId());
-            String voteResult = JSON.toJSONString(oneVote);
-            if (vote.getResult() == null) // 保证一致性
-                vote.setResult(voteResult);
+        List<Vote> voteList;
+        // 获取所有投票时不允许结束投票
+        synchronized (Constants.voteLock) {
+            voteList = voteMapper.selectRunning();
+            Map<Integer, RunningVote> votes =
+                    (Map<Integer, RunningVote>) context.getAttribute("votes");
+            for (Map.Entry<Integer, RunningVote> entry : votes.entrySet()) {
+                RunningVote runningVote = entry.getValue();
+                for (Vote vote : voteList) {
+                    // 读取投票时不允许修改
+                    synchronized (runningVote.getVoteLock()) {
+                        String voteResult = JSON.toJSONString(runningVote.getVoteResult());
+                        if (vote.getResult() == null) // 保证一致性
+                            vote.setResult(voteResult);
+                    }
+                }
+            }
         }
+
 
         sqlSession.close();
         return voteList;
+    }
+
+    public int getCanVote(ServletContext context, int voteId, int userId) {
+        Map<Integer, RunningVote> votes =
+                (Map<Integer, RunningVote>) context.getAttribute("votes");
+        RunningVote runningVote = votes.get(voteId);
+        // 读取投票时不允许修改
+        synchronized (runningVote.getVoteLock()) {
+            Set<Integer> thisVoteUser = runningVote.getVoteUsers();
+            if (!votes.containsKey(voteId))
+                return VOTE_FINISHED;
+            if (thisVoteUser.contains(userId))
+                return HAS_VOTED;
+            else
+                return CAN_VOTE;
+        }
     }
 }

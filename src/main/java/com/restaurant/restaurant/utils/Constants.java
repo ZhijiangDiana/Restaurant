@@ -19,6 +19,8 @@ public class Constants {
     public static final Integer REPLY_EXP = 4;  // 回复加经验
     public static final Integer COMPLAINT_EXP = 5;  // 投诉加经验
     public static final Integer VOTE_EXP = 6;   // 投票加经验
+    // 控制投票的读取和结束使用的锁
+    public static final Object voteLock = new Object();
     public static final Set<String> SENSITIVEWORDS = new HashSet<>();
 
     static {
