@@ -1,26 +1,37 @@
 package com.restaurant.restaurant.pojo.entity;
 
+import java.sql.Time;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Canteen {
     private Integer canteenId;
-    private String         name;
+    private String name;
     private String location;
-    private Date startTime;
-    private Date         endTime;
+    private Time startTime;
+    private Time endTime;
     private String description;
+    private byte[] image;
     private Integer reportCount;
 
-    @Override
-    public String toString() {
-        return "Canteen{" +
-                "canteenId=" + canteenId +
-                ", name='" + name + '\'' +
-                ", location='" + location + '\'' +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", description='" + description + '\'' +
-                '}';
+    public Canteen(Integer canteenId, String name, String location, Time startTime, Time endTime, String description, byte[] image, Integer reportCount) {
+        this.canteenId = canteenId;
+        this.name = name;
+        this.location = location;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.image = image;
+        this.reportCount = reportCount;
+    }
+
+    public Canteen(String name, String location, Time startTime, Time endTime, String description, byte[] image) {
+        this.name = name;
+        this.location = location;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.image = image;
     }
 
     public Integer getCanteenId() {
@@ -47,19 +58,19 @@ public class Canteen {
         this.location = location;
     }
 
-    public Date getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 
@@ -71,6 +82,14 @@ public class Canteen {
         this.description = description;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public Integer getReportCount() {
         return reportCount;
     }
@@ -79,16 +98,17 @@ public class Canteen {
         this.reportCount = reportCount;
     }
 
-    public Canteen(Integer canteenId, String name, String location, Date startTime, Date endTime, String description, Integer report_count) {
-        this.canteenId = canteenId;
-        this.name = name;
-        this.location = location;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.description = description;
-        this.reportCount = report_count;
-    }
-
-    public Canteen() {
+    @Override
+    public String toString() {
+        return "Canteen{" +
+                "canteenId=" + canteenId +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", description='" + description + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", reportCount=" + reportCount +
+                '}';
     }
 }

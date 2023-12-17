@@ -13,4 +13,27 @@
         SELECT * FROM `Restaurant`.canteen
         WHERE canteen_id = #{id};
     </select>
+
+    <delete id="deleteCanteenById" parameterType="int">
+        DELETE FROM `Restaurant`.canteen
+        WHERE canteen_id = #{id};
+    </delete>
+
+    <insert id="insertCanteen" parameterType="Canteen">
+        INSERT INTO canteen (name, location, start_time, end_time, description, image)
+        VALUES (#{name},#{location},#{startTime},#{endTime},#{description},#{image});
+    </insert>
+
+    <update id="updateCanteen" parameterType="com.restaurant.restaurant.pojo.entity.Canteen">
+        UPDATE canteen
+        SET name = #{name},
+            location = #{location},
+            start_time = #{startTime},
+            end_time = #{endTime},
+            description = #{description},
+            image = #{image},
+            report_count = #{reportCount}
+        WHERE canteen_id = #{canteenId}
+    </update>
+
 </mapper>

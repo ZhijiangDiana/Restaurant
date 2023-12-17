@@ -9,18 +9,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="登录注册页面逻辑跑通了">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/FetchPeople.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/FetchUserId.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/GetOfflineMessages.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/g_demand.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="在线交流做的大差不差 还差前端优化对接">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/AddCanteen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/DeleteCanteen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/UpdateCanteen.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/AdminService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/TestLogin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/TestLogin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/ChatEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/ChatEndpoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/chat.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/chat.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/login1.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CanteenMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CanteenMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Canteen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Canteen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CanteenMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CanteenMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SqlTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="web-socket" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -98,7 +96,7 @@
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;dev-3&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/java/code/register/src/main/java/com/restaurant/restaurant&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/java/code/websocket&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -130,6 +128,25 @@
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Local Tomcat 10.1.13">
+    <configuration name="DogSpeakTest.dogSpeakTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restaurant" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="DogSpeakTest" />
+      <option name="METHOD_NAME" value="dogSpeakTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SqlTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restaurant" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SqlTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SqlTest.ReplyMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="restaurant" />
       <option name="PACKAGE_NAME" value="" />
@@ -140,11 +157,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SqlTest.UserMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="SqlTest.canteenTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="restaurant" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="SqlTest" />
-      <option name="METHOD_NAME" value="UserMapperTest" />
+      <option name="METHOD_NAME" value="canteenTest" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -159,19 +176,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="SqlTest.sensitiveFilter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="restaurant" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SqlTest" />
-      <option name="METHOD_NAME" value="sensitiveFilter" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="login.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/restaurant/login.html">
-      <method v="2" />
     </configuration>
     <configuration name="Local Tomcat 10.1.13" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.15" ALTERNATIVE_JRE_ENABLED="false">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/restaurant/login1.html" />
@@ -264,20 +268,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JavaScript Debug.login.html" />
+      <item itemvalue="JUnit.SqlTest" />
+      <item itemvalue="JUnit.SqlTest.canteenTest" />
+      <item itemvalue="JUnit.DogSpeakTest.dogSpeakTest" />
       <item itemvalue="JUnit.SqlTest.ReplyMapperTest" />
       <item itemvalue="JUnit.SqlTest.messageTest" />
-      <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
-      <item itemvalue="JUnit.SqlTest.UserMapperTest" />
       <item itemvalue="Tomcat Server.Local Tomcat 10.1.13" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SqlTest.canteenTest" />
+        <item itemvalue="JUnit.SqlTest" />
+        <item itemvalue="JUnit.DogSpeakTest.dogSpeakTest" />
         <item itemvalue="JUnit.SqlTest.messageTest" />
         <item itemvalue="JUnit.SqlTest.ReplyMapperTest" />
-        <item itemvalue="JUnit.SqlTest.UserMapperTest" />
-        <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
-        <item itemvalue="JavaScript Debug.login.html" />
       </list>
     </recent_temporary>
   </component>
@@ -296,7 +300,11 @@
       <workItem from="1702559169375" duration="518000" />
       <workItem from="1702559701620" duration="7949000" />
       <workItem from="1702694799381" duration="7606000" />
-      <workItem from="1702702892052" duration="6074000" />
+      <workItem from="1702702892052" duration="6463000" />
+      <workItem from="1702725102453" duration="671000" />
+      <workItem from="1702733052298" duration="160000" />
+      <workItem from="1702736261564" duration="1090000" />
+      <workItem from="1702791746940" duration="7452000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />
@@ -328,7 +336,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702552878508</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="在线交流做的大差不差 还差狗叫判断和前端优化对接">
+      <created>1702709223530</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1702709223530</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -340,6 +355,11 @@
         <entry key="MAIN">
           <value>
             <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
               <option name="FILTERS">
                 <map>
                   <entry key="branch">
@@ -363,7 +383,8 @@
     <MESSAGE value="注册页面修改" />
     <MESSAGE value="登录注册页面逻辑跑通了" />
     <MESSAGE value="敏感行为的判断以及被ban的人不许狗叫发言了，告诫我们要注意素质发言。" />
-    <option name="LAST_COMMIT_MESSAGE" value="敏感行为的判断以及被ban的人不许狗叫发言了，告诫我们要注意素质发言。" />
+    <MESSAGE value="在线交流做的大差不差 还差狗叫判断和前端优化对接" />
+    <option name="LAST_COMMIT_MESSAGE" value="在线交流做的大差不差 还差狗叫判断和前端优化对接" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

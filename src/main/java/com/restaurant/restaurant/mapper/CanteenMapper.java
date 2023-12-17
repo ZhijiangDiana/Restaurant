@@ -9,4 +9,10 @@ public interface CanteenMapper {
     List<Canteen> selectAll();
     Canteen selectById(@Param("id") int id);
     void increaseReportById(@Param("id") int id);
+
+    int deleteCanteenById(@Param("id") int id);
+
+    int insertCanteen(Canteen canteen);
+
+    int updateCanteen(Canteen canteen);
 }
