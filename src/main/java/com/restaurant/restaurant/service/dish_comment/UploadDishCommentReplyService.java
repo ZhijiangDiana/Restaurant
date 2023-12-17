@@ -1,21 +1,18 @@
 package com.restaurant.restaurant.service.dish_comment;
 
-import com.restaurant.restaurant.mapper.DishCommentMapper;
-import com.restaurant.restaurant.pojo.entity.DishComment;
+import com.restaurant.restaurant.mapper.DishCommentReplyMapper;
+import com.restaurant.restaurant.pojo.entity.DishCommentReply;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
-public class UploadDishComment {
-    /**
-     * 插入评论
-     * @param dishComment 需要保证userId, score, dishId, title, body要有
-     */
-    public void commentDish(DishComment dishComment) {
+public class UploadDishCommentReplyService {
+    public boolean replyComment(DishCommentReply dishCommentReply) {
         boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
+        DishCommentReplyMapper dishCommentReplyMapper = sqlSession.getMapper(DishCommentReplyMapper.class);
+
         try {
-            dishCommentMapper.insertComment(dishComment);
+            dishCommentReplyMapper.insertDishCommentReply(dishCommentReply);
             sqlSession.commit();
             isSuccess = true;
         } catch (Exception e) {
@@ -25,5 +22,6 @@ public class UploadDishComment {
         } finally {
             sqlSession.close();
         }
+        return isSuccess;
     }
 }

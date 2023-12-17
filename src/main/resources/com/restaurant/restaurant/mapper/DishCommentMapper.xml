@@ -16,4 +16,12 @@
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
         select dish_comment_id, user_id, dish_id, score, tittle, body from dish_comment;
     </select>
+    <select id="selectByCanteenIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
+        SELECT * FROM `Restaurant`.dish_comment
+        WHERE dish_id in (SELECT dish_id FROM `Restaurant`.dish WHERE canteen_id = #{canteenId});
+    </select>
+    <select id="selectByUserIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
+        SELECT * FROM `Restaurant`.dish_comment
+        WHERE user_id = #{userId};
+    </select>
 </mapper>
