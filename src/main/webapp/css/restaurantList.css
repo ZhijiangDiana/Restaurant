@@ -1,58 +1,31 @@
+#app{
+    background-color: #fff;
+}
+.logo_title{
+    margin-left: 5px;
+    font-size: 20px;
+    transition: all .3s;
+}
 .el-header {
-    background-color: #0fa9eb;
-    color: #fff;
     line-height: 60px;
     display: flex;
     align-items: center;
     /* 垂直居中对齐 */
 }
-
-.header-container {
-    background-color: #0fa9eb;
+.aside_item_title{
     color: #fff;
-    padding: 0 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
 }
-
-.header-title {
-    font-size: 24px;
+.aside_item{
+    text-decoration: none;
+    padding-left: 20px;
+    color: #fff;
 }
-
-.header-select {
-    margin-left: 20px;
+.el-aside {
+    color: #333;
 }
-
 .el-main {
     margin-left: 40px;
     margin-right: 40px;
     margin-top: 30px;
 }
 
-
-.custom-popper .el-select-dropdown {
-    width: 200px;
-    /* 设置下拉框宽度 */
-    max-height: 200px;
-    /* 设置下拉框最大高度 */
-    overflow-y: auto;
-    /* 添加滚动条 */
-}
-
-.aside_item{
-    text-decoration: none;
-}
-.el-aside {
-    color: #333;
-}
-
-.el-menu--collapse {
-    background-color: #f0f0f0;
-}
-
-.block {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-}
