@@ -25,9 +25,9 @@ public class GetFinishedVote extends HttpServlet {
         HttpSession session = req.getSession(true);
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
 
-        // 测试用
-        canteenAdmin = new CanteenAdmin();
-        canteenAdmin.setCanteenId(1);
+//        // 测试用
+//        canteenAdmin = new CanteenAdmin();
+//        canteenAdmin.setCanteenId(1);
 
         if (canteenAdmin == null) {
             resp.setStatus(500);
