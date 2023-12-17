@@ -12,6 +12,15 @@ public class Canteen {
     private byte[] image;
     private Integer reportCount;
 
+    public Canteen(String name, String location, Date startTime, Date endTime, String description, byte[] image) {
+        this.name = name;
+        this.location = location;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Canteen{" +
