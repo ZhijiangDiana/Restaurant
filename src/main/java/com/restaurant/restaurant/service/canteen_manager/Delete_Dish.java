@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 
 public class Delete_Dish {
 
-    public Delete_Dish(int dish_id) {
+    public void deleteDish(int dish_id) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 

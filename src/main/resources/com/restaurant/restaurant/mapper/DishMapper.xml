@@ -21,7 +21,7 @@
 
     <update id="updateDish">
         UPDATE `Restaurant`.dish
-        SET dish_id = #{dishId},dish_name = #{dishName},canteen_id = #{canteenId},series = #{series},price = #{price},price_sale = #{priceSale},total_score = #{totalScore}, weight_sum=#{weightSum}
+        SET dish_name = #{dishName}, series = #{series}, price = #{price}, image = #{image}
         WHERE dish_id = #{dishId};
     </update>
 

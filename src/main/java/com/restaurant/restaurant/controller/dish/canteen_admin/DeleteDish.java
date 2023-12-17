@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller.canteen_manager;
+package com.restaurant.restaurant.controller.dish.canteen_admin;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -28,16 +28,18 @@ public class DeleteDish extends HttpServlet {
         PrintWriter pw = resp.getWriter();
         JSONObject reqJson = FrontEndUtils.bodyToJson(req);
 
-        Integer dishid = reqJson.getInteger("dish_id");
-
-        if(dishid<0){
+        Integer dishId = reqJson.getInteger("dishId");
+        if(dishId == null){
             resp.setStatus(500);
-            R respText = new R("数据错误","1","");
+            R respText = new R("给定参数不全","1","");
             String json = JSON.toJSONString(respText);
             pw.print(json);
             return;
         }
-        Delete_Dish deleteDish = new Delete_Dish(dishid.intValue());
+
+        Delete_Dish deleteDish = new Delete_Dish();
+        deleteDish.deleteDish(dishId);
+
         String json = FrontEndUtils.objectToBody("删除成功", "0", null);
         pw.print(json);
     }

@@ -6,7 +6,7 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class Update_Dish {
-    public Update_Dish(Dish dish) {
+    public void updateDish(Dish dish) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
         dishMapper.updateDish(dish);

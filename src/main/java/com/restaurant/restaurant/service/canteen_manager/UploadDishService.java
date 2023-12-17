@@ -5,12 +5,12 @@ import com.restaurant.restaurant.pojo.entity.Dish;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
-public class UploadDish {
+public class UploadDishService {
     /*
         插入dish
      */
 
-    public UploadDish(Dish dish) {
+    public void uploadDish(Dish dish) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
         dishMapper.insertDish(dish);
