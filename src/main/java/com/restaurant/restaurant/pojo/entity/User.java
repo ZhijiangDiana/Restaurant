@@ -82,4 +82,6 @@ public class User implements Serializable {
                 ", illegality=" + illegality +
                 '}';
     }
+
+
 }

@@ -26,8 +26,8 @@
     </select>
 
     <insert id="insertUser" parameterType="User">
-        INSERT INTO user (user_id,username, password, experience, is_forbidden)
-        VALUES (#{userId}, #{username}, #{password}, #{experience}, #{isForbidden})
+        INSERT INTO user (user_id,username, password, experience, is_forbidden,illegality)
+        VALUES (#{userId}, #{username}, #{password}, #{experience}, #{isForbidden}, #{illegality})
     </insert>
 
     <update id="updateExpById" parameterType="User">
@@ -42,5 +42,20 @@
         SET illegality = illegality + #{illegality}
         WHERE user_id = #{id};
     </update>
+
+    <update id="updateUser" parameterType="com.restaurant.restaurant.pojo.entity.User">
+        UPDATE user
+        SET username = #{username},
+            password = #{password},
+            experience = #{experience},
+            is_forbidden = #{isForbidden},
+            illegality = #{illegality}
+        WHERE user_id = #{userId}
+    </update>
+
+    <delete id="deleteUserById" parameterType="com.restaurant.restaurant.pojo.entity.User">
+        DELETE FROM user
+        WHERE user_id = #{id}
+    </delete>
 
 </mapper>

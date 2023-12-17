@@ -28,11 +28,13 @@ public class SqlTest {
 //        System.out.println(diana);
 //        User xianBei = userMapper.selectById(114514);
 //        System.out.println(xianBei);
-        userMapper.updateIllegalityById(114514,1);
+//        userMapper.updateIllegalityById(114514,1);
+        User user = new User(-11111,"你爹","123456",6666,false,11);
+        userMapper.updateUser(user);
         sqlSession.commit();
         List<User> users = userMapper.selectAll();
-        for (User user : users) {
-            System.out.println(user);
+        for (User usere : users) {
+            System.out.println(usere);
         }
 
         sqlSession.close();

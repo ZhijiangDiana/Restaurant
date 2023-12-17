@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller.admin;
+package com.restaurant.restaurant.controller.admin.userManage;
 
 import com.restaurant.restaurant.service.AdminService;
 import jakarta.servlet.ServletException;
@@ -9,12 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/deleteCanteen")
-public class DeleteCanteen extends HttpServlet {
+@WebServlet("/deleteUser")
+public class DeleteUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String canteenId = request.getParameter("canteenId");
+        String id = request.getParameter("id");
         AdminService adminService = new AdminService();
-        response.getWriter().print(adminService.deleteCanteenById(canteenId));
+        response.getWriter().print(adminService.deleteUserById(id));
     }
 }

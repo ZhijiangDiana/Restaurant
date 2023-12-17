@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller.admin;
+package com.restaurant.restaurant.controller.admin.canteenManage;
 
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.service.AdminService;
@@ -13,18 +13,13 @@ import java.io.IOException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-@WebServlet("/addCanteen")
-public class AddCanteen extends HttpServlet {
+@WebServlet("/updateCanteen")
+public class UpdateCanteen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject jsonObject = FrontEndUtils.bodyToJson(request);
+        String id = jsonObject.getString("id");
         String name = jsonObject.getString("name");
         String location = jsonObject.getString("location");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
@@ -42,9 +37,8 @@ public class AddCanteen extends HttpServlet {
         }
         String description = jsonObject.getString("description");
         byte[] images = jsonObject.getBytes("image");
+        String reportCount = jsonObject.getString("reportCount");
         AdminService adminService = new AdminService();
-        System.out.println(startTime);
-        response.getWriter().print(adminService.addCanteen(name,location,startTime,endTime,description,images));
-
+        response.getWriter().print(adminService.updateCanteen(id,name,location,startTime,endTime,description,images,reportCount));
     }
 }
