@@ -28,11 +28,13 @@ public class SqlTest {
 //        System.out.println(diana);
 //        User xianBei = userMapper.selectById(114514);
 //        System.out.println(xianBei);
-        userMapper.updateIllegalityById(114514,1);
+//        userMapper.updateIllegalityById(114514,1);
+        User user = new User(-11111,"你爹","123456",6666,false,11);
+        userMapper.updateUser(user);
         sqlSession.commit();
         List<User> users = userMapper.selectAll();
-        for (User user : users) {
-            System.out.println(user);
+        for (User usere : users) {
+            System.out.println(usere);
         }
 
         sqlSession.close();
@@ -53,18 +55,18 @@ public class SqlTest {
 
     @Test
     public void AdminMapperTest(){
-        AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
-        Admin admin = new Admin(1111,"原神哥","123456");
-//        mapper.insertAdmin(admin);
-//        sqlSession.commit();
-        List<Reply> replies = mapper.selectReplyById(1);
-        List<DishComment> dishComments = mapper.selectDishCommentById(1);
-        for (Reply reply : replies) {
-            System.out.println(reply);
-        }
-        for (DishComment dishComment : dishComments) {
-            System.out.println(dishComment);
-        }
+//        AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+//        Admin admin = new Admin(1111,"原神哥","123456");
+////        mapper.insertAdmin(admin);
+////        sqlSession.commit();
+//        List<Reply> replies = mapper.selectReplyById(1);
+//        List<DishComment> dishComments = mapper.selectDishCommentById(1);
+//        for (Reply reply : replies) {
+//            System.out.println(reply);
+//        }
+//        for (DishComment dishComment : dishComments) {
+//            System.out.println(dishComment);
+//        }
     }
 
     @Test
@@ -102,5 +104,25 @@ public class SqlTest {
         Set<String> sensitivewords = Constants.SENSITIVEWORDS;
         String s = "aewf";
         System.out.println(Constants.containSensitive(s));
+    }
+
+    @Test
+    public void messageTest(){
+        MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
+        List<Message> messages = mapper.selectById(1);
+        for (Message message : messages) {
+            System.out.println(message);
+        }
+    }
+
+    @Test
+    public void canteenTest(){
+        CanteenMapper mapper = sqlSession.getMapper(CanteenMapper.class);
+//        mapper.deleteCanteenById(4);
+//        sqlSession.commit();
+        List<Canteen> canteens = mapper.selectAll();
+        for (Canteen canteen : canteens) {
+            System.out.println(canteen);
+        }
     }
 }

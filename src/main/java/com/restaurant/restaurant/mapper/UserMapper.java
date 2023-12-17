@@ -27,4 +27,8 @@ public interface UserMapper {
 
     void increaseIllegalityById(@Param("illegality") int illegality,
                                 @Param("id") int id);
+
+    int updateUser(User user);
+
+    int deleteUserById(@Param("id") int id);
 }

@@ -1,0 +1,188 @@
+﻿.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+.chat-panel {
+    display: flex;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.chat-header {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    text-align: center;
+}
+
+.chat-partner-name {
+    font-weight: bold;
+}
+
+.chat-body {
+    display: flex;
+    flex-grow: 1;
+}
+
+.chat-area {
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.chat-messages {
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.chat-message {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.guest-message .message-content {
+    order: 2;
+    background-color: #e1ffe1;
+    color: #333;
+    border-radius: 15px;
+    padding: 10px 15px;
+    max-width: 70%;
+}
+
+.robot-message .message-content {
+    order: 1;
+    background-color: #d1e7ff;
+    color: #333;
+    border-radius: 15px;
+    padding: 10px 15px;
+    max-width: 70%;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px 0;
+}
+
+.chat-input textarea {
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.send-button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.send-button:hover {
+    background-color: #0056b3;
+}
+
+.friends-list {
+    background-color: #fff;
+    width: 200px;
+    border-left: 1px solid #ddd;
+    padding: 20px;
+}
+
+.friends-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.friends-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.friends-list li:hover {
+    background-color: #f8f8f8;
+}
+/* 基本容器和布局样式保持不变 */
+
+/* 消息样式 */
+.msg {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* 发送方（客户）消息样式 */
+.msg.guest {
+    justify-content: flex-end;
+}
+
+/* 接收方（机器人）消息样式 */
+.msg.robot {
+    justify-content: flex-start;
+}
+
+/* 发送方消息内容的样式 */
+.msg.guest .msg-right {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse; /* 调整方向使头像在左边 */
+}
+
+/* 接收方消息内容的样式 */
+.msg.robot .msg-left {
+    display: flex;
+    align-items: center;
+}
+
+/* 通用的消息气泡样式 */
+.msg-ball {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    word-wrap: break-word;
+}
+
+/* 发送方的消息气泡样式 */
+.msg.guest .msg-ball {
+    background-color: #e1ffe1; /* 浅绿色背景 */
+    margin-left: 10px;
+}
+
+/* 接收方的消息气泡样式 */
+.msg.robot .msg-ball {
+    background-color: #d1e7ff; /* 浅蓝色背景 */
+    margin-right: 10px;
+}
+
+/* 消息发送者头像的样式 */
+.msg-host {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin: 0 10px;
+}
+
+/*!* 发送方头像的默认样式 *!*/
+/*.msg.guest .msg-host.headDefault {*/
+/*    background-image: url(); !* 替换为默认头像的路径 *!*/
+/*}*/
+
+/* 接收方头像的样式 */
+.msg.robot .msg-host.photo {
+    /* 如果需要，可以添加特定的样式 */
+}
+
