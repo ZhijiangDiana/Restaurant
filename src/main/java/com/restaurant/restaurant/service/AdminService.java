@@ -1,10 +1,8 @@
 package com.restaurant.restaurant.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.mapper.*;
-import com.restaurant.restaurant.pojo.entity.Canteen;
-import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
-import com.restaurant.restaurant.pojo.entity.DishComment;
-import com.restaurant.restaurant.pojo.entity.User;
+import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -226,6 +224,18 @@ public class AdminService {
         else
             return FrontEndUtils.objectToBody("修改失败","1",null);
     }
+
+    public String updateComment(String commentId,String userId,String title,String body,byte[] image,Date publishTime,String likes){
+        Comment comment = new Comment(Integer.parseInt(commentId),Integer.parseInt(userId),title,body,image,publishTime,Integer.parseInt(likes));
+        CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
+        int isSuccess = commentMapper.updateComment(comment);
+        if (isSuccess == 1)
+            return FrontEndUtils.objectToBody("修改成功","0",null);
+        else
+            return FrontEndUtils.objectToBody("修改失败","1",null);
+
+    }
+
 
 
 }

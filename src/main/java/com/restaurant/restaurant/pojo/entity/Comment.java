@@ -16,6 +16,16 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
+    public Comment(Integer commentId, Integer userId, String title, String body, byte[] image, Date publishTime, Integer likes) {
+        this.commentId = commentId;
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+        this.image = image;
+        this.publishTime = publishTime;
+        this.likes = likes;
+    }
+
     public Comment(Integer userId, String title, String body, byte[] image, Date publishTime, Integer likes) {
         this.userId = userId;
         this.title = title;
