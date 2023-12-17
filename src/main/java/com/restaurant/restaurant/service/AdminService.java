@@ -215,5 +215,17 @@ public class AdminService {
             return FrontEndUtils.objectToBody("删除失败","1",null);
     }
 
+    public String updateDishComment(String dishCommentId,String userId,String dishId,String score,String tittle,String body,byte[] image){
+        DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
+        DishComment dishComment = new DishComment(Integer.parseInt(dishCommentId),Integer.parseInt(userId),Integer.parseInt(dishId),Double.parseDouble(score),tittle,body,image);
+        int isSuccess = dishCommentMapper.updateDishComment(dishComment);
+        sqlSession.commit();
+        sqlSession.close();
+        if (isSuccess == 1)
+            return FrontEndUtils.objectToBody("修改成功","0",null);
+        else
+            return FrontEndUtils.objectToBody("修改失败","1",null);
+    }
+
 
 }

@@ -11,4 +11,6 @@ public interface DishCommentMapper {
     void insertComment(DishComment comment);//添加评论
 
     int deletedishCommentById(@Param("id") int id);
+
+    int updateDishComment(DishComment dishComment);
 }
