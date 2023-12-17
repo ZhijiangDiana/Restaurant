@@ -4,7 +4,7 @@
 
     <insert id="insertCanteenAdmin" parameterType="CanteenAdmin">
         INSERT INTO canteen_admin
-        VALUES (#{canteenId}, #{userId}, #{username}, #{password})
+        VALUES (#{canteenAdminId}, #{canteenId}, #{username}, #{password})
     </insert>
 
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.CanteenAdmin">

@@ -1,9 +1,9 @@
 package com.restaurant.restaurant.service;
 
-import com.restaurant.restaurant.mapper.CanteenMapper;
-import com.restaurant.restaurant.mapper.CommentMapper;
-import com.restaurant.restaurant.mapper.UserMapper;
+import com.restaurant.restaurant.mapper.*;
 import com.restaurant.restaurant.pojo.entity.Canteen;
+import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
+import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
@@ -171,6 +171,48 @@ public class AdminService {
         sqlSession.commit();
         sqlSession.close();
         return FrontEndUtils.objectToBody("增添成功","0",null);
+    }
+
+    /**
+     * 这里的食堂名字不可能拿空，食堂名字要从数据库拿
+     * 先委派成食堂管理员然后在师生中删除该用户
+     * @param id
+     * @param canteenName
+     * @return
+     */
+    public String setUserToCanteenAdmin(String id,String canteenName){
+        CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);
+        User user = userMapper.selectById(Integer.parseInt(id));
+        List<Canteen> canteenList = canteenMapper.selectAll();
+        Integer appointedCanteenId = null;
+        for (Canteen canteen : canteenList) {
+            if (canteen.getName().equals(canteenName)) {
+                appointedCanteenId = canteen.getCanteenId();
+            }
+        }
+        CanteenAdmin canteenAdmin = new CanteenAdmin(Integer.parseInt(id),appointedCanteenId,user.getUsername(),user.getPassword());
+        canteenAdminMapper.insertCanteenAdmin(canteenAdmin);
+        int isSuccess = userMapper.deleteUserById(Integer.parseInt(id));
+        sqlSession.commit();
+        sqlSession.close();
+        if (isSuccess == 1)
+            return FrontEndUtils.objectToBody("委任成功","0",null);
+        else
+            return FrontEndUtils.objectToBody("委任失败","1",null);
+
+    }
+
+    public String deleteDishCommentById(String id){
+        DishCommentMapper dishMapper = sqlSession.getMapper(DishCommentMapper.class);
+        int isSuccess = dishMapper.deletedishCommentById(Integer.parseInt(id));
+        sqlSession.commit();
+        sqlSession.close();
+        if (isSuccess == 1)
+            return FrontEndUtils.objectToBody("删除成功","0",null);
+        else
+            return FrontEndUtils.objectToBody("删除失败","1",null);
     }
 
 

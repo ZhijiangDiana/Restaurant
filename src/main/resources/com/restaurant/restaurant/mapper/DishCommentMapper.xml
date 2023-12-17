@@ -16,4 +16,9 @@
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
         select dish_comment_id, user_id, dish_id, score, tittle, body from dish_comment;
     </select>
+
+    <delete id="deletedishCommentById" parameterType="com.restaurant.restaurant.pojo.entity.DishComment">
+        DELETE FROM dish_comment
+        WHERE dish_comment_id = #{id}
+    </delete>
 </mapper>
