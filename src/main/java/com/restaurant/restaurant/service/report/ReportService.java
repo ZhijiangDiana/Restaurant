@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.service.canteen;
+package com.restaurant.restaurant.service.report;
 
 import com.restaurant.restaurant.mapper.CanteenMapper;
 import com.restaurant.restaurant.mapper.ReportMapper;
@@ -27,6 +27,7 @@ public class ReportService {
         ReportReplyMapper reportReplyMapper = sqlSession.getMapper(ReportReplyMapper.class);
 
         reportReplyMapper.insertReportReply(reportReply);
+
         sqlSession.commit();
 
         sqlSession.close();

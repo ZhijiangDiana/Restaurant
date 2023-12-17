@@ -1,11 +1,11 @@
-package com.restaurant.restaurant.controller.canteen;
+package com.restaurant.restaurant.controller.report;
 
 import java.io.*;
 
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.entity.Report;
 import com.restaurant.restaurant.pojo.entity.ReportReply;
-import com.restaurant.restaurant.service.canteen.ReportService;
+import com.restaurant.restaurant.service.report.ReportService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.Pair;
 import jakarta.servlet.ServletException;

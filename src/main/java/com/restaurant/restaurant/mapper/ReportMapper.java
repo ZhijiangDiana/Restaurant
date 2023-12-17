@@ -9,4 +9,6 @@ public interface ReportMapper {
     List<Report> selectAll();
     Report selectById(@Param("id") int id);
     void insertReport(Report report);
+    List<Report> selectByCanteenId(@Param("canteenId") int canteenId);
+    List<Report> selectNoReplyByCanteenId(@Param("canteenId") int canteenId);
 }

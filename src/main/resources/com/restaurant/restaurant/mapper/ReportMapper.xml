@@ -12,4 +12,13 @@
         SELECT * FROM `Restaurant`.report
         WHERE report_id = #{id};
     </select>
+    <select id="selectByCanteenId" resultType="com.restaurant.restaurant.pojo.entity.Report">
+        SELECT * FROM `Restaurant`.report
+        WHERE canteen_id = #{canteenId};
+    </select>
+    <select id="selectNoReplyByCanteenId" resultType="com.restaurant.restaurant.pojo.entity.Report">
+        SELECT * FROM `Restaurant`.report
+        WHERE canteen_id = #{canteenId} and
+              report.report_id not in (SELECT report_reply.report_id FROM report_reply);
+    </select>
 </mapper>
