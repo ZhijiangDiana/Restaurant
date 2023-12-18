@@ -19,9 +19,15 @@ public class ShowAllUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-        List<User> users = mapper.selectAll();
-        sqlSession.close();
-        response.getWriter().print(FrontEndUtils.objectToBody(null,"0",users));
+        try(sqlSession){
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            List<User> users = mapper.selectAll();
+            sqlSession.close();
+            response.getWriter().print(FrontEndUtils.objectToBody(null,"0",users));
+        }catch (Exception e){
+            e.printStackTrace();
+            sqlSession.close();
+            response.getWriter().print(FrontEndUtils.objectToBody("系统繁忙","1",null));
+        }
     }
 }

@@ -9,13 +9,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="晚上管理员d做好力  做好CRUD是成为完美程序员最重要的一步，如果你这个都不会那你格局真不行">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/communityManage/UpdateComment.java" afterDir="false" />
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="管理员e还没做完 下午接着做 疑似postman抽风 也有可能是我抽风了">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/communityManage/DeleteComment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/communityManage/DeleteReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/communityManage/ShowAllComment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/communityManage/ShowReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/communityManage/UpdateReply.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/dishCommentManage/ShowAllDishComment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/dishCommentManage/ShowAllDishComment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/userManage/ShowAllUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/userManage/ShowAllUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/FetchPeople.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/FetchPeople.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/GetOfflineMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/GetOfflineMessages.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/ReplyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/ReplyMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/AdminService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/AdminService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/RegisterService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/RegisterService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/ReplyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/ReplyService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/ReplyMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/ReplyMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,7 +315,9 @@
       <workItem from="1702733052298" duration="160000" />
       <workItem from="1702736261564" duration="1090000" />
       <workItem from="1702791746940" duration="7452000" />
-      <workItem from="1702816271164" duration="12866000" />
+      <workItem from="1702816271164" duration="13651000" />
+      <workItem from="1702911414281" duration="51000" />
+      <workItem from="1702911673274" duration="6303000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />
@@ -362,7 +377,14 @@
       <option name="project" value="LOCAL" />
       <updated>1702827980432</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="管理员e还没做完 下午接着做 疑似postman抽风 也有可能是我抽风了">
+      <created>1702830056568</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1702830056568</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,7 +428,8 @@
     <MESSAGE value="管理员c做完力 增删改查真的很好玩我还要玩！！！" />
     <MESSAGE value="晚上管理员c的委任餐厅管理员，你听我说CRUD是作为程序员最关键的一门技术，如果做好了CRUD那么月薪300k不是梦想！" />
     <MESSAGE value="晚上管理员d做好力  做好CRUD是成为完美程序员最重要的一步，如果你这个都不会那你格局真不行" />
-    <option name="LAST_COMMIT_MESSAGE" value="晚上管理员d做好力  做好CRUD是成为完美程序员最重要的一步，如果你这个都不会那你格局真不行" />
+    <MESSAGE value="管理员e还没做完 下午接着做 疑似postman抽风 也有可能是我抽风了" />
+    <option name="LAST_COMMIT_MESSAGE" value="管理员e还没做完 下午接着做 疑似postman抽风 也有可能是我抽风了" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
