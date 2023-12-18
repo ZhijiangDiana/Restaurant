@@ -41,4 +41,20 @@ public class GetDishCommentService {
 
         return res;
     }
+
+    public List<DishComment> getDishCommentByDish(int dishId) {
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
+
+        List<DishComment> res = null;
+        try {
+            res = dishCommentMapper.selectByDishIdWithFile(dishId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+
+        return res;
+    }
 }

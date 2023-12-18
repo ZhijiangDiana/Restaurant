@@ -24,6 +24,10 @@
         SELECT * FROM `Restaurant`.dish_comment
         WHERE user_id = #{userId};
     </select>
+    <select id="selectByDishIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
+        SELECT * FROM `Restaurant`.dish_comment
+        WHERE dish_id = #{dishId};
+    </select>
 
     <delete id="deletedishCommentById" parameterType="com.restaurant.restaurant.pojo.entity.DishComment">
         DELETE FROM dish_comment
