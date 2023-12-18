@@ -178,5 +178,50 @@
 
     </el-container>
 </div>
+
+
+<script>
+    const defaultList = [{
+        announcementID: 1,
+        title: '我是标题',
+        body: '我是正文'
+    }]
+    const app = new Vue({
+        el: '#app',
+        data: {
+            length: 100,
+            list: [],
+            isCollapse: false,
+            evalNum: '1',
+            complaintNum: '2',
+            asideWidth: 13 + 'vw',
+        },
+        methods: {
+            toggleCollapse() {
+                this.isCollapse = !this.isCollapse
+                this.asideWidth = this.isCollapse ? '0vw' : '13vw'
+            },
+            exit() {
+                //跳转到登录页面
+                this.$router.push('/canteenEvaluation')
+            },
+            recommend() {
+                //跳转到推荐页面
+                this.$router.push('/recommend')
+            },
+            vote() {
+                //出现一个弹出框来做投票
+            },
+
+        },
+        // async created() {
+        //     // 1. 发送请求获取数据
+        //     const res = await axios.get('http://10.41.244.146:8080/restaurant_war/PostAnnouncement')
+        //     console.log(res)
+        //     // 2. 更新到 list 中，用于页面渲染 v-for
+        //     this.list = res.data.object || defaultList
+        // }
+    })
+</script>
 </body>
 </html>
