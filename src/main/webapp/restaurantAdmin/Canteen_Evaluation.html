@@ -87,7 +87,6 @@
 
 <body>
 <div id="app">
-
     <el-container>
         <div style="display: flex">
             <el-aside :width="asideWidth"
@@ -171,75 +170,13 @@
                     </el-header>
                 </div>
 
-                <!--主体区域-->
-                <el-main>
-                    <div style="box-shadow:0 0 10px rgba(0,0,0,1); padding: 10px 20px; border-radius: 5px; margin-bottom: 10px; font-size: 26px; color:red ; background-color: #b3d4fc; text-align: center">
-                        今日活动
-                    </div>
-                    <div>
-                        <el-card class="card">
-                            <div style="margin-bottom: 10px">
-                                111
-                            </div>
-                            <div class="line"></div>
-                            <div>
-                                222
-                            </div>
-                        </el-card>
-                    </div>
 
-                </el-main>
 
             </el-container>
 
         </div>
 
     </el-container>
-
 </div>
-
-<script>
-    const defaultList = [{
-        announcementID: 1,
-        title: '我是标题',
-        body: '我是正文'
-    }]
-    const app = new Vue({
-        el: '#app',
-        data: {
-            length: 100,
-            list: [],
-            isCollapse: false,
-            evalNum: '1',
-            complaintNum: '2',
-            asideWidth: 13 + 'vw',
-        },
-        methods: {
-            toggleCollapse() {
-                this.isCollapse = !this.isCollapse
-                this.asideWidth = this.isCollapse ? '0vw' : '13vw'
-            },
-            exit() {
-                //跳转到登录页面
-                this.$router.push('/canteenEvaluation')
-            },
-            recommend() {
-                //跳转到推荐页面
-                this.$router.push('/recommend')
-            },
-            vote() {
-                //出现一个弹出框来做投票
-            },
-
-        },
-        // async created() {
-        //     // 1. 发送请求获取数据
-        //     const res = await axios.get('http://10.41.244.146:8080/restaurant_war/PostAnnouncement')
-        //     console.log(res)
-        //     // 2. 更新到 list 中，用于页面渲染 v-for
-        //     this.list = res.data.object || defaultList
-        // }
-    })
-</script>
 </body>
 </html>
