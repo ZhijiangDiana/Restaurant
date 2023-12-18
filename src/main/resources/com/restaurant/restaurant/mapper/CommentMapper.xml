@@ -33,4 +33,15 @@
         update Restaurant.comment set likes =#{likes} where comment_id = #{id}
     </update>
 
+    <update id="updateComment" parameterType="com.restaurant.restaurant.pojo.entity.Comment">
+        UPDATE comment
+        SET
+            title = #{title},
+            body = #{body},
+            image = #{image},
+            publish_time = #{publishTime},
+            likes = #{likes}
+        WHERE comment_id = #{commentId}
+    </update>
+
 </mapper>

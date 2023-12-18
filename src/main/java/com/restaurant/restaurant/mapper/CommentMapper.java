@@ -1,5 +1,6 @@
 package com.restaurant.restaurant.mapper;
 
+import com.restaurant.restaurant.pojo.entity.Canteen;
 import com.restaurant.restaurant.pojo.entity.Comment;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,4 +19,5 @@ public interface CommentMapper {
 
     void updateLikeById(@Param("likes") int likes,@Param("id") int id);
 
+    int updateComment(Comment comment);
 }

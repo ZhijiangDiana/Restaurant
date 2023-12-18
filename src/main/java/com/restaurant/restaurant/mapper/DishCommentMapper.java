@@ -12,4 +12,8 @@ public interface DishCommentMapper {
     void insertComment(DishComment comment);//添加评论
     List<DishComment> selectByCanteenIdWithFile(@Param("canteenId") int canteenId);
     List<DishComment> selectByUserIdWithFile(@Param("userId") int userId);
+
+    int deletedishCommentById(@Param("id") int id);
+
+    int updateDishComment(DishComment dishComment);
 }

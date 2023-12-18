@@ -14,6 +14,16 @@ public class DishComment implements Serializable {
     public DishComment() {
     }
 
+    public DishComment(Integer dishCommentId, Integer userId, Integer dishId, Double score, String tittle, String body, byte[] image) {
+        this.dishCommentId = dishCommentId;
+        this.userId = userId;
+        this.dishId = dishId;
+        this.score = score;
+        this.tittle = tittle;
+        this.body = body;
+        this.image = image;
+    }
+
     public Integer getDishCommentId() {
         return dishCommentId;
     }

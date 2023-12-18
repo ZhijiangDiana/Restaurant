@@ -24,4 +24,19 @@
         SELECT * FROM `Restaurant`.dish_comment
         WHERE user_id = #{userId};
     </select>
+
+    <delete id="deletedishCommentById" parameterType="com.restaurant.restaurant.pojo.entity.DishComment">
+        DELETE FROM dish_comment
+        WHERE dish_comment_id = #{id}
+    </delete>
+
+    <update id="updateDishComment" parameterType="com.restaurant.restaurant.pojo.entity.DishComment">
+        UPDATE dish_comment
+        SET
+            score = #{score},
+            tittle = #{tittle},
+            body = #{body},
+            image = #{image}
+        WHERE dish_comment_id = #{dishCommentId}
+    </update>
 </mapper>
