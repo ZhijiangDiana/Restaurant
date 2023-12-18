@@ -7,11 +7,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.R;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.User;
-import com.restaurant.restaurant.service.dish.UpdateDishScore;
 import com.restaurant.restaurant.service.dish_comment.UploadDishComment;
 import com.restaurant.restaurant.utils.FrontEndUtils;
-import com.restaurant.restaurant.utils.LegalSpeakFilter;
-import com.restaurant.restaurant.utils.Pair;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -66,16 +63,14 @@ public class PublicDishComment extends HttpServlet {
         dishComment.setImage(image);
 
         UploadDishComment uploadDishComment = new UploadDishComment();
-        UpdateDishScore updateDishScore = new UpdateDishScore();
 
-        uploadDishComment.commentDish(dishComment);
-        updateDishScore.updateDishScore(dishId, score, user, userCommentsPerOnline);
-
-        session.setAttribute("userCommentsPerOnline", userCommentsPerOnline+1);
-
-        String json = FrontEndUtils.objectToBody("", "0", null);
-
-        pw.print(json);
+        boolean isSuccess = uploadDishComment.commentDish(dishComment, user, userCommentsPerOnline);
+        if (isSuccess) {
+            session.setAttribute("userCommentsPerOnline", userCommentsPerOnline+1);
+            pw.print(FrontEndUtils.objectToBody("", "0", null));
+        } else {
+            pw.print(FrontEndUtils.objectToBody("提交失败","1", null));
+        }
     }
 
     @Override
