@@ -44,9 +44,14 @@ public class Update_canteen_info extends HttpServlet {
             return;
         }
         Canteen canteen = new Canteen(canteen_id,name,location,start_time,end_time,description,image,report_count);
-        Update_Canteen updateCanteen = new Update_Canteen(canteen);
-        String json = FrontEndUtils.objectToBody("提交成功", "0", null);
-        pw.print(json);
+        Update_Canteen updateCanteen = new Update_Canteen();
+        boolean isSuccess = updateCanteen.Update_Canteen(canteen);
+        if (isSuccess) {
+            String json = FrontEndUtils.objectToBody("提交成功", "0", null);
+            pw.print(json);
+        } else {
+            pw.print(FrontEndUtils.objectToBody("提交失败", "1", null));
+        }
     }
 
     @Override

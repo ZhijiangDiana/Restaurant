@@ -53,10 +53,13 @@ public class UploadReport extends HttpServlet {
 
 
         ReportService reportService = new ReportService();
-        reportService.reportCanteen(report);
-
-        String respJson = FrontEndUtils.objectToBody("", "0", "");
-        pw.print(respJson);
+        boolean isSuccess = reportService.reportCanteen(report);
+        if (isSuccess) {
+            String respJson = FrontEndUtils.objectToBody("提交成功", "0", "");
+            pw.print(respJson);
+        } else {
+            pw.print(FrontEndUtils.objectToBody("提交失败", "1" , null));
+        }
     }
 
     @Override

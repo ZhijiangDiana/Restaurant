@@ -6,13 +6,19 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class SelectCanteenById {
+    // 已改try-with-resources
     public Canteen SelectCanteenById(int id) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
 
-        Canteen canteen = canteenMapper.selectById(id);
-        sqlSession.commit();
-        sqlSession.close();
+        Canteen canteen = null;
+        try (sqlSession) {
+            canteen = canteenMapper.selectById(id);
+            sqlSession.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+        }
         return canteen;
     }
 }

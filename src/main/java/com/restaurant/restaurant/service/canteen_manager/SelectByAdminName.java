@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
     根据当前用户id查看管理的食堂
  */
 public class SelectByAdminName {
+    // 以后要删，不改了
     public int SelectByAdminName(String name) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);

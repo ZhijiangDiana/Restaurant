@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.TimerTask;
 
 public class StoreVoteResultTask extends TimerTask {
+    // 已改try-with-resources
     private final Vote vote;
     private final ServletContext context;
 
@@ -32,26 +33,31 @@ public class StoreVoteResultTask extends TimerTask {
         Map<Integer, RunningVote> votes =
                 (Map<Integer, RunningVote>) context.getAttribute("votes");
         RunningVote runningVote = votes.get(vote.getVoteId());
-        // 结束时不允许读取
-        synchronized (Constants.voteLock) {
-            // 结束时不允许写入
-            synchronized (runningVote.getVoteLock()) {
-                // 读取context中的对象，将其转为json
-                Map<String, Integer> voteResult = runningVote.getVoteResult();
-                Set<Integer> voteUsers = runningVote.getVoteUsers();
-                String resultString = JSON.toJSONString(voteResult);
-                vote.setResult(resultString);
-                votes.remove(vote.getVoteId());
-                voteUsers.remove(vote.getVoteId());
-                context.setAttribute("votes", votes);
-                context.setAttribute("voteUsers", voteUsers);
-                // 将结果json传入数据库
-                SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-                VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
-                voteMapper.updateResult(vote);
-                sqlSession.commit();
-                sqlSession.close();
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
+
+        try (sqlSession) {
+            // 结束时不允许读取
+            synchronized (Constants.voteLock) {
+                // 结束时不允许写入
+                synchronized (runningVote.getVoteLock()) {
+                    // 读取context中的对象，将其转为json
+                    Map<String, Integer> voteResult = runningVote.getVoteResult();
+                    Set<Integer> voteUsers = runningVote.getVoteUsers();
+                    String resultString = JSON.toJSONString(voteResult);
+                    vote.setResult(resultString);
+                    votes.remove(vote.getVoteId());
+                    voteUsers.remove(vote.getVoteId());
+                    context.setAttribute("votes", votes);
+                    context.setAttribute("voteUsers", voteUsers);
+                    // 将结果json传入数据库
+                    voteMapper.updateResult(vote);
+                    sqlSession.commit();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
         }
     }
 }

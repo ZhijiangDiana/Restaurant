@@ -8,13 +8,17 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public class SearchDishService {
+    // 已改try-with-resources
     public List<Dish> searchDishBySeries(int series) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectBySeriesWithFile(series);
-        sqlSession.close();
-
+        List<Dish> res = null;
+        try (sqlSession) {
+            res = dishMapper.selectBySeriesWithFile(series);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return res;
     }
 
@@ -22,8 +26,12 @@ public class SearchDishService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectByPriceWithFile(minPrice, maxPrice);
-        sqlSession.close();
+        List<Dish> res = null;
+        try (sqlSession) {
+            res = dishMapper.selectByPriceWithFile(minPrice, maxPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return res;
     }
@@ -32,8 +40,12 @@ public class SearchDishService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectByCanteenWithFile(canteenName);
-        sqlSession.close();
+        List<Dish> res = null;
+        try (sqlSession) {
+            res = dishMapper.selectByCanteenWithFile(canteenName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return res;
     }
@@ -42,8 +54,12 @@ public class SearchDishService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectByScoreWithFile(score);
-        sqlSession.close();
+        List<Dish> res = null;
+        try (sqlSession) {
+            res = dishMapper.selectByScoreWithFile(score);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return res;
     }

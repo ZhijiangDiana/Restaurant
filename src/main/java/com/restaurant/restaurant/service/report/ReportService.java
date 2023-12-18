@@ -10,38 +10,58 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class ReportService {
-    public void reportCanteen(Report report) {
+    // 已改try-with-resources
+    public boolean reportCanteen(Report report) {
+        boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         ReportMapper reportMapper = sqlSession.getMapper(ReportMapper.class);
         CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
 
-        reportMapper.insertReport(report);
-        canteenMapper.increaseReportById(report.getCanteenId());
+        try (sqlSession) {
+            reportMapper.insertReport(report);
+            canteenMapper.increaseReportById(report.getCanteenId());
+            sqlSession.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+            isSuccess = false;
+        }
 
-        sqlSession.commit();
-        sqlSession.close();
+        return isSuccess;
     }
 
-    public void replyReport(ReportReply reportReply) {
+    public boolean replyReport(ReportReply reportReply) {
+        boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         ReportReplyMapper reportReplyMapper = sqlSession.getMapper(ReportReplyMapper.class);
 
-        reportReplyMapper.insertReportReply(reportReply);
+        try (sqlSession) {
+            reportReplyMapper.insertReportReply(reportReply);
+            sqlSession.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+            isSuccess = false;
+        }
 
-        sqlSession.commit();
-
-        sqlSession.close();
+        return isSuccess;
     }
 
     public Pair<Report, ReportReply> getReportAndReply(int reportId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        ReportMapper reportMapper = sqlSession.getMapper(ReportMapper.class);
-        ReportReplyMapper reportReplyMapper = sqlSession.getMapper(ReportReplyMapper.class);
 
-        Report report = reportMapper.selectById(reportId);
-        ReportReply reportReply = reportReplyMapper.selectByReportId(reportId);
+        try (sqlSession) {
+            ReportMapper reportMapper = sqlSession.getMapper(ReportMapper.class);
+            ReportReplyMapper reportReplyMapper = sqlSession.getMapper(ReportReplyMapper.class);
+            Report report = reportMapper.selectById(reportId);
+            ReportReply reportReply = reportReplyMapper.selectByReportId(reportId);
+            return new Pair<>(report, reportReply);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
-        sqlSession.close();
-        return new Pair<>(report, reportReply);
     }
 }

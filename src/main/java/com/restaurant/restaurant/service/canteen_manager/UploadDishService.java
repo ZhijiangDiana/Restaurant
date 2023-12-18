@@ -9,13 +9,21 @@ public class UploadDishService {
     /*
         插入dish
      */
-
-    public void uploadDish(Dish dish) {
+    // 已改try-with-resources
+    public boolean uploadDish(Dish dish) {
+        boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
-        dishMapper.insertDish(dish);
 
-        sqlSession.commit();
-        sqlSession.close();
+        try (sqlSession) {
+            dishMapper.insertDish(dish);
+            sqlSession.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            sqlSession.rollback();
+            e.printStackTrace();
+            isSuccess = false;
+        }
+        return isSuccess;
     }
 }

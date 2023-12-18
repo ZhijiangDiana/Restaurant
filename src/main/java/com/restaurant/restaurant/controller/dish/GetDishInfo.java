@@ -39,8 +39,11 @@ public class GetDishInfo extends HttpServlet {
 
         GetDishInfoService dishInfoService = new GetDishInfoService();
         Dish res = dishInfoService.getDishInfo(dishId);
-
-        pw.print(FrontEndUtils.objectToBody("", "0", res));
+        if (res != null) {
+            pw.print(FrontEndUtils.objectToBody("", "0", res));
+        } else {
+            pw.print(FrontEndUtils.objectToBody("查询失败", "1", null));
+        }
     }
 
     @Override

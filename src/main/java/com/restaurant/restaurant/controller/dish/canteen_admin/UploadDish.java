@@ -45,9 +45,9 @@ public class UploadDish extends HttpServlet {
         byte[] image = reqJson.getBytes("image");
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
 
-        // 测试
-        canteenAdmin = new CanteenAdmin();
-        canteenAdmin.setCanteenId(2);
+//        // 测试
+//        canteenAdmin = new CanteenAdmin();
+//        canteenAdmin.setCanteenId(2);
 
         if (canteenAdmin == null || dishName == null || series == null || price == null || image == null) {
             resp.setStatus(500);
@@ -65,10 +65,15 @@ public class UploadDish extends HttpServlet {
         dish.setImage(image);
 
         UploadDishService uploadDishService = new UploadDishService();
-        uploadDishService.uploadDish(dish);
+        boolean isSuccess = uploadDishService.uploadDish(dish);
+        if (isSuccess) {
+            String json = FrontEndUtils.objectToBody("提交成功", "0", null);
+            pw.print(json);
+        } else {
+            pw.print(FrontEndUtils.objectToBody("提交失败", "1", null));
+        }
 
-        String json = FrontEndUtils.objectToBody("", "0", null);
-        pw.print(json);
+
     }
 
     @Override

@@ -58,10 +58,13 @@ public class UpdateDish extends HttpServlet {
         dish.setImage(image);
 
         Update_Dish upDateDish = new Update_Dish();
-        upDateDish.updateDish(dish);
-
-        String json = FrontEndUtils.objectToBody("", "0", null);
-        pw.print(json);
+        boolean isSuccess = upDateDish.updateDish(dish);
+        if (isSuccess) {
+            String json = FrontEndUtils.objectToBody("修改成功", "0", null);
+            pw.print(json);
+        } else {
+            pw.print(FrontEndUtils.objectToBody("修改失败", "1", null));
+        }
     }
 
     @Override

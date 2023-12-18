@@ -6,6 +6,7 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class UploadDishCommentReplyService {
+    // 已改try-with-resources
     public boolean replyComment(DishCommentReply dishCommentReply) {
         boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();

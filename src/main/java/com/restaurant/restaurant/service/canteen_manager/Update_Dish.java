@@ -6,12 +6,21 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class Update_Dish {
-    public void updateDish(Dish dish) {
+    // 已改try-with-resources
+    public boolean updateDish(Dish dish) {
+        boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
-        dishMapper.updateDish(dish);
 
-        sqlSession.commit();
-        sqlSession.close();
+        try (sqlSession) {
+            dishMapper.updateDish(dish);
+            sqlSession.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+            isSuccess = false;
+        }
+        return isSuccess;
     }
 }

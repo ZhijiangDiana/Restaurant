@@ -5,14 +5,21 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class Delete_Dish {
-
-    public void deleteDish(int dish_id) {
+    // 已改try-with-resources
+    public boolean deleteDish(int dish_id) {
+        boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        dishMapper.deleteDishById(dish_id);
-
-        sqlSession.commit();
-        sqlSession.close();
+        try {
+            dishMapper.deleteDishById(dish_id);
+            sqlSession.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+            isSuccess = false;
+        }
+        return isSuccess;
     }
 }

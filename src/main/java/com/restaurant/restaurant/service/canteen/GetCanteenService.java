@@ -8,12 +8,17 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public class GetCanteenService {
+    // 已改try-with-resources
     public List<Canteen> getAllCanteen() {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
 
-        List<Canteen> res = canteenMapper.selectAllWithFile();
-        sqlSession.close();
+        List<Canteen> res = null;
+        try {
+            res = canteenMapper.selectAllWithFile();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return res;
     }
@@ -22,8 +27,12 @@ public class GetCanteenService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
 
-        Canteen res = canteenMapper.selectByIdWithFile(canteenId);
-        sqlSession.close();
+        Canteen res = null;
+        try (sqlSession) {
+            res = canteenMapper.selectByIdWithFile(canteenId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return res;
     }

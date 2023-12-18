@@ -38,10 +38,13 @@ public class DeleteDish extends HttpServlet {
         }
 
         Delete_Dish deleteDish = new Delete_Dish();
-        deleteDish.deleteDish(dishId);
-
-        String json = FrontEndUtils.objectToBody("删除成功", "0", null);
-        pw.print(json);
+        boolean isSuccess = deleteDish.deleteDish(dishId);
+        if (isSuccess) {
+            String json = FrontEndUtils.objectToBody("删除成功", "0", null);
+            pw.print(json);
+        } else {
+            pw.print(FrontEndUtils.objectToBody("删除失败", "1", null));
+        }
     }
 
     @Override

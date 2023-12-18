@@ -70,7 +70,12 @@ public class UploadVote extends HttpServlet {
         vote.setStartTime(startTime);
         vote.setEndTime(endTime);
         UploadVoteService uploadVoteService = new UploadVoteService();
-        int voteId = uploadVoteService.uploadVote(vote);
+        Integer voteId = uploadVoteService.uploadVote(vote);
+        if (voteId == null) {
+            resp.setStatus(500);
+            pw.print(FrontEndUtils.objectToBody("提交失败", "1", null));
+            return;
+        }
 
         // 将投票放入context中
         Map<String, Integer> voteResult = new HashMap<>(114);

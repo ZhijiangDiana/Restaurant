@@ -10,6 +10,7 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class UploadDishComment {
+    // 已改try-with-resources
     /**
      * 插入评论
      * @param dishComment 需要保证userId, score, dishId, title, body要有

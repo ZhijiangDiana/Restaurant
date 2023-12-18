@@ -10,6 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public class GetDishCommentService {
+    // 已改try-with-resources
     public List<DishComment> getDishCommentByCanteen(int canteenId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);

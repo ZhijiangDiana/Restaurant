@@ -9,10 +9,12 @@ import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class GetVoteService {
+    // 已改try-with-resources
     public static final int CAN_VOTE = 0;
     public static final int HAS_VOTED = 1;
     public static final int VOTE_FINISHED = 2;
@@ -25,9 +27,12 @@ public class GetVoteService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
 
-        List<Vote> voteList = voteMapper.selectFinishedByCanteenId(canteenId);
-
-        sqlSession.close();
+        List<Vote> voteList = null;
+        try (sqlSession) {
+            voteList = voteMapper.selectFinishedByCanteenId(canteenId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return voteList;
     }
 
@@ -35,27 +40,28 @@ public class GetVoteService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
 
-        List<Vote> voteList;
-        // 获取所有投票时不允许结束投票
-        synchronized (Constants.voteLock) {
-            voteList = voteMapper.selectRunning();
-            Map<Integer, RunningVote> votes =
-                    (Map<Integer, RunningVote>) context.getAttribute("votes");
-            for (Map.Entry<Integer, RunningVote> entry : votes.entrySet()) {
-                RunningVote runningVote = entry.getValue();
-                for (Vote vote : voteList) {
-                    // 读取投票时不允许修改
-                    synchronized (runningVote.getVoteLock()) {
-                        String voteResult = JSON.toJSONString(runningVote.getVoteResult());
-                        if (vote.getResult() == null) // 保证一致性
-                            vote.setResult(voteResult);
+        List<Vote> voteList = null;
+        try (sqlSession) {
+            // 获取所有投票时不允许结束投票
+            synchronized (Constants.voteLock) {
+                voteList = voteMapper.selectRunning();
+                Map<Integer, RunningVote> votes =
+                        (Map<Integer, RunningVote>) context.getAttribute("votes");
+                for (Map.Entry<Integer, RunningVote> entry : votes.entrySet()) {
+                    RunningVote runningVote = entry.getValue();
+                    for (Vote vote : voteList) {
+                        // 读取投票时不允许修改
+                        synchronized (runningVote.getVoteLock()) {
+                            String voteResult = JSON.toJSONString(runningVote.getVoteResult());
+                            if (vote.getResult() == null) // 保证一致性
+                                vote.setResult(voteResult);
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-
-        sqlSession.close();
         return voteList;
     }
 

@@ -7,13 +7,21 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class Update_Canteen {
-    public Update_Canteen(Canteen canteen) {
+    // 已改try-with-resources
+    public boolean Update_Canteen(Canteen canteen) {
+        boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);
 
-        canteenAdminMapper.updateCanteenData(canteen);
-
-        sqlSession.commit();
-        sqlSession.close();
+        try (sqlSession) {
+            canteenAdminMapper.updateCanteenData(canteen);
+            sqlSession.commit();
+            isSuccess = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+            isSuccess = false;
+        }
+        return isSuccess;
     }
 }

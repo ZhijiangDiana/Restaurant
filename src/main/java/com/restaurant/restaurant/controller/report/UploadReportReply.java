@@ -49,10 +49,13 @@ public class UploadReportReply extends HttpServlet {
         reportReply.setBody(body);
 
         ReportService replyReportService = new ReportService();
-        replyReportService.replyReport(reportReply);
-
-        String respJson = FrontEndUtils.objectToBody("", "0", "");
-        pw.print(respJson);
+        boolean isSuccess = replyReportService.replyReport(reportReply);
+        if (isSuccess) {
+            String respJson = FrontEndUtils.objectToBody("", "0", "");
+            pw.print(respJson);
+        } else {
+            pw.print(FrontEndUtils.objectToBody("提交失败", "1", null));
+        }
     }
 
     @Override

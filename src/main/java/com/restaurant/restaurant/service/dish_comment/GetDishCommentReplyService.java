@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public class GetDishCommentReplyService {
+    // 已改try-with-resources
     public List<DishCommentReply> getDishCommentReplyById(int dishCommentId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishCommentReplyMapper dishCommentReplyMapper = sqlSession.getMapper(DishCommentReplyMapper.class);

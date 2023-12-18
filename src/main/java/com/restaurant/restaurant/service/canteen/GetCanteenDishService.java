@@ -10,12 +10,17 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 public class GetCanteenDishService {
+    // 已改try-with-resources
     public List<Dish> getCanteenDish(int canteenId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        List<Dish> res = dishMapper.selectByCanteenIdWithFile(canteenId);
-        sqlSession.close();
+        List<Dish> res = null;
+        try (sqlSession) {
+            res = dishMapper.selectByCanteenIdWithFile(canteenId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return res;
     }

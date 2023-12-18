@@ -14,28 +14,34 @@ import java.util.Comparator;
 import java.util.List;
 
 public class CalculateCanteenRank {
+    // 已改try-with-resources
     public List<Pair<Double, Canteen>> calculateRank() {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        // 查表并计算数据
-        List<Canteen> canteenList = canteenMapper.selectAll();
-        List<Pair<Double, Canteen>> res = new ArrayList<>(canteenList.size()+11);
-        for (Canteen canteen : canteenList) {
-            int canteenId = canteen.getCanteenId();
-            List<Dish> canteenDishes = dishMapper.selectByCanteenId(canteenId);
-            Double score = calculateCanteenScore(canteenDishes, canteen);
-            res.add(new Pair<>(score, canteen));
-        }
-
-        // 处理排名
-        Collections.sort(res, new Comparator<Pair<Double, Canteen>>() {
-            @Override
-            public int compare(Pair<Double, Canteen> o1, Pair<Double, Canteen> o2) {
-                return o2.first.compareTo(o1.first);
+        List<Pair<Double, Canteen>> res = null;
+        try (sqlSession) {
+            // 查表并计算数据
+            List<Canteen> canteenList = canteenMapper.selectAll();
+            res = new ArrayList<>(canteenList.size()+11);
+            for (Canteen canteen : canteenList) {
+                int canteenId = canteen.getCanteenId();
+                List<Dish> canteenDishes = dishMapper.selectByCanteenId(canteenId);
+                Double score = calculateCanteenScore(canteenDishes, canteen);
+                res.add(new Pair<>(score, canteen));
             }
-        });
+
+            // 处理排名
+            Collections.sort(res, new Comparator<Pair<Double, Canteen>>() {
+                @Override
+                public int compare(Pair<Double, Canteen> o1, Pair<Double, Canteen> o2) {
+                    return o2.first.compareTo(o1.first);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return res;
     }
 

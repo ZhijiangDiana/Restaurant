@@ -30,6 +30,12 @@ public class GetReportResult extends HttpServlet {
 
         ReportService reportService = new ReportService();
         Pair<Report, ReportReply> reportAndReply = reportService.getReportAndReply(reportId);
+        // 抛出异常
+        if (reportAndReply == null) {
+            pw.print(FrontEndUtils.objectToBody("内部错误", "1", null));
+            resp.setStatus(500);
+            return;
+        }
 
         // 未找到投诉id
         if (reportAndReply.first == null) {

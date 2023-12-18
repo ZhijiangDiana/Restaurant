@@ -6,12 +6,17 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
 public class GetDishInfoService {
+    // 已改try-with-resources
     public Dish getDishInfo(int dishId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
 
-        Dish res = dishMapper.selectByIdWithFile(dishId);
-        sqlSession.close();
+        Dish res = null;
+        try {
+            res = dishMapper.selectByIdWithFile(dishId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return res;
     }
