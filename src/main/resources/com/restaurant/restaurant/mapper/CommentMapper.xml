@@ -44,4 +44,9 @@
         WHERE comment_id = #{commentId}
     </update>
 
+    <delete id="deleteCommentById" parameterType="com.restaurant.restaurant.pojo.entity.Comment">
+        DELETE FROM comment
+        WHERE comment_id = #{id}
+    </delete>
+
 </mapper>

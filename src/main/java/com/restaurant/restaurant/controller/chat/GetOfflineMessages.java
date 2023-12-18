@@ -5,6 +5,7 @@ import com.restaurant.restaurant.mapper.MessageMapper;
 import com.restaurant.restaurant.mapper.UserMapper;
 import com.restaurant.restaurant.pojo.entity.Message;
 import com.restaurant.restaurant.pojo.entity.User;
+import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import com.restaurant.restaurant.ws.pojo.ResultMessage;
 import jakarta.servlet.ServletException;
@@ -26,38 +27,41 @@ public class GetOfflineMessages extends HttpServlet {
         Integer fromId = Integer.parseInt(request.getParameter("fromId"));
         Integer toId = Integer.parseInt(request.getParameter("toId"));
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
-        List<Message> messages = mapper.selectById(fromId);
+        try (sqlSession){
+            MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
+            List<Message> messages = mapper.selectById(fromId);
 
-        Iterator<Message> iterator = messages.iterator();
-        while (iterator.hasNext()) {
-            Message message = iterator.next();
-            Integer receiverUserId = message.getReceiverUserId();
-            Integer senderUserId = message.getSenderUserId();
-            if (receiverUserId != toId && senderUserId != toId) {
-                iterator.remove();
+            Iterator<Message> iterator = messages.iterator();
+            while (iterator.hasNext()) {
+                Message message = iterator.next();
+                Integer receiverUserId = message.getReceiverUserId();
+                Integer senderUserId = message.getSenderUserId();
+                if (receiverUserId != toId && senderUserId != toId) {
+                    iterator.remove();
+                }
             }
-        }
-
-
-        List<ResultMessage> resultMessages = new ArrayList<>();
-        for (Message message : messages) {
-            String body = message.getBody();
-            Integer senderUserId = message.getSenderUserId();
-            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            User user = userMapper.selectById(senderUserId);
-            String username = user.getUsername();
-            ResultMessage resultMessage = new ResultMessage();
-            // 用去前端区分谁在聊天框左谁在聊天框右
-            if (senderUserId == fromId){
-                resultMessage.setFromName(username);
+            List<ResultMessage> resultMessages = new ArrayList<>();
+            for (Message message : messages) {
+                String body = message.getBody();
+                Integer senderUserId = message.getSenderUserId();
+                UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+                User user = userMapper.selectById(senderUserId);
+                String username = user.getUsername();
+                ResultMessage resultMessage = new ResultMessage();
+                // 用去前端区分谁在聊天框左谁在聊天框右
+                if (senderUserId == fromId){
+                    resultMessage.setFromName(username);
+                }
+                resultMessage.setMessage(body);
+                resultMessage.setSystem(false);
+                resultMessages.add(resultMessage);
             }
-            resultMessage.setMessage(body);
-            resultMessage.setSystem(false);
-            resultMessages.add(resultMessage);
+            sqlSession.close();
+            response.getWriter().print(JSON.toJSONString(resultMessages));
+        }catch (Exception e){
+            e.printStackTrace();
+            sqlSession.close();
+            response.getWriter().print(FrontEndUtils.objectToBody("系统繁忙","1",null));
         }
-        response.getWriter().print(JSON.toJSONString(resultMessages));
-
-
     }
 }

@@ -1,5 +1,6 @@
 package com.restaurant.restaurant.mapper;
 
+import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.Reply;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +13,8 @@ public interface ReplyMapper {
     void insertUserReply(Reply reply);
 
     void insertAdminReply(Reply reply);
+
+    int updateReply(Reply reply);
+
+    int deleteReplyById(@Param("id") int id);
 }

@@ -15,91 +15,100 @@ import jdk.jfr.Frequency;
 import org.apache.ibatis.session.SqlSession;
 
 public class LoginService {
-    SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
     // TODO：逻辑有待商榷好吧
     public String loginCheck(String id,String password,String verification,String sessionVerification){
-        if(!sessionVerification.equals(verification)){
-            return FrontEndUtils.objectToBody("验证码错误","1",null);
-        }
-        else {
-            if (id.length() != 4 && id.length() != 6 && id.length() != 10){
-                return FrontEndUtils.objectToBody("输入账号有误,请重新输入","1",null);
-            }
-            else {
-                // 总管理员
-                if (id.length() == 4){
-                    AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
-                    Admin admin = mapper.selectById(Integer.parseInt(id));
-                    if (admin.getPassword().equals(password)) {
-                        return FrontEndUtils.objectToBody("管理员先生您好","0",Constants.ADMIN_VERIFIED);
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        try (sqlSession) {
+            if (!sessionVerification.equals(verification)) {
+                return FrontEndUtils.objectToBody("验证码错误", "1", null);
+            } else {
+                if (id.length() != 4 && id.length() != 6 && id.length() != 10) {
+                    return FrontEndUtils.objectToBody("输入账号有误,请重新输入", "1", null);
+                } else {
+                    // 总管理员
+                    if (id.length() == 4) {
+                        AdminMapper mapper = sqlSession.getMapper(AdminMapper.class);
+                        Admin admin = mapper.selectById(Integer.parseInt(id));
+                        if (admin.getPassword().equals(password)) {
+                            return FrontEndUtils.objectToBody("管理员先生您好", "0", Constants.ADMIN_VERIFIED);
+                        } else {
+                            return FrontEndUtils.objectToBody("密码错误", "1", null);
+                        }
                     }
-                    else {
-                        return FrontEndUtils.objectToBody("密码错误","1",null);
-                    }
-                }
 
-                // 食堂管理员
-                else if (id.length() == 6){
-                    CanteenAdminMapper mapper = sqlSession.getMapper(CanteenAdminMapper.class);
-                    CanteenAdmin canteenAdmin = mapper.selectById(Integer.parseInt(id));
-                    if(canteenAdmin.getPassword().equals(password)){
-                        return FrontEndUtils.objectToBody("食堂管理员你好","0",Constants.RESTAURANT_ADMIN_VERIFIED);
+                    // 食堂管理员
+                    else if (id.length() == 6) {
+                        CanteenAdminMapper mapper = sqlSession.getMapper(CanteenAdminMapper.class);
+                        CanteenAdmin canteenAdmin = mapper.selectById(Integer.parseInt(id));
+                        if (canteenAdmin.getPassword().equals(password)) {
+                            return FrontEndUtils.objectToBody("食堂管理员你好", "0", Constants.RESTAURANT_ADMIN_VERIFIED);
+                        } else {
+                            return FrontEndUtils.objectToBody("密码错误", "1", null);
+                        }
                     }
-                    else {
-                        return FrontEndUtils.objectToBody("密码错误","1",null);
-                    }
-                }
 
-                // 师生
-                else {
-                    UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-                    User user = mapper.selectById(Integer.parseInt(id));
-                    if(user.getPassword().equals(password)){
-                        Integer experience = user.getExperience();
-                        // obj设为了到servlet存session
-                        return FrontEndUtils.objectToBody(user.getUsername() + "你好","0",Constants.USER_VERIFIED);
-                    }
+                    // 师生
                     else {
-                        return FrontEndUtils.objectToBody("密码错误","1",null);
+                        UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+                        User user = mapper.selectById(Integer.parseInt(id));
+                        if (user.getPassword().equals(password)) {
+                            Integer experience = user.getExperience();
+                            // obj设为了到servlet存session
+                            return FrontEndUtils.objectToBody(user.getUsername() + "你好", "0", Constants.USER_VERIFIED);
+                        } else {
+                            return FrontEndUtils.objectToBody("密码错误", "1", null);
+                        }
                     }
                 }
             }
+        }catch (Exception e){
+            sqlSession.close();
+            sqlSession.rollback();
+            return FrontEndUtils.objectToBody("系统繁忙","0",null);
         }
     }
 
-    public User getUserById(String id,String password,String verification,String sessionVerification){
-        if (sessionVerification.equals(verification)){
-            if(id.length() == 10){
-                UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-                User user = mapper.selectById(Integer.parseInt(id));
-                if (user.getPassword().equals(password)){
-                    return user;
-                }
-                else
+    public User getUserById(String id,String password,String verification,String sessionVerification) {
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        try (sqlSession) {
+            if (sessionVerification.equals(verification)) {
+                if (id.length() == 10) {
+                    UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+                    User user = mapper.selectById(Integer.parseInt(id));
+                    if (user.getPassword().equals(password)) {
+                        return user;
+                    } else
+                        return null;
+                } else
                     return null;
-            }
-            else
+            } else
                 return null;
-        }
-        else
+        }catch (Exception e){
+            sqlSession.close();
+            sqlSession.rollback();
             return null;
+        }
     }
 
     public CanteenAdmin getCanteenAdminById(String id,String password,String verification,String sessionVerification){
-        if (sessionVerification.equals(verification)){
-            if(id.length() == 6){
-                CanteenAdminMapper mapper = sqlSession.getMapper(CanteenAdminMapper.class);
-                CanteenAdmin canteenAdmin = mapper.selectById(Integer.parseInt(id));
-                if (canteenAdmin.getPassword().equals(password)){
-                    return canteenAdmin;
-                }
-                else
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        try (sqlSession) {
+            if (sessionVerification.equals(verification)) {
+                if (id.length() == 6) {
+                    CanteenAdminMapper mapper = sqlSession.getMapper(CanteenAdminMapper.class);
+                    CanteenAdmin canteenAdmin = mapper.selectById(Integer.parseInt(id));
+                    if (canteenAdmin.getPassword().equals(password)) {
+                        return canteenAdmin;
+                    } else
+                        return null;
+                } else
                     return null;
-            }
-            else
+            } else
                 return null;
-        }
-        else
+        }catch (Exception e){
+            sqlSession.close();
+            sqlSession.rollback();
             return null;
+        }
     }
 }

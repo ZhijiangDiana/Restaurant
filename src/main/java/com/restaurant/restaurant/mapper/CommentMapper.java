@@ -20,4 +20,6 @@ public interface CommentMapper {
     void updateLikeById(@Param("likes") int likes,@Param("id") int id);
 
     int updateComment(Comment comment);
+
+    int deleteCommentById(@Param("id") int id);
 }

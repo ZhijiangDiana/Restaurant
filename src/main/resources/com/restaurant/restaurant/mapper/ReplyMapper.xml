@@ -19,4 +19,16 @@
         INSERT INTO reply (comment_id,user_id, canteen_admin_id, body)
         VALUES (#{commentId}, null, #{canteenAdminId}, #{body})
     </insert>
+
+    <update id="updateReply" parameterType="com.restaurant.restaurant.pojo.entity.Reply">
+        UPDATE reply
+        SET
+            body = #{body}
+        WHERE reply_id = #{replyId}
+    </update>
+
+    <delete id="deleteReplyById" parameterType="com.restaurant.restaurant.pojo.entity.Reply">
+        DELETE FROM reply
+        WHERE reply_id = #{id}
+    </delete>
 </mapper>
