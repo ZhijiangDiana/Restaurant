@@ -9,7 +9,6 @@ import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
