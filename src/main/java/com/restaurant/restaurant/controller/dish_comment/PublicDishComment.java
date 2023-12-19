@@ -9,6 +9,7 @@ import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.dish_comment.UploadDishComment;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -26,6 +27,7 @@ public class PublicDishComment extends HttpServlet {
         resp.setContentType("text/html; charset = UTF-8");
         PrintWriter pw = resp.getWriter();
 
+        ServletContext context = getServletContext();
         HttpSession session = req.getSession(true);
 
         JSONObject reqJson = FrontEndUtils.bodyToJson(req);
@@ -63,8 +65,7 @@ public class PublicDishComment extends HttpServlet {
         dishComment.setImage(image);
 
         UploadDishComment uploadDishComment = new UploadDishComment();
-
-        boolean isSuccess = uploadDishComment.commentDish(dishComment, user, userCommentsPerOnline);
+        boolean isSuccess = uploadDishComment.commentDish(dishComment, user, userCommentsPerOnline, context);
         if (isSuccess) {
             session.setAttribute("userCommentsPerOnline", userCommentsPerOnline+1);
             pw.print(FrontEndUtils.objectToBody("", "0", null));

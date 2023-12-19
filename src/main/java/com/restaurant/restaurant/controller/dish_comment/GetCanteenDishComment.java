@@ -5,6 +5,7 @@ import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.dish_comment.GetDishCommentService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,12 +31,13 @@ public class GetCanteenDishComment extends HttpServlet {
         resp.setContentType("text/html;charset= UTF-8");
         PrintWriter pw = resp.getWriter();
 
+        ServletContext context = getServletContext();
         HttpSession session = req.getSession(true);
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
 
-        // 测试
-        canteenAdmin = new CanteenAdmin();
-        canteenAdmin.setCanteenId(1);
+//        // 测试
+//        canteenAdmin = new CanteenAdmin();
+//        canteenAdmin.setCanteenId(2);
 
         if (canteenAdmin == null) {
             resp.setStatus(500);
@@ -45,7 +47,7 @@ public class GetCanteenDishComment extends HttpServlet {
 
         GetDishCommentService getDishCommentService = new GetDishCommentService();
         List<DishComment> res =
-                getDishCommentService.getDishCommentByCanteen(canteenAdmin.getCanteenId());
+                getDishCommentService.getDishCommentByCanteen(canteenAdmin.getCanteenId(), context);
         if (res == null || res.isEmpty())
             pw.print(FrontEndUtils.objectToBody("暂无评价", "1", null));
         else

@@ -1,13 +1,18 @@
 package com.restaurant.restaurant.service.dish_comment;
 
+import com.restaurant.restaurant.mapper.CanteenMapper;
 import com.restaurant.restaurant.mapper.DishCommentMapper;
 import com.restaurant.restaurant.mapper.DishMapper;
+import com.restaurant.restaurant.pojo.entity.Canteen;
 import com.restaurant.restaurant.pojo.entity.Dish;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.Pair;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
+import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
+
+import java.util.Map;
 
 public class UploadDishComment {
     // 已改try-with-resources
@@ -15,7 +20,7 @@ public class UploadDishComment {
      * 插入评论
      * @param dishComment 需要保证userId, score, dishId, title, body要有
      */
-    public boolean commentDish(DishComment dishComment, User user, int userCommentsPerOnline) {
+    public boolean commentDish(DishComment dishComment, User user, int userCommentsPerOnline, ServletContext context) {
         int dishId = dishComment.getDishId();
         double userComment = dishComment.getScore();
         boolean isSuccess;
@@ -23,6 +28,8 @@ public class UploadDishComment {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
         DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
+        Map<Integer, Map<Integer, DishComment>> dishCommentNotif =
+                (Map<Integer, Map<Integer, DishComment>>) context.getAttribute("dishCommentNotif");
 
         try {
             dishCommentMapper.insertComment(dishComment);
@@ -32,6 +39,10 @@ public class UploadDishComment {
             dishMapper.updateDishScore(dishId, newRes.first, newRes.second);
 
             sqlSession.commit();
+            // 添加一条提醒
+            Map<Integer, DishComment> canteenDishCommentMap = dishCommentNotif.get(dish.getCanteenId());
+            canteenDishCommentMap.put(dishComment.getDishCommentId(), dishComment);
+            int i = 1/0;
             isSuccess = true;
         } catch (Exception e) {
             e.printStackTrace();

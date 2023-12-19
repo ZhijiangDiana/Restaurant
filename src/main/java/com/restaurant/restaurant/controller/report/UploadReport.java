@@ -7,6 +7,7 @@ import com.restaurant.restaurant.pojo.entity.Report;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.report.ReportService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -29,6 +30,7 @@ public class UploadReport extends HttpServlet {
         String title = reqJson.getString("title");
         String body = reqJson.getString("body");
 
+        ServletContext context = getServletContext();
         HttpSession session = req.getSession(true);
         User user = (User) session.getAttribute("user");
 
@@ -53,7 +55,7 @@ public class UploadReport extends HttpServlet {
 
 
         ReportService reportService = new ReportService();
-        boolean isSuccess = reportService.reportCanteen(report);
+        boolean isSuccess = reportService.reportCanteen(report, context);
         if (isSuccess) {
             String respJson = FrontEndUtils.objectToBody("提交成功", "0", "");
             pw.print(respJson);

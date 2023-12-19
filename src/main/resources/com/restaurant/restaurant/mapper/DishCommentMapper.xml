@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 命名空间，指表对应Mapper类的位置 -->
 <mapper namespace="com.restaurant.restaurant.mapper.DishCommentMapper">
-    <insert id="insertComment">
+    <insert id="insertComment" useGeneratedKeys="true" keyProperty="dishCommentId">
         INSERT INTO dish_comment (user_id, dish_id, score, tittle, body, image)
         VALUES (#{userId}, #{dishId}, #{score}, #{tittle}, #{body}, #{image})
     </insert>

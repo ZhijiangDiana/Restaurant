@@ -7,20 +7,29 @@ import com.restaurant.restaurant.pojo.entity.Report;
 import com.restaurant.restaurant.pojo.entity.ReportReply;
 import com.restaurant.restaurant.utils.Pair;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
+import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
+
+import java.util.Map;
 
 public class ReportService {
     // 已改try-with-resources
-    public boolean reportCanteen(Report report) {
+    public boolean reportCanteen(Report report, ServletContext context) {
         boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         ReportMapper reportMapper = sqlSession.getMapper(ReportMapper.class);
         CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
+        Map<Integer, Map<Integer, Report>> reportNotif =
+                (Map<Integer,  Map<Integer, Report>>) context.getAttribute("reportNotif");
 
         try (sqlSession) {
             reportMapper.insertReport(report);
             canteenMapper.increaseReportById(report.getCanteenId());
             sqlSession.commit();
+            // 将report放入map中
+            Map<Integer, Report> canteenReportMap = reportNotif.get(report.getCanteenId());
+            canteenReportMap.put(report.getReportId(), report);
+            System.out.println(report.getCanteenId() + ": " + canteenReportMap);
             isSuccess = true;
         } catch (Exception e) {
             e.printStackTrace();

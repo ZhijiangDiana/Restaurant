@@ -33,9 +33,9 @@ public class UploadDishCommentReply extends HttpServlet {
         String body = reqJson.getString("body");
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
 
-        // 测试
-        canteenAdmin = new CanteenAdmin();
-        canteenAdmin.setCanteenAdminId(111111);
+//        // 测试
+//        canteenAdmin = new CanteenAdmin();
+//        canteenAdmin.setCanteenAdminId(111111);
 
         if (dishCommentId == null || title == null || body == null || canteenAdmin == null) {
             resp.setStatus(500);

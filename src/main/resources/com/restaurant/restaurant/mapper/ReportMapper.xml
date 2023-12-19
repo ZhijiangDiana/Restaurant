@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.ReportMapper">
-    <insert id="insertReport">
+    <insert id="insertReport" useGeneratedKeys="true" keyProperty="reportId">
         INSERT INTO `Restaurant`.report (user_id, canteen_id, title, body)
         VALUES (#{userId}, #{canteenId}, #{title}, #{body});
     </insert>

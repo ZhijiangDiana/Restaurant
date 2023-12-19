@@ -5,19 +5,25 @@ import com.restaurant.restaurant.mapper.DishCommentReplyMapper;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.DishCommentReply;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
+import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Map;
 
 public class GetDishCommentService {
     // 已改try-with-resources
-    public List<DishComment> getDishCommentByCanteen(int canteenId) {
+    public List<DishComment> getDishCommentByCanteen(int canteenId, ServletContext context) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
+        Map<Integer, Map<Integer, DishComment>> dishCommentNotif =
+                (Map<Integer, Map<Integer, DishComment>>) context.getAttribute("dishCommentNotif");
 
         List<DishComment> res = null;
         try {
             res = dishCommentMapper.selectByCanteenIdWithFile(canteenId);
+            Map<Integer, DishComment> canteenDishCommentMap = dishCommentNotif.get(canteenId);
+            canteenDishCommentMap.clear();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.LevelInfo;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
+import com.restaurant.restaurant.pojo.entity.DishComment;
+import com.restaurant.restaurant.pojo.entity.Report;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.LoginService;
 import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,9 +20,9 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 @WebServlet("/login")
@@ -56,13 +59,28 @@ public class LoginServlet extends HttpServlet{
             System.out.println("你告诉我我没执行这个吗");
             session.setAttribute("user",user);
             session.setAttribute("userCommentsPerOnline",0);
-            Queue<Date> commentQueue = new LinkedList<>();
+            Queue<Date> commentQueue = new ConcurrentLinkedQueue<>();
             session.setAttribute("commentQueue", commentQueue);
         }
 
         if(canteenAdmin != null){
             request.getSession().setAttribute("canteenAdmin",canteenAdmin);
             request.getSession().setAttribute("userCommentsPerOnline",0);
+
+            // 添加notification的集合是否在context中
+            int canteenId = canteenAdmin.getCanteenId();
+            ServletContext context = getServletContext();
+            Map<Integer, Map<Integer, Report>> reportNotif =
+                    (Map<Integer, Map<Integer, Report>>) context.getAttribute("reportNotif");
+            Map<Integer, Map<Integer, DishComment>> dishCommentNotif =
+                    (Map<Integer, Map<Integer, DishComment>>) context.getAttribute("dishCommentNotif");
+            if (reportNotif.get(canteenId) == null ||
+                    dishCommentNotif.get(canteenId) == null) {
+                Map<Integer, Report> reportSet = new ConcurrentHashMap<>();
+                Map<Integer, DishComment> dishCommentSet = new ConcurrentHashMap<>();
+                reportNotif.put(canteenId, reportSet);
+                dishCommentNotif.put(canteenId, dishCommentSet);
+            }
         }
 
         response.getWriter().print(info);

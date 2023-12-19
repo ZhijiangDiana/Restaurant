@@ -3,6 +3,7 @@ import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.Report;
 import com.restaurant.restaurant.service.report.SelectReportService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,6 +22,7 @@ public class GetNoReplyReport extends HttpServlet {
         resp.setContentType("text/html; charset = UTF-8");
         PrintWriter pw = resp.getWriter();
 
+        ServletContext context = getServletContext();
         HttpSession session = req.getSession(true);
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
 
@@ -35,7 +37,7 @@ public class GetNoReplyReport extends HttpServlet {
         }
 
         SelectReportService selectReportService = new SelectReportService();
-        List<Report> reportList = selectReportService.selectReport(canteenAdmin.getCanteenId());
+        List<Report> reportList = selectReportService.selectReport(canteenAdmin.getCanteenId(), context);
         if (reportList == null || reportList.isEmpty()) {
             pw.print(FrontEndUtils.objectToBody("暂时没有未回复投诉", "1", null));
             return;

@@ -33,9 +33,9 @@ public class GetUserDishComment extends HttpServlet {
         HttpSession session = req.getSession(true);
         User user = (User) session.getAttribute("user");
 
-        // 测试
-        user = new User();
-        user.setUserId(1);
+//        // 测试
+//        user = new User();
+//        user.setUserId(1);
 
         if (user == null) {
             resp.setStatus(500);
