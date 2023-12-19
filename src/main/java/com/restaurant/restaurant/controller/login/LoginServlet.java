@@ -18,6 +18,7 @@ import jakarta.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -53,7 +54,22 @@ public class LoginServlet extends HttpServlet{
         // 向session中存一些重要信息
         HttpSession session = request.getSession();
         if(user != null){
-            System.out.println("你告诉我我没执行这个吗");
+            // 设置信息数据结构  <k,v>--<学号,数量>,名字对应某某消息,这里不负责具体消息展示。只显示小红点数量。
+            // 点击小红点跳转到类似b站的信息页面对应页面会发请求获取相对应的资源
+            // 这里要放入servletcontext是为了有人发消息或者点赞后能够实时更新 看过后数量自然减少
+            HashMap<Integer,Integer> replyCounts = new HashMap<>();
+            HashMap<Integer,Integer> thumbsupCounts = new HashMap<>();
+            HashMap<Integer,Integer> reportReplyCounts = new HashMap<>();
+
+            HashMap<Integer,Integer> replyCounts1 = (HashMap<Integer,Integer>)request.getServletContext().getAttribute("replyCounts");
+            HashMap<Integer,Integer> thumbsupCounts1 = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
+            HashMap<Integer,Integer> reportReplyCounts1 = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("reportReplyCounts");
+            if (replyCounts1 == null)
+                request.getServletContext().setAttribute("replyCounts",replyCounts);
+            if (thumbsupCounts1 == null)
+                request.getServletContext().setAttribute("thumbsupCounts",thumbsupCounts);
+            if (reportReplyCounts1 == null)
+                request.getServletContext().setAttribute("reportReplyCounts",reportReplyCounts);
             session.setAttribute("user",user);
             session.setAttribute("userCommentsPerOnline",0);
             Queue<Date> commentQueue = new LinkedList<>();

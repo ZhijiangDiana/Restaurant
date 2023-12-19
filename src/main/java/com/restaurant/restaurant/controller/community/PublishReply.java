@@ -2,17 +2,22 @@ package com.restaurant.restaurant.controller.community;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.restaurant.restaurant.mapper.CommentMapper;
+import com.restaurant.restaurant.pojo.entity.Comment;
 import com.restaurant.restaurant.service.ReplyService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.LegalSpeakFilter;
+import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.ibatis.session.SqlSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 @WebServlet("/publishReply")
 public class PublishReply extends HttpServlet {
@@ -50,6 +55,17 @@ public class PublishReply extends HttpServlet {
 
         ReplyService replyService = new ReplyService();
         replyService.addReply(id,commentId,body);
+        // 小红点提醒
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
+        Comment comment = commentMapper.selectById(Integer.parseInt(id));
+        Integer userId = comment.getUserId();
+        HashMap<Integer,Integer> replyCounts =(HashMap<Integer, Integer>) request.getServletContext().getAttribute("replyCounts");
+        Integer counts = replyCounts.get(userId);
+        counts += 1;
+        replyCounts.put(userId,counts);
+        request.getServletContext().setAttribute("replyCounts",replyCounts);
+        sqlSession.close();
         response.getWriter().print(FrontEndUtils.objectToBody("添加成功","0",null));
     }
 }

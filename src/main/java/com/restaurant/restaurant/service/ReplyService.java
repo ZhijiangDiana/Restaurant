@@ -69,6 +69,7 @@ public class ReplyService {
                 Reply reply = new Reply(Integer.parseInt(commentId),null,Integer.parseInt(id),body);
                 replyMapper.insertAdminReply(reply);
                 sqlSession.commit();
+                sqlSession.close();
             }
             else {
                 Reply reply = new Reply(Integer.parseInt(commentId),Integer.parseInt(id),null,body);
@@ -76,6 +77,7 @@ public class ReplyService {
                 ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
                 experienceCaculateService.caculateExperience(Integer.parseInt(id), Constants.REPLY_EXP);
                 sqlSession.commit();
+                sqlSession.close();
             }
         }catch (Exception e){
             e.printStackTrace();
