@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Servlet Data Display</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+<h1>Servlet Data Display</h1>
+<button id="loadData">Load Data</button>
+<div id="dataDisplay"></div>
+<script>
+    $(document).ready(function() {
+        $("#loadData").click(function() {
+            $.ajax({
+                url: '/restaurant/showTotalUnreadNum', // URL of your servlet
+                type: 'GET',
+                success: function(data) {
+                    // Assuming the data is returned in JSON format
+                    var result = JSON.parse(data);
+                    var displayText = 'Total Unread Number: ' + result.object;
+                    $("#dataDisplay").html(displayText);
+                },
+                error: function(error) {
+                    console.error("Error fetching data: ", error);
+                    $("#dataDisplay").html("Error loading data.");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -29,6 +29,11 @@
         select comment_id, user_id, title, body,likes from Restaurant.comment where comment_id=#{id};
     </select>
 
+    <select id="selectCommentOrderByLikes" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        select * from comment order by likes DESC ;
+    </select>
+
+
     <update id="updateLikeById" parameterType="Comment">
         update Restaurant.comment set likes =#{likes} where comment_id = #{id}
     </update>

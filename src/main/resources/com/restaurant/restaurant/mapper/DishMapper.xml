@@ -97,5 +97,9 @@
         WHERE canteen_id = #{canteenId};
     </select>
 
+    <select id="selectDishOrderByScore" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        select * from dish order by total_score DESC ;
+    </select>
+
 
 </mapper>

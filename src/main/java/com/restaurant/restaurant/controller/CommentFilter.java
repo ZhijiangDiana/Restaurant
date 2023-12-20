@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
-@WebFilter(urlPatterns = {"/PublicDishComment", "/UploadReport"})
+@WebFilter(urlPatterns = {"/PublicDishComment", "/UploadReport","/PublishComment","/SendReply"})
 public class CommentFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

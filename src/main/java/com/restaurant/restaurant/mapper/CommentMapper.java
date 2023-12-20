@@ -22,4 +22,6 @@ public interface CommentMapper {
     int updateComment(Comment comment);
 
     int deleteCommentById(@Param("id") int id);
+
+    List<Comment>selectCommentOrderByLikes();
 }

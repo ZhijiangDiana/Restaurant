@@ -66,6 +66,7 @@ public class LoginServlet extends HttpServlet{
             HashMap<Integer,Integer> replyCounts = new HashMap<>();
             HashMap<Integer,Integer> thumbsupCounts = new HashMap<>();
             HashMap<Integer,Integer> reportReplyCounts = new HashMap<>();
+            Integer userId = user.getUserId();
 
             HashMap<Integer,Integer> replyCounts1 = (HashMap<Integer,Integer>)request.getServletContext().getAttribute("replyCounts");
             HashMap<Integer,Integer> thumbsupCounts1 = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
