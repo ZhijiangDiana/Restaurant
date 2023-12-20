@@ -10,12 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="登录注册页面逻辑跑通了">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Canteen_Evaluation.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Complaint.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Dishs_Maintain.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Info_Maintain.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Recommend.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishCommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/DishCommentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Canteen_Evaluation.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/canteenEvaluation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Complaint.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Complaint.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Dishs_Maintain.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/dishMaintain.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Info_Maintain.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Evaluate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/Recommend.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/infoMaintain.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/firstPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/restaurantAdmin/firstPage.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -286,7 +290,11 @@
       <workItem from="1702358755646" duration="7109000" />
       <workItem from="1702550043680" duration="2661000" />
       <workItem from="1702651515673" duration="447000" />
-      <workItem from="1702892450477" duration="2406000" />
+      <workItem from="1702892450477" duration="3005000" />
+      <workItem from="1703038225698" duration="5458000" />
+      <workItem from="1703072130742" duration="823000" />
+      <workItem from="1703073158119" duration="1871000" />
+      <workItem from="1703075637493" duration="4360000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />

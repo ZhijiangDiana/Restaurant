@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:mysql://118.25.43.33:3306/Restaurant</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="@118.25.43.33" uuid="b28a65ed-1429-40c3-b5a8-cb5f61476278">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://118.25.43.33:3306</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

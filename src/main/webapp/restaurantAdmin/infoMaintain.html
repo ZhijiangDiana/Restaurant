@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
-    <title>食堂管理员</title>
+    <title>食堂信息维护</title>
     <style>
         /* 按钮样式 */
         .is-collapsed {
@@ -43,19 +43,6 @@
             transition: opacity .5s;
         }
 
-        .card-info {
-            --color: #181818;
-            background: var(--color);
-            color: var(--color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            border-radius: .7rem;
-        }
-
         .card .title {
             font-weight: bold;
             letter-spacing: .1em;
@@ -81,12 +68,17 @@
             position: relative;
             text-align: center;
         }
+
+        .aside_item {
+            text-decoration: none;
+        }
     </style>
 
 </head>
 
 <body>
 <div id="app">
+
     <el-container>
         <div style="display: flex">
             <el-aside :width="asideWidth"
@@ -101,40 +93,39 @@
                 </div>
 
                 <!--菜单-->
-                <el-menu :collapse="isCollapse" router background-color="#001529" text-color="rgba(255,255,255,0.65)"
-                         index="">
+                <el-menu :collapse="isCollapse" router background-color="#001529" text-color="rgba(255,255,255,0.65)">
                     <!--                         :default-active="$route.path" -->
 
-                    <el-menu-item index="/manager">
+                    <el-menu-item index="1">
                         <i class="el-icon-house"></i>
-                        <span>系统首页</span>
+                        <a href="firstPage.html" class="aside_item">系统首页</a>
                     </el-menu-item>
-                    <el-menu-item index="/canteenEvaluation">
+                    <el-menu-item index="2">
                         <i class="el-icon-house"></i>
-                        <span>食堂评价处理</span>
+                        <a href="canteenEvaluation.html" class="aside_item">食堂评价处理</a>
                         <el-badge v-if="evalNum>0" :value="evalNum" class="item" style="font-size: 16px">
                             <i class="iconfont el-icon-weidu-copy" style="color: red; margin-left: 10px"></i>
                         </el-badge>
                     </el-menu-item>
-                    <el-menu-item index="/complaint">
+                    <el-menu-item index="3">
                         <i class="el-icon-house"></i>
-                        <span>投诉信息处理</span>
+                        <a href="Complaint.html" class="aside_item">投诉信息处理</a>
                         <span>
         <el-badge v-if="complaintNum>0" :value="complaintNum" class="item" style="font-size: 16px">
           <i class="iconfont el-icon-weidu-copy" style="color: red; margin-left: 10px"></i>
         </el-badge>
       </span>
                     </el-menu-item>
-                    <el-submenu index="">
+                    <el-submenu index="4">
                         <template v-slot="title">
                             <i class="el-icon-menu"></i>
                             <span>维护</span>
                         </template>
-                        <el-menu-item router index="/infoMaintain">
-                            食堂信息维护
+                        <el-menu-item index="4-1">
+                            <a href="infoMaintain.html" class="aside_item">食堂信息维护</a>
                         </el-menu-item>
-                        <el-menu-item router index="/dishMaintain">
-                            菜品维护
+                        <el-menu-item index="4-2">
+                            <a href="canteenEvaluation.html" class="aside_item">菜品维护</a>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -170,15 +161,19 @@
                     </el-header>
                 </div>
 
+                <!--主体区域-->
+                <el-main>
 
+
+                </el-main>
 
             </el-container>
 
         </div>
 
     </el-container>
-</div>
 
+</div>
 
 <script>
     const defaultList = [{
@@ -212,7 +207,6 @@
             vote() {
                 //出现一个弹出框来做投票
             },
-
         },
         // async created() {
         //     // 1. 发送请求获取数据
