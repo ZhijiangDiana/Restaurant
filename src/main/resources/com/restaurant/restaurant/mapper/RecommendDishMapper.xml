@@ -2,7 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.restaurant.restaurant.mapper.RecommendDishMapper">
 
-    <select id="selectByCanteenId" resultType="String" parameterType="int">
-        select body from `Restaurant`.Recommend_Dish where canteen_id = #{canteenId};
-    </select>
+    <insert id="insertRecommendations">
+        INSERT INTO  (canteen_id, dish_id)
+        VALUES
+        <foreach collection="dishIds" item="dishId" separator=",">
+            (#{canteenId}, #{dishId})
+        </foreach>
+    </insert>
 </mapper>
