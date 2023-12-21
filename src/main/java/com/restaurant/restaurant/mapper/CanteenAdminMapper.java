@@ -21,5 +21,5 @@ public interface CanteenAdminMapper {
     int selectByName(@Param("name") String name);
     int deleteById(@Param("canteenAdminId") int canteenAdminId);
 
-    void updateCanteenAdmin(CanteenAdmin canteenAdmin);
+    int updateCanteenAdmin(CanteenAdmin canteenAdmin);
 }
