@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <meta charset="UTF-8">
-    <title>食堂管理员</title>
+    <title>菜品维护</title>
     <style>
         /* 按钮样式 */
         .is-collapsed {
@@ -43,19 +43,6 @@
             transition: opacity .5s;
         }
 
-        .card-info {
-            --color: #181818;
-            background: var(--color);
-            color: var(--color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-            border-radius: .7rem;
-        }
-
         .card .title {
             font-weight: bold;
             letter-spacing: .1em;
@@ -81,12 +68,17 @@
             position: relative;
             text-align: center;
         }
+
+        .aside_item {
+            text-decoration: none;
+        }
     </style>
 
 </head>
 
 <body>
 <div id="app">
+
     <el-container>
         <div style="display: flex">
             <el-aside :width="asideWidth"
@@ -101,40 +93,39 @@
                 </div>
 
                 <!--菜单-->
-                <el-menu :collapse="isCollapse" router background-color="#001529" text-color="rgba(255,255,255,0.65)"
-                         index="">
+                <el-menu :collapse="isCollapse" router background-color="#001529" text-color="rgba(255,255,255,0.65)">
                     <!--                         :default-active="$route.path" -->
 
-                    <el-menu-item index="/manager">
+                    <el-menu-item index="1">
                         <i class="el-icon-house"></i>
-                        <span>系统首页</span>
+                        <a href="firstPage.html" class="aside_item">系统首页</a>
                     </el-menu-item>
-                    <el-menu-item index="/canteenEvaluation">
+                    <el-menu-item index="2">
                         <i class="el-icon-house"></i>
-                        <span>食堂评价处理</span>
+                        <a href="canteenEvaluation.html" class="aside_item">食堂评价处理</a>
                         <el-badge v-if="evalNum>0" :value="evalNum" class="item" style="font-size: 16px">
                             <i class="iconfont el-icon-weidu-copy" style="color: red; margin-left: 10px"></i>
                         </el-badge>
                     </el-menu-item>
-                    <el-menu-item index="/complaint">
+                    <el-menu-item index="3">
                         <i class="el-icon-house"></i>
-                        <span>投诉信息处理</span>
+                        <a href="Complaint.html" class="aside_item">投诉信息处理</a>
                         <span>
         <el-badge v-if="complaintNum>0" :value="complaintNum" class="item" style="font-size: 16px">
           <i class="iconfont el-icon-weidu-copy" style="color: red; margin-left: 10px"></i>
         </el-badge>
       </span>
                     </el-menu-item>
-                    <el-submenu index="">
+                    <el-submenu index="4">
                         <template v-slot="title">
                             <i class="el-icon-menu"></i>
                             <span>维护</span>
                         </template>
-                        <el-menu-item router index="/infoMaintain">
-                            食堂信息维护
+                        <el-menu-item index="4-1">
+                            <a href="infoMaintain.html" class="aside_item">食堂信息维护</a>
                         </el-menu-item>
-                        <el-menu-item router index="/dishMaintain">
-                            菜品维护
+                        <el-menu-item index="4-2">
+                            <a href="canteenEvaluation.html" class="aside_item">菜品维护</a>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -170,13 +161,95 @@
                     </el-header>
                 </div>
 
+                <!--主体区域-->
+                <el-main>
+                    <el-table-column fixed="right" label="修改菜品图片" align="center">
+                        <template slot-scope="scope">
+                            <el-button @click="handleClick(scope.row)" type="text" size="large">编辑</el-button>
+                        </template>
+                    </el-table-column>
 
+                    <el-dialog title="修改菜品图片" :visible.sync="dialogTableVisible" :data="templateList">
+                        <template scope='scope'>
+                            <el-form :model="templateList" ref="templateList" style="padding:0 1vw;">
+                                <el-row :gutter="20">
+
+                                    <el-col :span="12">
+                                        <el-input v-model="templateList.dishId" readonly>
+                                            <template slot="prepend">菜品ID</template>
+                                        </el-input>
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <el-input v-model="templateList.dishName" readonly>
+                                            <template slot="prepend">菜品名称</template>
+                                        </el-input>
+                                    </el-col>
+                                </el-row>
+                                <el-row :gutter="20">
+                                    <el-col :span="24">
+                                        <el-input v-model="templateList.dishImg">
+                                            <template slot="prepend">菜品图片</template>
+                                        </el-input>
+                                    </el-col>
+                                </el-row>
+
+                            </el-form>
+                        </template>
+                        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitForm(templateList)">确定</el-button>
+        </span>
+                    </el-dialog>
+                </el-main>
 
             </el-container>
 
         </div>
 
     </el-container>
+
 </div>
+
+<script>
+    const defaultList = [{
+        announcementID: 1,
+        title: '我是标题',
+        body: '我是正文'
+    }]
+    const app = new Vue({
+        el: '#app',
+        data: {
+            length: 100,
+            list: [],
+            isCollapse: false,
+            evalNum: '1',
+            complaintNum: '2',
+            asideWidth: 13 + 'vw',
+        },
+        methods: {
+            toggleCollapse() {
+                this.isCollapse = !this.isCollapse
+                this.asideWidth = this.isCollapse ? '0vw' : '13vw'
+            },
+            exit() {
+                //跳转到登录页面
+                this.$router.push('/canteenEvaluation')
+            },
+            recommend() {
+                //跳转到推荐页面
+                this.$router.push('/recommend')
+            },
+            vote() {
+                //出现一个弹出框来做投票
+            },
+        },
+        // async created() {
+        //     // 1. 发送请求获取数据
+        //     const res = await axios.get('http://10.41.244.146:8080/restaurant_war/PostAnnouncement')
+        //     console.log(res)
+        //     // 2. 更新到 list 中，用于页面渲染 v-for
+        //     this.list = res.data.object || defaultList
+        // }
+    })
+</script>
 </body>
 </html>
