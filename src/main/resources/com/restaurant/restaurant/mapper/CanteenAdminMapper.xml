@@ -8,7 +8,7 @@
     </insert>
 
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.CanteenAdmin">
-        select * from Restaurant.canteen_admin where canteen_admin_id=#{id};
+        select * from Restaurant.canteen_admin where canteen_admin_id=#{canteenAdminId};
     </select>
 
     <select id="selectReplyById" resultType="com.restaurant.restaurant.pojo.entity.Reply">
@@ -32,5 +32,21 @@
             image = #{image},
             report_count = #{reportCount}
         WHERE canteen_id = #{canteenId}
+    </update>
+
+    <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.CanteenAdmin">
+        SELECT * FROM canteen_admin
+    </select>
+
+    <delete id="deleteById" parameterType="com.restaurant.restaurant.pojo.entity.CanteenAdmin">
+        DELETE FROM canteen_admin WHERE canteen_admin_id = #{canteenAdminId}
+    </delete>
+
+    <update id="updateCanteenAdmin" parameterType="com.restaurant.restaurant.pojo.entity.CanteenAdmin">
+        UPDATE canteen_admin
+        SET
+            username = #{username},
+            password = #{password}
+        WHERE canteen_admin_id = #{canteenAdminId}
     </update>
 </mapper>
