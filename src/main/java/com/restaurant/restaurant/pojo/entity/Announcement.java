@@ -9,12 +9,7 @@ public class Announcement {
     public Announcement() {
     }
 
-    public Announcement(Integer announcementId, Integer canteenId, String title, String body) {
-        this.announcementId = announcementId;
-        this.canteenId = canteenId;
-        this.title = title;
-        this.body = body;
-    }
+
 
     @Override
     public String toString() {

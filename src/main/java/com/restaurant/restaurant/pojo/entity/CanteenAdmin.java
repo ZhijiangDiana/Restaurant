@@ -16,7 +16,6 @@ public class CanteenAdmin {
     public CanteenAdmin() {
     }
 
-
     public Integer getCanteenAdminId() {
         return canteenAdminId;
     }
