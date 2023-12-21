@@ -9,6 +9,13 @@ public class CanteenAdmin {
     public CanteenAdmin() {
     }
 
+    public CanteenAdmin(Integer canteenAdminId, Integer canteenId, String username, String password) {
+        this.canteenAdminId = canteenAdminId;
+        this.canteenId = canteenId;
+        this.username = username;
+        this.password = password;
+    }
+
     public Integer getCanteenAdminId() {
         return canteenAdminId;
     }
