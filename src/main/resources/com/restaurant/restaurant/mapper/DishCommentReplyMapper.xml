@@ -6,8 +6,8 @@
         INSERT INTO `Restaurant`.dish_comment_reply (dish_comment_id, canteen_admin_id, title, body)
         VALUES (#{dishCommentId}, #{canteenAdminId}, #{title}, #{body});
     </insert>
-    <select id="selectByDishCommentId" resultType="com.restaurant.restaurant.pojo.entity.DishCommentReply">
-        SELECT * FROM `Restaurant`.dish_comment_reply
-        WHERE dish_comment_id = #{dishCommentId};
+    <select id="selectByDishCommentId" resultType="com.restaurant.restaurant.pojo.DishCommentReplyShow">
+        SELECT dish_comment_reply_id, title, body, username FROM dish_comment_reply, canteen_admin
+        WHERE dish_comment_id = #{dishCommentId} AND dish_comment_reply.canteen_admin_id = canteen_admin.canteen_admin_id;
     </select>
 </mapper>

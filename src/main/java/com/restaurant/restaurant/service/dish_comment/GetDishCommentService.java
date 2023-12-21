@@ -2,6 +2,7 @@ package com.restaurant.restaurant.service.dish_comment;
 
 import com.restaurant.restaurant.mapper.DishCommentMapper;
 import com.restaurant.restaurant.mapper.DishCommentReplyMapper;
+import com.restaurant.restaurant.pojo.DishCommentShow;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.DishCommentReply;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
@@ -13,13 +14,13 @@ import java.util.Map;
 
 public class GetDishCommentService {
     // 已改try-with-resources
-    public List<DishComment> getDishCommentByCanteen(int canteenId, ServletContext context) {
+    public List<DishCommentShow> getDishCommentByCanteen(int canteenId, ServletContext context) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
         Map<Integer, Map<Integer, DishComment>> dishCommentNotif =
                 (Map<Integer, Map<Integer, DishComment>>) context.getAttribute("dishCommentNotif");
 
-        List<DishComment> res = null;
+        List<DishCommentShow> res = null;
         try {
             res = dishCommentMapper.selectByCanteenIdWithFile(canteenId);
             Map<Integer, DishComment> canteenDishCommentMap = dishCommentNotif.get(canteenId);
@@ -33,11 +34,11 @@ public class GetDishCommentService {
         return res;
     }
 
-    public List<DishComment> getDishCommentByUser(int userId) {
+    public List<DishCommentShow> getDishCommentByUser(int userId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
 
-        List<DishComment> res = null;
+        List<DishCommentShow> res = null;
         try {
             res = dishCommentMapper.selectByUserIdWithFile(userId);
         } catch (Exception e) {
@@ -49,11 +50,11 @@ public class GetDishCommentService {
         return res;
     }
 
-    public List<DishComment> getDishCommentByDish(int dishId) {
+    public List<DishCommentShow> getDishCommentByDish(int dishId) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
 
-        List<DishComment> res = null;
+        List<DishCommentShow> res = null;
         try {
             res = dishCommentMapper.selectByDishIdWithFile(dishId);
         } catch (Exception e) {

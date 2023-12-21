@@ -4,11 +4,8 @@ import java.io.*;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
-import com.restaurant.restaurant.pojo.entity.DishComment;
-import com.restaurant.restaurant.pojo.entity.DishCommentReply;
-import com.restaurant.restaurant.pojo.entity.User;
+import com.restaurant.restaurant.pojo.DishCommentReplyShow;
 import com.restaurant.restaurant.service.dish_comment.GetDishCommentReplyService;
-import com.restaurant.restaurant.service.dish_comment.GetDishCommentService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
@@ -37,7 +34,7 @@ public class GetDishCommentReply extends HttpServlet {
 
         GetDishCommentReplyService getDishCommentReplyService =
                 new GetDishCommentReplyService();
-        List<DishCommentReply> res =
+        List<DishCommentReplyShow> res =
                 getDishCommentReplyService.getDishCommentReplyById(dishCommentId);
         pw.print(FrontEndUtils.objectToBody("", "0", res));
     }

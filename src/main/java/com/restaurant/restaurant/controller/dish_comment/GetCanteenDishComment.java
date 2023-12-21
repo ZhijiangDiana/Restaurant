@@ -1,5 +1,6 @@
 package com.restaurant.restaurant.controller.dish_comment;
 
+import com.restaurant.restaurant.pojo.DishCommentShow;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.User;
@@ -46,7 +47,7 @@ public class GetCanteenDishComment extends HttpServlet {
         }
 
         GetDishCommentService getDishCommentService = new GetDishCommentService();
-        List<DishComment> res =
+        List<DishCommentShow> res =
                 getDishCommentService.getDishCommentByCanteen(canteenAdmin.getCanteenId(), context);
         if (res == null || res.isEmpty())
             pw.print(FrontEndUtils.objectToBody("暂无评价", "1", null));

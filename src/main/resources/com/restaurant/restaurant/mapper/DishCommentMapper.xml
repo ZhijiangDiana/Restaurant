@@ -16,17 +16,23 @@
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
         select dish_comment_id, user_id, dish_id, score, tittle, body from dish_comment;
     </select>
-    <select id="selectByCanteenIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
-        SELECT * FROM `Restaurant`.dish_comment
-        WHERE dish_id in (SELECT dish_id FROM `Restaurant`.dish WHERE canteen_id = #{canteenId});
+    <select id="selectByCanteenIdWithFile" resultType="com.restaurant.restaurant.pojo.DishCommentShow">
+        SELECT dish_comment_id, username, dish_name, score, tittle, body, dish_comment.image
+            FROM `Restaurant`.dish_comment, `Restaurant`.user, `Restaurant`.dish
+        WHERE dish_comment.dish_id in (SELECT dish_id FROM `Restaurant`.dish WHERE canteen_id = 1)
+            AND dish_comment.user_id = user.user_id AND dish_comment.dish_id = dish.dish_id;
     </select>
-    <select id="selectByUserIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
-        SELECT * FROM `Restaurant`.dish_comment
-        WHERE user_id = #{userId};
+    <select id="selectByUserIdWithFile" resultType="com.restaurant.restaurant.pojo.DishCommentShow">
+        SELECT dish_comment_id, username, dish_name, score, tittle, body, dish_comment.image
+            FROM `Restaurant`.dish_comment, `Restaurant`.user, `Restaurant`.dish
+        WHERE dish_comment.user_id = #{userId}
+            AND dish_comment.user_id = user.user_id AND dish_comment.dish_id = dish.dish_id;
     </select>
-    <select id="selectByDishIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
-        SELECT * FROM `Restaurant`.dish_comment
-        WHERE dish_id = #{dishId};
+    <select id="selectByDishIdWithFile" resultType="com.restaurant.restaurant.pojo.DishCommentShow">
+        SELECT dish_comment_id, username, dish_name, score, tittle, body, dish_comment.image
+            FROM `Restaurant`.dish_comment, `Restaurant`.user, `Restaurant`.dish
+        WHERE dish_comment.dish_id = #{dishId}
+            AND dish_comment.user_id = user.user_id AND dish_comment.dish_id = dish.dish_id;
     </select>
 
     <delete id="deletedishCommentById" parameterType="com.restaurant.restaurant.pojo.entity.DishComment">

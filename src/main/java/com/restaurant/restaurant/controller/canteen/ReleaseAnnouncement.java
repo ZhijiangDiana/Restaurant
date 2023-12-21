@@ -24,8 +24,8 @@ public class ReleaseAnnouncement extends HttpServlet  {
             CanteenAdmin canteenAdmin;
             canteenAdmin= (CanteenAdmin) req.getSession().getAttribute("canteenAdmin");
 
-            // 测试
-            canteenAdmin=new CanteenAdmin( 11,1,"拟跌","123456");
+//            // 测试
+//            canteenAdmin=new CanteenAdmin( 11,1,"拟跌","123456");
             if (canteenAdmin==null){
                 String respJson = FrontEndUtils.objectToBody("未登录", "1", null);
                 resp.getWriter().print(respJson);

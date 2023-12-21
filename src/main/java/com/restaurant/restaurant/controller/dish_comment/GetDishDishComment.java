@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
+import com.restaurant.restaurant.pojo.DishCommentShow;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.dish_comment.GetDishCommentService;
@@ -34,7 +35,7 @@ public class GetDishDishComment extends HttpServlet {
         }
 
         GetDishCommentService getDishCommentService = new GetDishCommentService();
-        List<DishComment> res =
+        List<DishCommentShow> res =
                 getDishCommentService.getDishCommentByDish(dishId);
         if (res == null || res.isEmpty())
             pw.print(FrontEndUtils.objectToBody("暂无评价", "1", null));
