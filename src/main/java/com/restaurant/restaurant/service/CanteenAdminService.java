@@ -57,12 +57,12 @@ public class CanteenAdminService {
         try (sqlSession){
             CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);
             CanteenAdmin canteenAdmin = new CanteenAdmin(Integer.parseInt(canteenAdminId),Integer.parseInt(canteenId),username,password);
-            canteenAdminMapper.updateCanteenAdmin(canteenAdmin);
+            int isSuccess = canteenAdminMapper.updateCanteenAdmin(canteenAdmin);
             sqlSession.commit();
-
-            return FrontEndUtils.objectToBody("删除成功","0",null);
+            if (isSuccess == 1){
+            return FrontEndUtils.objectToBody("修改成功","0",null);
             }else {
-                return FrontEndUtils.objectToBody("删除失败","0",null);
+                return FrontEndUtils.objectToBody("修改失败","0",null);
             }
         }catch (Exception e){
             e.printStackTrace();
