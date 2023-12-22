@@ -262,13 +262,13 @@
                 console.log(`当前页: ${val}`);
             },
             onSubmit() {
-                console.log("")
                 const id = this.formInline.id;
                 if (id === '') {
                     this.$message.warning('请输入工号');
                     return;
                 }
-                axios.get(`/restaurant/showUser?id=`+id)
+                alert(id)
+                axios.get(`/restaurant/showUserById?id=`+id)
                     .then(response => {
                         if (response.data.object !== '') {
                             this.tableData =[response.data.object];

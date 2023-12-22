@@ -40,7 +40,7 @@ public class AdminService {
 
     public String addCanteen(String name, String location, Time startTime, Time endTime, String description, byte[] image){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             CanteenMapper mapper = sqlSession.getMapper(CanteenMapper.class);
             List<Canteen> canteens = mapper.selectAll();
             for (Canteen canteen : canteens) {

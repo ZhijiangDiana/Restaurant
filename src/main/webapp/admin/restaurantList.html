@@ -1,3 +1,336 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>食堂点评交流系统</title>-->
+<!--    <link rel="stylesheet" href="../css/userList.css">-->
+<!--    <link rel="shortcut icon" href="/restaurant/img/chat.ico"/>-->
+<!--    &lt;!&ndash; 引入 Element UI 样式 &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css">-->
+<!--    <script src="../js/vue.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>-->
+<!--    <script src="../js/axios-0.18.0.js"></script>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<div id="app">-->
+<!--    <el-container>-->
+<!--        <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">-->
+<!--            <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">-->
+<!--                <span class="logo_title" v-show="!isCollapse">USST</span>-->
+<!--            </div>-->
+<!--            <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">-->
+<!--                <el-submenu>-->
+<!--                    <template slot="title">-->
+<!--                        <i class="el-icon-house"></i>-->
+<!--                        <span class="aside_item_title">首页</span>-->
+<!--                    </template>-->
+<!--                    <el-menu-item>-->
+<!--                        <a href="firstView.html" class="aside_item">综合信息</a>-->
+<!--                    </el-menu-item>-->
+<!--                </el-submenu>-->
+<!--                <el-submenu>-->
+<!--                    <template slot="title">-->
+<!--                        <i class="el-icon-s-shop"></i>-->
+<!--                        <span class="aside_item_title" >食堂基本信息管理</span>-->
+<!--                    </template>-->
+<!--                    <el-menu-item>-->
+<!--                        <a href="restaurantList.html" class="aside_item">食堂列表</a>-->
+<!--                    </el-menu-item>-->
+<!--                    <el-menu-item>-->
+<!--                        <a href="addRestaurant.html" class="aside_item">新增食堂</a>-->
+<!--                    </el-menu-item>-->
+<!--                </el-submenu>-->
+
+<!--                <el-submenu>-->
+<!--                    <template slot="title">-->
+<!--                        <i class="el-icon-user"></i>-->
+<!--                        <span class="aside_item_title">账号管理</span>-->
+<!--                    </template>-->
+<!--                    <el-menu-item>-->
+<!--                        <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>-->
+<!--                    </el-menu-item>-->
+<!--                    <el-menu-item>-->
+<!--                        <a href="userList.html" class="aside_item">用户列表</a>-->
+<!--                    </el-menu-item>-->
+<!--                </el-submenu>-->
+
+<!--                <el-submenu>-->
+<!--                    <template slot="title">-->
+<!--                        <i class="el-icon-star-on"></i>-->
+<!--                        <span class="aside_item_title">评价信息管理</span>-->
+<!--                    </template>-->
+<!--                    <el-menu-item>-->
+<!--                        <a href="commentList.html" class="aside_item">评价列表</a>-->
+<!--                    </el-menu-item>-->
+<!--                </el-submenu>-->
+<!--                <el-submenu>-->
+
+<!--                    <template slot="title">-->
+<!--                        <i class="el-icon-chat-line-round"></i>-->
+<!--                        <span class="aside_item_title">交流社区信息管理</span>-->
+<!--                    </template>-->
+<!--                    <el-menu-item>-->
+<!--                        <a href="communicationList.html" class="aside_item">帖子列表</a>-->
+<!--                    </el-menu-item>-->
+<!--                </el-submenu>-->
+
+<!--            </el-menu>-->
+<!--        </el-aside>-->
+<!--        <el-container>-->
+<!--            <el-header style="background-color: #953131">-->
+<!--                <i :class="collapseIcon" style="font-size:26px;color: #fff;" @click="handleCollapse"></i>-->
+<!--            </el-header>-->
+<!--            <el-main>-->
+<!--                <el-form :inline="true" :model="formInline" class="demo-form-inline">-->
+<!--                    <el-form-item label="食堂名称">-->
+<!--                        <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>-->
+<!--                    </el-form-item>-->
+<!--                    <el-form-item>-->
+<!--                        <el-button type="primary" @click="onSubmit">查询</el-button>-->
+<!--                    </el-form-item>-->
+<!--                </el-form>-->
+
+<!--                <el-table :data="tableData" border style="width: 100%">-->
+<!--                    <el-table-column prop="canteenId" label="食堂ID" width="50">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column prop="name" label="食堂名称" width="150">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column prop="location" label="地址" width="150">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column prop="startTime" label="营业开始时间" width="110">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column prop="endTime" label="营业结束时间" width="110">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column prop="description" label="描述" width="300">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column prop="image" label="图片" width="200">-->
+<!--                        <template slot-scope="scope">-->
+<!--                            <img :src="scope.row.image" alt="无图片" height="175" width="175">-->
+<!--                        </template>-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column prop="reportCount" label="投诉数" width="75">-->
+<!--                    </el-table-column>-->
+<!--                    <el-table-column fixed="right" label="操作" width="100">-->
+<!--                        <template slot-scope="scope">-->
+<!--                            <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>-->
+<!--                            <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>-->
+<!--                        </template>-->
+<!--                    </el-table-column>-->
+<!--                </el-table>-->
+<!--                <div class="block">-->
+<!--                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"-->
+<!--                                   :current-page="currentPage" :page-sizes="[6]" :page-size="pageSize"-->
+<!--                                   layout="total, sizes, prev, pager, next, jumper" :total="total">-->
+<!--                    </el-pagination>-->
+<!--                </div>-->
+<!--                &lt;!&ndash; 添加的 el-dialog 组件 &ndash;&gt;-->
+<!--                <el-dialog title="编辑" :visible.sync="dialogVisible">-->
+<!--                    &lt;!&ndash; 编辑表单的内容 &ndash;&gt;-->
+<!--                    <el-form :model="currentRow" label-position="top">-->
+<!--                        &lt;!&ndash; 表单项 &ndash;&gt;-->
+<!--                        <el-form-item label="canteenId">-->
+<!--                            <el-input v-model="currentRow.canteenId"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="名称">-->
+<!--                            <el-input v-model="currentRow.name"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="地址">-->
+<!--                            <el-input v-model="currentRow.location"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="营业开始时间">-->
+<!--                            <el-time-picker-->
+<!--                                    v-model="currentRow.startTime"-->
+<!--                                    value-format="HH:mm:ss"-->
+<!--                                    :picker-options="{-->
+<!--                                selectableRange: '00:00:00 - 23:59:59'-->
+<!--                              }"-->
+<!--                                    placeholder="开始时间">-->
+<!--                            </el-time-picker>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="营业结束时间">-->
+<!--                            <el-time-picker-->
+<!--                                    v-model="currentRow.endTime"-->
+<!--                                    value-format="HH:mm:ss"-->
+<!--                                    :picker-options="{-->
+<!--                                selectableRange: '00:00:00 - 23:59:59'-->
+<!--                              }"-->
+<!--                                    placeholder="结束时间">-->
+<!--                            </el-time-picker>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="描述">-->
+<!--                            <el-input v-model="currentRow.description"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="图片">-->
+<!--                            <img v-model="currentRow.image" :src="currentRow.image" alt="无图片" height="100" width="100">-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item label="投诉数">-->
+<!--                            <el-input v-model="currentRow.reportCount"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                        <el-button @click="saveEdit" type="primary">保存</el-button>-->
+<!--                        <el-button @click="dialogVisible = false">取消</el-button>-->
+<!--                    </el-form>-->
+<!--                </el-dialog>-->
+<!--            </el-main>-->
+<!--        </el-container>-->
+<!--    </el-container>-->
+<!--</div>-->
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el: '#app',-->
+<!--        data: function () {-->
+<!--            return {-->
+<!--                isCollapse: false,-->
+<!--                asideWidth: '200px',-->
+<!--                collapseIcon: 'el-icon-s-fold',-->
+<!--                formInline: {-->
+<!--                    name: '',-->
+<!--                },-->
+<!--                tableData: [-->
+<!--                ],-->
+<!--                currentPage: 1,-->
+<!--                dialogVisible: false, // 控制对话框的显示和隐藏-->
+<!--                currentRow: {-->
+<!--                    canteenId:'',-->
+<!--                    name: '',-->
+<!--                    location: '',-->
+<!--                    startTime: '',-->
+<!--                    endTime:'',-->
+<!--                    description: '',-->
+<!--                    image:'',-->
+<!--                    reportCount:'',-->
+<!--                }, // 当前选中行的数据-->
+<!--                pageSize: 10, // 每页显示条数-->
+<!--                total: 0 // 总条数-->
+<!--            };-->
+<!--        },-->
+<!--        mounted() {-->
+<!--            this.getAllCanteen()-->
+<!--        },-->
+<!--        methods: {-->
+<!--            getAllCanteen() {-->
+<!--                axios.get('/restaurant/showAllCanteen')-->
+<!--                    .then(response => {-->
+<!--                        if (response.data.flag === '0') {-->
+<!--                            this.$message.success('获取列表成功');-->
+<!--                            response.data.object.forEach(item => {-->
+<!--                                const date = new Date(item.startTime+ 8 * 3600 * 1000);-->
+<!--                                const hours = date.getUTCHours().toString().padStart(2, '0');-->
+<!--                                const minutes = date.getUTCMinutes().toString().padStart(2, '0');-->
+<!--                                const seconds = date.getUTCSeconds().toString().padStart(2, '0');-->
+<!--                                const formattedTime = `${hours}:${minutes}:${seconds}`;-->
+<!--                                item.startTime=formattedTime;-->
+
+<!--                                const date1 = new Date(item.endTime+ 8 * 3600 * 1000);-->
+<!--                                const hours1 = date1.getUTCHours().toString().padStart(2, '0');-->
+<!--                                const minutes1 = date1.getUTCMinutes().toString().padStart(2, '0');-->
+<!--                                const seconds1 = date1.getUTCSeconds().toString().padStart(2, '0');-->
+<!--                                const formattedTime1 = `${hours1}:${minutes1}:${seconds1}`;-->
+<!--                                item.endTime=formattedTime1;-->
+
+<!--                                item.image="data:image/png;base64,"+item.image-->
+<!--                                alert(item.image)-->
+<!--                            });-->
+<!--                            this.tableData = response.data.object;-->
+<!--                            this.total = this.tableData.length;-->
+<!--                        } else {-->
+<!--                            this.$message.error(response.data.message);-->
+<!--                        }-->
+<!--                    })-->
+<!--                    .catch(error => {-->
+<!--                        this.$message.error('获取列表失败');-->
+<!--                        console.log(error);-->
+<!--                    });-->
+<!--            },-->
+<!--            handleCollapse() {-->
+<!--                this.isCollapse = !this.isCollapse-->
+<!--                this.asideWidth = this.isCollapse ? '64px' : '200px'-->
+<!--                this.collapseIcon = this.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'-->
+<!--            },-->
+<!--            handleSizeChange(val) {-->
+<!--                console.log(`每页 ${val} 条`);-->
+<!--            },-->
+<!--            handleCurrentChange(val) {-->
+<!--                this.currentPage=val-->
+<!--                console.log(`当前页: ${val}`);-->
+<!--            },-->
+<!--            onSubmit() {-->
+<!--                const name = this.formInline.name;-->
+<!--                if (name === '') {-->
+<!--                    this.$message.warning('请输入食堂名称');-->
+<!--                    return;-->
+<!--                }-->
+<!--                axios.get(`/restaurant/showCanteenByName?name=`+name)-->
+<!--                    .then(response => {-->
+<!--                        if (response.data.object !== '') {-->
+<!--                            this.tableData =[response.data.object];-->
+<!--                            this.$message.success('查询成功');-->
+<!--                        } else {-->
+<!--                            this.$message.error("查询失败");-->
+<!--                        }-->
+<!--                    })-->
+<!--                    .catch(error => {-->
+<!--                        this.$message.error("查询失败");-->
+<!--                        console.log(error);-->
+<!--                    });-->
+<!--            },-->
+<!--            handleDelete(row) {-->
+<!--                // const id = this.tableData[indexOf(row)].userId;-->
+<!--                const index = this.tableData.indexOf(row);-->
+<!--                const canteenId=this.tableData[index].canteenId;-->
+<!--                if (canteenId !== -1) {-->
+<!--                    this.$confirm('确定要删除此管理员吗?', '警告', {-->
+<!--                        confirmButtonText: '确定',-->
+<!--                        cancelButtonText: '取消',-->
+<!--                        type: 'warning'-->
+<!--                    }).then(() => {-->
+<!--                    axios.get(`/restaurant/deleteCanteen?canteenId=`+canteenId)-->
+<!--                        .then(response => {-->
+<!--                            this.tableData.splice(index, 1);-->
+<!--                            this.$message.success('删除成功');-->
+<!--                        })-->
+<!--                        .catch(error => {-->
+<!--                            console.log(error);-->
+<!--                            this.$message.error('删除失败，请重试');-->
+<!--                        });-->
+<!--                    }).catch(() => {-->
+<!--                        // 用户点击取消按钮的操作-->
+<!--                    });-->
+<!--                }-->
+<!--            },-->
+<!--            handleEdit(row) {-->
+<!--                this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据-->
+<!--                this.dialogVisible = true; // 显示编辑对话框-->
+<!--            },-->
+<!--            saveEdit() {-->
+<!--                // 处理编辑后的数据保存逻辑-->
+<!--                axios.post(`/restaurant/updateCanteen`, JSON.stringify(this.currentRow), {-->
+<!--                    headers: {-->
+<!--                        'Content-Type': 'application/json'-->
+<!--                    }-->
+<!--                })-->
+<!--                    .then(response => {-->
+<!--                        if (response.data.flag === '0') {-->
+<!--                            // const newData = response.data.object;-->
+<!--                            // alert(newData);-->
+<!--                            this.dialogVisible = false; // 关闭编辑对话框-->
+<!--                            this.$message.success('保存成功');-->
+<!--                            this.getAllCanteen();-->
+<!--                        }-->
+<!--                    })-->
+<!--                    .catch(error => {-->
+<!--                        this.$message.error('保存失败');-->
+<!--                        console.log(error);-->
+<!--                    });-->
+<!--            }-->
+<!--        },-->
+<!--    })-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -215,6 +548,19 @@
                             this.$message.success('获取列表成功');
                             response.data.object.forEach(item => {
                                 item.image="data:image/png;base64,"+item.image
+                                const date = new Date(item.startTime+ 8 * 3600 * 1000);
+                                const hours = date.getUTCHours().toString().padStart(2, '0');
+                                const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+                                const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+                                const formattedTime = `${hours}:${minutes}:${seconds}`;
+                                item.startTime=formattedTime;
+
+                                const date1 = new Date(item.endTime+ 8 * 3600 * 1000);
+                                const hours1 = date1.getUTCHours().toString().padStart(2, '0');
+                                const minutes1 = date1.getUTCMinutes().toString().padStart(2, '0');
+                                const seconds1 = date1.getUTCSeconds().toString().padStart(2, '0');
+                                const formattedTime1 = `${hours1}:${minutes1}:${seconds1}`;
+                                item.endTime=formattedTime1;
                             });
                             this.tableData = response.data.object;
                             this.total = this.tableData.length;
@@ -264,20 +610,20 @@
                 const index = this.tableData.indexOf(row);
                 const canteenId=this.tableData[index].canteenId;
                 if (canteenId !== -1) {
-                    this.$confirm('确定要删除此管理员吗?', '警告', {
+                    this.$confirm('确定要删除此食堂吗?', '警告', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                    axios.get(`/restaurant/deleteCanteen?canteenId=`+canteenId)
-                        .then(response => {
-                            this.tableData.splice(index, 1);
-                            this.$message.success('删除成功');
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            this.$message.error('删除失败，请重试');
-                        });
+                        axios.get(`/restaurant/deleteCanteen?canteenId=`+canteenId)
+                            .then(response => {
+                                this.tableData.splice(index, 1);
+                                this.$message.success('删除成功');
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                this.$message.error('删除失败，请重试');
+                            });
                     }).catch(() => {
                         // 用户点击取消按钮的操作
                     });

@@ -28,4 +28,11 @@
     margin-right: 40px;
     margin-top: 30px;
 }
+.block{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center
+
+}
 
