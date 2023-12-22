@@ -281,7 +281,23 @@ public class AdminService {
             return FrontEndUtils.objectToBody("系统繁忙","1",null);
         }
     }
+    public String selectCommentById(String commentId){
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        try {
+            CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
+            Comment comment = commentMapper.selectById(Integer.parseInt(commentId));
+            sqlSession.commit();
+            sqlSession.close();
 
+                return FrontEndUtils.objectToBody("查询成功","0",comment);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            sqlSession.rollback();
+            sqlSession.close();
+            return FrontEndUtils.objectToBody("系统繁忙","1",null);
+    }
+    }
     public String deleteCommentById(String commentId){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try {

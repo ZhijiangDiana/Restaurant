@@ -9,6 +9,7 @@ import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.LegalSpeakFilter;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.Base64;
@@ -172,5 +173,24 @@ public class CommentService {
             return FrontEndUtils.objectToBody("系统繁忙","0",null);
         }
     }
+    public String selectUserId(Integer userid){
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        try (sqlSession) {
+            CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
+
+
+            List<ReplyMessage> replyMessages = mapper.selectCommentIdByUserId(userid );
+            return FrontEndUtils.objectToBody("查询成功", "0", replyMessages);
+            }
+        catch (Exception e){
+            sqlSession.close();
+            sqlSession.rollback();
+            return FrontEndUtils.objectToBody("系统繁忙","0",null);
+        }
+
+
+
+    }
+
 
 }
