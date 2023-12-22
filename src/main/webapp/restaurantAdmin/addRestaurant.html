@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>食堂点评交流系统</title>
+    <link rel="stylesheet" href="../css/addRestaurant.css">
+
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        .aside_item {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            color: unset;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container style="height: 700px; border: 1px solid #eee">
+        <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
+            <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
+        </el-header>
+        <el-container>
+            <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
+                <el-menu :default-openeds="['1']">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-house"></i>
+                            <span>首页</span>
+                        </template>
+                        <el-menu-item index="1-1">
+                            <a href="firstView.html" class="aside_item">首页</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span>食堂基本信息管理</span>
+                        </template>
+                        <el-menu-item index="2-1">
+                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="2-2">
+                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-shopping-cart-1"></i>
+                            <span>菜品管理</span>
+                        </template>
+                        <el-menu-item index="3-1">
+                            <a href="dishList.html" class="aside_item">菜品信息列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="3-2">
+                            <a href="addDish.html" class="aside_item">添加菜品信息</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="4">
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span>评价信息管理</span>
+                        </template>
+                        <el-menu-item index="4-1">
+                            <a href="commentList.html" class="aside_item">评价列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span>活动公告</span>
+                        </template>
+                        <el-menu-item index="5-1">
+                            <a href="communicationList.html" class="aside_item">公告列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="5-2">
+                            <a href="communicationList.html" class="aside_item">发布公告</a>
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-main>
+                <el-form :model="restaurant" ref="restaurantForm" label-width="80px" style="padding: 20px;">
+                    <el-form-item label="食堂名称" prop="name">
+                        <el-input v-model="restaurant.name"></el-input>
+                    </el-form-item>
+                    <el-form-item label="营业时间" prop="businessHours">
+                        <el-input v-model="restaurant.time"></el-input>
+                    </el-form-item>
+                    <el-form-item label="食堂地址" prop="address">
+                        <el-input v-model="restaurant.address"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="addRestaurant">添加</el-button>
+                        <el-button @click="resetForm">重置</el-button>
+                    </el-form-item>
+                </el-form>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                restaurant: {
+                    name: '',
+                    time: '',
+                    address: ''
+                },
+            };
+        },
+        methods: {
+            addRestaurant() {
+                this.$refs.restaurantForm.validate(valid => {
+                    if (valid) {
+                        // 判断食堂名称、营业时间和地址是否都填写完全
+                        if (!this.restaurant.name || !this.restaurant.time || !this.restaurant.address) {
+                            this.$message.error('请填写完整的食堂信息');
+                            return;
+                        }
+                        // 将表单数据转换为 JSON 格式
+                        const requestData = JSON.stringify(this.restaurant);
+                        // 发送 POST 请求给后端，传递表单数据
+                        axios.post('/restaurant/addRestaurant', requestData, {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => {
+                                const flag = response.data.flag;
+                                if (flag === '0') {
+                                    this.restaurant = {}; // 清空表单数据
+                                    this.$message({
+                                        message: '添加成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('添加失败：' + response.data.error);
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                this.$message.error('添加失败：' + error.message);
+                            });
+                    } else {
+                        this.$message.error('请填写正确的食堂信息');
+                    }
+                });
+            },
+            resetForm() { //添加重置表单方法
+                this.$refs.restaurantForm.resetFields();
+            }
+        },
+    })
+</script>
+</body>
+</html>
