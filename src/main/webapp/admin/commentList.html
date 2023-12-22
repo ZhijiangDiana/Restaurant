@@ -145,6 +145,9 @@
                         </el-form-item>
                         <el-form-item label="图片">
                             <img v-model="currentRow.image" :src="currentRow.image" alt="无图片" height="100" width="100">
+                            <div>
+                                <input type="file" @change="handleFileUpload" />
+                            </div>
                         </el-form-item>
                         <el-form-item label="点赞">
                             <el-input v-model="currentRow.score"></el-input>
@@ -189,6 +192,33 @@
             this.getAllDishComment()
         },
         methods: {
+            handleFileUpload(event) {
+                const file = event.target.files[0];
+                var reader = new FileReader();
+                const self=this;
+                reader.onload = function(e) {
+                    var base64String = e.target.result;
+                    // console.log(base64String); // 在控制台输出base64字符串
+                    var str = base64String;
+                    var prefixJpeg = "data:image/jpeg;base64,";
+                    var prefixPng = "data:image/png;base64,";
+                    var prefixJpg = "data:image/jpg;base64,";
+                    var result;
+                    if (str.startsWith(prefixJpeg)) {
+                        result = str.substring(prefixJpeg.length);
+                        self.currentRow.image = result;
+                    } else if (str.startsWith(prefixPng)){
+                        result = str.substring(prefixPng.length);
+                        self.currentRow.image = result;
+                    } else if (str.startsWith(prefixJpg)) {
+                        result = str.substring(prefixJpg.length);
+                        self.currentRow.image = result;
+                    } else {
+                        alert("只允许上传jpeg/png/jpg")
+                    }
+                };
+                reader.readAsDataURL(file);
+            },
             getAllDishComment(){
                 fetch('/restaurant/showAllDishComment', {
                     method: 'GET',
