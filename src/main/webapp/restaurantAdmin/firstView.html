@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>食堂点评交流系统</title>
+    <link rel="stylesheet" href="../css/adminFirst.css">
+
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        .aside_item {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            color: unset;
+        }
+
+        .card-container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: calc(50% - 10px);
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            color: unset;
+            text-decoration: none;
+        }
+
+        .card i {
+            font-size: 36px;
+            margin-right: 20px;
+        }
+
+        .card-content {
+            flex: 1;
+        }
+
+        .card:nth-child(odd) {
+            background-color: #a8d5e4;
+        }
+
+        .card:nth-child(even) {
+            background-color: #ffc785;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container style="height: 700px; border: 1px solid #eee">
+        <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
+            <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
+        </el-header>
+        <el-container>
+            <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
+                <el-menu :default-openeds="['1']">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-house"></i>
+                            <span>首页</span>
+                        </template>
+                        <el-menu-item index="1-1">
+                            <a href="firstView.html" class="aside_item">首页</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span>食堂基本信息管理</span>
+                        </template>
+                        <el-menu-item index="2-1">
+                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="2-2">
+                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-shopping-cart-1"></i>
+                            <span>菜品管理</span>
+                        </template>
+                        <el-menu-item index="3-1">
+                            <a href="dishList.html" class="aside_item">菜品信息列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="3-2">
+                            <a href="addDish.html" class="aside_item">添加菜品信息</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="4">
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span>评价信息管理</span>
+                        </template>
+                        <el-menu-item index="4-1">
+                            <a href="commentList.html" class="aside_item">评价列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span>活动公告</span>
+                        </template>
+                        <el-menu-item index="5-1">
+                            <a href="communicationList.html" class="aside_item">公告列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="5-2">
+                            <a href="communicationList.html" class="aside_item">发布公告</a>
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-main>
+                <h2 style="color:cadetblue;">综合信息</h2>
+                <div class="notification">
+                    <el-alert
+                            title="新的未查看投诉和评价信息"
+                            :closable="false"
+                            type="warning"
+                            v-if="newNotifications > 0"
+                    >
+                        <a @click="showNotifications">
+                            查看详细内容 ({{ newNotifications }}条)
+                        </a>
+                    </el-alert>
+                    <el-alert
+                            title="暂无新的投诉和评价信息"
+                            :closable="false"
+                            type="success"
+                            v-else
+                    >
+                        暂无新通知
+                    </el-alert>
+                </div>
+                <div class="card-container">
+                    <!-- 食堂维护 -->
+                    <a href="restaurantList.html" class="card">
+                        <i class="el-icon-food"></i>
+                        <div class="card-content">
+                            <span>食堂维护</span>
+                        </div>
+                    </a>
+
+                    <!-- 菜品信息维护 -->
+                    <a href="dishList.html" class="card">
+                        <i class="el-icon-menu"></i>
+                        <div class="card-content">
+                            <span>菜品信息维护</span>
+                        </div>
+                    </a>
+
+                    <!-- 商品评价处理 -->
+                    <a href="commentList.html" class="card">
+                        <i class="el-icon-star-on"></i>
+                        <div class="card-content">
+                            <span>商品评价处理</span>
+                        </div>
+                    </a>
+
+                    <!-- 活动公告 -->
+                    <a href="" class="card">
+                        <i class="el-icon-bell"></i>
+                        <div class="card-content">
+                            <span>活动公告</span>
+                        </div>
+                    </a>
+
+                    <!-- 投票调查 -->
+                    <a href="" class="card">
+                        <i class="el-icon-s-operation"></i>
+                        <div class="card-content">
+                            <span>投票调查</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="wrapper">
+                    <div class="inner">
+                        <p>版权所有 上海理工大学</p>
+                        <p>地址：上海市杨浦区军工路516号</p>
+                        <p>邮箱：jwc@usst.edu.cn</p>
+                    </div>
+                </div>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                newNotifications: 100
+            };
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

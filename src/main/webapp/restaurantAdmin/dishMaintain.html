@@ -163,42 +163,8 @@
 
                 <!--主体区域-->
                 <el-main>
-                    <el-table-column fixed="right" label="修改菜品图片" align="center">
-                        <template slot-scope="scope">
-                            <el-button @click="handleClick(scope.row)" type="text" size="large">编辑</el-button>
-                        </template>
-                    </el-table-column>
 
-                    <el-dialog title="修改菜品图片" :visible.sync="dialogTableVisible" :data="templateList">
-                        <template scope='scope'>
-                            <el-form :model="templateList" ref="templateList" style="padding:0 1vw;">
-                                <el-row :gutter="20">
 
-                                    <el-col :span="12">
-                                        <el-input v-model="templateList.dishId" readonly>
-                                            <template slot="prepend">菜品ID</template>
-                                        </el-input>
-                                    </el-col>
-                                    <el-col :span="12">
-                                        <el-input v-model="templateList.dishName" readonly>
-                                            <template slot="prepend">菜品名称</template>
-                                        </el-input>
-                                    </el-col>
-                                </el-row>
-                                <el-row :gutter="20">
-                                    <el-col :span="24">
-                                        <el-input v-model="templateList.dishImg">
-                                            <template slot="prepend">菜品图片</template>
-                                        </el-input>
-                                    </el-col>
-                                </el-row>
-
-                            </el-form>
-                        </template>
-                        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="submitForm(templateList)">确定</el-button>
-        </span>
-                    </el-dialog>
                 </el-main>
 
             </el-container>
