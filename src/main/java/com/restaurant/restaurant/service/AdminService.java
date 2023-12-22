@@ -172,6 +172,12 @@ public class AdminService {
         sqlSession.close();
         return FrontEndUtils.objectToBody("增添成功","0",null);
     }
+    public String SelectUserById(int id){
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        User user = userMapper.selectById(id);
 
-
+        sqlSession.commit();
+        sqlSession.close();
+        return FrontEndUtils.objectToBody("查询成功","0",user);
+    }
 }
