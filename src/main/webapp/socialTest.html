@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+
+  <div id="app">
+    <el-table :data="myArray" style="width: 50%">
+      <el-table-column label="索引" prop="index"></el-table-column>
+      <el-table-column label="数值" prop="value"></el-table-column>
+    </el-table>
+  </div>
+<script>
+  new Vue({
+    el: '#app',
+    data(){
+      return{
+        isCollapse:false,
+        asideWidth:'200px',
+        collapseIcon:'el-icon-s-fold',
+        value:'',
+        myArray: [
+          { index: 1, value: '项目 1' },
+          { index: 2, value: '项目 2' },
+          { index: 3, value: '项目 3' },
+          // ... 其他数组元素
+        ]
+      }
+    },
+  })
+</script>
+
+</body>
+</html>
