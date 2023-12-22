@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>食堂点评交流系统</title>
-    <link rel="stylesheet" href="../css/communicationList.css">
     <link rel="shortcut icon" href="/restaurant/img/chat.ico"/>
+    <link rel="stylesheet" href="../css/restaurantAdminList.css">
+
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css">
     <script src="../js/vue.js"></script>
@@ -12,6 +13,8 @@
     <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body>
+
+
 <div id="app">
     <el-container>
         <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
@@ -82,36 +85,33 @@
             </el-header>
             <el-main>
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                    <el-form-item label="帖子ID" style="margin-right: 40px;">
-                        <el-input v-model="formInline.commentId" placeholder="帖子ID"></el-input>
+                    <el-form-item label="学号/工号" style="margin-right: 40px;">
+                        <el-input v-model="formInline.id" placeholder="学号/工号"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">查询</el-button>
                     </el-form-item>
                 </el-form>
 
+                <!-- 投诉 -->
                 <el-table :data="tableData" border style="width: 100%">
-                    <el-table-column prop="commentId" label="帖子ID" width="100">
+                    <el-table-column prop="userId" label="学号/工号" width="250">
                     </el-table-column>
-                    <el-table-column prop="userId" label="学号" width="100">
+                    <el-table-column prop="username" label="姓名" width="200">
                     </el-table-column>
-                    <el-table-column prop="title" label="标题" width="200">
+                    <el-table-column prop="password" label="密码" width="200">
                     </el-table-column>
-                    <el-table-column prop="body" label="内容" width="350">
+                    <el-table-column prop="experience" label="经验值" width="100">
                     </el-table-column>
-                    <el-table-column prop="image" label="图片" width="200">
-                        <template slot-scope="scope">
-                            <img :src="scope.row.image" alt="无图片" height="175" width="175">
-                        </template>
+<!--                    <el-table-column prop="forbidden" label="封禁" width="100">-->
+<!--                    </el-table-column>-->
+                    <el-table-column prop="illegality" label="张三指数" width="100">
                     </el-table-column>
-                    <el-table-column prop="publishTime" label="发表时间" width="100">
-                    </el-table-column>
-                    <el-table-column prop="likes" label="点赞" width="100">
-                    </el-table-column>
-                    <el-table-column fixed="right" label="操作" width="200">
+                    <el-table-column fixed="right" label="操作" width="300">
                         <template slot-scope="scope">
                             <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
                             <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
+                            <el-button @click="appointAdmin(scope.row)" type="text" size="small">委任为食堂管理员</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -128,35 +128,44 @@
                     <!-- 编辑表单的内容 -->
                     <el-form :model="currentRow" label-position="top">
                         <!-- 表单项 -->
-                        <el-form-item label="帖子ID">
-                            <el-input v-model="currentRow.commentId"></el-input>
-                        </el-form-item>
-                        <el-form-item label="学号">
+                        <el-form-item label="工号">
                             <el-input v-model="currentRow.userId"></el-input>
                         </el-form-item>
-                        <el-form-item label="标题">
-                            <el-input v-model="currentRow.title"></el-input>
+                        <el-form-item label="姓名">
+                            <el-input v-model="currentRow.username"></el-input>
                         </el-form-item>
-                        <el-form-item label="内容">
-                            <el-input v-model="currentRow.body"></el-input>
+                        <el-form-item label="密码">
+                            <el-input v-model="currentRow.password"></el-input>
                         </el-form-item>
-                        <el-form-item label="图片">
-                            <img v-model="currentRow.image" :src="currentRow.image" alt="无图片" height="100" width="100">
+                        <el-form-item label="经验值">
+                            <el-input v-model="currentRow.experience"></el-input>
                         </el-form-item>
-                        <el-form-item label="发表时间">
-                            <el-date-picker
-                                    v-model="currentRow.publishTime"
-                                    value-format="yyyy-MM-dd HH:mm:ss"
-                                    type="datetime"
-                                    placeholder="发表时间"
-                                    >
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="点赞数">
-                            <el-input v-model="currentRow.likes"></el-input>
+<!--                        <el-form-item label="封禁">-->
+<!--                            <el-input v-model="currentRow.forbidden"></el-input>-->
+<!--                        </el-form-item>-->
+                        <el-form-item label="张三指数">
+                            <el-input v-model="currentRow.illegality"></el-input>
                         </el-form-item>
                         <el-button @click="saveEdit" type="primary">保存</el-button>
+                        <el-button @click="dialogVisible = false">取消</el-button>
                     </el-form>
+                </el-dialog>
+
+                <el-dialog title="委任为食堂管理员" :visible.sync="adminDialogVisible">
+                <el-form ref="form" :model="formData" :rules="rules" label-width="120px">
+                    <el-form-item label="学号/工号">
+                        <el-input v-model="formData.userId"></el-input>
+                    </el-form-item>
+                    <el-form-item label="食堂名称">
+                        <el-select v-model="formData.canteenName" placeholder="请选择食堂名称">
+                            <el-option v-for="canteen in canteens" :key="canteen.id" :label="canteen.name" :value="canteen.name"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="submitForm">确定</el-button>
+                        <el-button @click="adminDialogVisible= false">取消</el-button>
+                    </el-form-item>
+                </el-form>
                 </el-dialog>
             </el-main>
         </el-container>
@@ -171,49 +180,66 @@
                 asideWidth: '200px',
                 collapseIcon: 'el-icon-s-fold',
                 formInline: {
-                    commentId: '',
+                    id: '',
                 },
                 tableData: [
+
                 ],
                 currentPage: 1,
                 dialogVisible: false, // 控制对话框的显示和隐藏
+                adminDialogVisible: false, // 控制表单的显示与隐藏
                 currentRow: {
-                    commentId:'',
                     userId: '',
-                    title: '',
-                    body: '',
-                    image:'',
-                    publicTime:'',
-                    publishTime:'',
-                    likes: ''
+                    username: '',
+                    password: '',
+                    experience: '',
+                    isForbidden:true,
+                    forbidden:true,
+                    illegality:''
                 }, // 当前选中行的数据
+                formData:{
+                    userId: '',
+                    canteenName:'', // 存储选择的餐厅名称
+                },
                 pageSize: 6, // 每页显示条数
-                total: 0 // 总条数
+                total: 0 ,// 总条数
+                canteens:[],// 存储餐厅信息
+                rules: {
+                    userId: [
+                        { required: true, message: '请输入UserId', trigger: 'blur' }
+                    ],
+                    canteenName: [
+                        { required: true, message: '请选择食堂名称', trigger: 'change' }
+                    ]
+                }
             };
         },
         mounted() {
-            this.getAllComment()
+            this.getAllUser();
+            this.getAllCanteenName()
         },
         methods: {
-            getAllComment(){
-                axios.get('/restaurant/showAllComment')
+            getAllUser(){
+                axios.get('/restaurant/showAllUser')
                     .then(response => {
                         if (response.data.flag === '0') {
                             this.$message.success('获取列表成功');
-                            response.data.object.forEach(item => {
-                                const timestamp = item.publicTime;
-                                const date = new Date(timestamp);
-                                const formattedDate = date.getFullYear() + '-' +
-                                    ('0' + (date.getMonth()+1)).slice(-2) + '-' +
-                                    ('0' + date.getDate()).slice(-2) + ' ' +
-                                    ('0' + date.getHours()).slice(-2) + ':' +
-                                    ('0' + date.getMinutes()).slice(-2) + ':' +
-                                    ('0' + date.getSeconds()).slice(-2);
-                                item.publishTime = formattedDate;
-                                item.image="data:image/png;base64,"+item.image;
-                            });
                             this.tableData = response.data.object;
                             this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(response.data.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
+            getAllCanteenName() {
+                axios.get('/restaurant/GetCanteen')
+                    .then(response => {
+                        if (response.data.flag === '0') {
+                            this.canteens = response.data.object;
                         } else {
                             this.$message.error(response.data.message);
                         }
@@ -236,12 +262,13 @@
                 console.log(`当前页: ${val}`);
             },
             onSubmit() {
-                const commentId = this.formInline.commentId;
-                if (commentId === '') {
-                    this.$message.warning('请输入帖子ID');
+                console.log("")
+                const id = this.formInline.id;
+                if (id === '') {
+                    this.$message.warning('请输入工号');
                     return;
                 }
-                axios.get(`/restaurant/showCommentById?commentId=`+commentId)
+                axios.get(`/restaurant/showUser?id=`+id)
                     .then(response => {
                         if (response.data.object !== '') {
                             this.tableData =[response.data.object];
@@ -256,16 +283,15 @@
                     });
             },
             handleDelete(row) {
-                // const id = this.tableData[indexOf(row)].userId;
                 const index = this.tableData.indexOf(row);
-                const commentId=this.tableData[index].commentId;
-                if (commentId !== -1) {
-                    this.$confirm('确定要删除此信息吗?', '警告', {
+                const id = this.tableData[index].userId;
+                if (id !== -1) {
+                    this.$confirm('确定要删除此管理员吗?', '警告', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning'
                     }).then(() => {
-                        axios.get(`/restaurant/deleteComment?commentId=`+commentId)
+                        axios.get(`/restaurant/deleteUser?id=` + id)
                             .then(response => {
                                 this.tableData.splice(index, 1);
                                 this.$message.success('删除成功');
@@ -284,11 +310,9 @@
                 this.dialogVisible = true; // 显示编辑对话框
             },
             saveEdit() {
-                var prefixPng = "data:image/png;base64,";
                 // 处理编辑后的数据保存逻辑
-                if (this.currentRow.image.startsWith(prefixPng))
-                    this.currentRow.image = this.currentRow.image.substring(prefixPng.length);
-                axios.post(`/restaurant/updateComment`, JSON.stringify(this.currentRow), {
+                this.currentRow.isForbidden = this.currentRow.forbidden;
+                axios.post(`/restaurant/updateUser`, JSON.stringify(this.currentRow), {
                     headers: {
                         'Content-Type': 'application/json'
                     }
@@ -299,12 +323,37 @@
                             // alert(newData);
                             this.dialogVisible = false; // 关闭编辑对话框
                             this.$message.success('保存成功');
-                            this.getAllComment();
+                            this.getAllUser();
                         }
                     })
                     .catch(error => {
                         this.$message.error('保存失败');
                         console.log(error);
+                    });
+            },
+            appointAdmin(row){
+                this.formData.userId = Object.assign({}, row).userId; // 复制当前行数据，避免直接修改原数据
+                this.adminDialogVisible= true // 显示表单
+            },
+            submitForm() {
+                alert(this.formData.userId);
+                alert(this.formData.canteenName);
+                axios.post(`/restaurant/setCanteenAdmin`, JSON.stringify({id:this.formData.userId,canteenName:this.formData.canteenName}), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.data.flag === '0') {
+                            this.$message.success('委任成功');
+                            this.adminDialogVisible = false; // 关闭编辑对话框
+                        } else {
+                            this.$message.error('委任失败，请重试');
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('委任失败，请重试');
                     });
             }
         },
@@ -312,4 +361,3 @@
 </script>
 </body>
 </html>
-

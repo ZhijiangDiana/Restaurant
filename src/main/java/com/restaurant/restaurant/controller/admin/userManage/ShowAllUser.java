@@ -23,7 +23,8 @@ public class ShowAllUser extends HttpServlet {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             List<User> users = mapper.selectAll();
             sqlSession.close();
-            response.getWriter().print(FrontEndUtils.objectToBody(null,"0",users));
+            String body = FrontEndUtils.objectToBody(null, "0", users);
+            response.getWriter().print(body);
         }catch (Exception e){
             e.printStackTrace();
             sqlSession.close();

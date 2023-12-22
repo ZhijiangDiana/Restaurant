@@ -16,7 +16,7 @@ public class UpdateUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject jsonObject = FrontEndUtils.bodyToJson(request);
-        String id = jsonObject.getString("id");
+        String id = jsonObject.getString("userId");
         String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
         String experience = jsonObject.getString("experience");

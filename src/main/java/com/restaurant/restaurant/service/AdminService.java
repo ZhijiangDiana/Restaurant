@@ -111,14 +111,14 @@ public class AdminService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try(sqlSession){
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            List<User> users = userMapper.selectAll();
-            for (User user : users) {
-                if(user.getUsername().equals(username)){
-                    return FrontEndUtils.objectToBody("姓名不能重复","1",null);
-                }
-            }
+//            List<User> users = userMapper.selectAll();
+//            for (User user : users) {
+//                if(user.getUsername().equals(username)){
+//                    return FrontEndUtils.objectToBody("姓名不能重复","1",null);
+//                }
+//            }
             Boolean isForbiddenBool = null;
-            if (isForbidden.equals("是")){
+            if (isForbidden.equals("true")){
                 isForbiddenBool = true;
             }
             else
@@ -143,7 +143,7 @@ public class AdminService {
 
     public String deleteUserById(String id){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             int isSuccess = userMapper.deleteUserById(Integer.parseInt(id));
             sqlSession.commit();
@@ -162,7 +162,7 @@ public class AdminService {
 
     public String addUser(String id,String username,String password,String experience,String isForbidden,String illegality){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             List<User> userList = userMapper.selectAll();
             for (User user : userList) {
@@ -196,7 +196,7 @@ public class AdminService {
      */
     public String setUserToCanteenAdmin(String id,String canteenName){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);
@@ -227,7 +227,7 @@ public class AdminService {
 
     public String deleteDishCommentById(String id){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             DishCommentMapper dishMapper = sqlSession.getMapper(DishCommentMapper.class);
             int isSuccess = dishMapper.deletedishCommentById(Integer.parseInt(id));
             sqlSession.commit();
@@ -246,7 +246,7 @@ public class AdminService {
 
     public String updateDishComment(String dishCommentId,String userId,String dishId,String score,String tittle,String body,byte[] image){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
             DishComment dishComment = new DishComment(Integer.parseInt(dishCommentId),Integer.parseInt(userId),Integer.parseInt(dishId),Double.parseDouble(score),tittle,body,image);
             int isSuccess = dishCommentMapper.updateDishComment(dishComment);
@@ -266,10 +266,11 @@ public class AdminService {
 
     public String updateComment(String commentId,String userId,String title,String body,byte[] image,Date publishTime,String likes){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             Comment comment = new Comment(Integer.parseInt(commentId),Integer.parseInt(userId),title,body,image,publishTime,Integer.parseInt(likes));
             CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
             int isSuccess = commentMapper.updateComment(comment);
+            sqlSession.commit();
             if (isSuccess == 1)
                 return FrontEndUtils.objectToBody("修改成功","0",null);
             else
@@ -284,7 +285,7 @@ public class AdminService {
 
     public String deleteCommentById(String commentId){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        try {
+        try (sqlSession){
             CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
             int isSuccess = commentMapper.deleteCommentById(Integer.parseInt(commentId));
             sqlSession.commit();

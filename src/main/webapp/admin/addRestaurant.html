@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>食堂点评交流系统</title>
     <link rel="stylesheet" href="../css/addRestaurant.css">
+    <link rel="shortcut icon" href="/restaurant/img/chat.ico"/>
 
     <!-- 引入 Element UI 样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css">
+    <script src="../js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body>
 <div id="app">
@@ -48,8 +50,8 @@
                     <el-menu-item  >
                         <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
                     </el-menu-item>
-                    <el-menu-item >
-                        <a href="addRestaurantAdmin.html" class="aside_item">添加食堂管理员</a>
+                    <el-menu-item>
+                        <a href="userList.html" class="aside_item">用户列表</a>
                     </el-menu-item>
                 </el-submenu>
 
@@ -80,20 +82,45 @@
                 <i :class="collapseIcon" style="font-size:26px;color: #fff;" @click="handleCollapse"></i>
             </el-header>
             <el-main>
-                <el-form :model="restaurant" ref="restaurantForm" label-width="80px" style="padding: 20px;">
+                <el-form :model="restaurant" ref="restaurantForm" label-width="80px" style="padding: 20px;" :rules="rules">
                     <el-form-item label="食堂名称" prop="name">
                         <el-input v-model="restaurant.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="营业时间" prop="businessHours">
-                        <el-input v-model="restaurant.time"></el-input>
+                    <el-form-item label="食堂地址" prop="location">
+                        <el-input v-model="restaurant.location"></el-input>
                     </el-form-item>
-                    <el-form-item label="食堂地址" prop="address">
-                        <el-input v-model="restaurant.address"></el-input>
+                    <el-form-item label="营业时间">
+                        <el-time-picker
+                                v-model="restaurant.startTime"
+                                value-format="HH:mm:ss"
+                                :picker-options="{
+                                selectableRange: '00:00:00 - 23:59:59'
+                              }"
+                                placeholder="开始时间">
+                        </el-time-picker>
+                        <el-time-picker
+                                v-model="restaurant.endTime"
+                                value-format="HH:mm:ss"
+                                :picker-options="{
+                                selectableRange: '00:00:00 - 23:59:59'
+                              }"
+                                placeholder="结束时间">
+                        </el-time-picker>
                     </el-form-item>
+                    <el-form-item label="描述" prop="description">
+                        <el-input v-model="restaurant.description"></el-input>
+                    </el-form-item>
+                    <el-form-item label="上传图片" prop="image">
+                        <div>
+                            <input type="file" @change="handleFileUpload" />
+                        </div>
+                    </el-form-item>
+
                     <el-form-item>
                         <el-button type="primary" @click="addRestaurant">添加</el-button>
                         <el-button @click="resetForm">重置</el-button>
                     </el-form-item>
+
                 </el-form>
             </el-main>
         </el-container>
@@ -106,78 +133,98 @@
             return {
                 restaurant: {
                     name: '',
-                    time: '',
-                    address: ''
+                    location: '',
+                    startTime: '',
+                    endTime:'',
+                    description: '',
+                    image: "1"
                 },
                 isCollapse: false,
                 asideWidth: '200px',
                 collapseIcon: 'el-icon-s-fold',
+                imageUrl: '',
+                fileList: [],
+                selectedFile: null,
             };
         },
         methods: {
+            handleFileUpload(event) {
+                const file = event.target.files[0];
+                var reader = new FileReader();
+
+                const self=this;
+
+                reader.onload = function(e) {
+                    var base64String = e.target.result;
+                    // console.log(base64String); // 在控制台输出base64字符串
+                    var str = base64String;
+                    var prefixJpeg = "data:image/jpeg;base64,";
+                    var prefixPng = "data:image/png;base64,";
+                    var prefixJpg = "data:image/jpg;base64,";
+                    var result;
+                    if (str.startsWith(prefixJpeg)) {
+                        result = str.substring(prefixJpeg.length);
+                        self.restaurant.image = result;
+                        console.log(result);
+                    } else if (str.startsWith(prefixPng)){
+                        result = str.substring(prefixPng.length);
+                        self.restaurant.image = result;
+
+                    } else if (str.startsWith(prefixJpg)) {
+                        result = str.substring(prefixJpg.length);
+                        self.restaurant.image = result;
+                        // console.log(result);
+                    } else {
+                        alert("只允许上传jpeg/png")
+                    }
+
+
+                };
+                reader.readAsDataURL(file);
+
+                // alert(file.toString())
+                // const formData = new FormData();
+                // formData.append('image', file);
+                // axios.post('/restaurant/uploadImage', formData, {
+                //     headers: {
+                //         'Content-Type': 'multipart/form-data'
+                //     }
+                // })
+                //     .then(response => {
+                //         const imageUrl = response.data.imageUrl;
+                //         this.restaurant.image = imageUrl; // 将图片地址赋值给表单数据
+                //
+                //         // 其他逻辑处理
+                //     })
+                //     .catch(error => {
+                //         // 处理上传失败或其他错误的逻辑
+                //     });
+            },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
                 this.collapseIcon = this.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
             },
-            // addRestaurant() {
-            //     this.$refs.restaurantForm.validate(valid => {
-            //         if (valid) {
-            //             // 判断食堂名称、营业时间和地址是否都填写完全
-            //             if (!this.restaurant.name || !this.restaurant.time || !this.restaurant.address) {
-            //                 this.$message.error('请填写完整的食堂信息');
-            //                 return;
-            //             }
-            //             // 将表单数据转换为 JSON 格式
-            //             const requestData = JSON.stringify(this.restaurant);
-            //             // 发送 POST 请求给后端，传递表单数据
-            //             axios.post('/restaurant/addRestaurant', requestData, {
-            //                 headers: {
-            //                     'Content-Type': 'application/json'
-            //                 }
-            //             })
-            //                 .then(response => {
-            //                     const flag = response.data.flag;
-            //                     if (flag === '0') {
-            //                         this.restaurant = {}; // 清空表单数据
-            //                         this.$message({
-            //                             message: '添加成功',
-            //                             type: 'success'
-            //                         });
-            //                     } else {
-            //                         this.$message.error('添加失败：' + response.data.error);
-            //                     }
-            //                 })
-            //                 .catch(error => {
-            //                     console.error(error);
-            //                     this.$message.error('添加失败：' + error.message);
-            //                 });
-            //         } else {
-            //             this.$message.error('请填写正确的食堂信息');
-            //         }
-            //     });
-            // },
             addRestaurant() {
                 this.$refs.restaurantForm.validate(valid => {
                     if (valid) {
                         // 判断食堂名称、营业时间和地址是否都填写完全
-                        if (!this.restaurant.name || !this.restaurant.time || !this.restaurant.address) {
+                        if (!this.restaurant.name || !this.restaurant.location|| !this.restaurant.startTime || !this.restaurant.endTime
+                            || !this.restaurant.description) {
                             this.$message.error('请填写完整的食堂信息');
                             return;
                         }
+                        alert(this.restaurant.image)
                         // 将表单数据转换为 JSON 格式
-                        const requestData = JSON.stringify(this.restaurant);
+                        const requestData = JSON.stringify(this.restaurant)
                         // 发送 POST 请求给后端，传递表单数据
-                        fetch('/restaurant/addRestaurant', {
-                            method: 'POST',
+                        axios.post('/restaurant/addCanteen', requestData, {
                             headers: {
                                 'Content-Type': 'application/json'
-                            },
-                            body: requestData
+                            }
                         })
-                            .then(response => response.json())
-                            .then(data => {
-                                const flag = data.flag;
+                            .then(response => {
+                                const flag = response.data.flag;
                                 if (flag === '0') {
                                     this.restaurant = {}; // 清空表单数据
                                     this.$message({
@@ -185,7 +232,7 @@
                                         type: 'success'
                                     });
                                 } else {
-                                    this.$message.error('添加失败：' + data.error);
+                                    this.$message.error('添加失败：' + response.data.error);
                                 }
                             })
                             .catch(error => {

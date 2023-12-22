@@ -40,6 +40,7 @@ public class CanteenAdminService {
         try (sqlSession){
             CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);
             int isSuccess = canteenAdminMapper.deleteById(Integer.parseInt(canteenAdminId));
+            sqlSession.commit();
             if (isSuccess == 1){
                 return FrontEndUtils.objectToBody("删除成功","0",null);
             }else {

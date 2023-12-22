@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>食堂点评交流系统</title>
     <link rel="stylesheet" href="../css/commentList.css">
-
+    <link rel="shortcut icon" href="/restaurant/img/chat.ico"/>
     <!-- 引入 Element UI 样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css">
+    <script src="../js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body>
 <div id="app">
@@ -49,7 +50,7 @@
                         <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
                     </el-menu-item>
                     <el-menu-item>
-                        <a href="addRestaurantAdmin.html" class="aside_item">添加食堂管理员</a>
+                        <a href="userList.html" class="aside_item">用户列表</a>
                     </el-menu-item>
                 </el-submenu>
 
@@ -81,14 +82,8 @@
             </el-header>
             <el-main>
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                    <el-form-item label="学号" style="margin-right: 40px;">
-                        <el-input v-model="formInline.user_id" placeholder="学号"></el-input>
-                    </el-form-item>
-                    <el-form-item label="餐品号" style="margin-right: 40px;">
-                        <el-input v-model="formInline.dish_id" placeholder="餐品ID"></el-input>
-                    </el-form-item>
-                    <el-form-item label="标题" style="margin-right: 40px;">
-                        <el-input v-model="formInline.title" placeholder="标题"></el-input>
+                    <el-form-item label="评论ID" style="margin-right: 40px;">
+                        <el-input v-model="formInline.dishCommentId" placeholder="评论ID"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -96,19 +91,24 @@
                 </el-form>
 
                 <el-table :data="tableData" border style="width: 100%">
-                    <el-table-column fixed="left" prop="user_id" label="学号" width="100">
+                    <el-table-column fixed="left" prop="dishCommentId" label="评论ID" width="100">
                     </el-table-column>
-                    <el-table-column prop="dish_id" label="餐品号" width="100">
+                    <el-table-column prop="userId" label="学号" width="100">
                     </el-table-column>
-                    <el-table-column prop="title" label="标题" width="200">
+                    <el-table-column prop="dishId" label="餐品号" width="100">
+                    </el-table-column>
+                    <el-table-column prop="tittle" label="标题" width="200">
                     </el-table-column>
                     <el-table-column prop="body" label="内容" width="300">
                     </el-table-column>
                     <el-table-column prop="image" label="图片" width="200">
+                        <template slot-scope="scope">
+                            <img :src="scope.row.image" alt="无图片" height="175" width="175">
+                        </template>
                     </el-table-column>
-                    <el-table-column prop="like" label="点赞数" width="100">
+                    <el-table-column prop="score" label="评分" width="50">
                     </el-table-column>
-                    <el-table-column fixed="right" label="操作" width="200">
+                    <el-table-column fixed="right" label="操作" width="100">
                         <template slot-scope="scope">
                             <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
                             <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
@@ -118,8 +118,8 @@
 
                 <div class="block">
                     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                                   :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10"
-                                   layout="total, sizes, prev, pager, next, jumper" :total="40">
+                                   :current-page="currentPage" :page-sizes="[6]" :page-size="pageSize"
+                                   layout="total, sizes, prev, pager, next, jumper" :total="total">
                     </el-pagination>
                 </div>
 
@@ -128,25 +128,29 @@
                     <!-- 编辑表单的内容 -->
                     <el-form :model="currentRow" label-position="top">
                         <!-- 表单项 -->
+                        <el-form-item label="评论ID">
+                            <el-input v-model="currentRow.dishCommentId"></el-input>
+                        </el-form-item>
                         <el-form-item label="学号">
-                            <el-input v-model="currentRow.user_id"></el-input>
+                            <el-input v-model="currentRow.userId"></el-input>
                         </el-form-item>
                         <el-form-item label="餐品号">
-                            <el-input v-model="currentRow.dish_id"></el-input>
+                            <el-input v-model="currentRow.dishId"></el-input>
                         </el-form-item>
                         <el-form-item label="标题">
-                            <el-input v-model="currentRow.title"></el-input>
+                            <el-input v-model="currentRow.tittle"></el-input>
                         </el-form-item>
                         <el-form-item label="内容">
                             <el-input v-model="currentRow.body"></el-input>
                         </el-form-item>
                         <el-form-item label="图片">
-                            <el-input v-model="currentRow.image"></el-input>
+                            <img v-model="currentRow.image" :src="currentRow.image" alt="无图片" height="100" width="100">
                         </el-form-item>
                         <el-form-item label="点赞">
-                            <el-input v-model="currentRow.like"></el-input>
+                            <el-input v-model="currentRow.score"></el-input>
                         </el-form-item>
                         <el-button @click="saveEdit" type="primary">保存</el-button>
+                        <el-button @click="dialogVisible = false">取消</el-button>
                     </el-form>
                 </el-dialog>
             </el-main>
@@ -162,50 +166,57 @@
                 asideWidth: '200px',
                 collapseIcon: 'el-icon-s-fold',
                 formInline: {
-                    user_id: '',
-                    dish_id: '',
-                    title: ''
+                    dishCommentId: '',
                 },
                 tableData: [
-                    //     {
-                    //   user_id:'111111',
-                    //   dish_id:'1111111',
-                    //   title: '张三',
-                    //   body: 'hhhhhhh',
-                    //   image:'wait',
-                    //   like:'3'
-                    // }, {
-                    //   user_id:'111111',
-                    //   dish_id:'1111111',
-                    //   title: '张三',
-                    //   body: 'hhhhhhh',
-                    //   image:'wait',
-                    //   like:'3'
-                    // },
                 ],
                 currentPage: 1,
                 dialogVisible: false, // 控制对话框的显示和隐藏
                 currentRow: {
-                    user_id: '',
-                    dish_id: '',
-                    title: '',
+                    dishCommentId:'',
+                    userId: '',
+                    dishId: '',
+                    tittle: '',
                     body: '',
                     image: '',
-                    like: ''
+                    score: ''
                 }, // 当前选中行的数据
+                pageSize: 6, // 每页显示条数
+                total: 0 // 总条数
             };
         },
         mounted() {
-            axios.get('/restaurant/commentList')
-                .then(response => {
-                    this.tableData = response.data;
-                })
-                .catch(error => {
-                    console.log(error);
-                    this.$message.error('获取数据失败，请重试');
-                });
+            this.getAllDishComment()
         },
         methods: {
+            getAllDishComment(){
+                fetch('/restaurant/showAllDishComment', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            this.tableData =result.object;
+                            this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
@@ -215,51 +226,51 @@
                 console.log(`每页 ${val} 条`);
             },
             handleCurrentChange(val) {
+                this.currentPage=val
                 console.log(`当前页: ${val}`);
             },
             onSubmit() {
-                const user_id = this.formInline.user_id;
-                const dish_id=this.formInline.dish_id;
-                const title = this.formInline.title;
-                if (user_id === '') {
-                    this.$message.warning('请输入学号');
+                const dishCommentId = this.formInline.dishCommentId;
+                if (dishCommentId === '') {
+                    this.$message.warning('请输入评论ID');
                     return;
                 }
-                if (dish_id === '') {
-                    this.$message.warning('请输入餐品号');
-                    return;
-                }
-                if (title === '') {
-                    this.$message.warning('请输入标题');
-                    return;
-                }
-                axios.get(`/restaurant/comment?user_id=${user_id}&dish_id=${dish_id}&title=${title}`)
+                axios.get(`/restaurant/showDishCommentById?dishCommentId=`+dishCommentId)
                     .then(response => {
-                        const data = response.data;
-                        if (data.length > 0) {
-                            this.tableData = data;
+                        if (response.data.object !== '') {
+                            this.tableData =[response.data.object];
+                            this.$message.success('查询成功');
                         } else {
-                            this.$message.error('未查询到结果');
+                            this.$message.error("查询失败");
                         }
                     })
                     .catch(error => {
+                        this.$message.error("查询失败");
                         console.log(error);
-                        this.$message.error('查询失败，请重试');
                     });
             },
             handleDelete(row) {
+                // const id = this.tableData[indexOf(row)].userId;
                 const index = this.tableData.indexOf(row);
-                if (index !== -1) {
-                    const id = row.id;
-                    axios.delete(`/restaurant/comment/${id}`)
-                        .then(response => {
-                            this.tableData.splice(index, 1);
-                            this.$message.success('删除成功');
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            this.$message.error('删除失败，请重试');
-                        });
+                const dishCommentId=this.tableData[index].dishCommentId;
+                if (dishCommentId !== -1) {
+                    this.$confirm('确定要删除此评论吗?', '警告', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        axios.get(`/restaurant/deleteDishComment?id=`+dishCommentId)
+                            .then(response => {
+                                this.tableData.splice(index, 1);
+                                this.$message.success('删除成功');
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                this.$message.error('删除失败，请重试');
+                            });
+                    }).catch(() => {
+                        // 用户点击取消按钮的操作
+                    });
                 }
             },
             handleEdit(row) {
@@ -268,21 +279,23 @@
             },
             saveEdit() {
                 // 处理编辑后的数据保存逻辑
-                const id = this.currentRow.id; // 从currentRow中获取id
-                axios.put(`/restaurant/comment/${id}`, JSON.stringify(this.currentRow), {
+                axios.post(`/restaurant/updateDishComment`, JSON.stringify(this.currentRow), {
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 })
                     .then(response => {
-                        const newData = response.data;
-                        this.tableData.push(newData); // 将返回的新数据添加到表格中
-                        this.dialogVisible = false; // 关闭编辑对话框
-                        this.message.success('保存成功');
+                        if (response.data.flag === '0') {
+                            // const newData = response.data.object;
+                            // alert(newData);
+                            this.dialogVisible = false; // 关闭编辑对话框
+                            this.$message.success('保存成功');
+                            this.getAllDishComment();
+                        }
                     })
                     .catch(error => {
+                        this.$message.error('保存失败');
                         console.log(error);
-                        this.message.error('保存失败，请重试');
                     });
             }
         },

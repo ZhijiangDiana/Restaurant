@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="../css/addRestaurantAdmin.css">
 
     <!-- 引入 Element UI 样式 -->
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css">
+    <script src="../js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
 </head>
 <body>
 <div id="app">
@@ -49,7 +50,7 @@
                         <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
                     </el-menu-item>
                     <el-menu-item>
-                        <a href="addRestaurantAdmin.html" class="aside_item">添加食堂管理员</a>
+                        <a href="userList.html" class="aside_item">用户列表</a>
                     </el-menu-item>
                 </el-submenu>
 
@@ -85,6 +86,9 @@
                         <el-input v-model="restaurantAdmin.id"></el-input>
                     </el-form-item>
                     <el-form-item label="密码" prop="password">
+                        <el-input v-model="restaurantAdmin.password"></el-input>
+                    </el-form-item>
+                    <el-form-item label="请再输入密码" prop="password">
                         <el-input v-model="restaurantAdmin.password"></el-input>
                     </el-form-item>
                     <el-form-item label="姓名" prop="name">
