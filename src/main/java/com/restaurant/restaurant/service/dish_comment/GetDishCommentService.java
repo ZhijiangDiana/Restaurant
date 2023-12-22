@@ -1,10 +1,8 @@
 package com.restaurant.restaurant.service.dish_comment;
 
 import com.restaurant.restaurant.mapper.DishCommentMapper;
-import com.restaurant.restaurant.mapper.DishCommentReplyMapper;
 import com.restaurant.restaurant.pojo.DishCommentShow;
 import com.restaurant.restaurant.pojo.entity.DishComment;
-import com.restaurant.restaurant.pojo.entity.DishCommentReply;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
@@ -57,6 +55,36 @@ public class GetDishCommentService {
         List<DishCommentShow> res = null;
         try {
             res = dishCommentMapper.selectByDishIdWithFile(dishId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+
+        return res;
+    }
+    public DishComment showDishCommentByID(int dishId) {
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
+
+        DishComment res = null;
+        try {
+            res = dishCommentMapper.selectById(dishId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            sqlSession.close();
+        }
+
+        return res;
+    }
+    public DishComment showCanteenById(int id){
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
+
+        DishComment res = null;
+        try {
+            res = dishCommentMapper.selectById(id);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
