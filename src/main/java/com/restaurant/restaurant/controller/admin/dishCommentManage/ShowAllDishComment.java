@@ -22,7 +22,7 @@ public class ShowAllDishComment extends HttpServlet {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try(sqlSession){
             DishCommentMapper dishCommentMapper = sqlSession.getMapper(DishCommentMapper.class);
-            List<DishComment> dishComments = dishCommentMapper.selectAll();
+            List<DishComment> dishComments = dishCommentMapper.selectAllWithFile();
             sqlSession.close();
             response.getWriter().print(FrontEndUtils.objectToBody(null,"0",dishComments));
         }catch (Exception e){

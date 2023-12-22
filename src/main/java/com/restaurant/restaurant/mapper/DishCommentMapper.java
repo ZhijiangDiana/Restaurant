@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface DishCommentMapper {
     List<DishComment> selectAll();
+    List<DishComment> selectAllWithFile();
     DishComment selectById(@Param("id") int id);//
     void insertComment(DishComment comment);//添加评论
     List<DishCommentShow> selectByCanteenIdWithFile(@Param("canteenId") int canteenId);

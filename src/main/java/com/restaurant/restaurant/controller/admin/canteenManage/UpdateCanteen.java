@@ -19,7 +19,7 @@ public class UpdateCanteen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JSONObject jsonObject = FrontEndUtils.bodyToJson(request);
-        String id = jsonObject.getString("id");
+        String id = jsonObject.getString("canteenId");
         String name = jsonObject.getString("name");
         String location = jsonObject.getString("location");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");

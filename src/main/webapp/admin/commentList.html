@@ -10,6 +10,7 @@
     <script src="../js/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
 </head>
 <body>
 <div id="app">
@@ -199,23 +200,7 @@
                 reader.onload = function(e) {
                     var base64String = e.target.result;
                     // console.log(base64String); // 在控制台输出base64字符串
-                    var str = base64String;
-                    var prefixJpeg = "data:image/jpeg;base64,";
-                    var prefixPng = "data:image/png;base64,";
-                    var prefixJpg = "data:image/jpg;base64,";
-                    var result;
-                    if (str.startsWith(prefixJpeg)) {
-                        result = str.substring(prefixJpeg.length);
-                        self.currentRow.image = result;
-                    } else if (str.startsWith(prefixPng)){
-                        result = str.substring(prefixPng.length);
-                        self.currentRow.image = result;
-                    } else if (str.startsWith(prefixJpg)) {
-                        result = str.substring(prefixJpg.length);
-                        self.currentRow.image = result;
-                    } else {
-                        alert("只允许上传jpeg/png/jpg")
-                    }
+                    self.currentRow.image = uriToB64(base64String)
                 };
                 reader.readAsDataURL(file);
             },
@@ -236,6 +221,10 @@
                     .then(result => {
                         if (result.flag === '0') {
                             this.$message.success('获取列表成功');
+                            result.object.forEach(item => {
+                                item.image = b64ToURI(item.image)
+                                console.log(item.image)
+                            });
                             this.tableData =result.object;
                             this.total = this.tableData.length;
                         } else {

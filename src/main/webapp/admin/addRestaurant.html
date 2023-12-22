@@ -11,6 +11,7 @@
     <script src="../js/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
 </head>
 <body>
 <div id="app">
@@ -137,7 +138,7 @@
                     startTime: '',
                     endTime:'',
                     description: '',
-                    image: "1"
+                    image: ''
                 },
                 isCollapse: false,
                 asideWidth: '200px',
@@ -153,52 +154,13 @@
                 var reader = new FileReader();
 
                 const self=this;
-
                 reader.onload = function(e) {
                     var base64String = e.target.result;
+                    self.restaurant.image = uriToB64(base64String);
                     // console.log(base64String); // 在控制台输出base64字符串
-                    var str = base64String;
-                    var prefixJpeg = "data:image/jpeg;base64,";
-                    var prefixPng = "data:image/png;base64,";
-                    var prefixJpg = "data:image/jpg;base64,";
-                    var result;
-                    if (str.startsWith(prefixJpeg)) {
-                        result = str.substring(prefixJpeg.length);
-                        self.restaurant.image = result;
-                        console.log(result);
-                    } else if (str.startsWith(prefixPng)){
-                        result = str.substring(prefixPng.length);
-                        self.restaurant.image = result;
-
-                    } else if (str.startsWith(prefixJpg)) {
-                        result = str.substring(prefixJpg.length);
-                        self.restaurant.image = result;
-                        // console.log(result);
-                    } else {
-                        alert("只允许上传jpeg/png")
-                    }
-
-
+                    reader.abort();
                 };
                 reader.readAsDataURL(file);
-
-                // alert(file.toString())
-                // const formData = new FormData();
-                // formData.append('image', file);
-                // axios.post('/restaurant/uploadImage', formData, {
-                //     headers: {
-                //         'Content-Type': 'multipart/form-data'
-                //     }
-                // })
-                //     .then(response => {
-                //         const imageUrl = response.data.imageUrl;
-                //         this.restaurant.image = imageUrl; // 将图片地址赋值给表单数据
-                //
-                //         // 其他逻辑处理
-                //     })
-                //     .catch(error => {
-                //         // 处理上传失败或其他错误的逻辑
-                //     });
             },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
@@ -214,7 +176,7 @@
                             this.$message.error('请填写完整的食堂信息');
                             return;
                         }
-                        alert(this.restaurant.image)
+                        // alert(this.restaurant.image)
                         // 将表单数据转换为 JSON 格式
                         const requestData = JSON.stringify(this.restaurant)
                         // 发送 POST 请求给后端，传递表单数据
