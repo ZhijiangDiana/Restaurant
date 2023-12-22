@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>菜品检索</title>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        .el-menu--inline  {
+            background-color: #1b1b1b  !important;
+        }
+        .el-menu--inline .el-menu-item {
+            background-color: #1b1b1b  !important;
+            padding-left: 51px !important;
+        }
+
+        .el-menu-item:hover,
+        .el-submenu__title:hover {
+            color: #fff !important;
+        }
+
+        .el-submenu__title:hover i {
+            color: #fff !important;
+        }
+
+        .el-aside{
+            text-decoration: none;
+            transition: width.3s;
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+            color: #fff;
+        }
+        .logo_title{
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all .3s;
+        }
+        .el-header{
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+            display: flex;
+            align-items: center;
+        }
+        .el-header-buttons .el-button {
+            display: flex;
+            background-color: beige;
+            color:black;
+        }
+        .el-form-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black ;
+        }
+        .el-main-buttons .el-button{
+            background-color: beige;
+            color:black;
+            margin-left: 50px;
+        }
+        #card_message1 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin-top: 5px; /* 添加一些边距，使内容离边框有一定距离 */
+            margin-left: 20px;
+            margin-right: 20px;
+            min-height: 100vh;
+
+        }
+        .button-container{
+            text-align: right;
+        }
+        .el-card{
+            /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .el-main-reply-buttons {
+
+            display: flex;
+            gap: 2px; /* 调整按钮之间的间隔 */
+        }
+        .el-main-reply-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+        .carouselBox {
+            width: 100%;
+            max-width: 1200px;
+            min-width: 1000px;
+            margin: 0 auto;
+            padding: 5px 0 ;
+        }
+        .el-carousel__item img{
+            position: relative;
+            color: #475669;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #f6f8fb;
+            width: 308px;
+            height: 380px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div>
+        <el-container>
+            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b " >
+
+                <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+                    <span class="logo_title" v-show="!isCollapse">USST</span>
+                </div>
+
+                <el-menu :collapse="isCollapse"  background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+                    <el-menu-item>
+                        <i class="el-icon-house"></i>
+                        <span slot="title">系统首页</span>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">交流社区</span>
+                    </el-menu-item>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            用户信息
+                        </el-menu-item>
+                        <el-menu-item >
+                            管理员信息
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-search"></i>
+                            <span>信息检索</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="searchRestaurant.html" class="el-aside">食堂检索</a>
+                        </el-menu-item>
+                        <el-menu-item >
+                            <a href="searchDish.html" class="el-aside">菜品检索</a>
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+
+            <el-container>
+                <el-header style="background-color: #1b1b1b">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>\
+                </el-header>
+
+                <el-main>
+
+                    <el-form :inline="false" :model="formInline" class="demo-form-inline">
+                        <el-form-item label="食堂名称" label-width="100px">
+                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="菜品名称" label-width="100px">
+                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="选择菜系" label-width="100px">
+                            <el-radio-group v-model="checkedCuisine" @change="handleCheckedcuisinesChange">
+                                <el-radio v-for="cuisine in cuisines" :label="cuisine" :key="cuisine">{{cuisine}}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="最低价格" prop="min" label-width="100px">
+                                    <el-input clearable="" placeholder="输入最低价格"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="最高价格" prop="max" label-width="100px">
+                                    <el-input clearable="" placeholder="输入最高价格"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-form-item label-width="27px">
+                            <el-button type="success" @click="onSubmit">查询</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                    <el-table :data="tableData" border style="width: 100%">
+                        <el-table-column fixed="left" prop="canteen" label="食堂名称"></el-table-column>
+                        <el-table-column prop="dish_name" label="菜名"></el-table-column>
+                        <el-table-column prop="series" label="菜系"></el-table-column>
+                        <el-table-column prop="price" label="价格"></el-table-column>
+
+                        <el-table-column prop="image" label="图片">
+                            <template slot-scope="scope">
+                                <img :src="scope.row.image" alt="" height="50" width="50">
+                            </template>
+                        </el-table-column>
+
+                        <el-table-column fixed="right" label="操作">
+                            <template slot-scope="scope">
+                                <el-button  @click="handleReport(scope.row)"  plain  size="small" ><i class="el-icon-edit">吐槽一下</i></el-button>
+                            </template>
+                        </el-table-column>
+
+                    </el-table>
+
+                    <div class="block">
+                        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                       :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10"
+                                       layout="total, sizes, prev, pager, next, jumper" :total="40">
+                        </el-pagination>
+                    </div>
+
+
+                    <!-- 添加的 el-dialog 组件 -->
+                    <el-dialog title="评论" :visible.sync="dialogVisible2">
+                        <!-- 编辑表单的内容 -->
+                        <el-form :model="currentRow" label-position="top">
+                            <!-- 表单项 -->
+                            <el-form-item label="食堂">
+                                <el-input v-model="currentRow.canteen"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="菜名">
+                                <el-input v-model="currentRow.dish_name"></el-input>
+                            </el-form-item>
+                            <el-form-item label="评论一下吧">
+                                <el-input
+                                        type="textarea"
+                                        :rows="5"
+                                        placeholder="请输入内容"
+                                        v-model="textarea">
+                                </el-input>
+                            </el-form-item>
+                            <el-form-item label="打个分吧">
+                                <el-rate v-model="value" show-text></el-rate>
+                            </el-form-item>
+                            <div  class="button-container">
+                                <el-button @click="saveSubmit()" type="primary">提交</el-button>
+                            </div>
+                        </el-form>
+                    </el-dialog>
+                </el-main>
+            </el-container>
+        </el-container>
+
+    </div>
+</div>
+
+<script>
+    const CuisineOptions = ['鲁菜', '粤菜', '川菜', '江苏菜','闽菜','浙江菜','湘菜','徽菜','清真餐','日本餐','西餐','其他'];
+    new Vue({
+        el: '#app',
+        data(){
+            return{
+                isCollapse:false,
+                asideWidth:'200px',
+                collapseIcon:'el-icon-s-fold',
+                formInline: {
+                    name: '',
+                },
+                tableData: [
+                    {
+                        canteen: '一食堂',
+                        dish_name: '麻辣香锅',
+                        series: '川菜',
+                        price:'20',
+                        image:'image/food.png'
+                    }, {
+                        canteen: '二食堂',
+                        dish_name: '麻辣香锅',
+                        series: '川菜',
+                        price:'25',
+                        image:'image/food_2.png'
+                    },
+                ],
+                checkAll: false,
+                checkedCuisine: [],
+                cuisines:CuisineOptions,
+                isIndeterminate: true,
+
+                currentPage: 1,
+                dialogVisible1: false, // 控制对话框的显示和隐藏
+                dialogVisible2: false, // 控制对话框的显示和隐藏
+                currentRow: {
+                    canteen: '',
+                    dish_name: '',
+                    series: '',
+                    price:'',
+                    image:''
+                }, // 当前选中行的数据
+
+                textarea: '太好吃了',
+                images:'',
+                value:'',
+
+                // 表单
+                form: {
+                    min: "",
+                    max: "",
+                },
+                minNum: 0, //最小值
+                maxNum: 100, //最大值
+
+            }
+        },
+        methods:{
+            handleCollapse() {
+                this.isCollapse = !this.isCollapse
+                this.asideWidth = this.isCollapse ? '64px' : '200px'
+                this.collapseIcon = this.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
+            },
+
+            onSubmit() {
+                const name = this.formInline.name;
+                if (name === '') {
+                    this.$message.warning('请输入详细信息');
+                    return;
+                }
+            },
+
+            handleReport(row) {
+                this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
+                this.dialogVisible2 = true; // 显示编辑对话框
+            },
+
+            saveSubmit(){
+
+            },
+
+            handleCheckAllChange(val) {
+                this.checkedCuisine = val ? CuisineOptions : [];
+                this.isIndeterminate = false;
+            },
+            handleCheckedcuisinesChange(value) {
+                let checkedCount = value.length;
+                this.checkAll = checkedCount === this.cuisines.length;
+                this.isIndeterminate = checkedCount > 0 && checkedCount < this.cuisines.length;
+            }
+
+
+        },
+
+    })
+</script>
+</body>
+</html>

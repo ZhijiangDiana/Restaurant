@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>食堂检索</title>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        .el-menu--inline  {
+            background-color: #1b1b1b  !important;
+        }
+        .el-menu--inline .el-menu-item {
+            background-color: #1b1b1b  !important;
+            padding-left: 51px !important;
+        }
+
+        .el-menu-item:hover,
+        .el-submenu__title:hover {
+            color: #fff !important;
+        }
+
+        .el-submenu__title:hover i {
+            color: #fff !important;
+        }
+
+        .el-aside{
+            text-decoration: none;
+            transition: width.3s;
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+            color: #fff;
+        }
+        .logo_title{
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all .3s;
+        }
+        .el-header{
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+            display: flex;
+            align-items: center;
+        }
+        .el-header-buttons .el-button {
+            display: flex;
+            background-color: beige;
+            color:black;
+        }
+        .el-form-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black ;
+        }
+        .el-main-buttons .el-button{
+            background-color: beige;
+            color:black;
+            margin-left: 50px;
+        }
+        #card_message1 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin-top: 5px; /* 添加一些边距，使内容离边框有一定距离 */
+            margin-left: 20px;
+            margin-right: 20px;
+            min-height: 100vh;
+
+        }
+
+        .el-card{
+            /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .el-main-reply-buttons {
+
+            display: flex;
+            gap: 2px; /* 调整按钮之间的间隔 */
+        }
+        .el-main-reply-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+        .carouselBox {
+            width: 100%;
+            max-width: 1200px;
+            min-width: 1000px;
+            margin: 0 auto;
+            padding: 5px 0 ;
+        }
+        .el-carousel__item img{
+            position: relative;
+            color: #475669;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #f6f8fb;
+            width: 308px;
+            height: 380px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div>
+        <el-container>
+            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b " >
+
+                <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+                    <span class="logo_title" v-show="!isCollapse">USST</span>
+                </div>
+
+                <el-menu :collapse="isCollapse"  background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+                    <el-menu-item>
+                        <i class="el-icon-house"></i>
+                        <span slot="title">系统首页</span>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">交流社区</span>
+                    </el-menu-item>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            用户信息
+                        </el-menu-item>
+                        <el-menu-item >
+                            管理员信息
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-search"></i>
+                            <span>信息检索</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="searchRestaurant.html" class="el-aside">食堂检索</a>
+                        </el-menu-item>
+                        <el-menu-item >
+                            <a href="searchDish.html" class="el-aside">菜品检索</a>
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+
+            <el-container>
+                <el-header style="background-color: #1b1b1b">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>\
+                </el-header>
+
+                <el-main>
+
+                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                        <el-form-item label="食堂名称">
+                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button type="success" @click="onSubmit">查询</el-button>
+                        </el-form-item>
+                    </el-form>
+
+                    <el-table :data="tableData" border style="width: 100%">
+                        <el-table-column fixed="left" prop="name" label="食堂名称" width="220">
+                        </el-table-column>
+                        <el-table-column prop="time" label="营业时间" width="300">
+                        </el-table-column>
+                        <el-table-column prop="address" label="地址" width="400">
+                        </el-table-column>
+                        <el-table-column fixed="right" label="操作" width="200">
+                            <template slot-scope="scope">
+                                <el-button  @click="handleShow(scope.row)"  type="primary" plain size="small">详情</el-button>
+                                <el-button  @click="handleReport(scope.row)"  type="danger" plain  size="small" >投诉</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+
+                    <div class="block">
+                        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                       :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10"
+                                       layout="total, sizes, prev, pager, next, jumper" :total="40">
+                        </el-pagination>
+                    </div>
+
+                    <el-dialog title="详情" :visible.sync="dialogVisible1">
+                        <!-- 编辑表单的内容 -->
+                        <el-form :model="currentRow" label-position="top">
+                            <!-- 表单项 -->
+                            <el-form-item label="名称">
+                                <el-input v-model="currentRow.name" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="营业时间">
+                                <el-input v-model="currentRow.time" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="地址">
+                                <el-input v-model="currentRow.address" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="公告">
+                                <el-input v-model="currentRow.announcement" :disabled="true"></el-input>
+                            </el-form-item>
+                            <a href="">更多信息</a>
+                        </el-form>
+                    </el-dialog>
+
+                    <!-- 添加的 el-dialog 组件 -->
+                    <el-dialog title="投诉" :visible.sync="dialogVisible2">
+                        <!-- 编辑表单的内容 -->
+                        <el-form :model="currentRow" label-position="top">
+                            <!-- 表单项 -->
+                            <el-form-item label="名称">
+                                <el-input v-model="currentRow.name"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="地址">
+                                <el-input v-model="currentRow.address"></el-input>
+                            </el-form-item>
+                            <el-form-item label="投诉详情">
+                                <el-input
+                                        type="textarea"
+                                        :rows="5"
+                                        placeholder="请输入内容"
+                                        v-model="textarea">
+                                </el-input>
+                            </el-form-item>
+                            <el-button @click="saveSubmit()" type="primary">提交</el-button>
+                        </el-form>
+                    </el-dialog>
+                </el-main>
+            </el-container>
+        </el-container>
+
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return{
+                isCollapse:false,
+                asideWidth:'200px',
+                collapseIcon:'el-icon-s-fold',
+                formInline: {
+                    name: '',
+                },
+                tableData: [
+                    {
+                        name: '一食堂',
+                        time: '8:00-21:00',
+                        address: '上海理工大学516号第一食堂'
+                    }, {
+                        name: '二食堂',
+                        time: '8:00-21:00',
+                        address: '上海理工大学516号第二食堂'
+                    },
+                ],
+                currentPage: 1,
+                dialogVisible1: false, // 控制对话框的显示和隐藏
+                dialogVisible2: false, // 控制对话框的显示和隐藏
+                currentRow: {
+                    name: '',
+                    time: '',
+                    address: '',
+                    announcement: ''
+                }, // 当前选中行的数据
+
+
+                textarea: '菜太难吃',
+                value:'',
+                images:'',
+            }
+        },
+        methods:{
+            handleCollapse() {
+                this.isCollapse = !this.isCollapse
+                this.asideWidth = this.isCollapse ? '64px' : '200px'
+                this.collapseIcon = this.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'
+            },
+
+            onSubmit() {
+                const name = this.formInline.name;
+                if (name === '') {
+                    this.$message.warning('请输入食堂名称');
+                    return;
+                }
+            },
+            handleShow(row){
+                this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
+                this.dialogVisible1 = true; // 显示编辑对话框
+            },
+            handleReport(row) {
+                this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
+                this.dialogVisible2 = true; // 显示编辑对话框
+            },
+
+            saveSubmit(){
+
+            },
+        },
+
+    })
+</script>
+</body>
+</html>
