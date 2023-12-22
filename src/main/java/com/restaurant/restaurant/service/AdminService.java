@@ -301,6 +301,22 @@ public class AdminService {
             return FrontEndUtils.objectToBody("系统繁忙","1",null);
         }
     }
+    
+    public String SelectUserById(int id){
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        
+        try (sqlSession) {
+            UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+            User user = userMapper.selectById(id);
+
+            sqlSession.commit();
+            return FrontEndUtils.objectToBody("查询成功","0",user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            sqlSession.rollback();
+            return FrontEndUtils.objectToBody("查询失败", "1", null);
+        }
+    }
 
     public String updateReply(String replyId,String commentId,String userId,String canteenAdminId,String body){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
