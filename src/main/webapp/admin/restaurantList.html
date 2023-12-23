@@ -84,8 +84,8 @@
             </el-header>
             <el-main>
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                    <el-form-item label="食堂名称">
-                        <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
+                    <el-form-item label="食堂ID">
+                        <el-input v-model="formInline.canteenId" placeholder="食堂ID"></el-input>
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -188,7 +188,7 @@
                 asideWidth: '200px',
                 collapseIcon: 'el-icon-s-fold',
                 formInline: {
-                    name: '',
+                    canteenId: '',
                 },
                 tableData: [
                 ],
@@ -285,12 +285,12 @@
                 console.log(`当前页: ${val}`);
             },
             onSubmit() {
-                const name = this.formInline.name;
-                if (name === '') {
-                    this.$message.warning('请输入食堂名称');
+                const canteenId = this.formInline.canteenId;
+                if (canteenId === '') {
+                    this.$message.warning('请输入食堂ID');
                     return;
                 }
-                axios.get(`/restaurant/showCanteenByName?name=`+name)
+                axios.get(`/restaurant/showCanteenById?canteenId=`+canteenId)
                     .then(response => {
                         if (response.data.object !== '') {
                             this.tableData =[response.data.object];

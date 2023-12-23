@@ -254,7 +254,7 @@
                     this.$message.warning('请输入评论ID');
                     return;
                 }
-                axios.get(`/restaurant/showDishCommentById?dishCommentId=`+dishCommentId)
+                axios.get(`/restaurant/ShowDishCommentById?id=`+dishCommentId)
                     .then(response => {
                         if (response.data.object !== '') {
                             this.tableData =[response.data.object];

@@ -16,8 +16,8 @@ public class ShowDishCommentById extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         GetDishCommentService getDishCommentService = new GetDishCommentService();
-//        int id = Integer.parseInt(request.getParameter("id"));
-        int id=24;
+        int id = Integer.parseInt(request.getParameter("id"));
+//        int id=24;
         DishComment dishComment = getDishCommentService.showDishCommentByID(id);
         response.getWriter().print(FrontEndUtils.objectToBody("查询成功","0",dishComment));
     }

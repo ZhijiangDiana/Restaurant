@@ -267,7 +267,6 @@
                     this.$message.warning('请输入工号');
                     return;
                 }
-                alert(id)
                 axios.get(`/restaurant/showUserById?id=`+id)
                     .then(response => {
                         if (response.data.object !== '') {
