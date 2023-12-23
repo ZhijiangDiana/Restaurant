@@ -34,6 +34,9 @@
         WHERE dish_comment.dish_id = #{dishId}
             AND dish_comment.user_id = user.user_id AND dish_comment.dish_id = dish.dish_id;
     </select>
+    <select id="selectAllWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
+        SELECT * FROM dish_comment;
+    </select>
 
     <delete id="deletedishCommentById" parameterType="com.restaurant.restaurant.pojo.entity.DishComment">
         DELETE FROM dish_comment

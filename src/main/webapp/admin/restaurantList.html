@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>食堂点评交流系统</title>
     <link rel="stylesheet" href="../css/userList.css">
-    <link rel="shortcut icon" href="/restaurant/img/chat.ico"/>
+    <link rel="shortcut icon" href="/img/chat.ico"/>
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css">
     <script src="../js/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
 
 </head>
 <body>
@@ -235,17 +236,17 @@
                     } else {
                         alert("只允许上传jpeg/png/jpg")
                     }
-                    alert(self.currentRow.image)
+                    // alert(self.currentRow.image)
                 };
                 reader.readAsDataURL(file);
             },
             getAllCanteen() {
-                axios.get('/restaurant/showAllCanteen')
+                axios.get('/restaurant/GetCanteen')
                     .then(response => {
                         if (response.data.flag === '0') {
                             this.$message.success('获取列表成功');
                             response.data.object.forEach(item => {
-                                item.image="data:image/png;base64,"+item.image
+                                item.image = b64ToURI(item.image)
                                 const date = new Date(item.startTime+ 8 * 3600 * 1000);
                                 const hours = date.getUTCHours().toString().padStart(2, '0');
                                 const minutes = date.getUTCMinutes().toString().padStart(2, '0');

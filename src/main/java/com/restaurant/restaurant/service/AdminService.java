@@ -46,7 +46,7 @@ public class AdminService {
             for (Canteen canteen : canteens) {
                 String canteenName = canteen.getName();
                 if (canteenName.equals(name))
-                    return FrontEndUtils.objectToBody("餐厅姓名重复","0",null);
+                    return FrontEndUtils.objectToBody("餐厅姓名重复","1",null);
             }
             Canteen canteen = new Canteen(name,location,startTime,endTime,description,image);
             int isSuccess = mapper.insertCanteen(canteen);
@@ -72,12 +72,12 @@ public class AdminService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try(sqlSession){
             CanteenMapper mapper = sqlSession.getMapper(CanteenMapper.class);
-            List<Canteen> canteens = mapper.selectAll();
-            for (Canteen canteen : canteens) {
-                String canteenName = canteen.getName();
-                if (canteenName.equals(name))
-                    return FrontEndUtils.objectToBody("餐厅姓名重复","0",null);
-            }
+//            List<Canteen> canteens = mapper.selectAll();
+//            for (Canteen canteen : canteens) {
+//                String canteenName = canteen.getName();
+//                if (canteenName.equals(name))
+//                    return FrontEndUtils.objectToBody("餐厅姓名重复","0",null);
+//            }
             Canteen canteen = new Canteen(Integer.parseInt(id),name,location,startTime,endTime,description,image,Integer.parseInt(reportCount));
             int isSuccess = mapper.updateCanteen(canteen);
             sqlSession.commit();
