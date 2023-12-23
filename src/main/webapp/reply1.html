@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>消息</title>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        .el-menu--inline .el-menu-item {
+            background-color: #244235  !important;
+        }
+
+        .el-menu-item:hover,
+        .el-submenu__title:hover {
+            color: #fff !important;
+        }
+
+        .el-submenu__title:hover i {
+            color: #fff !important;
+        }
+
+        .el-aside{
+            transition: width.3s;
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+        }
+        .logo_title{
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all .3s;
+        }
+        .el-header{
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+            display: flex;
+            align-items: center;
+        }
+        .el-header-buttons .el-button {
+            display: flex;
+            background-color: beige;
+            color:black;
+        }
+        .el-form-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+        .el-main-buttons .el-button{
+            background-color: beige;
+            color:black;
+            margin-left: 50px;
+        }
+        #card_message1 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin-top: 5px; /* 添加一些边距，使内容离边框有一定距离 */
+            margin-left: 20px;
+            margin-right: 20px;
+            min-height: 100vh;
+
+        }
+
+        .el-card{
+            /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .el-main-reply-buttons {
+
+            display: flex;
+            gap: 2px; /* 调整按钮之间的间隔 */
+        }
+        .el-main-reply-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+
+
+        .carouselBox {
+            width: 100%;
+            max-width: 1200px;
+            min-width: 1000px;
+            margin: 0 auto;
+            padding: 5px 0 ;
+        }
+        .el-carousel__item img{
+            position: relative;
+            color: #475669;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #f6f8fb;
+            width: 308px;
+            height: 380px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div >
+        <el-container>
+            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#244235 "  >
+                <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+
+                    <span class="logo_title" v-show="!isCollapse">USST</span>
+                </div>
+                <el-menu :collapse="isCollapse"  background-color="#244235" text-color="rgba(255,255,255,0.65)">
+                    <el-menu-item>
+                        <i class="el-icon-house"></i>
+                        <span slot="title">系统首页</span>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">交流社区</span>
+                    </el-menu-item>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>消息中心</span>
+                            <!-- 消息图标 -->
+                            <el-badge :value="unreadCount1" class="icon" style="margin-left: 15px">
+                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </template>
+                        <el-menu-item>
+                            <span>收到的回复</span>
+                            <el-badge :value="unreadCount2" class="icon" style="margin-left: 15px">
+                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <span>追评我的</span>
+                            <el-badge :value="unreadCount3" class="icon" style="margin-left: 15px">
+                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <span>点赞我的</span>
+                            <el-badge :value="unreadCount4" class="icon" style="margin-left: 15px">
+                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-container>
+
+                <el-header style="background-color: #244235">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>\
+                </el-header>
+                <el-main>
+                    <el-card>
+                        <h3>回复我的</h3>
+                    </el-card>
+                    <el-card id="card_message1">
+                   <div style="width: 100%;display: flex;color: black">
+                       <span>ID  </span>
+                       <span>回复了我的评论</span>
+                   </div>
+                   <div style="width: 70%;color: black">
+                       <span>XXXXXXXXX</span>
+                   </div>
+                        <div style="width: 70%;color: black">
+                            <span>2023年12月22日 16:11</span>
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return{
+                isCollapse:false,
+                asideWidth:'200px',
+                collapseIcon:'el-icon-s-fold',
+                value:'',
+                images: [
+                    'image/food.png',
+                    'image/food_2.png',
+                    'image/hotpot.png',
+                ],
+                unreadCount1: 5,
+                unreadCount2:3,
+                unreadCount3:1,
+                unreadCount4:1
+
+            }
+        },
+        methods:{
+            handleCollapse(){
+                this.isCollapse=!this.isCollapse
+                this.asideWidth=this.isCollapse ? '64px':'200px'
+                this.collapseIcon=this.isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold'
+            },
+        }
+
+    })
+</script>
+</body>
+</html>
