@@ -290,7 +290,7 @@
                     this.$message.warning('请输入食堂ID');
                     return;
                 }
-                axios.get(`/restaurant/showCanteenById?canteenId=`+canteenId)
+                axios.post(`/restaurant/showCanteenById?canteenId=`+canteenId)
                     .then(response => {
                         if (response.data.object !== '') {
                             this.tableData =[response.data.object];
