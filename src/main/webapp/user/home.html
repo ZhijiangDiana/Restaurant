@@ -217,15 +217,8 @@
                                     ></el-image>
                                 </div>
                             </div>
-                            <div style="margin-bottom: 20px;">
-                                <span style="color: red;font-weight: bold;font-size: 30px">1</span><span style="color: black;">XXXX</span><br>
-                                <span style="color: red;font-weight: bold;font-size: 30px">2</span><span style="color: black;">XXXX</span><br>
-                                <span style="color: red;font-weight: bold;font-size: 30px">3</span><span style="color: black;">XXXX</span><br>
-                                <span style="color: red;font-weight: bold;font-size: 30px">4</span><span style="color: black;">XXXX</span><br>
-                            </div>
                             <div style="display: flex">
-
-                                <div style="width: 50%;">
+                                <div style="width: 33%;">
                                     <div style="margin-bottom: 5px">
                                         <el-button icon="el-icon-trophy"
                                                    style="color:black;
@@ -234,7 +227,7 @@
                                            font-weight: bold;font-size: 20px">食堂排名</el-button>
                                     </div>
                                     <div style="margin-bottom: 20px;">
-                                        <el-table :data="canteenRank" style="width: 50%">
+                                        <el-table :data="canteenRank" style="width: 300px">
                                             <el-table-column label="排名" type="index"></el-table-column>
                                             <el-table-column label="餐厅" prop="second.name"></el-table-column>
                                             <el-table-column label="分数" prop="first">
@@ -246,7 +239,7 @@
                                     </div>
 
                                 </div>
-                                <div style="width: 50%">
+                                <div style="width: 33%">
                                     <div style="margin-bottom: 5px">
                                         <el-button icon="el-icon-trophy"
                                                    style="color:black;
@@ -255,7 +248,7 @@
                                            font-weight: bold;font-size: 20px">菜品排名</el-button>
                                     </div>
                                     <div style="margin-bottom: 20px;">
-                                        <el-table :data="dishRank" style="width: 50%">
+                                        <el-table :data="dishRank" style="width: 500px">
                                             <el-table-column label="排名" type="index"></el-table-column>
                                             <el-table-column label="菜品" prop="dishName"></el-table-column>
                                             <el-table-column label="食堂" prop="canteenName"></el-table-column>
@@ -267,6 +260,25 @@
                                         </el-table>
                                     </div>
                                 </div>
+
+                                    <div style="width: 33%;">
+                                        <div style="margin-bottom: 5px">
+                                            <el-button icon="el-icon-trophy"
+                                                       style="color:black;
+                                           background-color: transparent;
+                                           border-color: transparent;
+                                           font-weight: bold;font-size: 20px">热门话题</el-button>
+                                        </div>
+                                        <div style="margin-bottom: 20px;">
+                                            <el-table :data="commentRank" style="width: 600px">
+                                                <el-table-column label="排名" type="index"></el-table-column>
+                                                <el-table-column label="标题" prop="title"></el-table-column>
+                                                <el-table-column label="发布时间" prop="publicTime"></el-table-column>
+                                                <el-table-column label="点赞" prop="likes"></el-table-column>
+                                            </el-table>
+                                        </div>
+                                    </div>
+
                             </div>
 
                             <el-dialog title="投票" :visible.sync="dialogVisible">
@@ -337,11 +349,13 @@
                     priceSale: '',
                 },
                 discountDish: [],
-                recommendDish: []
+                recommendDish: [],
+                commentRank: [],
             }
         },
         mounted() {
             this.getCanteenRank();
+            this.getCommentRank();
         },
         methods:{
             handleCollapse(){
@@ -432,6 +446,25 @@
                         console.error(error);
                         this.$message.error('网络异常：' + error.message);
                     });
+            },
+            getCommentRank() {
+                axios.get('/restaurant/showHotComment')
+                    .then(response => {
+                        const flag = response.data.flag
+                        const object = response.data.object;
+
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                item.publicTime = timeStampToDateTime(item.publicTime)
+                            })
+                            this.commentRank = object;
+                        }
+                    }).catch(error => {
+                    console.error(error)
+                    this.$message.error('网络异常：' + error.message);
+                });
             },
             getRunningVote() {
                 axios.post('/restaurant/GetRunningVote')
