@@ -7,9 +7,14 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="js/utils.js"></script>
     <style>
         .el-menu--inline .el-menu-item {
-            background-color: #244235  !important;
+            background-color: #1b1b1b  !important;
         }
 
         .el-menu-item:hover,
@@ -21,34 +26,29 @@
             color: #fff !important;
         }
 
-        .el-aside{
-            transition: width.3s;
-            box-shadow: 2px 0 6px rgba(0,21,41,35);
-        }
         .logo_title{
             margin-left: 5px;
             font-size: 20px;
             transition: all .3s;
         }
-        .el-header{
-            box-shadow: 2px 0 6px rgba(0,21,41,35);
+        .el-header {
+            line-height: 60px;
             display: flex;
             align-items: center;
+            /* 垂直居中对齐 */
         }
-        .el-header-buttons .el-button {
-            display: flex;
-            background-color: beige;
-            color:black;
+        .aside_item_title{
+            color: #fff;
         }
-        .el-form-buttons .el-button{
-            background-color: beige;/* 按钮之间的右边距 */
-            color:black;
+        .aside_item{
+            text-decoration: none;
+            padding-left: 20px;
+            color: #fff;
         }
-        .el-main-buttons .el-button{
-            background-color: beige;
-            color:black;
-            margin-left: 50px;
+        .el-aside {
+            color: #333;
         }
+
         #card_message1 {
             /*background-color: #244235 ;*/
             color: #fff; /* 文本颜色为白色 */
@@ -78,92 +78,91 @@
 <div id="app">
     <div >
         <el-container>
-            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#244235 "  >
+            <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
                 <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
-
                     <span class="logo_title" v-show="!isCollapse">USST</span>
                 </div>
-                <el-menu :collapse="isCollapse"  background-color="#244235" text-color="rgba(255,255,255,0.65)">
-                    <el-menu-item>
-                        <i class="el-icon-house"></i>
-                        <span slot="title">系统首页</span>
-                    </el-menu-item>
-                    <el-menu-item>
-                        <i class="el-icon-postcard"></i>
-                        <span slot="title">交流社区</span>
-                    </el-menu-item>
+                <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
                     <el-submenu>
                         <template slot="title">
-                            <i class="el-icon-menu"></i>
-                            <span>信息管理</span>
+                            <i class="el-icon-house"></i>
+                            <span class="aside_item_title">首页</span>
                         </template>
                         <el-menu-item>
-                            用户信息
-                        </el-menu-item>
-                        <el-menu-item >
-                            管理员信息
+                            <a href="firstView.html" class="aside_item">综合信息</a>
                         </el-menu-item>
                     </el-submenu>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span class="aside_item_title">食堂基本信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-user"></i>
+                            <span class="aside_item_title">账号管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="userList.html" class="aside_item">用户列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span class="aside_item_title">评价信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="commentList.html" class="aside_item">评价列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu>
+
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">交流社区信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="social-1.html" class="aside_item">帖子列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+
                 </el-menu>
             </el-aside>
             <el-container>
-
-                <el-header style="background-color: #244235">
+                <el-header style="background-color: #953131">
                     <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
                     <div style="margin-left: 100px">
                         <el-input style="width: 500px" v-model="value" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
                     </div>
                     <div class="el-header-buttons" style="display: flex;justify-content: end;margin-left: 200px">
-                        <el-button type="primary" @click="sortByHotness">热门</el-button>
-                        <el-button type="primary" @click="sortByAscending">正序</el-button>
-                        <el-button type="primary" @click="sortByDescending">倒序</el-button>
+                        <el-button type="primary" style="background-color: #953131;border: #953131" @click="sortByHotness">热门</el-button>
+                        <el-button type="primary" style="background-color: #953131;border: #953131" @click="sortByAscending">正序</el-button>
+                        <el-button type="primary" style="background-color: #953131;border: #953131" @click="sortByDescending">倒序</el-button>
                     </div>
                 </el-header>
                 <el-main>
                     <el-card id="card_message1">
                     <div style="margin-bottom: 30px">
-<!--                        <div>-->
-<!--                            <span style="color: black">发表人</span>-->
-<!--                            <span style="color: black">Title</span>-->
-<!--                            <span style="color: black;margin-left: 700px">发表时间:YY-mm-dd HH:mm:ss</span>-->
-<!--                            <el-button > 查看详情</el-button>-->
-<!--                        </div>-->
-
-<!--                        <div style="display: flex">-->
-<!--                            <div style="width: 200px;height: 200px;margin-top: 10px;">-->
-
-<!--                                <el-image-->
-<!--                                        style="width: 100%;height: 100%"-->
-<!--                                        src="image/hotpot.png"-->
-<!--                                        alt="帖子图片"-->
-<!--                                ></el-image>-->
-
-<!--                            </div>-->
-<!--                            <div style="margin-left: 700px;margin-top: 100px">-->
-<!--                                <el-button type="primary" icon="el-icon-thumb" style="color:black;background-color: beige"></el-button>-->
-<!--                                <span style="color: white">99</span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <el-table :data="comment" style="width: 100%">-->
-<!--                            <el-table-column label="标题" prop="title"></el-table-column>-->
-<!--                            <el-table-column label="发表人" prop="sender"></el-table-column>-->
-<!--                            <el-table-column label="发表时间" prop="sendTime"></el-table-column>-->
-<!--                            <el-table-column label="点赞">-->
-<!--                                <el-button type="primary" icon="el-icon-thumb" style="color:black;background-color: beige"></el-button>-->
-
-<!--                            </el-table-column>-->
-<!--                            <el-table-column label="详情" >-->
-<!--                                <el-button type="primary" @click="checkDetail">详情</el-button>-->
-<!--                            </el-table-column>-->
-<!--                        </el-table>-->
                         <div>
                             <!-- 表格 -->
                             <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" style="width: 100%">
                                 <el-table-column prop="title" label="标题" width="180">
                                 </el-table-column>
-                                <el-table-column prop="sender" label="发表人" width="180">
+                                <el-table-column prop="name" label="发表人" width="180">
                                 </el-table-column>
-                                <el-table-column prop="sendTime" label="发表时间">
+                                <el-table-column prop="publishTime" label="发表时间">
                                 </el-table-column>
                                 <el-table-column label="详情">
                                     <template slot-scope="scope">
@@ -182,8 +181,8 @@
                                 </el-pagination>
                             </div>
                         </div>
-                     <el-dialog :visible.sync="dialogVisible1" size="large" title="帖子详情">
-                             <el-card id="card_message1" style="margin-top: 0px">
+                     <el-dialog :visible.sync="dialogVisible1" size="large" title="帖子详情" style="min-width: 500px">
+                             <el-card id="card_message1">
                                  <div>
                                      <h2 style="color:black ">{{currentRow.title}}</h2>
                                      <div>
@@ -192,62 +191,56 @@
                                      <div style="width: 200px;height: 200px">
                                          <img :src="currentRow.img" alt="Image" style="width: 100%;height: 100%">
                                      </div>
-                                     <p>帖子内容</p>
+                                    <div>
+                                        <p style="color: black"> {{currentRow.text}}</p>
+                                    </div>
                                  </div>
                                  <!-- 其他帖子内容，可以根据需要添加 -->
                                  <el-form style="margin-top: 20px;">
                                      <el-form-item label="评论内容">
                                          <el-input type="textarea" v-model="commentContent" placeholder="请输入评论内容"></el-input>
                                      </el-form-item>
-                                     <el-form-item class="el-form-buttons">
+                                     <el-form-item class="el-main-reply-buttons">
                                          <el-button type="primary" @click="submitComment">发表评论</el-button>
-                                         <el-button type="primary" icon="el-icon-thumb">点赞</el-button>
+                                         <el-button type="primary" icon="el-icon-thumb">
+                                             <el-badge :value="likeCount" class="icon" style="margin-left: 15px;">
+                                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
+                                             </el-badge>
+                                         </el-button>
+
                                      </el-form-item>
                                  </el-form>
                              </el-card>
                              <el-card id="reply">
                                  <div style="display: flex">
                                          <h3 style="color: black">全部回复</h3>
-                                     <div class="el-main-reply-buttons" style="display: flex;justify-content: end;margin-left: 120px">
-                                         <el-button type="primary" @click="sortByAscending">正序</el-button>
-                                         <el-button type="primary" @click="sortByDescending">倒序</el-button>
+                                     <div class="el-main-reply-buttons" style="display: flex;justify-content: end;margin-left: 300px">
+                                         <el-button style="border: white" type="primary" @click="sortByAscending">正序</el-button>
+                                         <el-button style="border: white" type="primary" @click="sortByDescending">倒序</el-button>
                                      </div>
                                  </div>
                              </el-card>
                              <el-card style="margin-left: 20px; margin-right: 20px;">
                                  <div>
-                                     <div style="display: flex">
-                                         <div>
-                                             <p style="color: white">用户名lv12</p>
-                                         </div>
-                                         <div class="el-main-reply-buttons" style="margin-left: 1000px">
-                                             <el-button type="primary" icon="el-icon-thumb"></el-button>
-                                         </div>
-                                     </div>
                                      <div>
-                                         <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                                         <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                                         <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                                         <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                                         <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                                         <p style="color: white">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
-                                     </div>
-                                     <div>
-                                         <span style="color: white">8小时前</span>
-                                     </div>
-                                     <div>
-                                         <div class="message-list" id="messageList" style="max-height:300px">
-                                             <div>
-                                                 <p>Message 1</p>
-                                                 <p>Message 2</p>
-                                                 <p>Message 3</p>
-                                                 <p>Message 4</p>
-                                                 <p>Message 5</p>
+                                         <!-- 表格 -->
+                                         <el-table :data="tableData2.slice((currentPage2-1)*pageSize2,currentPage2*pageSize2)" style="width: 100%">
 
-                                             </div>
-
+                                             <el-table-column prop="name" label="发表人">
+                                             </el-table-column>
+                                             <el-table-column prop="body" label="内容">
+                                             </el-table-column>
+                                         </el-table>
+                                         <!-- 分页器 -->
+                                         <div class="block" style="margin-top:15px;">
+                                             <el-pagination align='center' @size-change="handleSizeChange2" @current-change="handleCurrentChange2"
+                                                            :current-page="currentPage2"
+                                                            :page-sizes="[3,6,9]"
+                                                            :page-size="pageSize2"
+                                                            layout="total, sizes, prev, pager, next, jumper"
+                                                            :total="tableData2.length">
+                                             </el-pagination>
                                          </div>
-
                                      </div>
 
                                  </div>
@@ -280,55 +273,75 @@
                     }
                 ],
                 tableData: [
-                    {
-                        title: "开摆开摆",
-                        sender: "CJ",
-                        sendTime: "2016-05-02",
-                        img:"image/hotpot.png"
-                    },
-                    {
-                        title: "开摆开摆",
-                        sender: "CJ",
-                        sendTime: "2016-05-02",
-                        img:"image/hotpot.png"
-                    },
-                    {
-                        title: "开摆开摆",
-                        sender: "CJ",
-                        sendTime: "2016-05-02",
-                        img:"image/hotpot.png"
-                    },
-                    {
-                        title: "开摆开摆",
-                        sender: "CJ",
-                        sendTime: "2016-05-02",
-                        img:"image/hotpot.png"
-                    },
-                    {
-                        title: "开摆开摆",
-                        sender: "CJ",
-                        sendTime: "2016-05-02",
-                        img:"image/hotpot.png"
-                    },
-
-
-
+                    // {
+                    //     title: "开摆开摆",
+                    //     sender: "CJ",
+                    //     sendTime: "2016-05-02",
+                    //     img:"image/hotpot.png",
+                    //     text:"不想干了不想干了不想干了不想干了"
+                    // },
+                //     {
+                //         title: "开摆开摆",
+                //         sender: "CJ",
+                //         sendTime: "2016-05-02",
+                //         img:"image/hotpot.png",
+                //         text:"不想干了不想干了不想干了不想干了"
+                //     },
+                //     {
+                //         title: "开摆开摆",
+                //         sender: "CJ",
+                //         sendTime: "2016-05-02",
+                //         img:"image/hotpot.png",
+                //         text:"不想干了不想干了不想干了不想干了"
+                //     },
+                //
+                ],
+                tableData2:[
+                    // {
+                    //     name: "CJ",
+                    //     body:"不想干了不想干了不想干了不想干了"
+                    // },
+                    // {
+                    //     name: "CJ",
+                    //     body:"不想干了不想干了不想干了不想干了"
+                    // },
+                    // {
+                    //     name: "CJ",
+                    //     body:"Merry Xmas!"
+                    // },
+                    // {
+                    //     name: "CJ",
+                    //     body:"Merry Xmas!"
+                    // },
+                //     {
+                //         sender: "CJ",
+                //         text:"不想干了不想干了不想干了不想干了"
+                //     },
+                //     {
+                //         sender: "CJ",
+                //         text:"xxxxxxxxxxxxxx"
+                //     },
                 ],
                 currentPage: 1, // 当前页码
                 total: '', // 总条数
                 pageSize: 3,// 每页的数据条数
+
+                currentPage2: 1, // 当前页码
+                total2: '', // 总条数
+                pageSize2: 3,// 每页的数据条数
                 dialogVisible1:false,
                 currentRow:{
                     title: "",
-                    sender: "",
-                    sendTime: "",
-                    img:""
-                }
+                    name: "",
+                    publishTime: "",
+                    img:"",
+                    text:""
+                },
+                likeCount:8
             }
         },
         mounted() {
-
-
+            this.getAllComment()
         },
         computed: {
             // 计算分页后的数据
@@ -345,6 +358,50 @@
             },
         },
         methods:{
+            handleFileUpload(event) {
+                const file = event.target.files[0];
+                var reader = new FileReader();
+                const self=this;
+                reader.onload = function(e) {
+                    var base64String = e.target.result;
+                    // console.log(base64String); // 在控制台输出base64字符串
+                    self.currentRow.image = uriToB64(base64String)
+                };
+                reader.readAsDataURL(file);
+            },
+            getAllComment(){
+                fetch('/restaurant/showComments?type=0', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            result.object.forEach(item => {
+                                item.image = b64ToURI(item.image)
+                                console.log(item.image)
+                            });
+                            alert(result.object)
+                            this.tableData =result.object;
+                            this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
             handleCollapse(){
                 this.isCollapse=!this.isCollapse
                 this.asideWidth=this.isCollapse ? '64px':'200px'
@@ -365,6 +422,17 @@
             handleCurrentChange(val) {
                 console.log(`当前页: ${val}`);
                 this.currentPage = val;
+            },
+            //每页条数改变时触发 选择一页显示多少行
+            handleSizeChange2(val) {
+                console.log(`每页 ${val} 条`);
+                this.currentPage2 = 1;
+                this.pageSize = val;
+            },
+            //当前页改变时触发 跳转其他页
+            handleCurrentChange2(val) {
+                console.log(`当前页: ${val}`);
+                this.currentPage2 = val;
             }
         }
 
