@@ -3,6 +3,7 @@ package com.restaurant.restaurant.service;
 import com.restaurant.restaurant.mapper.CanteenAdminMapper;
 import com.restaurant.restaurant.mapper.CommentMapper;
 import com.restaurant.restaurant.mapper.UserMapper;
+import com.restaurant.restaurant.pojo.CommentShow;
 import com.restaurant.restaurant.pojo.ShowAllPublishedInfo;
 import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.Constants;
@@ -31,10 +32,10 @@ public class CommentService {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);
             mapper = sqlSession.getMapper(CommentMapper.class);
-            List<Comment> comments = null;
+            List<CommentShow> comments = null;
             // 默认情况
             if (Constants.COMMENTS_DEFAULT.equals(type))
-                comments = mapper.selectAll();
+                comments = mapper.selectDetailedInfo();
 
                 // 按照热度降序
             else if (Constants.COMMENTS_LIKES.equals(type))
