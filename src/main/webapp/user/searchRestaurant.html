@@ -246,11 +246,14 @@
                         <el-form :model="currentRow" label-position="top">
                             <!-- 表单项 -->
                             <el-form-item label="名称">
-                                <el-input v-model="currentRow.name"></el-input>
+                                <el-input v-model="currentRow.name" :disabled="true"></el-input>
                             </el-form-item>
 
                             <el-form-item label="地址">
-                                <el-input v-model="currentRow.location"></el-input>
+                                <el-input v-model="currentRow.location" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="投诉标题">
+                                <el-input v-model="title"></el-input>
                             </el-form-item>
                             <el-form-item label="投诉详情">
                                 <el-input
@@ -293,7 +296,8 @@
                 value:'',
                 images:'',
                 pageSize: 6, // 每页显示条数
-                total: 0 // 总条数
+                total: 0, // 总条数
+                title:'',
             }
         },
         mounted() {
@@ -301,9 +305,35 @@
         },
         methods:{
             saveSubmit() {
-                alert('asd');
-
+                const title=this.title;
+                const body=this.textarea;
+                const canteenId=this.currentRow.canteenId;
+               // alert(canteenId);
+                var postJson = {
+                    title: title,
+                    canteenId:canteenId,
+                    body: body,
+                }
+                axios.post(`/restaurant/UploadReport`, JSON.stringify(postJson), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }) .then(response => {
+                    const flag = response.data.flag;
+                    if (flag === '0') {
+                        this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error('添加失败1：' + response.data.error);
+                    }
+                }).catch(error => {
+                    console.error(error);
+                    this.$message.error('添加失败2：' + error.message);
+                });
             },
+
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
