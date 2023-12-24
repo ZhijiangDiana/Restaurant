@@ -4,6 +4,17 @@
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.RecommendDish">
         select * from recommend_dish ;
     </select>
-
+    <insert id="insertRecommendations">
+        INSERT INTO recommend_dish (canteen_id, title, body)
+        VALUES
+        (#{canteenId}, #{title}, #{body})
+    </insert>
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT * FROM `Restaurant`.dish
+        WHERE dish_id = #{id};
+    </select>
+    <select id="selectBody" resultType="java.lang.String">
+        select body from recommend_dish;
+    </select>
 
 </mapper>

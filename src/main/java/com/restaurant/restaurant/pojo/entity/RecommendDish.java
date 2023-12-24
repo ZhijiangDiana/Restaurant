@@ -1,6 +1,6 @@
 package com.restaurant.restaurant.pojo.entity;
 
-public class RecommendDish {
+public class RecommendDish{
     private Integer recommendDishId;
     private Integer canteenId;
     private String title;
@@ -16,6 +16,7 @@ public class RecommendDish {
     public Integer getRecommendDishId() {
         return recommendDishId;
     }
+
 
     public void setRecommendDishId(Integer recommendDishId) {
         this.recommendDishId = recommendDishId;
@@ -43,5 +44,15 @@ public class RecommendDish {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "RecommendDish{" +
+                "recommendDishId=" + recommendDishId +
+                ", canteenId=" + canteenId +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                '}';
     }
 }
