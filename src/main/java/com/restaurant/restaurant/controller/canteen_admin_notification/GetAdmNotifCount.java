@@ -1,18 +1,23 @@
 package com.restaurant.restaurant.controller.canteen_admin_notification;
 
 import java.io.*;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.restaurant.restaurant.mapper.CanteenMapper;
+import com.restaurant.restaurant.pojo.entity.Canteen;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.Report;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.apache.ibatis.session.SqlSession;
 
 // 必须启动时加载，否则login会报NPE
 @WebServlet(name = "GetAdmNotifCount", value = "/GetAdmNotifCount", loadOnStartup = 0)
@@ -31,6 +36,18 @@ public class GetAdmNotifCount extends HttpServlet {
         Map<Integer, Map<Integer, DishComment>> dishCommentNotif = new ConcurrentHashMap<>();
         context.setAttribute("reportNotif", reportNotif);
         context.setAttribute("dishCommentNotif", dishCommentNotif);
+
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
+
+        try (sqlSession) {
+            List<Canteen> canteenList = canteenMapper.selectAll();
+            for (Canteen canteen : canteenList) {
+                // TODO: 2023/12/25 在添加食堂和删除食堂的时候，需要将对应的reportNotif和dishCommentNotif删除
+                reportNotif.put(canteen.getCanteenId(), new ConcurrentHashMap<>());
+                dishCommentNotif.put(canteen.getCanteenId(), new ConcurrentHashMap<>());
+            }
+        }
 
 //        // 测试
 //        reportNotif.put(2, new ConcurrentHashMap<>());

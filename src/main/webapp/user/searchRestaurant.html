@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
         .el-menu--inline  {
             background-color: #1b1b1b  !important;
@@ -64,7 +66,9 @@
             min-height: 100vh;
 
         }
-
+        .button-container{
+            text-align: right;
+        }
         .el-card{
             /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
             margin-left: 20px;
@@ -119,18 +123,6 @@
                         <i class="el-icon-postcard"></i>
                         <span slot="title">交流社区</span>
                     </el-menu-item>
-                    <el-submenu>
-                        <template slot="title">
-                            <i class="el-icon-menu"></i>
-                            <span>信息管理</span>
-                        </template>
-                        <el-menu-item>
-                            用户信息
-                        </el-menu-item>
-                        <el-menu-item >
-                            管理员信息
-                        </el-menu-item>
-                    </el-submenu>
 
                     <el-submenu>
                         <template slot="title">
@@ -144,6 +136,11 @@
                             <a href="searchDish.html" class="el-aside">菜品检索</a>
                         </el-menu-item>
                     </el-submenu>
+
+                    <el-menu-item>
+                        <i class="el-icon-document"></i>
+                        <a href="vote.html" class="el-aside">投票</a>
+                    </el-menu-item>
                 </el-menu>
             </el-aside>
 
@@ -154,23 +151,32 @@
 
                 <el-main>
 
-                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-                        <el-form-item label="食堂名称">
-                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="success" @click="onSubmit">查询</el-button>
-                        </el-form-item>
-                    </el-form>
+<!--                    <el-form :inline="true" :model="formInline" class="demo-form-inline">-->
+<!--                        <el-form-item label="食堂名称">-->
+<!--                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>-->
+<!--                        </el-form-item>-->
+<!--                        <el-form-item>-->
+<!--                            <el-button type="success" @click="onSubmit">查询</el-button>-->
+<!--                        </el-form-item>-->
+<!--                    </el-form>-->
 
                     <el-table :data="tableData" border style="width: 100%">
-                        <el-table-column fixed="left" prop="name" label="食堂名称" width="220">
+                        <el-table-column fixed="left" prop="name" label="食堂名称">
                         </el-table-column>
-                        <el-table-column prop="time" label="营业时间" width="300">
+                        <el-table-column prop="location" label="地址">
                         </el-table-column>
-                        <el-table-column prop="address" label="地址" width="400">
+                        <el-table-column prop="startTime" label="营业开始时间">
                         </el-table-column>
-                        <el-table-column fixed="right" label="操作" width="200">
+                        <el-table-column prop="endTime" label="营业结束时间">
+                        </el-table-column>
+                        <el-table-column prop="image" label="图片">
+                            <template slot-scope="scope">
+                                <img :src="scope.row.image" alt="" height="50" width="50">
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="description" label="描述" width="300">
+                        </el-table-column>
+                        <el-table-column fixed="right" label="操作">
                             <template slot-scope="scope">
                                 <el-button  @click="handleShow(scope.row)"  type="primary" plain size="small">详情</el-button>
                                 <el-button  @click="handleReport(scope.row)"  type="danger" plain  size="small" >投诉</el-button>
@@ -192,8 +198,11 @@
                             <el-form-item label="名称">
                                 <el-input v-model="currentRow.name" :disabled="true"></el-input>
                             </el-form-item>
-                            <el-form-item label="营业时间">
-                                <el-input v-model="currentRow.time" :disabled="true"></el-input>
+                            <el-form-item label="开始时间">
+                                <el-input v-model="currentRow.startTime" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="结束时间">
+                                <el-input v-model="currentRow.startTime" :disabled="true"></el-input>
                             </el-form-item>
                             <el-form-item label="地址">
                                 <el-input v-model="currentRow.address" :disabled="true"></el-input>
@@ -201,9 +210,14 @@
                             <el-form-item label="公告">
                                 <el-input v-model="currentRow.announcement" :disabled="true"></el-input>
                             </el-form-item>
-                            <a href="">更多信息</a>
+                            <el-form-item label="图片">
+                                <!-- 使用 img 标签来展示图片 -->
+                                <img v-if="currentRow.image" :src="currentRow.image"  />
+                                <span v-else>暂无图片</span>
+                            </el-form-item>
                         </el-form>
                     </el-dialog>
+
 
                     <!-- 添加的 el-dialog 组件 -->
                     <el-dialog title="投诉" :visible.sync="dialogVisible2">
@@ -225,7 +239,9 @@
                                         v-model="textarea">
                                 </el-input>
                             </el-form-item>
-                            <el-button @click="saveSubmit()" type="primary">提交</el-button>
+                            <div  class="button-container">
+                                <el-button @click="saveSubmit()" type="primary">提交</el-button>
+                            </div>
                         </el-form>
                     </el-dialog>
                 </el-main>
@@ -247,33 +263,26 @@
                     name: '',
                 },
                 tableData: [
-                    {
-                        name: '一食堂',
-                        time: '8:00-21:00',
-                        address: '上海理工大学516号第一食堂'
-                    }, {
-                        name: '二食堂',
-                        time: '8:00-21:00',
-                        address: '上海理工大学516号第二食堂'
-                    },
                 ],
                 currentPage: 1,
                 dialogVisible1: false, // 控制对话框的显示和隐藏
                 dialogVisible2: false, // 控制对话框的显示和隐藏
                 currentRow: {
-                    name: '',
-                    time: '',
-                    address: '',
-                    announcement: ''
                 }, // 当前选中行的数据
-
 
                 textarea: '菜太难吃',
                 value:'',
                 images:'',
             }
         },
+        mounted() {
+            this.getAllCanteen()
+        },
         methods:{
+            saveSubmit() {
+                alert('asd');
+
+            },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
@@ -296,8 +305,26 @@
                 this.dialogVisible2 = true; // 显示编辑对话框
             },
 
-            saveSubmit(){
-
+            getAllCanteen() {
+                axios.get('/restaurant/GetCanteen')
+                    .then(response => {
+                        if (response.data.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            response.data.object.forEach(item => {
+                                item.image = b64ToURI(item.image)
+                                item.startTime = timeStampToString(item.startTime);
+                                item.endTime = timeStampToString(item.endTime);
+                            });
+                            this.tableData = response.data.object;
+                            this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(response.data.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
             },
         },
 

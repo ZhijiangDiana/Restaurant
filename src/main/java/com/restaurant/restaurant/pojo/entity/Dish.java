@@ -25,7 +25,7 @@ public class Dish implements Serializable {
     public static final int HALAL_DISH = 8; //清真餐
     public static final int JAPAN_DISH = 9; //日本餐
     public static final int WESTERN_DISH = 10; //西餐
-    public static final int OTHER_DISH = 114514; //其他
+    public static final int OTHER_DISH = 11; //其他
 
 
     public Dish() {

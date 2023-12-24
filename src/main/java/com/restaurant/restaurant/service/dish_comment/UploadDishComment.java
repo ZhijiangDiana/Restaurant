@@ -42,7 +42,6 @@ public class UploadDishComment {
             // 添加一条提醒
             Map<Integer, DishComment> canteenDishCommentMap = dishCommentNotif.get(dish.getCanteenId());
             canteenDishCommentMap.put(dishComment.getDishCommentId(), dishComment);
-            int i = 1/0;
             isSuccess = true;
         } catch (Exception e) {
             e.printStackTrace();

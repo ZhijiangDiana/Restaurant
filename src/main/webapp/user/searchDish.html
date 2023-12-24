@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
         .el-menu--inline  {
             background-color: #1b1b1b  !important;
@@ -123,19 +125,6 @@
                     </el-menu-item>
                     <el-submenu>
                         <template slot="title">
-                            <i class="el-icon-menu"></i>
-                            <span>信息管理</span>
-                        </template>
-                        <el-menu-item>
-                            用户信息
-                        </el-menu-item>
-                        <el-menu-item >
-                            管理员信息
-                        </el-menu-item>
-                    </el-submenu>
-
-                    <el-submenu>
-                        <template slot="title">
                             <i class="el-icon-search"></i>
                             <span>信息检索</span>
                         </template>
@@ -146,6 +135,11 @@
                             <a href="searchDish.html" class="el-aside">菜品检索</a>
                         </el-menu-item>
                     </el-submenu>
+
+                    <el-menu-item>
+                        <i class="el-icon-document"></i>
+                        <a href="vote.html" class="el-aside">投票</a>
+                    </el-menu-item>
                 </el-menu>
             </el-aside>
 
@@ -155,43 +149,51 @@
                 </el-header>
 
                 <el-main>
+                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                        <el-form-item label="选择搜索方式" label-width="100px">
+                            <el-select v-model="searchMethod">
+                                <el-option label="按菜系搜索" :value="0"></el-option>
+                                <el-option label="按价格范围搜索" :value="1"></el-option>
+                                <el-option label="按食堂名称搜索" :value="2"></el-option>
+                                <el-option label="按最低评分搜索" :value="3"></el-option>
+                            </el-select>
+                        </el-form-item>
 
-                    <el-form :inline="false" :model="formInline" class="demo-form-inline">
-                        <el-form-item label="食堂名称" label-width="100px">
-                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
                         </el-form-item>
-                        <el-form-item label="菜品名称" label-width="100px">
-                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
-                        </el-form-item>
-                        <el-form-item label="选择菜系" label-width="100px">
-                            <el-radio-group v-model="checkedCuisine" @change="handleCheckedcuisinesChange">
+                        <el-form-item v-if="searchMethod === 0" label="选择菜系" label-width="100px">
+                            <el-radio-group  v-model="formInline.checkedCuisine" @change="handleCheckedcuisinesChange">
                                 <el-radio v-for="cuisine in cuisines" :label="cuisine" :key="cuisine">{{cuisine}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="最低价格" prop="min" label-width="100px">
-                                    <el-input clearable="" placeholder="输入最低价格"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="最高价格" prop="max" label-width="100px">
-                                    <el-input clearable="" placeholder="输入最高价格"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
+                        <el-form-item v-if="searchMethod === 1" label="最低价格" prop="min" label-width="100px">
+                            <el-input v-model="formInline.minPrice" clearable="" placeholder="输入最低价格"></el-input>
+                        </el-form-item>
+
+                        <el-form-item v-if="searchMethod === 1" label="最高价格" prop="max" label-width="100px">
+                            <el-input v-model="formInline.maxPrice" clearable="" placeholder="输入最高价格"></el-input>
+                        </el-form-item>
+
+                        <el-form-item v-if="searchMethod === 2" label="食堂名称" label-width="100px">
+                            <el-input v-model="formInline.canteen" clearable="" placeholder="食堂名称"></el-input>
+                        </el-form-item>
+
+                        <el-form-item v-if="searchMethod === 3" label="最低评分" label-width="100px">
+                            <el-input v-model="formInline.score" clearable="" placeholder="输入最低评分"></el-input>
+                        </el-form-item>
+
                         <el-form-item label-width="27px">
                             <el-button type="success" @click="onSubmit">查询</el-button>
                         </el-form-item>
                     </el-form>
 
                     <el-table :data="tableData" border style="width: 100%">
-                        <el-table-column fixed="left" prop="canteen" label="食堂名称"></el-table-column>
-                        <el-table-column prop="dish_name" label="菜名"></el-table-column>
+                        <el-table-column fixed="left" prop="canteenId" label="食堂名称"></el-table-column>
+                        <el-table-column prop="dishName" label="菜名"></el-table-column>
                         <el-table-column prop="series" label="菜系"></el-table-column>
                         <el-table-column prop="price" label="价格"></el-table-column>
-
+                        <el-table-column prop="totalScore" label="分数"></el-table-column>
+                        <el-table-column prop="dishId" label="ID"></el-table-column>
                         <el-table-column prop="image" label="图片">
                             <template slot-scope="scope">
                                 <img :src="scope.row.image" alt="" height="50" width="50">
@@ -200,10 +202,10 @@
 
                         <el-table-column fixed="right" label="操作">
                             <template slot-scope="scope">
-                                <el-button  @click="handleReport(scope.row)"  plain  size="small" ><i class="el-icon-edit">吐槽一下</i></el-button>
+                                <el-button  @click="handleShow(scope.row)"  type="primary" plain size="small">详情</el-button>
+                                <el-button  @click="handleReport(scope.row)"  plain  size="small" ><i class="el-icon-edit">评论</i></el-button>
                             </template>
                         </el-table-column>
-
                     </el-table>
 
                     <div class="block">
@@ -214,17 +216,58 @@
                     </div>
 
 
+                    <el-dialog title="详情" :visible.sync="dialogVisible1">
+                        <!-- 编辑表单的内容 -->
+                        <el-form :model="currentRow" label-position="top">
+                            <!-- 表单项 -->
+                            <el-form-item label="菜品ID">
+                                <el-input v-model="currentRow.dishId" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="菜品名">
+                                <el-input v-model="currentRow.dishName" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="食堂ID">
+                                <el-input v-model="currentRow.canteenId" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="菜系">
+                                <el-input v-model="currentRow.series" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="价格">
+                                <el-input v-model="currentRow.price" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="图片">
+                                <!-- 使用 img 标签来展示图片 -->
+                                <img v-if="currentRow.image" :src="currentRow.image" height="200" width="200"/>
+                                <span v-else>暂无图片</span>
+                            </el-form-item>
+                            <el-form-item label="评价">
+                                <el-table :data="commentData" border style="width: 100%">
+                                    <el-table-column fixed="left" prop="username" label="用户"></el-table-column>
+                                    <el-table-column fixed="left" prop="tittle" label="标题"></el-table-column>
+                                    <el-table-column prop="score" label="评分"></el-table-column>
+                                    <el-table-column fixed="right" label="操作">
+                                        <template slot-scope="scope">
+                                            <el-button  @click="handleShowComment(scope.row)"  type="primary" plain size="small">详情</el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </el-form-item>
+                        </el-form>
+                    </el-dialog>
+
                     <!-- 添加的 el-dialog 组件 -->
                     <el-dialog title="评论" :visible.sync="dialogVisible2">
                         <!-- 编辑表单的内容 -->
                         <el-form :model="currentRow" label-position="top">
+                            <el-form-item label="标题">
+                                <el-input v-model="title"></el-input>
+                            </el-form-item>
                             <!-- 表单项 -->
                             <el-form-item label="食堂">
-                                <el-input v-model="currentRow.canteen"></el-input>
+                                <el-input v-model="currentRow.canteenId" :disabled="true"></el-input>
                             </el-form-item>
-
                             <el-form-item label="菜名">
-                                <el-input v-model="currentRow.dish_name"></el-input>
+                                <el-input v-model="currentRow.dishName" :disabled="true"></el-input>
                             </el-form-item>
                             <el-form-item label="评论一下吧">
                                 <el-input
@@ -234,14 +277,75 @@
                                         v-model="textarea">
                                 </el-input>
                             </el-form-item>
+                            <el-form-item label="上传图片" prop="image">
+                                <div>
+                                    <input type="file" @change="handleFileUpload" />
+                                </div>
+                            </el-form-item>
                             <el-form-item label="打个分吧">
-                                <el-rate v-model="value" show-text></el-rate>
+                                <el-rate v-model="value" show-score></el-rate>
                             </el-form-item>
                             <div  class="button-container">
                                 <el-button @click="saveSubmit()" type="primary">提交</el-button>
                             </div>
                         </el-form>
                     </el-dialog>
+
+
+                    <el-dialog title="评论详情" :visible.sync="dialogVisible3">
+                        <el-form :model="current" label-position="top">
+                            <!-- 表单项 -->
+                            <el-form-item label="用户">
+                                <el-input v-model="current.username" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="标题">
+                                <el-input v-model="current.tittle" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="分数">
+                                <el-input v-model="current.score" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="内容">
+                                <el-input v-model="current.body" :disabled="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="图片">
+                                <!-- 使用 img 标签来展示图片 -->
+                                <img v-if="current.image" :src="current.image" height="200" width="200"/>
+                                <span v-else>暂无图片</span>
+                            </el-form-item>
+                            <el-form-item label="评价">
+                                <el-table :data="commentCommentData" border style="width: 100%">
+                                    <el-table-column prop="username" label="食堂管理员"></el-table-column>
+                                    <el-table-column prop="body" label="内容"></el-table-column>
+                                </el-table>
+                            </el-form-item>
+<!--                            <div  class="button-container">-->
+<!--                                <el-button @click="replyMethod()" type="primary">回复</el-button>-->
+<!--                            </div>-->
+                        </el-form>
+                    </el-dialog>
+
+<!--                    <el-dialog title="回复" :visible.sync="dialogVisible4">-->
+<!--                        &lt;!&ndash; 编辑表单的内容 &ndash;&gt;-->
+<!--                        <el-form :model="reply" label-position="top">-->
+<!--                            <el-form-item label="标题">-->
+<!--                                <el-input v-model="title"></el-input>-->
+<!--                            </el-form-item>-->
+<!--                            <el-form-item label="菜品id">-->
+<!--                                <el-input v-model="reply.dishId" :disabled="true"></el-input>-->
+<!--                            </el-form-item>-->
+<!--                            <el-form-item label="回复">-->
+<!--                                <el-input-->
+<!--                                        type="textarea"-->
+<!--                                        :rows="5"-->
+<!--                                        placeholder="请输入内容"-->
+<!--                                        v-model="textreply">-->
+<!--                                </el-input>-->
+<!--                            </el-form-item>-->
+<!--                            <div  class="button-container">-->
+<!--                                <el-button @click="saveSubmitReply()" type="primary">提交</el-button>-->
+<!--                            </div>-->
+<!--                        </el-form>-->
+<!--                    </el-dialog>-->
                 </el-main>
             </el-container>
         </el-container>
@@ -250,7 +354,8 @@
 </div>
 
 <script>
-    const CuisineOptions = ['鲁菜', '粤菜', '川菜', '江苏菜','闽菜','浙江菜','湘菜','徽菜','清真餐','日本餐','西餐','其他'];
+    // TODO 改成应有的顺序
+    const CuisineOptions = ['鲁菜', '川菜', '粤菜', '江苏菜','闽菜','浙江菜','湘菜','徽菜','清真餐','日本餐','西餐','其他'];
     new Vue({
         el: '#app',
         data(){
@@ -259,54 +364,117 @@
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
                 formInline: {
-                    name: '',
+
                 },
-                tableData: [
-                    {
-                        canteen: '一食堂',
-                        dish_name: '麻辣香锅',
-                        series: '川菜',
-                        price:'20',
-                        image:'image/food.png'
-                    }, {
-                        canteen: '二食堂',
-                        dish_name: '麻辣香锅',
-                        series: '川菜',
-                        price:'25',
-                        image:'image/food_2.png'
-                    },
-                ],
+                searchMethod: 0 ,// 默认选择第一个搜索方式
+                tableData: [],
                 checkAll: false,
-                checkedCuisine: [],
                 cuisines:CuisineOptions,
                 isIndeterminate: true,
 
                 currentPage: 1,
                 dialogVisible1: false, // 控制对话框的显示和隐藏
                 dialogVisible2: false, // 控制对话框的显示和隐藏
+                dialogVisible3: false,
+                dialogVisible4: false,
                 currentRow: {
-                    canteen: '',
-                    dish_name: '',
-                    series: '',
-                    price:'',
-                    image:''
                 }, // 当前选中行的数据
-
-                textarea: '太好吃了',
-                images:'',
-                value:'',
-
-                // 表单
-                form: {
-                    min: "",
-                    max: "",
+                current:{
                 },
-                minNum: 0, //最小值
-                maxNum: 100, //最大值
-
+                reply:{
+                },
+                commentData:[],
+                commentCommentData:[],
+                textarea: '太好吃了',
+                textreply:'66666',
+                images:'',
+                value:0,
+                title:'',
+                dishCommentImage: '',
             }
         },
         methods:{
+            replyMethod(){
+                // alert(this.reply.dishId)
+                this.dialogVisible4 = true;
+            },
+            handleShowComment(row){
+                this.current = Object.assign({}, row);
+                // alert(this.reply.dishId)
+                const id=this.current.dishCommentId;
+                // alert(id)
+                var postJson = {
+                    dishCommentId: id,
+                }
+
+                axios.post(`/restaurant/GetDishCommentReply`, JSON.stringify(postJson), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    const flag = response.data.flag;
+                    const object = response.data.object;
+                    object.forEach((item) => {
+                        item.image = b64ToURI(item.image)
+                    })
+                    if (object.length === 0 || flag == 1) {
+                        this.$message.error('暂无管理员回复');
+                    } else {
+                        this.commentCommentData = object;
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    this.$message.error('查询失败3，请重试');
+                });
+
+                this.dialogVisible3 = true;
+                this.commentCommentData=[];
+            },
+            handleFileUpload(event) {
+                const file = event.target.files[0]
+                var reader = new FileReader();
+
+                const self=this;
+                reader.onload = function(e) {
+                    var base64String = e.target.result;
+                    self.dishCommentImage = uriToB64(base64String);
+                    // console.log(base64String); // 在控制台输出base64字符串
+                    reader.abort();
+                };
+                reader.readAsDataURL(file);
+            },
+            saveSubmit(){
+                const title=this.title;
+                const dishId=this.currentRow.dishId;
+                const score=this.value;
+                const body=this.textarea;
+                // alert(dishId);
+                var postJson = {
+                    title: title,
+                    dishId: dishId,
+                    score: score,
+                    body: body,
+                    image: this.dishCommentImage,
+                }
+                axios.post(`/restaurant/PublicDishComment`, JSON.stringify(postJson), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }) .then(response => {
+                    const flag = response.data.flag;
+                    if (flag === '0') {
+                        this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error('添加失败1：' + response.data.error);
+                    }
+                }).catch(error => {
+                        console.error(error);
+                        this.$message.error('添加失败2：' + error.message);
+                    });
+            },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
@@ -314,21 +482,154 @@
             },
 
             onSubmit() {
-                const name = this.formInline.name;
-                if (name === '') {
-                    this.$message.warning('请输入详细信息');
-                    return;
+                const series = this.formInline.checkedCuisine;
+                var seriesId = 114514;
+                for (var i=0;i<this.cuisines.length;i++) {
+                    if (series === this.cuisines[i]) {
+                        seriesId = i;
+                        break;
+                    }
                 }
+
+                const canteen=this.formInline.canteen;
+                const score=this.formInline.score;
+                const min =this.formInline.minPrice;
+                const max = this.formInline.maxPrice;
+                // alert(this.searchMethod)
+
+                var postJson = {
+                    option: this.searchMethod,
+                    minPrice: min,
+                    maxPrice: max,
+                    score: score,
+                    series: seriesId,
+                    canteen: canteen
+                }
+
+                if (this.searchMethod === 0) {
+                    // 执行按菜系编号搜索的逻辑
+                    if (seriesId === '') {
+                        this.$message.warning('请输入详细菜系信息');
+                        return;
+                    }
+                }else if(this.searchMethod === 2) {
+                    if (canteen === '') {
+                        this.$message.warning('请输入详细食堂信息');
+                        return;
+                    }
+                }else if(this.searchMethod === 3){
+                    if(score===""){
+                        this.$message.warning('请输入详细最低分信息');
+                        return;
+                    }
+                }else if(this.searchMethod=== 1) {
+                    // alert(min);
+                    // alert(max);
+                    if(min==="" || max===""){
+                        this.$message.warning('请输入详细jiage');
+                        return;
+                    }
+                }
+                axios.post(`/restaurant/GetDishByAttr`, JSON.stringify(postJson), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    const flag = response.data.flag;
+                    const object = response.data.object;
+                    object.forEach((item) => {
+                        item.image = b64ToURI(item.image)
+                        item.series = this.cuisines[item.series];
+                    })
+                    if (object.length === 0 || flag == 1) {
+                        this.$message.error('未查询到结果');
+                    } else {
+                        this.tableData = object;
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    this.$message.error('查询失败1，请重试');
+                });
             },
+
+
+
+
+            saveSubmitReply(){
+                const title=this.title;
+                const body=this.textarea;
+                const dishId=this.reply.dishId;
+                // alert(dishId)
+                var postJson = {
+                    title: title,
+                    body: body,
+                    dish_id:dishId
+                }
+                axios.post(`/restaurant/`, JSON.stringify(postJson), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }) .then(response => {
+                    const flag = response.data.flag;
+                    if (flag === '0') {
+                        this.$message({
+                            message: '添加成功',
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error('添加失败1：' + response.data.error);
+                    }
+                }).catch(error => {
+                    console.error(error);
+                    this.$message.error('添加失败2：' + error.message);
+                });
+            },
+
+
+
+
+            handleShow(row){
+                this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
+                this.reply = Object.assign({}, row);
+                // alert(this.reply.dishId)
+                const id=this.currentRow.dishId;
+                var postJson = {
+                    dishId:id
+                }
+
+                axios.post(`/restaurant/GetDishDishComment`, JSON.stringify(postJson), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    const flag = response.data.flag;
+                    const object = response.data.object;
+                    object.forEach((item) => {
+                        item.image = b64ToURI(item.image)
+                    })
+                    if (object.length === 0 || flag == 1) {
+                        this.$message.error('未查询到结果');
+                    } else {
+                        this.commentData = object;
+
+                    }
+                })
+                //     .catch(error => {
+                //     console.log(error);
+                //     this.$message.error('查询失败2，请重试');
+                // });
+
+                this.dialogVisible1 = true; // 显示编辑对话框
+                this.commentData=[];
+            },
+
 
             handleReport(row) {
                 this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
                 this.dialogVisible2 = true; // 显示编辑对话框
-            },
-
-            saveSubmit(){
 
             },
+
 
             handleCheckAllChange(val) {
                 this.checkedCuisine = val ? CuisineOptions : [];
@@ -338,8 +639,7 @@
                 let checkedCount = value.length;
                 this.checkAll = checkedCount === this.cuisines.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.cuisines.length;
-            }
-
+            },
 
         },
 
