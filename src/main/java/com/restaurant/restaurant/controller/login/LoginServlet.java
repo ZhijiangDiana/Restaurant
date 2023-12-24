@@ -87,20 +87,20 @@ public class LoginServlet extends HttpServlet{
             request.getSession().setAttribute("canteenAdmin",canteenAdmin);
             request.getSession().setAttribute("userCommentsPerOnline",0);
 
-            // 添加notification的集合是否在context中
-            int canteenId = canteenAdmin.getCanteenId();
-            ServletContext context = getServletContext();
-            Map<Integer, Map<Integer, Report>> reportNotif =
-                    (Map<Integer, Map<Integer, Report>>) context.getAttribute("reportNotif");
-            Map<Integer, Map<Integer, DishComment>> dishCommentNotif =
-                    (Map<Integer, Map<Integer, DishComment>>) context.getAttribute("dishCommentNotif");
-            if (reportNotif.get(canteenId) == null ||
-                    dishCommentNotif.get(canteenId) == null) {
-                Map<Integer, Report> reportSet = new ConcurrentHashMap<>();
-                Map<Integer, DishComment> dishCommentSet = new ConcurrentHashMap<>();
-                reportNotif.put(canteenId, reportSet);
-                dishCommentNotif.put(canteenId, dishCommentSet);
-            }
+//            // 添加notification的集合是否在context中
+//            int canteenId = canteenAdmin.getCanteenId();
+//            ServletContext context = getServletContext();
+//            Map<Integer, Map<Integer, Report>> reportNotif =
+//                    (Map<Integer, Map<Integer, Report>>) context.getAttribute("reportNotif");
+//            Map<Integer, Map<Integer, DishComment>> dishCommentNotif =
+//                    (Map<Integer, Map<Integer, DishComment>>) context.getAttribute("dishCommentNotif");
+//            if (reportNotif.get(canteenId) == null ||
+//                    dishCommentNotif.get(canteenId) == null) {
+//                Map<Integer, Report> reportSet = new ConcurrentHashMap<>();
+//                Map<Integer, DishComment> dishCommentSet = new ConcurrentHashMap<>();
+//                reportNotif.put(canteenId, reportSet);
+//                dishCommentNotif.put(canteenId, dishCommentSet);
+//            }
         }
 
         response.getWriter().print(info);
