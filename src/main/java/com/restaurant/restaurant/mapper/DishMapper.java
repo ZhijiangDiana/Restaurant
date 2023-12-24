@@ -30,6 +30,7 @@ public interface DishMapper {
     List<Dish> selectByCanteenIdWithFile(@Param("canteenId") int canteenId);
     void deleteDishById(@Param("dish_id") int id);//根据id删除菜品
     void updateDish(Dish dish); //更新菜品
+    List<Dish> selectAllDiscountDishWithFile();
 
     List<Dish> selectDishOrderByScore();
 }

@@ -247,8 +247,8 @@
                             this.$message.success('获取列表成功');
                             response.data.object.forEach(item => {
                                 item.image = b64ToURI(item.image)
-                                item.startTime = timeStampToString(item.startTime);
-                                item.endTime = timeStampToString(item.endTime);
+                                item.startTime = timeStampToTime(item.startTime);
+                                item.endTime = timeStampToTime(item.endTime);
                             });
                             this.tableData = response.data.object;
                             this.total = this.tableData.length;
@@ -285,8 +285,8 @@
                             var item = response.data.object;
 
                             item.image = b64ToURI(item.image);
-                            item.startTime = timeStampToString(item.startTime);
-                            item.endTime = timeStampToString(item.endTime);
+                            item.startTime = timeStampToTime(item.startTime);
+                            item.endTime = timeStampToTime(item.endTime);
                             this.tableData =[response.data.object];
                             this.$message.success('查询成功');
                         } else {

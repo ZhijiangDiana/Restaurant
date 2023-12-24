@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
+    <style>
+        .el-menu--inline .el-menu-item {
+            background-color: #244235  !important;
+        }
+
+        .el-menu-item:hover,
+        .el-submenu__title:hover {
+            color: #fff !important;
+        }
+
+        .el-submenu__title:hover i {
+            color: #fff !important;
+        }
+
+        .el-aside{
+            transition: width.3s;
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+        }
+        .logo_title{
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all .3s;
+        }
+        .el-header{
+            box-shadow: 2px 0 6px rgba(0,21,41,35);
+            display: flex;
+            align-items: center;
+        }
+        .el-header-buttons .el-button {
+            display: flex;
+            background-color: beige;
+            color:black;
+        }
+        .el-form-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+        .el-main-buttons .el-button{
+            background-color: beige;
+            color:black;
+            margin-left: 50px;
+        }
+        #card_message1 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin-top: 5px; /* 添加一些边距，使内容离边框有一定距离 */
+            margin-left: 20px;
+            margin-right: 20px;
+            min-height: 100vh;
+
+        }
+
+        .el-card{
+            /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .el-main-reply-buttons {
+
+            display: flex;
+            gap: 2px; /* 调整按钮之间的间隔 */
+        }
+        .el-main-reply-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+
+
+        .carouselBox {
+            width: 100%;
+            max-width: 1200px;
+            min-width: 1000px;
+            margin: 0 auto;
+            padding: 5px 0 ;
+        }
+        .el-carousel__item img{
+            position: relative;
+            color: #475669;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #f6f8fb;
+            width: 308px;
+            height: 380px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div >
+        <el-container>
+            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#244235 "  >
+                <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+
+                    <span class="logo_title" v-show="!isCollapse">USST</span>
+                </div>
+                <el-menu :collapse="isCollapse"  background-color="#244235" text-color="rgba(255,255,255,0.65)">
+                    <el-menu-item>
+                        <i class="el-icon-house"></i>
+                        <span slot="title">系统首页</span>
+                    </el-menu-item>
+                    <el-menu-item>
+                        <i class="el-icon-postcard"></i>
+                        <span slot="title">交流社区</span>
+                    </el-menu-item>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-menu"></i>
+                            <span>信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            用户信息
+                        </el-menu-item>
+                        <el-menu-item >
+                            管理员信息
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
+            <el-container>
+
+                <el-header style="background-color: #244235">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>\
+                </el-header>
+                <el-main>
+                    <el-card>
+                    <div class="carouselBox" style="">
+                        <el-carousel :interval="3000" type="card" height="380px" :autoplay="true">
+                            <el-carousel-item v-for="(item, index) in images" :key="index">
+                                <img :src="item" alt="" style="width:500px;height: 350px" />
+                            </el-carousel-item>
+                        </el-carousel>
+                    </div>
+                    </el-card>
+                    <el-card id="card_message1">
+                        <div>
+                            <div style="margin-bottom: 5px">
+                                <el-button icon="el-icon-arrow-right"
+                                           style="color:black;
+                                           background-color: transparent;
+                                           border-color: transparent;
+                                           font-weight: bold;font-size: 20px">促销菜品</el-button>
+                            </div>
+                            <div style="margin-bottom: 20px">
+                                  <el-row>
+                                      <div class="image-container">
+                                          <el-row :gutter="20">
+                                              <el-col v-for="(item, index) in discountDish" :key="index" :span="4">
+                                                  <div style="padding: 10px;border: 1px solid #ccc; width:200px; height:250px;text-align: center; color: black" >
+                                                      <img style="width: 80%;height: 80%; object-fit: cover" :src="item.image" alt="" ><br>
+                                                      <span>{{ item.dishName }}</span><br>
+                                                      <span>原价{{ item.price }}&nbsp;&nbsp;现价{{ item.priceSale }}</span>
+                                                  </div>
+                                              </el-col>
+                                          </el-row>
+                                      </div>
+                                  </el-row>
+                            </div>
+                            <div style="margin-bottom: 5px">
+                                <el-button icon="el-icon-document"
+                                           style="color:black;
+                                           background-color: transparent;
+                                           border-color: transparent;
+                                           font-weight: bold;font-size: 20px">投票调查</el-button>
+                            </div>
+                            <div style="color: black;margin-bottom: 20px">
+                                <el-table :data="vote" style="width: 50%">
+                                    <el-table-column label="餐厅" prop="canteenName"></el-table-column>
+                                    <el-table-column label="标题" prop="title"></el-table-column>
+                                    <el-table-column label="开始时间" prop="startTime"></el-table-column>
+                                    <el-table-column label="结束时间" prop="endTime"></el-table-column>
+                                    <el-table-column label="">
+                                        <template slot-scope="scope">
+                                            <el-button @click="goToVoteInfo(scope.row)" type="primary">投票</el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </div>
+                            <div style="margin-bottom: 5px">
+                                <el-button icon="el-icon-knife-fork"
+                                           style="color:black;
+                                           background-color: transparent;
+                                           border-color: transparent;
+                                           font-weight: bold;font-size: 20px">推荐菜品</el-button>
+                            </div>
+                            <div style="margin-bottom: 40px">
+                                <el-row>
+                                    <el-col span="6">
+                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
+                                            <img style="width: 80%" src="../image/food.png" alt="">
+                                            <div>测试用例</div>
+                                            <div>价格99.9999$</div>
+                                        </div>
+                                    </el-col>
+                                    <el-col span="6">
+                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
+                                            <img style="width: 80%" src="../image/food.png" alt="">
+                                            <div>测试用例</div>
+                                            <div>价格99.9999$</div>
+                                        </div>
+                                    </el-col>
+                                    <el-col span="6">
+                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
+                                            <img style="width: 80%" src="../image/food.png" alt="">
+                                            <div>测试用例</div>
+                                            <div>价格99.9999$</div>
+                                        </div>
+                                    </el-col>
+                                    <el-col span="6">
+                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
+                                            <img style="width: 80%" src="../image/food.png" alt="">
+                                            <div>测试用例</div>
+                                            <div>价格99.9999$</div>
+                                        </div>
+                                    </el-col>
+
+                                </el-row>
+                            </div>
+                            <div style="height: 350px; display: flex;align-items: center;justify-content: center;margin: 20px;background-color: #ff8200">
+                                <div style="width:80%;height: 80%">
+                                    <el-image
+                                            style="width: 100%;height: 100%"
+                                            src="../image/hot_talk.png"
+                                            alt="帖子图片"
+                                    ></el-image>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <span style="color: red;font-weight: bold;font-size: 30px">1</span><span style="color: black;">XXXX</span><br>
+                                <span style="color: red;font-weight: bold;font-size: 30px">2</span><span style="color: black;">XXXX</span><br>
+                                <span style="color: red;font-weight: bold;font-size: 30px">3</span><span style="color: black;">XXXX</span><br>
+                                <span style="color: red;font-weight: bold;font-size: 30px">4</span><span style="color: black;">XXXX</span><br>
+                            </div>
+                            <div style="display: flex">
+
+                                <div style="width: 50%;">
+                                    <div style="margin-bottom: 5px">
+                                        <el-button icon="el-icon-trophy"
+                                                   style="color:black;
+                                           background-color: transparent;
+                                           border-color: transparent;
+                                           font-weight: bold;font-size: 20px">食堂排名</el-button>
+                                    </div>
+                                    <div style="margin-bottom: 20px;">
+                                        <el-table :data="canteenRank" style="width: 50%">
+                                            <el-table-column label="排名" type="index"></el-table-column>
+                                            <el-table-column label="餐厅" prop="second.name"></el-table-column>
+                                            <el-table-column label="分数" prop="first">
+                                                <template slot-scope="scope">
+                                                    <span>{{ parseInt(scope.row.first) }}</span>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                    </div>
+
+                                </div>
+                                <div style="width: 50%">
+                                    <div style="margin-bottom: 5px">
+                                        <el-button icon="el-icon-trophy"
+                                                   style="color:black;
+                                           background-color: transparent;
+                                           border-color: transparent;
+                                           font-weight: bold;font-size: 20px">菜品排名</el-button>
+                                    </div>
+                                    <div style="margin-bottom: 20px;">
+                                        <el-table :data="dishRank" style="width: 50%">
+                                            <el-table-column label="排名" type="index"></el-table-column>
+                                            <el-table-column label="菜品" prop="dishName"></el-table-column>
+                                            <el-table-column label="食堂" prop="canteenName"></el-table-column>
+                                            <el-table-column label="分数" prop="totalScore">
+                                                <template slot-scope="scope">
+                                                    <span>{{ parseInt(scope.row.totalScore) }}</span>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <el-dialog title="投票" :visible.sync="dialogVisible">
+                                <!-- 编辑表单的内容 -->
+                                <el-form :model="voteInfo" label-position="top">
+                                    <el-form-item label="发起餐厅">
+                                        <el-input v-model="voteInfo.cateenName" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="标题">
+                                        <el-input v-model="voteInfo.title" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="开始时间">
+                                        <el-input v-model="voteInfo.startTime" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="结束时间">
+                                        <el-input v-model="voteInfo.endTime" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="信息">
+                                        <el-checkbox-group v-model="userVote">
+                                            <!-- 使用v-for循环渲染result对象的键 -->
+                                            <el-checkbox v-for="(key, value) in voteInfo.currentResult" :label="value" :key="value">
+                                                {{ value }}
+                                            </el-checkbox>
+                                        </el-checkbox-group>
+                                    </el-form-item>
+                                    <div class="button-container">
+                                        <el-button @click="saveSubmit" type="primary">提交</el-button>
+                                    </div>
+                                </el-form>
+                            </el-dialog>
+
+                        </div>
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return{
+                isCollapse:false,
+                asideWidth:'200px',
+                collapseIcon:'el-icon-s-fold',
+                value:'',
+                images: [
+                    '../image/food.png',
+                    '../image/food_2.png',
+                    '../image/hotpot.png',
+                ],
+                dialogVisible: false,
+                canteenRank: [],
+                dishRank: [],
+                allCanteen: [],
+                vote: [],
+                voteInfo: {
+                    currentResult: '',
+                },
+                userVote: [],
+                currentDiscountRow: {
+                    image: '',
+                    dishName: '',
+                    price: '',
+                    priceSale: '',
+                },
+                discountDish: [],
+            }
+        },
+        mounted() {
+            this.getCanteenRank();
+            this.getDiscountDish();
+        },
+        methods:{
+            handleCollapse(){
+                this.isCollapse=!this.isCollapse
+                this.asideWidth=this.isCollapse ? '64px':'200px'
+                this.collapseIcon=this.isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold'
+            },
+            goToVoteInfo(row) {
+                const index = this.vote.indexOf(row);
+                this.voteInfo = this.vote[index];
+                this.voteInfo.currentResult = JSON.parse(this.voteInfo.result)
+
+                this.dialogVisible = true;
+                // alert("点击了投票详情" + index)
+                // alert(this.voteInfo.result)
+            },
+            saveSubmit() {
+                const postJson = {
+                    voteId: this.voteInfo.voteId,
+                    choices: this.userVote,
+                };
+                axios.post('/restaurant/UserVote', postJson, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    const flag = response.data.flag;
+                    if (flag === '0') {
+                        this.dialogVisible = false;
+                        this.$message({
+                            message: '投票成功',
+                            type: 'success'
+                        });
+                    } else {
+                        this.$message.error('投票失败：' + response.data.error);
+                    }
+                }).catch(error => {
+                    // console.error(error);
+                    this.$message.error('投票失败：' + error.message);
+                })
+            },
+            getCanteenName(canteenId) {
+                var res = null;
+                this.allCanteen.forEach((canteen) => {
+                    if (canteenId === canteen.canteenId)
+                        res = canteen.name;
+                })
+                return res;
+            },
+            getCanteenRank() {
+                axios.post('/restaurant/GetCanteenRank')
+                    .then(response => {
+                        const object = response.data.object;
+                        const flag = response.data.flag;
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                this.allCanteen.push(item.second)
+                            })
+                            this.canteenRank = object;
+
+                            // 刷新后两个页面
+                            this.getRunningVote();
+                            this.getDishRank();
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                        this.$message.error('网络异常：' + error.message);
+                    });
+            },
+            getDishRank() {
+                axios.get('/restaurant/showHotDish')
+                    .then(response => {
+                        const object = response.data.object;
+                        const flag = response.data.flag;
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                item.canteenName = this.getCanteenName(item.canteenId)
+                            })
+                            this.dishRank = object;
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                        this.$message.error('网络异常：' + error.message);
+                    });
+            },
+            getRunningVote() {
+                axios.post('/restaurant/GetRunningVote')
+                    .then(response => {
+                        const json = response.data
+                        const object = json.object;
+                        const flag = json.flag;
+
+                        if (object === null || object === undefined || object === "")
+                            return;
+
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                // alert(item)
+                                item.startTime = timeStampToDateTime(item.startTime);
+                                item.endTime = timeStampToDateTime(item.endTime);
+                                item.canteenName = this.getCanteenName(item.canteenId)
+                            });
+                            this.vote= object;
+                        }
+                    }).catch(error => {
+                        console.error(error);
+                        this.$message.error('网络异常：' + error.message);
+                    });
+            },
+            getDiscountDish() {
+                axios.get('/restaurant/showDiscountDish')
+                    .then(response => {
+                        const flag = response.data.flag
+                        const object = response.data.object;
+
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                item.image = b64ToURI(item.image);
+                            })
+                            this.discountDish = object;
+                        }
+                    }).catch(error => {
+                        console.error(error)
+                        this.$message.error('网络异常：' + error.message);
+                    });
+            }
+
+        }
+
+    })
+</script>
+</body>
+</html>

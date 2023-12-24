@@ -46,16 +46,12 @@ public class GetVoteService {
                 voteList = voteMapper.selectRunning();
                 Map<Integer, RunningVote> votes =
                         (Map<Integer, RunningVote>) context.getAttribute("votes");
-                for (Map.Entry<Integer, RunningVote> entry : votes.entrySet()) {
-                    RunningVote runningVote = entry.getValue();
-                    for (Vote vote : voteList) {
-                        // 读取投票时不允许修改
-                        synchronized (runningVote.getVoteLock()) {
-                            String voteResult = JSON.toJSONString(runningVote.getVoteResult());
-                            if (vote.getResult() == null) // 保证一致性
-                                vote.setResult(voteResult);
-                        }
-                    }
+
+                for (Vote vote : voteList) {
+                    Integer voteId = vote.getVoteId();
+                    RunningVote runningVote = votes.get(voteId);
+                    if (runningVote != null)
+                        vote.setResult(JSON.toJSONString(runningVote.getVoteResult()));
                 }
             }
         } catch (Exception e) {

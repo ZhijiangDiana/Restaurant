@@ -36,9 +36,9 @@ public class UserVote extends HttpServlet {
         JSONArray choices = reqJson.getJSONArray("choices");
         User user = (User) session.getAttribute("user");
 
-//        // 测试用
-//        user = new User();
-//        user.setUserId(1);
+        // 测试用
+        user = new User();
+        user.setUserId(1);
 
         if (voteId == null || choices == null || user == null) {
             resp.setStatus(500);
