@@ -16,6 +16,7 @@ public interface CommentMapper {
 
     List<Comment> selectAllAsc();
     Comment selectById(@Param("id") int id);
+    Comment selectByIdWithFile(@Param("id") int id);
     void insertComment(Comment comment);
 
     void updateLikeById(@Param("likes") int likes,@Param("id") int id);

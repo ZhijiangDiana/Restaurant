@@ -1,6 +1,7 @@
 package com.restaurant.restaurant.mapper;
 
 import com.restaurant.restaurant.pojo.DishCommentShow;
+import com.restaurant.restaurant.pojo.entity.Dish;
 import com.restaurant.restaurant.pojo.entity.DishComment;
 import com.restaurant.restaurant.pojo.entity.DishCommentReply;
 import org.apache.ibatis.annotations.Param;
@@ -11,6 +12,7 @@ public interface DishCommentMapper {
     List<DishComment> selectAll();
     List<DishComment> selectAllWithFile();
     DishComment selectById(@Param("id") int id);//
+    DishComment selectByIdWithFile(@Param("id") int id);
     void insertComment(DishComment comment);//添加评论
     List<DishCommentShow> selectByCanteenIdWithFile(@Param("canteenId") int canteenId);
     List<DishCommentShow> selectByUserIdWithFile(@Param("userId") int userId);

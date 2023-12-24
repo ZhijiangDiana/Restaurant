@@ -1,5 +1,5 @@
 /**
- * 将base64转带头的URI
+ * 将带头的URI转base64
  * @type {string}
  */
 const normal= "data:image/;base64,";
@@ -23,6 +23,23 @@ function uriToB64(b64Str) {
     return result;
 }
 
+/**
+ * 将base64转带头的URI
+ * @type {string}
+ */
 function b64ToURI(uri) {
     return prefixPng + uri;
+}
+
+/**
+ * 将timestamp
+ * @param timeStamp
+ * @returns {string}
+ */
+function timeStampToString(timeStamp) {
+    const date = new Date(timeStamp+ 8 * 3600 * 1000);
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
 }

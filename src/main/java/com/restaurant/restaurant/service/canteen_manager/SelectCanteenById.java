@@ -13,7 +13,7 @@ public class SelectCanteenById {
 
         Canteen canteen = null;
         try (sqlSession) {
-            canteen = canteenMapper.selectById(id);
+            canteen = canteenMapper.selectByIdWithFile(id);
             sqlSession.commit();
         } catch (Exception e) {
             e.printStackTrace();

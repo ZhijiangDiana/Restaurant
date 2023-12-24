@@ -19,7 +19,8 @@ public class ShowDishCommentById extends HttpServlet {
         int id = Integer.parseInt(request.getParameter("id"));
 //        int id=24;
         DishComment dishComment = getDishCommentService.showDishCommentByID(id);
-        response.getWriter().print(FrontEndUtils.objectToBody("查询成功","0",dishComment));
+        String flag = dishComment == null ? "1" : "0";
+        response.getWriter().print(FrontEndUtils.objectToBody("",flag,dishComment));
     }
 }
 

@@ -247,19 +247,8 @@
                             this.$message.success('获取列表成功');
                             response.data.object.forEach(item => {
                                 item.image = b64ToURI(item.image)
-                                const date = new Date(item.startTime+ 8 * 3600 * 1000);
-                                const hours = date.getUTCHours().toString().padStart(2, '0');
-                                const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-                                const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-                                const formattedTime = `${hours}:${minutes}:${seconds}`;
-                                item.startTime=formattedTime;
-
-                                const date1 = new Date(item.endTime+ 8 * 3600 * 1000);
-                                const hours1 = date1.getUTCHours().toString().padStart(2, '0');
-                                const minutes1 = date1.getUTCMinutes().toString().padStart(2, '0');
-                                const seconds1 = date1.getUTCSeconds().toString().padStart(2, '0');
-                                const formattedTime1 = `${hours1}:${minutes1}:${seconds1}`;
-                                item.endTime=formattedTime1;
+                                item.startTime = timeStampToString(item.startTime);
+                                item.endTime = timeStampToString(item.endTime);
                             });
                             this.tableData = response.data.object;
                             this.total = this.tableData.length;
@@ -290,9 +279,14 @@
                     this.$message.warning('请输入食堂ID');
                     return;
                 }
-                axios.post(`/restaurant/showCanteenById?canteenId=`+canteenId)
+                axios.get(`/restaurant/showCanteenById?canteenId=`+canteenId)
                     .then(response => {
                         if (response.data.object !== '') {
+                            var item = response.data.object;
+
+                            item.image = b64ToURI(item.image);
+                            item.startTime = timeStampToString(item.startTime);
+                            item.endTime = timeStampToString(item.endTime);
                             this.tableData =[response.data.object];
                             this.$message.success('查询成功');
                         } else {

@@ -39,6 +39,9 @@
         where s.comment_id in (select comment_id from `Restaurant`.comment where user_id =#{id})
           and t.user_id = s.user_id
     </select>
+    <select id="selectByIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        SELECT * FROM Restaurant.comment WHERE comment_id = #{id};
+    </select>
 
 
     <update id="updateLikeById" parameterType="Comment">

@@ -257,7 +257,9 @@
                 axios.get(`/restaurant/ShowDishCommentById?id=`+dishCommentId)
                     .then(response => {
                         if (response.data.object !== '') {
-                            this.tableData =[response.data.object];
+                            var item = response.data.object;
+                            item.image = b64ToURI(item.image);
+                            this.tableData =[item];
                             this.$message.success('查询成功');
                         } else {
                             this.$message.error("查询失败");

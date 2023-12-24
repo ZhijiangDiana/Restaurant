@@ -286,12 +286,11 @@ public class AdminService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try {
             CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
-            Comment comment = commentMapper.selectById(Integer.parseInt(commentId));
+            Comment comment = commentMapper.selectByIdWithFile(Integer.parseInt(commentId));
             sqlSession.commit();
             sqlSession.close();
-
-                return FrontEndUtils.objectToBody("查询成功","0",comment);
-
+            String flag = comment == null ? "1" : "0";
+            return FrontEndUtils.objectToBody("",flag,comment);
         }catch (Exception e){
             e.printStackTrace();
             sqlSession.rollback();

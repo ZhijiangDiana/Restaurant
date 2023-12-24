@@ -69,7 +69,7 @@ public class GetDishCommentService {
 
         DishComment res = null;
         try {
-            res = dishCommentMapper.selectById(dishId);
+            res = dishCommentMapper.selectByIdWithFile(dishId);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

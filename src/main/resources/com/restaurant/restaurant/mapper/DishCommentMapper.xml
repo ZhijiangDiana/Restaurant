@@ -11,7 +11,7 @@
 
 
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
-        select * from dish_comment where dish_id=1;
+        select * from dish_comment where dish_comment_id = #{id};
     </select>
     <select id="selectAll" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
         select dish_comment_id, user_id, dish_id, score, tittle, body from dish_comment;
@@ -36,6 +36,9 @@
     </select>
     <select id="selectAllWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
         SELECT * FROM dish_comment;
+    </select>
+    <select id="selectByIdWithFile" resultType="com.restaurant.restaurant.pojo.entity.DishComment">
+        SELECT * FROM dish_comment WHERE dish_comment_id = #{id};
     </select>
 
     <delete id="deletedishCommentById" parameterType="com.restaurant.restaurant.pojo.entity.DishComment">
