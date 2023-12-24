@@ -123,19 +123,6 @@
                     </el-menu-item>
                     <el-submenu>
                         <template slot="title">
-                            <i class="el-icon-menu"></i>
-                            <span>信息管理</span>
-                        </template>
-                        <el-menu-item>
-                            用户信息
-                        </el-menu-item>
-                        <el-menu-item >
-                            管理员信息
-                        </el-menu-item>
-                    </el-submenu>
-
-                    <el-submenu>
-                        <template slot="title">
                             <i class="el-icon-search"></i>
                             <span>信息检索</span>
                         </template>
@@ -146,6 +133,11 @@
                             <a href="searchDish.html" class="el-aside">菜品检索</a>
                         </el-menu-item>
                     </el-submenu>
+
+                    <el-menu-item>
+                        <i class="el-icon-document"></i>
+                        <a href="vote.html" class="el-aside">投票</a>
+                    </el-menu-item>
                 </el-menu>
             </el-aside>
 
@@ -155,32 +147,39 @@
                 </el-header>
 
                 <el-main>
+                    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                        <el-form-item label="选择搜索方式" label-width="100px">
+                            <el-select v-model="searchMethod" @change="handleSearchMethodChange">
+                                <el-option label="按菜系搜索" :value="0"></el-option>
+                                <el-option label="按价格范围搜索" :value="1"></el-option>
+                                <el-option label="按食堂名称搜索" :value="2"></el-option>
+                                <el-option label="按最低评分搜索" :value="3"></el-option>
+                            </el-select>
+                        </el-form-item>
 
-                    <el-form :inline="false" :model="formInline" class="demo-form-inline">
-                        <el-form-item label="食堂名称" label-width="100px">
-                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
                         </el-form-item>
-                        <el-form-item label="菜品名称" label-width="100px">
-                            <el-input v-model="formInline.name" placeholder="食堂名称"></el-input>
-                        </el-form-item>
-                        <el-form-item label="选择菜系" label-width="100px">
-                            <el-radio-group v-model="checkedCuisine" @change="handleCheckedcuisinesChange">
+                        <el-form-item v-if="searchMethod === 0" label="选择菜系" label-width="100px">
+                            <el-radio-group  v-model="formInline.checkedCuisine" @change="handleCheckedcuisinesChange">
                                 <el-radio v-for="cuisine in cuisines" :label="cuisine" :key="cuisine">{{cuisine}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
 
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="最低价格" prop="min" label-width="100px">
-                                    <el-input clearable="" placeholder="输入最低价格"></el-input>
-                                </el-form-item>
-                            </el-col>
-                            <el-col :span="12">
-                                <el-form-item label="最高价格" prop="max" label-width="100px">
-                                    <el-input clearable="" placeholder="输入最高价格"></el-input>
-                                </el-form-item>
-                            </el-col>
-                        </el-row>
+                        <el-form-item v-if="searchMethod === 1" label="最低价格" prop="min" label-width="100px">
+                            <el-input v-model="formInline.minPrice" clearable="" placeholder="输入最低价格"></el-input>
+                        </el-form-item>
+
+                        <el-form-item v-if="searchMethod === 1" label="最高价格" prop="max" label-width="100px">
+                            <el-input v-model="formInline.maxPrice" clearable="" placeholder="输入最高价格"></el-input>
+                        </el-form-item>
+
+                        <el-form-item v-if="searchMethod === 2" label="食堂名称" label-width="100px">
+                            <el-input v-model="formInline.canteen" clearable="" placeholder="食堂名称"></el-input>
+                        </el-form-item>
+
+                        <el-form-item v-if="searchMethod === 3" label="最低评分" label-width="100px">
+                            <el-input v-model="formInline.score" clearable="" placeholder="输入最低评分"></el-input>
+                        </el-form-item>
+
                         <el-form-item label-width="27px">
                             <el-button type="success" @click="onSubmit">查询</el-button>
                         </el-form-item>
@@ -259,8 +258,13 @@
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
                 formInline: {
-                    name: '',
+                    minPrice: '',
+                    maxPrice: '',
+                    canteen: '',
+                    score: '',
+                    checkedCuisine: '',
                 },
+                searchMethod: 0 ,// 默认选择第一个搜索方式
                 tableData: [
                     {
                         canteen: '一食堂',
@@ -271,13 +275,12 @@
                     }, {
                         canteen: '二食堂',
                         dish_name: '麻辣香锅',
-                        series: '川菜',
+                        series: '日本菜',
                         price:'25',
                         image:'image/food_2.png'
                     },
                 ],
                 checkAll: false,
-                checkedCuisine: [],
                 cuisines:CuisineOptions,
                 isIndeterminate: true,
 
@@ -295,18 +298,12 @@
                 textarea: '太好吃了',
                 images:'',
                 value:'',
-
-                // 表单
-                form: {
-                    min: "",
-                    max: "",
-                },
-                minNum: 0, //最小值
-                maxNum: 100, //最大值
-
             }
         },
         methods:{
+            saveSubmit() {
+                this.$message.success('提交成功');
+            },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
@@ -314,20 +311,38 @@
             },
 
             onSubmit() {
-                const name = this.formInline.name;
-                if (name === '') {
-                    this.$message.warning('请输入详细信息');
-                    return;
+                const series = this.formInline.checkedCuisine;
+                const canteen=this.formInline.canteen;
+                if (this.searchMethod === 0) {
+                    // 执行按菜系编号搜索的逻辑
+                    if (series === '') {
+                        this.$message.warning('请输入详细菜系信息');
+                    } else {
+                    }
+                }else if(this.searchMethod === 2) {
+                    if (canteen === '') {
+                        this.$message.warning('请输入详细食堂信息');
+                    } else {
+                        // axios.get(`/restaurant/restaurant?name=${canteen}`)
+                        //     .then(response => {
+                        //         const data = response.data;
+                        //         if (data.length > 0) {
+                        //             this.tableData = data;
+                        //         } else {
+                        //             this.$message.error('未查询到结果');
+                        //         }
+                        //     })
+                        //     .catch(error => {
+                        //         console.log(error);
+                        //         this.$message.error('查询失败，请重试');
+                        //     });
+                    }
                 }
             },
 
             handleReport(row) {
                 this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
                 this.dialogVisible2 = true; // 显示编辑对话框
-            },
-
-            saveSubmit(){
-
             },
 
             handleCheckAllChange(val) {
@@ -338,8 +353,16 @@
                 let checkedCount = value.length;
                 this.checkAll = checkedCount === this.cuisines.length;
                 this.isIndeterminate = checkedCount > 0 && checkedCount < this.cuisines.length;
+            },
+            handleSearchMethodChange(){
+                this.formInline = {
+                    minPrice: '',
+                    maxPrice: '',
+                    canteen: '',
+                    score: '',
+                    checkedCuisine: '' // 如果有这个字段，也可以重置它
+                };
             }
-
 
         },
 

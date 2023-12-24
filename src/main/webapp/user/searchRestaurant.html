@@ -64,7 +64,9 @@
             min-height: 100vh;
 
         }
-
+        .button-container{
+            text-align: right;
+        }
         .el-card{
             /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
             margin-left: 20px;
@@ -119,18 +121,6 @@
                         <i class="el-icon-postcard"></i>
                         <span slot="title">交流社区</span>
                     </el-menu-item>
-                    <el-submenu>
-                        <template slot="title">
-                            <i class="el-icon-menu"></i>
-                            <span>信息管理</span>
-                        </template>
-                        <el-menu-item>
-                            用户信息
-                        </el-menu-item>
-                        <el-menu-item >
-                            管理员信息
-                        </el-menu-item>
-                    </el-submenu>
 
                     <el-submenu>
                         <template slot="title">
@@ -144,6 +134,11 @@
                             <a href="searchDish.html" class="el-aside">菜品检索</a>
                         </el-menu-item>
                     </el-submenu>
+
+                    <el-menu-item>
+                        <i class="el-icon-document"></i>
+                        <a href="vote.html" class="el-aside">投票</a>
+                    </el-menu-item>
                 </el-menu>
             </el-aside>
 
@@ -164,13 +159,20 @@
                     </el-form>
 
                     <el-table :data="tableData" border style="width: 100%">
-                        <el-table-column fixed="left" prop="name" label="食堂名称" width="220">
+                        <el-table-column fixed="left" prop="name" label="食堂名称">
                         </el-table-column>
-                        <el-table-column prop="time" label="营业时间" width="300">
+                        <el-table-column prop="time" label="营业时间">
                         </el-table-column>
-                        <el-table-column prop="address" label="地址" width="400">
+                        <el-table-column prop="address" label="地址">
                         </el-table-column>
-                        <el-table-column fixed="right" label="操作" width="200">
+
+                        <el-table-column prop="image" label="图片">
+                            <template slot-scope="scope">
+                                <img :src="scope.row.image" alt="" height="50" width="50">
+                            </template>
+                        </el-table-column>
+
+                        <el-table-column fixed="right" label="操作">
                             <template slot-scope="scope">
                                 <el-button  @click="handleShow(scope.row)"  type="primary" plain size="small">详情</el-button>
                                 <el-button  @click="handleReport(scope.row)"  type="danger" plain  size="small" >投诉</el-button>
@@ -225,7 +227,9 @@
                                         v-model="textarea">
                                 </el-input>
                             </el-form-item>
-                            <el-button @click="saveSubmit()" type="primary">提交</el-button>
+                            <div  class="button-container">
+                                <el-button @click="saveSubmit()" type="primary">提交</el-button>
+                            </div>
                         </el-form>
                     </el-dialog>
                 </el-main>
@@ -250,11 +254,13 @@
                     {
                         name: '一食堂',
                         time: '8:00-21:00',
-                        address: '上海理工大学516号第一食堂'
+                        address: '上海理工大学516号第一食堂',
+                        image:'image/food.png'
                     }, {
                         name: '二食堂',
                         time: '8:00-21:00',
-                        address: '上海理工大学516号第二食堂'
+                        address: '上海理工大学516号第二食堂',
+                        image:'image/food.png'
                     },
                 ],
                 currentPage: 1,
@@ -274,6 +280,9 @@
             }
         },
         methods:{
+            saveSubmit() {
+                alert('asd');
+            },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
@@ -296,9 +305,6 @@
                 this.dialogVisible2 = true; // 显示编辑对话框
             },
 
-            saveSubmit(){
-
-            },
         },
 
     })
