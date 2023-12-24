@@ -191,9 +191,9 @@
                         <el-table-column fixed="left" prop="canteenId" label="食堂名称"></el-table-column>
                         <el-table-column prop="dishName" label="菜名"></el-table-column>
                         <el-table-column prop="series" label="菜系"></el-table-column>
-                        <el-table-column prop="price" label="价格"></el-table-column>
-                        <el-table-column prop="totalScore" label="分数"></el-table-column>
-                        <el-table-column prop="dishId" label="ID"></el-table-column>
+                        <el-table-column prop="price" label="价格" :formatter="rounding"></el-table-column>
+                        <el-table-column prop="priceSale" label="促销价" :formatter="rounding"></el-table-column>
+                        <el-table-column prop="totalScore" label="分数" :formatter="rounding"></el-table-column>
                         <el-table-column prop="image" label="图片">
                             <template slot-scope="scope">
                                 <img :src="scope.row.image" alt="" height="50" width="50">
@@ -394,6 +394,14 @@
             }
         },
         methods:{
+            rounding(row,column) {
+                const score = row[column.property];
+                if (score === null || score === '' || score === undefined)
+                    return '';
+                else
+                    return parseFloat(score).toFixed(1)
+                },
+
             replyMethod(){
                 // alert(this.reply.dishId)
                 this.dialogVisible4 = true;
