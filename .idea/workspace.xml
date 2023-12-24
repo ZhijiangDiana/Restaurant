@@ -2,18 +2,17 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="restaurant:war exploded" />
+      <artifact name="Restaurant:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e67d094-8d55-471d-8769-3007a1f2a13e" name="Changes" comment="消息列表已完成，已测试&#10;根据评论id查询评论">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/dishCommentManage/ShowDishCommentById.java" afterDir="false" />
+    <list default="true" id="3e67d094-8d55-471d-8769-3007a1f2a13e" name="Changes" comment="更">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/dish_comment/GetDishCommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/dish_comment/GetDishCommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/DishCommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/DishCommentMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/canteenManage/ShowAllCanteen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/canteenManage/ShowAllCanteen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +89,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "模块",
+    "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.14971977",
     "vue.rearranger.settings.migration": "true"
@@ -171,7 +170,7 @@
       <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
       <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
       <deployment>
-        <artifact name="restaurant:war exploded">
+        <artifact name="Restaurant:war exploded">
           <settings>
             <option name="CONTEXT_PATH" value="/restaurant" />
           </settings>
@@ -285,6 +284,7 @@
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
           <artifact name="restaurant:war exploded" />
+          <artifact name="Restaurant:war exploded" />
         </option>
       </method>
     </configuration>
@@ -409,7 +409,7 @@
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java</url>
           <line>27</line>
-          <properties class="com.restaurant.restaurant.mapper.CommentMapper" method="selectCommentIdByUserId">
+          <properties class="com.restaurant.restaurant.mapper.CommentMapper">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>

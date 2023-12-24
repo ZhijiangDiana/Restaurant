@@ -21,7 +21,7 @@ public class ShowAllCanteen extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CanteenMapper canteenMapper = sqlSession.getMapper(CanteenMapper.class);
-        List<Canteen> canteenList = canteenMapper.selectAll();
+        List<Canteen> canteenList = canteenMapper.selectAllWithFile();
         sqlSession.close();
         response.getWriter().print(FrontEndUtils.objectToBody(null,"0",canteenList));
     }
