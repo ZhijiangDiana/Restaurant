@@ -3,10 +3,16 @@
 <mapper namespace="com.restaurant.restaurant.mapper.RecommendDishMapper">
 
     <insert id="insertRecommendations">
-        INSERT INTO  (canteen_id, dish_id)
+        INSERT INTO recommend_dish (canteen_id, title, body)
         VALUES
-        <foreach collection="dishIds" item="dishId" separator=",">
-            (#{canteenId}, #{dishId})
-        </foreach>
+        (#{canteenId}, #{title}, #{body})
     </insert>
+    <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT * FROM `Restaurant`.dish
+        WHERE dish_id = #{id};
+    </select>
+    <select id="selectBody" resultType="java.lang.String">
+        select body from recommend_dish;
+    </select>
+
 </mapper>

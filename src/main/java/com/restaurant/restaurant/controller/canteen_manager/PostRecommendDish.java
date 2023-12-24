@@ -1,5 +1,6 @@
 package com.restaurant.restaurant.controller.canteen_manager;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.service.canteen_manager.PostRecommendDishService;
@@ -23,24 +24,17 @@ public class PostRecommendDish extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html; charset = UTF-8");
         PrintWriter pw = resp.getWriter();
-
         JSONObject reqJson = FrontEndUtils.bodyToJson(req);
         Integer canteenId = reqJson.getInteger("canteenId");
-        JSONArray dishIdsArray = reqJson.getJSONArray("dishIds");
+        String title = reqJson.getString("title");
+        JSONArray body = reqJson.getJSONArray("body");
+        String jsonString = body.toJSONString();
+        System.out.println(canteenId);
+        System.out.println(title);
+        System.out.println(jsonString);
 
-        List<Integer> dishIds = new ArrayList<>();
-        for (int i = 0; i < dishIdsArray.size(); i++) {
-              dishIds.add(dishIdsArray.getInteger(i));
-        }
+        String respJson = postRecommendDishService.publishRecommendations(canteenId, title,jsonString);
 
-        boolean success = postRecommendDishService.publishRecommendations(canteenId, dishIds);
-
-        String respJson;
-        if(!success) {
-            respJson = FrontEndUtils.objectToBody("推荐菜品失败", "1", null);
-        } else {
-            respJson = FrontEndUtils.objectToBody("推荐菜品成功", "0", null);
-        }
         pw.print(respJson);
     }
 

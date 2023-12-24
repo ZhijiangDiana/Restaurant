@@ -10,6 +10,7 @@ public class RecommendDish{
         return recommendDishId;
     }
 
+
     public void setRecommendDishId(Integer recommendDishId) {
         this.recommendDishId = recommendDishId;
     }
