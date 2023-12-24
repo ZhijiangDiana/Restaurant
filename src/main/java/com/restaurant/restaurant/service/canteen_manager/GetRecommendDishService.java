@@ -7,10 +7,7 @@ import com.restaurant.restaurant.pojo.entity.Dish;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class GetRecommendDishService {
     public List<Dish> GetDish() {
@@ -28,7 +25,18 @@ public class GetRecommendDishService {
                 List<Integer> resList = res.toJavaList(Integer.class);
                 recoDishId.addAll(resList);
             }
-            for (Integer i : recoDishId) {
+
+            // 从dishes中随机选择四项（互不相同）
+            List<Integer> recoDishIdList = new ArrayList<>(recoDishId);
+            Random random = new Random();
+            Set<Integer> selectedDishesId = new HashSet<>();
+            while (selectedDishesId.size() < 4) {
+                int randomIndex = random.nextInt(recoDishIdList.size());
+                selectedDishesId.add(recoDishIdList.get(randomIndex));
+            }
+
+            // 用序号查dish对象
+            for (Integer i : selectedDishesId) {
                 Dish dish = recommendDishMapper.selectById(i);
                 if (dish != null) {
                     recoDish.add(dish);

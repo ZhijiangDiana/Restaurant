@@ -3,6 +3,7 @@ package com.restaurant.restaurant.controller.canteen_manager;
 import com.alibaba.fastjson.JSON;
 import com.restaurant.restaurant.pojo.entity.Dish;
 import com.restaurant.restaurant.service.canteen_manager.GetRecommendDishService;
+import com.restaurant.restaurant.utils.FrontEndUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,8 +24,7 @@ public class GetRecommendDishInfo extends HttpServlet {
 
         List<Dish> dishes = dishService.GetDish();
 
-        String jsonDishes = JSON.toJSONString(dishes);
-        pw.print(jsonDishes);
+        pw.print(FrontEndUtils.objectToBody("", "0", dishes));
     }
 
     @Override

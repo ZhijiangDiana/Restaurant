@@ -155,19 +155,18 @@
                                            font-weight: bold;font-size: 20px">促销菜品</el-button>
                             </div>
                             <div style="margin-bottom: 20px">
-                                  <el-row>
-                                      <div class="image-container">
-                                          <el-row :gutter="20">
-                                              <el-col v-for="(item, index) in discountDish" :key="index" :span="4">
-                                                  <div style="padding: 10px;border: 1px solid #ccc; width:200px; height:250px;text-align: center; color: black" >
-                                                      <img style="width: 80%;height: 80%; object-fit: cover" :src="item.image" alt="" ><br>
-                                                      <span>{{ item.dishName }}</span><br>
-                                                      <span>原价{{ item.price }}&nbsp;&nbsp;现价{{ item.priceSale }}</span>
-                                                  </div>
-                                              </el-col>
-                                          </el-row>
-                                      </div>
-                                  </el-row>
+                                <div class="image-container">
+                                    <el-row :gutter="20">
+                                        <el-col v-for="(item, index) in discountDish" :key="index" :span="4">
+                                            <div style="padding: 10px;border: 1px solid #ccc; width:200px; height:250px;text-align: center; color: black" >
+                                                <img style="width: 80%;height: 80%; object-fit: cover" :src="item.image" alt="" ><br>
+                                                <span>{{ item.canteenName }}</span><br>
+                                                <span>{{ item.dishName }}</span><br>
+                                                <span>原价{{ item.price }}&nbsp;&nbsp;现价{{ item.priceSale }}</span>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </div>
                             </div>
                             <div style="margin-bottom: 5px">
                                 <el-button icon="el-icon-document"
@@ -196,38 +195,18 @@
                                            border-color: transparent;
                                            font-weight: bold;font-size: 20px">推荐菜品</el-button>
                             </div>
-                            <div style="margin-bottom: 40px">
-                                <el-row>
-                                    <el-col span="6">
-                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
-                                            <img style="width: 80%" src="../image/food.png" alt="">
-                                            <div>测试用例</div>
-                                            <div>价格99.9999$</div>
-                                        </div>
-                                    </el-col>
-                                    <el-col span="6">
-                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
-                                            <img style="width: 80%" src="../image/food.png" alt="">
-                                            <div>测试用例</div>
-                                            <div>价格99.9999$</div>
-                                        </div>
-                                    </el-col>
-                                    <el-col span="6">
-                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
-                                            <img style="width: 80%" src="../image/food.png" alt="">
-                                            <div>测试用例</div>
-                                            <div>价格99.9999$</div>
-                                        </div>
-                                    </el-col>
-                                    <el-col span="6">
-                                        <div style="padding: 10px;border: 1px solid #ccc;text-align: center;color: black" >
-                                            <img style="width: 80%" src="../image/food.png" alt="">
-                                            <div>测试用例</div>
-                                            <div>价格99.9999$</div>
-                                        </div>
-                                    </el-col>
-
-                                </el-row>
+                            <div style="margin-bottom: 20px">
+                                <div class="image-container">
+                                    <el-row :gutter="20">
+                                        <el-col v-for="(item, index) in recommendDish" :key="index" :span="4">
+                                            <div style="padding: 10px;border: 1px solid #ccc; width:200px; height:250px;text-align: center; color: black" >
+                                                <img style="width: 80%;height: 80%; object-fit: cover" :src="item.image" alt="" ><br>
+                                                <span>{{ item.dishName }}</span><br>
+                                                <span>原价{{ item.price }}&nbsp;&nbsp;现价{{ item.priceSale }}</span>
+                                            </div>
+                                        </el-col>
+                                    </el-row>
+                                </div>
                             </div>
                             <div style="height: 350px; display: flex;align-items: center;justify-content: center;margin: 20px;background-color: #ff8200">
                                 <div style="width:80%;height: 80%">
@@ -358,11 +337,11 @@
                     priceSale: '',
                 },
                 discountDish: [],
+                recommendDish: []
             }
         },
         mounted() {
             this.getCanteenRank();
-            this.getDiscountDish();
         },
         methods:{
             handleCollapse(){
@@ -425,9 +404,11 @@
                             })
                             this.canteenRank = object;
 
-                            // 刷新后两个页面
+                            // 刷新后四个页面
                             this.getRunningVote();
                             this.getDishRank();
+                            this.getDiscountDish();
+                            this.getRecommendDish();
                         }
                     }).catch(error => {
                         console.error(error);
@@ -489,6 +470,7 @@
                         } else {
                             object.forEach((item) => {
                                 item.image = b64ToURI(item.image);
+                                item.canteenName = this.getCanteenName(item.canteenId);
                             })
                             this.discountDish = object;
                         }
@@ -496,8 +478,27 @@
                         console.error(error)
                         this.$message.error('网络异常：' + error.message);
                     });
-            }
+            },
+            getRecommendDish() {
+                axios.get('/restaurant/GetRecommendDishInfo')
+                    .then(response => {
+                        const flag = response.data.flag
+                        const object = response.data.object;
 
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                item.image = b64ToURI(item.image);
+                                item.canteenName = this.getCanteenName(item.canteenId);
+                            })
+                            this.recommendDish = object;
+                        }
+                    }).catch(error => {
+                    console.error(error)
+                    this.$message.error('网络异常：' + error.message);
+                });
+            }
         }
 
     })
