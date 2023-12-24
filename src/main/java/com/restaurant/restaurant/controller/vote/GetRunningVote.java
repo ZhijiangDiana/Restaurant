@@ -32,8 +32,8 @@ public class GetRunningVote extends HttpServlet {
         if(runningVotes == null || runningVotes.isEmpty()){
             pw.print(FrontEndUtils.objectToBody("投票列表为空","1",null));
         } else {
-            String respJson_ = FrontEndUtils.objectToBody("", "0", runningVotes);
-            String respJson = respJson_.replace("\\\"", "\"");
+            String respJson = FrontEndUtils.objectToBody("", "0", runningVotes);
+//            respJson = respJson.replace("\\\"", "\""); // 血的教训，别replace，FrontEndUtils就很好用
             pw.print(respJson);
         }
     }

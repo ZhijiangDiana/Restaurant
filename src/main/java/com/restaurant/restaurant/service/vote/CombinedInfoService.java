@@ -35,14 +35,8 @@ public class CombinedInfoService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try (sqlSession){
             DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
-            List<Dish> dishList = dishMapper.selectAll();
-            // 打折菜品表
-            List<Dish> discountDish = new ArrayList<>();
-            for (Dish dish : dishList) {
-                if(dish.getPriceSale() != null)
-                    discountDish.add(dish);
-            }
-            return FrontEndUtils.objectToBody(null,"0",discountDish);
+            List<Dish> dishList = dishMapper.selectAllDiscountDishWithFile();
+            return FrontEndUtils.objectToBody(null,"0", dishList);
         }catch (Exception e){
             e.printStackTrace();
             sqlSession.close();

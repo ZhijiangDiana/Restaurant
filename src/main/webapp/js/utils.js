@@ -36,10 +36,22 @@ function b64ToURI(uri) {
  * @param timeStamp
  * @returns {string}
  */
-function timeStampToString(timeStamp) {
+function timeStampToTime(timeStamp) {
     const date = new Date(timeStamp+ 8 * 3600 * 1000);
     const hours = date.getUTCHours().toString().padStart(2, '0');
     const minutes = date.getUTCMinutes().toString().padStart(2, '0');
     const seconds = date.getUTCSeconds().toString().padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
+}
+
+function timeStampToDateTime(timeStamp) {
+    const date = new Date(timeStamp); // 创建 Date 对象，传入时间戳作为参数
+    const yyyy = date.getFullYear(); // 获取年份
+    const MM = String(date.getMonth() + 1).padStart(2, '0'); // 获取月份，并将单个数字前面补零
+    const dd = String(date.getDate()).padStart(2, '0'); // 获取日期，并将单个数字前面补零
+    const HH = String(date.getHours()).padStart(2, '0'); // 获取小时，并将单个数字前面补零
+    const mm = String(date.getMinutes()).padStart(2, '0'); // 获取分钟，并将单个数字前面补零
+    const ss = String(date.getSeconds()).padStart(2, '0'); // 获取秒数，并将单个数字前面补零
+
+    return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`
 }

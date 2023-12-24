@@ -46,9 +46,9 @@ public class UploadVote extends HttpServlet {
         Map<Integer, RunningVote> votes =
                 (Map<Integer, RunningVote>) context.getAttribute("votes");
 
-//        // 测试用
-//        canteenAdmin = new CanteenAdmin();
-//        canteenAdmin.setCanteenId(1);
+        // 测试用
+        canteenAdmin = new CanteenAdmin();
+        canteenAdmin.setCanteenId(1);
 
         // 参数判空
         if (canteenAdmin == null || canteenId == null ||
