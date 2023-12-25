@@ -4,6 +4,7 @@ import com.restaurant.restaurant.mapper.CommentMapper;
 import com.restaurant.restaurant.mapper.DishMapper;
 import com.restaurant.restaurant.mapper.RecommendDishMapper;
 import com.restaurant.restaurant.mapper.VoteMapper;
+import com.restaurant.restaurant.pojo.CommentShow;
 import com.restaurant.restaurant.pojo.entity.Comment;
 import com.restaurant.restaurant.pojo.entity.Dish;
 import com.restaurant.restaurant.pojo.entity.RecommendDish;
@@ -48,7 +49,7 @@ public class CombinedInfoService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try (sqlSession){
             CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
-            List<Comment> commentList = commentMapper.selectAllByLikes();
+            List<CommentShow> commentList = commentMapper.selectAllByLikes();
             return FrontEndUtils.objectToBody(null,"0",commentList);
         }catch (Exception e){
             e.printStackTrace();

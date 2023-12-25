@@ -10,10 +10,14 @@
 <body>
 
   <div id="app">
-    <el-table :data="myArray" style="width: 50%">
-      <el-table-column label="索引" prop="index"></el-table-column>
-      <el-table-column label="数值" prop="value"></el-table-column>
-    </el-table>
+      <div>
+          <el-table :data="jsonData" style="width: 100%">
+              <el-table-column label="分数" prop="first"></el-table-column>
+              <el-table-column label="餐厅" prop="second.name"></el-table-column>
+              <el-table-column label="描述" prop="second.description"></el-table-column>
+              <el-table-column label="地址" prop="second.location"></el-table-column>
+          </el-table>
+      </div>
   </div>
 <script>
   new Vue({
@@ -24,12 +28,33 @@
         asideWidth:'200px',
         collapseIcon:'el-icon-s-fold',
         value:'',
-        myArray: [
-          { index: 1, value: '项目 1' },
-          { index: 2, value: '项目 2' },
-          { index: 3, value: '项目 3' },
-          // ... 其他数组元素
-        ]
+          jsonData: [
+              {
+                  "first": 45.45454545454545,
+                  "second": {
+                      "canteenId": 2,
+                      "description": "上理会员制五食堂...",
+                      "endTime": 46800000,
+                      "location": "军工路516号",
+                      "name": "上理会员制五食堂",
+                      "reportCount": 1,
+                      "startTime": 0
+                  }
+              },
+              {
+                  "first": 41.84949346774755,
+                  "second": {
+                      "canteenId": 1,
+                      "description": "下北泽高级会员制餐厅...",
+                      "endTime": 40748000,
+                      "location": "军工路114514号",
+                      "name": "下北泽高级会员制餐厅",
+                      "reportCount": 0,
+                      "startTime": 13514000
+                  }
+              },
+              // ... 其他数组元素
+          ]
       }
     },
   })

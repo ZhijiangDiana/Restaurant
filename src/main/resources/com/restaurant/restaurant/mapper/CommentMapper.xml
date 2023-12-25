@@ -13,16 +13,25 @@
         select * from comment;
     </select>
 
-    <select id="selectAllByLikes" resultType="com.restaurant.restaurant.pojo.entity.Comment">
-        select * from comment order by likes DESC ;
+    <select id="selectAllByLikes" resultType="com.restaurant.restaurant.pojo.CommentShow">
+        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        FROM comment c
+                 JOIN user u ON c.user_id = u.user_id
+        order by likes desc;
     </select>
 
-    <select id="selectAllDesc" resultType="com.restaurant.restaurant.pojo.entity.Comment">
-        select * from comment order by publish_time DESC ;
+    <select id="selectAllDesc" resultType="com.restaurant.restaurant.pojo.CommentShow">
+        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        FROM comment c
+                 JOIN user u ON c.user_id = u.user_id
+        order by publish_time desc;
     </select>
 
-    <select id="selectAllAsc" resultType="com.restaurant.restaurant.pojo.entity.Comment">
-        select * from comment order by publish_time ASC ;
+    <select id="selectAllAsc" resultType="com.restaurant.restaurant.pojo.CommentShow">
+        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        FROM comment c
+                 JOIN user u ON c.user_id = u.user_id
+        order by publish_time asc;
     </select>
 
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Comment">
@@ -63,5 +72,11 @@
         DELETE FROM comment
         WHERE comment_id = #{id}
     </delete>
+
+    <select id="selectDetailedInfo" resultType="com.restaurant.restaurant.pojo.CommentShow">
+        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        FROM comment c
+        JOIN user u ON c.user_id = u.user_id;
+    </select>
 
 </mapper>

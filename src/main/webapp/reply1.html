@@ -8,9 +8,6 @@
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <style>
-        .el-menu--inline .el-menu-item {
-            background-color: #244235  !important;
-        }
 
         .el-menu-item:hover,
         .el-submenu__title:hover {
@@ -20,20 +17,27 @@
         .el-submenu__title:hover i {
             color: #fff !important;
         }
-
-        .el-aside{
-            transition: width.3s;
-            box-shadow: 2px 0 6px rgba(0,21,41,35);
-        }
         .logo_title{
             margin-left: 5px;
             font-size: 20px;
             transition: all .3s;
         }
-        .el-header{
-            box-shadow: 2px 0 6px rgba(0,21,41,35);
+        .el-header {
+            line-height: 60px;
             display: flex;
             align-items: center;
+            /* 垂直居中对齐 */
+        }
+        .aside_item_title{
+            color: #fff;
+        }
+        .aside_item{
+            text-decoration: none;
+            padding-left: 20px;
+            color: #fff;
+        }
+        .el-aside {
+            color: #333;
         }
         .el-header-buttons .el-button {
             display: flex;
@@ -100,55 +104,102 @@
 <div id="app">
     <div >
         <el-container>
-            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#244235 "  >
+            <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
                 <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
-
                     <span class="logo_title" v-show="!isCollapse">USST</span>
                 </div>
-                <el-menu :collapse="isCollapse"  background-color="#244235" text-color="rgba(255,255,255,0.65)">
-                    <el-menu-item>
-                        <i class="el-icon-house"></i>
-                        <span slot="title">系统首页</span>
-                    </el-menu-item>
-                    <el-menu-item>
-                        <i class="el-icon-postcard"></i>
-                        <span slot="title">交流社区</span>
-                    </el-menu-item>
+                <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
                     <el-submenu>
                         <template slot="title">
-                            <i class="el-icon-menu"></i>
-                            <span>消息中心</span>
-                            <!-- 消息图标 -->
-                            <el-badge :value="unreadCount1" class="icon" style="margin-left: 15px">
-                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            <i class="el-icon-house"></i>
+                            <span class="aside_item_title">首页</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="firstView.html" class="aside_item">综合信息</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span class="aside_item_title">食堂基本信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-user"></i>
+                            <span class="aside_item_title">账号管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="userList.html" class="aside_item">用户列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span class="aside_item_title">评价信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="commentList.html" class="aside_item">评价列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu>
+
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">交流社区信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="social-1.html" class="aside_item">帖子列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu>
+
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">消息管理</span>
+                            <el-badge :value="unreadCount1" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </template>
                         <el-menu-item>
-                            <span>收到的回复</span>
-                            <el-badge :value="unreadCount2" class="icon" style="margin-left: 15px">
-                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            <a href="reply1.html" class="aside_item">回复我的</a>
+                            <el-badge :value="unreadCount2" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </el-menu-item>
                         <el-menu-item>
-                            <span>追评我的</span>
-                            <el-badge :value="unreadCount3" class="icon" style="margin-left: 15px">
-                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            <a href="social-1.html" class="aside_item">追评我的</a>
+                            <el-badge :value="unreadCount3" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </el-menu-item>
                         <el-menu-item>
-                            <span>点赞我的</span>
-                            <el-badge :value="unreadCount4" class="icon" style="margin-left: 15px">
-                                <el-icon-button icon="el-icon-message"></el-icon-button>
+                            <a href="social-1.html" class="aside_item">点赞我的</a>
+                            <el-badge :value="unreadCount4" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </el-menu-item>
 
+
                     </el-submenu>
+
                 </el-menu>
             </el-aside>
             <el-container>
 
-                <el-header style="background-color: #244235">
-                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>\
+                <el-header style="background-color: #953131">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
                 </el-header>
                 <el-main>
                     <el-card>
