@@ -136,10 +136,6 @@
                         </el-menu-item>
                     </el-submenu>
 
-                    <el-menu-item>
-                        <i class="el-icon-document"></i>
-                        <a href="vote.html" class="el-aside">投票</a>
-                    </el-menu-item>
                 </el-menu>
             </el-aside>
 
@@ -192,15 +188,15 @@
                         <el-table-column prop="dishName" label="菜名"></el-table-column>
                         <el-table-column prop="series" label="菜系"></el-table-column>
                         <el-table-column prop="price" label="价格" :formatter="rounding"></el-table-column>
-                        <el-table-column prop="priceSale" label="促销价" :formatter="rounding" width="70"></el-table-column>
-                        <el-table-column prop="totalScore" label="分数" :formatter="rounding" width="70"></el-table-column>
-                        <el-table-column prop="image" label="图片" width="100">
+                        <el-table-column prop="priceSale" label="促销价" :formatter="rounding"></el-table-column>
+                        <el-table-column prop="totalScore" label="分数" :formatter="rounding"></el-table-column>
+                        <el-table-column prop="image" label="图片">
                             <template slot-scope="scope">
                                 <img :src="scope.row.image" alt="" height="50" width="50">
                             </template>
                         </el-table-column>
 
-                        <el-table-column fixed="right" label="操作">
+                        <el-table-column fixed="right" label="操作"  width="180">
                             <template slot-scope="scope">
                                 <el-button  @click="handleShow(scope.row)"  type="primary" plain size="small">详情</el-button>
                                 <el-button  @click="handleReport(scope.row)"  plain  size="small" ><i class="el-icon-edit">评论</i></el-button>
@@ -221,19 +217,19 @@
                         <el-form :model="currentRow" label-position="top">
                             <!-- 表单项 -->
                             <el-form-item label="菜品ID">
-                                <el-input v-model="currentRow.dishId" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.dishId" :readonly="true" ></el-input>
                             </el-form-item>
                             <el-form-item label="菜品名">
-                                <el-input v-model="currentRow.dishName" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.dishName" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="食堂ID">
-                                <el-input v-model="currentRow.canteenId" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.canteenId" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="菜系">
-                                <el-input v-model="currentRow.series" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.series" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="价格">
-                                <el-input v-model="currentRow.price" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.price" :readonly="true" ></el-input>
                             </el-form-item>
                             <el-form-item label="图片">
                                 <!-- 使用 img 标签来展示图片 -->
@@ -260,7 +256,11 @@
                         <!-- 编辑表单的内容 -->
                         <el-form :model="currentRow" label-position="top">
                             <el-form-item label="标题">
-                                <el-input v-model="title"></el-input>
+                                <el-input v-model="title">
+                                    <i
+                                        class="el-icon-edit el-input__icon"
+                                        slot="suffix">
+                                </i></el-input>
                             </el-form-item>
                             <!-- 表单项 -->
                             <el-form-item label="食堂">
@@ -296,16 +296,16 @@
                         <el-form :model="current" label-position="top">
                             <!-- 表单项 -->
                             <el-form-item label="用户">
-                                <el-input v-model="current.username" :disabled="true"></el-input>
+                                <el-input v-model="current.username" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="标题">
-                                <el-input v-model="current.tittle" :disabled="true"></el-input>
+                                <el-input v-model="current.tittle" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="分数">
-                                <el-input v-model="current.score" :disabled="true"></el-input>
+                                <el-input v-model="current.score" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="内容">
-                                <el-input v-model="current.body" :disabled="true"></el-input>
+                                <el-input v-model="current.body" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="图片">
                                 <!-- 使用 img 标签来展示图片 -->
@@ -388,7 +388,7 @@
                 textarea: '太好吃了',
                 textreply:'66666',
                 images:'',
-                value:0,
+                value:5,
                 title:'',
                 dishCommentImage: '',
                 total:0,
