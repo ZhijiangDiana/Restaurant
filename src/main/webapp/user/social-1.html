@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
     <script src="../js/utils.js"></script>
-    <script src="js/utils.js"></script>
     <style>
         .el-menu--inline .el-menu-item {
             background-color: #1b1b1b  !important;
@@ -50,6 +49,14 @@
         }
 
         #card_message1 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin: 20px; /* 添加一些边距，使内容离边框有一定距离 */
+            min-height: 100vh;
+
+        }
+
+        #card_message2 {
             /*background-color: #244235 ;*/
             color: #fff; /* 文本颜色为白色 */
             margin: 20px; /* 添加一些边距，使内容离边框有一定距离 */
@@ -158,11 +165,13 @@
                         <div>
                             <!-- 表格 -->
                             <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" style="width: 100%">
-                                <el-table-column prop="title" label="标题" width="180">
+                                <el-table-column prop="title" label="标题">
                                 </el-table-column>
-                                <el-table-column prop="name" label="发表人" width="180">
+                                <el-table-column prop="name" label="发表人">
                                 </el-table-column>
                                 <el-table-column prop="publishTime" label="发表时间">
+                                </el-table-column>
+                                <el-table-column prop="likes" label="点赞数">
                                 </el-table-column>
                                 <el-table-column label="详情">
                                     <template slot-scope="scope">
@@ -182,17 +191,17 @@
                             </div>
                         </div>
                      <el-dialog :visible.sync="dialogVisible1" size="large" title="帖子详情" style="min-width: 500px">
-                             <el-card id="card_message1">
+                             <el-card id="card_message2">
                                  <div>
                                      <h2 style="color:black ">{{currentRow.title}}</h2>
                                      <div>
-                                         <span>{{currentRow.sender}}</span>
+                                         <span>{{currentRow.name}}</span>
                                      </div>
                                      <div style="width: 200px;height: 200px">
-                                         <img :src="currentRow.img" alt="Image" style="width: 100%;height: 100%">
+                                         <img :src="currentRow.image" alt="Image" style="width: 100%;height: 100%">
                                      </div>
                                     <div>
-                                        <p style="color: black"> {{currentRow.text}}</p>
+                                        <p style="color: black"> {{currentRow.body}}</p>
                                     </div>
                                  </div>
                                  <!-- 其他帖子内容，可以根据需要添加 -->
@@ -203,7 +212,7 @@
                                      <el-form-item class="el-main-reply-buttons">
                                          <el-button type="primary" @click="submitComment">发表评论</el-button>
                                          <el-button type="primary" icon="el-icon-thumb">
-                                             <el-badge :value="likeCount" class="icon" style="margin-left: 15px;">
+                                             <el-badge :value="currentRow.likes" class="icon" style="margin-left: 15px;">
                                                  <el-icon-button  icon="el-icon-message"></el-icon-button>
                                              </el-badge>
                                          </el-button>
@@ -213,11 +222,7 @@
                              </el-card>
                              <el-card id="reply">
                                  <div style="display: flex">
-                                         <h3 style="color: black">全部回复</h3>
-                                     <div class="el-main-reply-buttons" style="display: flex;justify-content: end;margin-left: 300px">
-                                         <el-button style="border: white" type="primary" @click="sortByAscending">正序</el-button>
-                                         <el-button style="border: white" type="primary" @click="sortByDescending">倒序</el-button>
-                                     </div>
+                                     <h3 style="color: black">全部回复</h3>
                                  </div>
                              </el-card>
                              <el-card style="margin-left: 20px; margin-right: 20px;">
@@ -226,7 +231,7 @@
                                          <!-- 表格 -->
                                          <el-table :data="tableData2.slice((currentPage2-1)*pageSize2,currentPage2*pageSize2)" style="width: 100%">
 
-                                             <el-table-column prop="name" label="发表人">
+                                             <el-table-column prop="sender" label="发表人">
                                              </el-table-column>
                                              <el-table-column prop="body" label="内容">
                                              </el-table-column>
@@ -331,11 +336,13 @@
                 pageSize2: 3,// 每页的数据条数
                 dialogVisible1:false,
                 currentRow:{
+                    commentId: '',
                     title: "",
                     name: "",
                     publishTime: "",
-                    img:"",
-                    text:""
+                    image: "",
+                    body: "",
+                    likes: '',
                 },
                 likeCount:8
             }
@@ -388,7 +395,8 @@
                             this.$message.success('获取列表成功');
                             result.object.forEach(item => {
                                 item.image = b64ToURI(item.image)
-                                console.log(item.image)
+                                item.publishTime = timeStampToDateTime(item.publishTime)
+                                // console.log(item.image)
                             });
                             alert(result.object)
                             this.tableData =result.object;
@@ -402,6 +410,21 @@
                         console.log(error);
                     });
             },
+            getAllReply(commentId) {
+                axios.get('/restaurant/showReply?commentId=' + commentId)
+                    .then(response => {
+                        const flag = response.data.flag;
+                        const object = response.data.object;
+                        if (flag === '1') {
+                            this.$message.error("暂无回复")
+                            return;
+                        }
+                        this.tableData2 = object;
+                    }).error(error => {
+                    this.$message.error('获取列表失败');
+                    console.log(error);
+                })
+            },
             handleCollapse(){
                 this.isCollapse=!this.isCollapse
                 this.asideWidth=this.isCollapse ? '64px':'200px'
@@ -411,6 +434,7 @@
                 this.dialogVisible1= 'true';
                 this.currentRow=Object.assign({},row);
                 const  index=this.tableData.indexOf(row);
+                this.getAllReply(this.currentRow.commentId);
             },
             //每页条数改变时触发 选择一页显示多少行
             handleSizeChange(val) {
