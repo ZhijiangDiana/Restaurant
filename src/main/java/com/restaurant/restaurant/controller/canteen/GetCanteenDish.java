@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.entity.Announcement;
+import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.Dish;
 import com.restaurant.restaurant.service.canteen.GetCanteenAnnouncementService;
 import com.restaurant.restaurant.service.canteen.GetCanteenDishService;
@@ -29,9 +30,14 @@ public class GetCanteenDish extends HttpServlet {
         JSONObject reqJson = FrontEndUtils.bodyToJson(req);
         Integer canteenId = reqJson.getInteger("canteenId");
         if (canteenId == null) {
-            resp.setStatus(500);
-            pw.print(FrontEndUtils.objectToBody("给定参数不全", "1", null));
-            return;
+            HttpSession session = req.getSession(true);
+            CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
+            if (canteenAdmin == null) {
+                resp.setStatus(403);
+                pw.print(FrontEndUtils.objectToBody("未登录或参数不全", "1", null));
+                return;
+            }
+            canteenId = canteenAdmin.getCanteenId();
         }
 
         GetCanteenDishService getCanteenDishService = new GetCanteenDishService();

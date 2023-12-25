@@ -30,7 +30,7 @@ public class GetFinishedVote extends HttpServlet {
 //        canteenAdmin.setCanteenId(1);
 
         if (canteenAdmin == null) {
-            resp.setStatus(500);
+            resp.setStatus(403);
             pw.print(FrontEndUtils.objectToBody("未登录", "1", null));
             return;
         }
