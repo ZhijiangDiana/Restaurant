@@ -41,7 +41,7 @@
     <select id="selectCommentOrderByLikes" resultType="com.restaurant.restaurant.pojo.entity.Comment">
         select * from comment order by likes DESC ;
     </select>
-    <select id="selectCommentIdByUserId" resultType="com.restaurant.restaurant.pojo.entity.ReplyMessage">
+    <select id="selectCommentIdByUserId" resultType="com.restaurant.restaurant.pojo.ReplyMessage">
         select t.username, body
         from `Restaurant`.reply s,
              `Restaurant`.user t
@@ -84,4 +84,5 @@
         FROM comment
         WHERE comment_id = #{commentId}
     </select>
+
 </mapper>

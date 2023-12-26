@@ -23,8 +23,5 @@ public class GetMessage extends HttpServlet {
         CommentService commentService = new CommentService();
         String res = commentService.selectUserId(userId);
         resp.getWriter().print(res);
-
     }
-
-
 }

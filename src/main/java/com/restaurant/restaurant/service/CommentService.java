@@ -4,13 +4,13 @@ import com.restaurant.restaurant.mapper.CanteenAdminMapper;
 import com.restaurant.restaurant.mapper.CommentMapper;
 import com.restaurant.restaurant.mapper.UserMapper;
 import com.restaurant.restaurant.pojo.CommentShow;
+import com.restaurant.restaurant.pojo.entity.ReplyMessage;
 import com.restaurant.restaurant.pojo.ShowAllPublishedInfo;
 import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.LegalSpeakFilter;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.Base64;
@@ -178,9 +178,7 @@ public class CommentService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try (sqlSession) {
             CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
-
-
-            List<ReplyMessage> replyMessages = mapper.selectCommentIdByUserId(userid );
+            List<ReplyMessage> replyMessages = mapper.selectCommentIdByUserId(userid);
             return FrontEndUtils.objectToBody("查询成功", "0", replyMessages);
             }
         catch (Exception e){

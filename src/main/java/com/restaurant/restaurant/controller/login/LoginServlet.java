@@ -62,8 +62,7 @@ public class LoginServlet extends HttpServlet{
         if(user != null){
             // 设置信息数据结构  <k,v>--<学号,数量>,名字对应某某消息,这里不负责具体消息展示。只显示小红点数量。
             // 点击小红点跳转到类似b站的信息页面对应页面会发请求获取相对应的资源
-            // 这里要放入servletcontext是为了有人发消息或者点赞后能够实时更新 看过后数量自然减少
-            HashMap<Integer,Integer> replyCounts = new HashMap<>();
+            // 这里要放入servletcontext是为了有人发消息或者点赞后能够实时更新 看过后数量自然减
             // 只用于看点赞总数
             HashMap<Integer,Integer> thumbsupCounts = new HashMap<>();
             // 用于看某个用户的点赞列表
@@ -71,21 +70,6 @@ public class LoginServlet extends HttpServlet{
 
             HashMap<Integer,Integer> reportReplyCounts = new HashMap<>();
             Integer userId = user.getUserId();
-
-            HashMap<Integer,Integer> replyCounts1 = (HashMap<Integer,Integer>)request.getServletContext().getAttribute("replyCounts");
-            HashMap<Integer,Integer> thumbsupCounts1 = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
-            HashMap<Integer,List<Integer>> thumbsupDetails1 = (HashMap<Integer, List<Integer>>) request.getServletContext().getAttribute("thumbsupDetails");
-            HashMap<Integer,Integer> reportReplyCounts1 = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("reportReplyCounts");
-
-            if (replyCounts1 == null)
-                request.getServletContext().setAttribute("replyCounts",replyCounts);
-            if (thumbsupDetails1 == null){
-                request.getServletContext().setAttribute("thumbsupDetails",thumbsupDetails);
-            }
-            if (thumbsupCounts1 == null)
-                request.getServletContext().setAttribute("thumbsupCounts",thumbsupCounts);
-            if (reportReplyCounts1 == null)
-                request.getServletContext().setAttribute("reportReplyCounts",reportReplyCounts);
             session.setAttribute("user",user);
             session.setAttribute("userCommentsPerOnline",0);
             Queue<Date> commentQueue = new ConcurrentLinkedQueue<>();
