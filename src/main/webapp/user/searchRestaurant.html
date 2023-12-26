@@ -137,10 +137,6 @@
                         </el-menu-item>
                     </el-submenu>
 
-                    <el-menu-item>
-                        <i class="el-icon-document"></i>
-                        <a href="vote.html" class="el-aside">投票</a>
-                    </el-menu-item>
                 </el-menu>
             </el-aside>
 
@@ -194,19 +190,19 @@
                         <el-form :model="currentRow" label-position="top">
                             <!-- 表单项 -->
                             <el-form-item label="名称">
-                                <el-input v-model="currentRow.name" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.name" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="开始时间">
-                                <el-input v-model="currentRow.startTime" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.startTime" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="结束时间">
-                                <el-input v-model="currentRow.endTime" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.endTime" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="地址">
-                                <el-input v-model="currentRow.location" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.location" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="详细介绍">
-                                <el-input v-model="currentRow.description" :disabled="true"></el-input>
+                                <el-input v-model="currentRow.description" :readonly="true"></el-input>
                             </el-form-item>
                             <el-form-item label="图片">
                                 <!-- 使用 img 标签来展示图片 -->
@@ -231,17 +227,19 @@
                         <!-- 编辑表单的内容 -->
                         <el-form :model="announcement" label-position="top">
                             <el-form-item label="标题">
-                                <el-input v-model="announcement.title" :disabled="true"></el-input>
+                                <el-input v-model="announcement.title" :readonly="true">
+
+                                </el-input>
                             </el-form-item>
                             <el-form-item label="内容">
-                                <el-input v-model="announcement.body" :disabled="true"></el-input>
+                                <el-input v-model="announcement.body" :readonly="true"></el-input>
                             </el-form-item>
                         </el-form>
                     </el-dialog>
 
 
                     <!-- 添加的 el-dialog 组件 -->
-                    <el-dialog title="公告详情" :visible.sync="dialogVisible2">
+                    <el-dialog title="投诉" :visible.sync="dialogVisible2">
                         <!-- 编辑表单的内容 -->
                         <el-form :model="currentRow" label-position="top">
                             <!-- 表单项 -->
@@ -253,7 +251,12 @@
                                 <el-input v-model="currentRow.location" :disabled="true"></el-input>
                             </el-form-item>
                             <el-form-item label="投诉标题">
-                                <el-input v-model="title"></el-input>
+                                <el-input v-model="title">
+                                    <i
+                                            class="el-icon-edit el-input__icon"
+                                            slot="suffix">
+                                    </i>
+                                </el-input>
                             </el-form-item>
                             <el-form-item label="投诉详情">
                                 <el-input
@@ -348,6 +351,8 @@
                 }
             },
             handleShow(row){
+                this.commentData=[];
+                this.announcementData=[];
                 this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
                 const id=this.currentRow.canteenId;
                 // alert(id)
@@ -376,7 +381,7 @@
                 // });
 
                 this.dialogVisible1 = true; // 显示编辑对话框
-                this.commentData=[];
+
             },
 
             handleShowannouncement(row){
