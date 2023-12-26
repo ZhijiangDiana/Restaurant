@@ -351,6 +351,8 @@
                 }
             },
             handleShow(row){
+                this.commentData=[];
+                this.announcementData=[];
                 this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
                 const id=this.currentRow.canteenId;
                 // alert(id)
@@ -379,7 +381,7 @@
                 // });
 
                 this.dialogVisible1 = true; // 显示编辑对话框
-                this.commentData=[];
+
             },
 
             handleShowannouncement(row){
