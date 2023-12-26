@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller;
+package com.restaurant.restaurant.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.pojo.entity.CanteenAdmin;

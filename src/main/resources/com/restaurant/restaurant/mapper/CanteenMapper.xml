@@ -29,7 +29,7 @@
         WHERE canteen_id = #{id};
     </delete>
 
-    <insert id="insertCanteen" parameterType="Canteen">
+    <insert id="insertCanteen" parameterType="Canteen" useGeneratedKeys="true" keyProperty="canteenId">
         INSERT INTO canteen (name, location, start_time, end_time, description, image)
         VALUES (#{name},#{location},#{startTime},#{endTime},#{description},#{image});
     </insert>

@@ -27,18 +27,14 @@ public class GetCanteenDish extends HttpServlet {
         resp.setContentType("text/html; charset = UTF-8");
         PrintWriter pw = resp.getWriter();
 
-        JSONObject reqJson = FrontEndUtils.bodyToJson(req);
-        Integer canteenId = reqJson.getInteger("canteenId");
-        if (canteenId == null) {
-            HttpSession session = req.getSession(true);
-            CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
-            if (canteenAdmin == null) {
-                resp.setStatus(403);
-                pw.print(FrontEndUtils.objectToBody("未登录或参数不全", "1", null));
-                return;
-            }
-            canteenId = canteenAdmin.getCanteenId();
+        HttpSession session = req.getSession(true);
+        CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
+        if (canteenAdmin == null) {
+            resp.setStatus(403);
+            pw.print(FrontEndUtils.objectToBody("未登录或参数不全", "1", null));
+            return;
         }
+        Integer canteenId = canteenAdmin.getCanteenId();
 
         GetCanteenDishService getCanteenDishService = new GetCanteenDishService();
         List<Dish> res = getCanteenDishService.getCanteenDish(canteenId);

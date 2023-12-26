@@ -23,11 +23,6 @@ import org.apache.ibatis.session.SqlSession;
 @WebServlet(name = "GetAdmNotifCount", value = "/GetAdmNotifCount", loadOnStartup = 0)
 public class GetAdmNotifCount extends HttpServlet {
 
-    // TODO: 2023/12/19
-    //  （完成）每次管理员登录后都应检查map中是否有键，无键则添加entry，注意使用ConcurrentHashSet
-    //  （完成）每次用户发起投诉和评论后都应添加notification
-    //  （完成）每次管理员请求notification列表后清空notification
-    //  init时从磁盘中读取记录，destroy时向磁盘写入记录（可选）
     @Override
     public void init() {
         ServletContext context = getServletContext();
@@ -43,7 +38,6 @@ public class GetAdmNotifCount extends HttpServlet {
         try (sqlSession) {
             List<Canteen> canteenList = canteenMapper.selectAll();
             for (Canteen canteen : canteenList) {
-                // TODO: 2023/12/25 在添加食堂和删除食堂的时候，需要将对应的reportNotif和dishCommentNotif删除
                 reportNotif.put(canteen.getCanteenId(), new ConcurrentHashMap<>());
                 dishCommentNotif.put(canteen.getCanteenId(), new ConcurrentHashMap<>());
             }

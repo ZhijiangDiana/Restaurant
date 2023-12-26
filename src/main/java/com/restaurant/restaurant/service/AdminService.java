@@ -5,11 +5,14 @@ import com.restaurant.restaurant.mapper.*;
 import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
+import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Time;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class AdminService {
 
@@ -38,7 +41,7 @@ public class AdminService {
         }
     }
 
-    public String addCanteen(String name, String location, Time startTime, Time endTime, String description, byte[] image){
+    public String addCanteen(ServletContext context, String name, String location, Time startTime, Time endTime, String description, byte[] image){
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try (sqlSession){
             CanteenMapper mapper = sqlSession.getMapper(CanteenMapper.class);
@@ -51,6 +54,13 @@ public class AdminService {
             Canteen canteen = new Canteen(name,location,startTime,endTime,description,image);
             int isSuccess = mapper.insertCanteen(canteen);
             sqlSession.commit();
+
+            Map<Integer, Map<Integer, Report>> reportNotif =
+                    (Map<Integer, Map<Integer, Report>>) context.getAttribute("reportNotif");
+            Map<Integer, Map<Integer, DishComment>> dishCommentNotif =
+                    (Map<Integer, Map<Integer, DishComment>>) context.getAttribute("dishCommentNotif");
+            reportNotif.put(canteen.getCanteenId(), new ConcurrentHashMap<>());
+
             List<Canteen> canteenList = mapper.selectAll();
             sqlSession.close();
             if (isSuccess == 1){

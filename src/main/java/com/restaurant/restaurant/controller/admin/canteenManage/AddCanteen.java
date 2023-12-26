@@ -38,7 +38,7 @@ public class AddCanteen extends HttpServlet {
         byte[] images = jsonObject.getBytes("image");
         AdminService adminService = new AdminService();
         System.out.println(startTime);
-        response.getWriter().print(adminService.addCanteen(name,location,startTime,endTime,description,images));
+        response.getWriter().print(adminService.addCanteen(getServletContext(), name,location,startTime,endTime,description,images));
 
     }
 }
