@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>食堂点评交流系统</title>
-    <link rel="stylesheet" href="../css/addRestaurant.css">
+    <link rel="stylesheet" href="../css/commentList.css">
 
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <style>
         .aside_item {
             display: flex;
@@ -19,33 +18,6 @@
             align-items: center;
             justify-content: center;
             color: unset;
-        }
-
-        .image-uploader .el-upload {
-            border: 1px dashed #d9d9d9;
-            border-radius: 6px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-uploader .el-upload:hover {
-            border-color: #409EFF;
-        }
-
-        .image-uploader-icon {
-            font-size: 28px;
-            color: #8c939d;
-            width: 178px;
-            height: 178px;
-            line-height: 178px;
-            text-align: center;
-        }
-
-        .image {
-            width: 178px;
-            height: 178px;
-            display: block;
         }
     </style>
 </head>
@@ -57,7 +29,7 @@
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['3']">
+                <el-menu :default-openeds="['4']">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-house"></i>
@@ -123,40 +95,35 @@
                     </el-submenu>
                 </el-menu>
             </el-aside>
+
             <el-main>
-                <el-form :model="dish" ref="dishForm" label-width="80px" style="padding: 20px;">
-                    <el-form-item label="菜品名称" prop="dishName">
-                        <el-input v-model="dish.dishName"></el-input>
-                    </el-form-item>
-                    <el-form-item label="系列" prop="series">
-                        <el-select v-model="dish.series">
-                            <el-option v-for="(item, index) in seriesOptions" :label="item"
-                                       :value="index"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="价格" prop="price">
-                        <el-input type="number" v-model="dish.price"></el-input>
-                    </el-form-item>
-                    <el-form-item label="图片" prop="image">
-                        <el-upload
-                                action=""
-                                class="image-uploader"
-                                accept="image/*"
-                                :limit="1"
-                                :auto-upload="true"
-                                :show-file-list="false"
-                                :on-change="onUploadSuccess"
-                        >
-                            <img v-if="dish.image" :src="'data:image/png;base64,' + dish.image"
-                                 class="image">
-                            <i v-else class="el-icon-plus image-uploader-icon"></i>
-                        </el-upload>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="addDish">添加菜品</el-button>
-                        <el-button @click="resetForm">重置表单</el-button>
-                    </el-form-item>
-                </el-form>
+
+                <el-table :data="tableData" border style="width: 100%">
+                    <el-table-column fixed="left" prop="userId" label="学号" width="100">
+                    </el-table-column>
+                    <el-table-column prop="tittle" label="标题" >
+                    </el-table-column>
+                    <el-table-column prop="body" label="内容" >
+                    </el-table-column>
+                    <el-table-column fixed="right" label="操作" >
+                        <template slot-scope="scope">
+                            <el-button @click="handleEdit(scope.row)" type="text" size="small">回复</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+
+                <el-dialog title="回复" :visible.sync="dialogVisible">
+                    <!-- 编辑表单的内容 -->
+                    <el-form :model="currentRow" :rules="rules" ref="form" label-position="top">
+<!--                        <el-form-item label="标题" prop="title">-->
+<!--                            <el-input v-model="currentRow.title"></el-input>-->
+<!--                        </el-form-item>-->
+                        <el-form-item label="内容" prop="body">
+                            <el-input type="textarea" v-model="currentRow.body"></el-input>
+                        </el-form-item>
+                        <el-button @click="saveEdit" type="primary">保存</el-button>
+                    </el-form>
+                </el-dialog>
             </el-main>
         </el-container>
     </el-container>
@@ -164,70 +131,64 @@
 <script>
     new Vue({
         el: '#app',
-        data: function () {
+        data () {
             return {
-                dish: {
-                    dishName: '',
-                    series: '',
-                    price: '',
-                    image: ''
+                tableData: [
+
+                ],
+                currentPage: 1,
+                dialogVisible: false, // 控制对话框的显示和隐藏
+                currentRow: {
+                    reportId:'',
+                    title:'',
+                    body:'',
                 },
-                seriesOptions: ['鲁菜', '川菜', '粤菜', '江苏菜', '闽菜', '浙江菜', '湘菜', '徽菜', '清真餐', '日本餐', '西餐', '其他']
+                rules: {
+                    title: [
+                        { required: true, message: '标题不能为空', trigger: 'blur' }
+                    ],
+                    body: [
+                        { required: true, message: '内容不能为空', trigger: 'blur' }
+                    ]
+                }
             };
         },
-        methods: {
-            fileToBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        if (reader.error) {
-                            reject(reader.error);
-                        } else {
-                            resolve(reader.result);
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                });
-            },
-            onUploadSuccess(response, file, fileList) {
-                this.fileToBase64(response.raw).then(base64 => {
-                    this.dish.image = base64.replace(/^data:image\/\w+;base64,/, '');
+        mounted() {
+            axios.get('/restaurant/GetNoReplyReport')
+                .then(response => {
+                    this.tableData = response.data.object;
                 })
+                .catch(error => {
+                    console.log(error);
+                    this.$message.error('获取数据失败，请重试');
+                });
+        },
+        methods: {
+            handleEdit(row) {
+                this.currentRow.reportId = row.reportId; // 复制当前行数据，避免直接修改原数据
+                this.dialogVisible = true; // 显示编辑对话框
             },
-            addDish() {
-                this.$refs.dishForm.validate(valid => {
+            saveEdit() {
+                this.$refs.form.validate((valid) => {
                     if (valid) {
-                        // 将表单数据转换为 JSON 格式
-                        const requestData = JSON.stringify(this.dish);
-                        // 发送 POST 请求给后端，传递表单数据
-                        axios.post('/restaurant/UploadDish', requestData, {
+                        // 处理编辑后的数据保存逻辑
+                        axios.post(`/restaurant/UploadReportReply`, JSON.stringify(this.currentRow), {
                             headers: {
                                 'Content-Type': 'application/json'
                             }
                         })
                             .then(response => {
-                                const flag = response.data.flag;
-                                if (flag === '0') {
-                                    this.dish = {}; // 清空表单数据
-                                    this.$message({
-                                        message: '添加成功',
-                                        type: 'success'
-                                    });
-                                } else {
-                                    this.$message.error('添加失败：' + response.data.error);
-                                }
+                                this.dialogVisible = false; // 关闭编辑对话框
+                                this.message.success('回复成功');
                             })
                             .catch(error => {
-                                console.error(error);
-                                this.$message.error('添加失败：' + error.message);
+                                console.log(error);
+                                this.message.error('保存失败，请重试');
                             });
                     } else {
-                        this.$message.error('请填写正确的菜品信息');
+                        return false;
                     }
                 });
-            },
-            resetForm() {
-                this.$refs.dishForm.resetFields();
             }
         },
     })

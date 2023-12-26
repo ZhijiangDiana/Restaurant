@@ -1,274 +1,393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>食堂点评交流系统</title>
-  <link rel="stylesheet" href="../css/adminFirst.css">
+    <meta charset="UTF-8">
+    <title>食堂点评交流系统</title>
+    <link rel="stylesheet" href="../css/adminFirst.css">
 
-  <!-- 引入 Element UI 样式 -->
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <style>
-    .aside_item {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      align-items: center;
-      justify-content: center;
-      color: unset;
-    }
-  </style>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        .aside_item {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            color: unset;
+        }
+
+        .image-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .image-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+
+        .image {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+    </style>
 </head>
 <body>
 <div id="app">
-  <el-container style="height: 700px; border: 1px solid #eee">
-    <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
-      <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-    </el-header>
-    <el-container>
-      <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-        <el-menu :default-openeds="['1']">
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-house"></i>
-              <span>首页</span>
-            </template>
-            <el-menu-item index="1-1">
-              <a href="firstView.html" class="aside_item">首页</a>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-s-shop"></i>
-              <span>食堂基本信息管理</span>
-            </template>
-            <el-menu-item index="2-1">
-              <a href="restaurantList.html" class="aside_item">食堂列表</a>
-            </el-menu-item>
-            <el-menu-item index="2-2">
-              <a href="addRestaurant.html" class="aside_item">新增食堂</a>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="3">
-            <template slot="title">
-              <i class="el-icon-shopping-cart-1"></i>
-              <span>菜品管理</span>
-            </template>
-            <el-menu-item index="3-1">
-              <a href="dishList.html" class="aside_item">菜品信息列表</a>
-            </el-menu-item>
-            <el-menu-item index="3-2">
-              <a href="addDish.html" class="aside_item">添加菜品信息</a>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="4">
-            <template slot="title">
-              <i class="el-icon-star-on"></i>
-              <span>评价信息管理</span>
-            </template>
-            <el-menu-item index="4-1">
-              <a href="commentList.html" class="aside_item">评价列表</a>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="5">
-            <template slot="title">
-              <i class="el-icon-chat-line-round"></i>
-              <span>活动公告</span>
-            </template>
-            <el-menu-item index="5-1">
-              <a href="communicationList.html" class="aside_item">公告列表</a>
-            </el-menu-item>
-            <el-menu-item index="5-2">
-              <a href="communicationList.html" class="aside_item">发布公告</a>
-            </el-menu-item>
-          </el-submenu>
-        </el-menu>
-      </el-aside>
+    <el-container style="height: 700px; border: 1px solid #eee">
+        <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
+            <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
+        </el-header>
+        <el-container>
+            <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
+                <el-menu :default-openeds="['3']">
+                    <el-submenu index="1">
+                        <template slot="title">
+                            <i class="el-icon-house"></i>
+                            <span>首页</span>
+                        </template>
+                        <el-menu-item index="1-1">
+                            <a href="first.html" class="aside_item">首页</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span>食堂基本信息管理</span>
+                        </template>
+                        <el-menu-item index="2-1">
+                            <a href="modifyRestaurant.html" class="aside_item">编辑食堂信息</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-shopping-cart-1"></i>
+                            <span>菜品管理</span>
+                        </template>
+                        <el-menu-item index="3-1">
+                            <a href="dishList.html" class="aside_item">菜品信息列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="3-2">
+                            <a href="addDish.html" class="aside_item">添加菜品信息</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="4">
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span>评价信息管理</span>
+                        </template>
+                        <el-menu-item index="4-1">
+                            <a href="commentList.html" class="aside_item">评价列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="4-2">
+                            <a href="reportList.html" class="aside_item">投诉列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span>活动公告</span>
+                        </template>
+                        <el-menu-item index="5-1">
+                            <a href="communicationList.html" class="aside_item">公告列表</a>
+                        </el-menu-item>
+                        <el-menu-item index="5-2">
+                            <a href="communicationList.html" class="aside_item">发布公告</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="6">
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span>投票管理</span>
+                        </template>
+                        <el-menu-item index="6-1">
+                            <a href="addVote.html" class="aside_item">发起透明</a>
+                        </el-menu-item>
+                    </el-submenu>
+                </el-menu>
+            </el-aside>
 
-      <el-main>
+            <el-main>
 
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-          <el-form-item label="菜品名称">
-            <el-input v-model="formInline.dishName" placeholder="菜品名称"></el-input>
-          </el-form-item>
-          <el-form-item label="食堂ID">
-            <el-input v-model="formInline.canteenId" placeholder="食堂ID"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">查询</el-button>
-          </el-form-item>
-        </el-form>
+                <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                    <el-form-item label="菜品名称">
+                        <el-input v-model="formInline.dishName" placeholder="菜品名称"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">查询</el-button>
+                    </el-form-item>
+                </el-form>
 
-        <el-table :data="tableData" border style="width: 100%">
-          <el-table-column fixed="left" prop="dish_name" label="菜品名称">
-          </el-table-column>
-          <el-table-column prop="canteen_id" label="食堂ID">
-          </el-table-column>
-          <el-table-column prop="series" label="系列">
-          </el-table-column>
-          <el-table-column prop="price" label="价格">
-          </el-table-column>
-          <el-table-column prop="price_sale" label="特价">
-          </el-table-column>
-          <el-table-column prop="total_score" label="总评分">
-          </el-table-column>
-          <el-table-column prop="weight_sum" label="总权重">
-          </el-table-column>
-          <el-table-column prop="image" label="图片">
-          </el-table-column>
-          <el-table-column fixed="right" label="操作">
-            <template slot-scope="scope">
-              <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
-              <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+                <el-button @click="recommend" type="primary" style="float: right">推荐</el-button>
+                <el-table :data="tableData" border style="width: 100%; margin-top: 10px">
+                    <el-table-column fixed="left" prop="dishName" label="菜品名称">
+                    </el-table-column>
+                    <el-table-column prop="series" label="系列">
+                        <template v-slot="scope">
+                            <span>{{seriesOptions[scope.row.series]}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="price" label="价格">
+                    </el-table-column>
+                    <el-table-column prop="totalScore" label="总评分">
+                        <template v-slot="scope">
+                            {{ scope.row.totalScore.toFixed(1) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="weightSum" label="总权重">
+                        <template v-slot="scope">
+                            {{ scope.row.weightSum.toFixed(1) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="image" label="图片">
+                        <template v-slot="scope">
+                            <img v-if="scope.row.image" :src="'data:image/png;base64,' + scope.row.image"
+                                 style="width: 100px; height: 100px" alt="">
+                        </template>
+                    </el-table-column>
+                    <el-table-column fixed="right" label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
+                            <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
+                        </template>
+                    </el-table-column>
+                    <el-table-column fixed="right" label="推荐">
+                        <template slot-scope="scope">
+                            <el-checkbox v-model="scope.row.recommend"></el-checkbox>
+                        </template>
+                    </el-table-column>
+                </el-table>
 
-        <div class="block">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                         :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10"
-                         layout="total, sizes, prev, pager, next, jumper" :total="totalItems">
-          </el-pagination>
-        </div>
 
-        <el-dialog title="编辑" :visible.sync="dialogVisible">
-          <el-form :model="currentRow" label-position="top">
-            <el-form-item label="菜品名称">
-              <el-input v-model="currentRow.dish_name"></el-input>
-            </el-form-item>
-            <el-form-item label="食堂ID">
-              <el-input v-model="currentRow.canteen_id"></el-input>
-            </el-form-item>
-            <el-form-item label="系列">
-              <el-input v-model="currentRow.series"></el-input>
-            </el-form-item>
-            <el-form-item label="价格">
-              <el-input v-model="currentRow.price"></el-input>
-            </el-form-item>
-            <el-form-item label="特价">
-              <el-input v-model="currentRow.price_sale"></el-input>
-            </el-form-item>
-            <el-form-item label="总评分">
-              <el-input v-model="currentRow.total_score"></el-input>
-            </el-form-item>
-            <el-form-item label="总权重">
-              <el-input v-model="currentRow.weight_sum"></el-input>
-            </el-form-item>
-            <el-form-item label="图片">
-              <el-input v-model="currentRow.image"></el-input>
-            </el-form-item>
-            <el-button @click="saveEdit" type="primary">保存</el-button>
-          </el-form>
-        </el-dialog>
+                <el-dialog title="编辑" :visible.sync="dialogVisible">
+                    <el-form :model="currentRow" label-position="top">
+                        <el-form-item label="菜品名称">
+                            <el-input v-model="currentRow.dishName"></el-input>
+                        </el-form-item>
+                        <el-form-item label="系列">
+                            <el-select v-model="currentRow.series">
+                                <el-option v-for="(item, index) in seriesOptions" :label="item"
+                                           :value="index"></el-option>
+                            </el-select>
+                        </el-form-item>
+                        <el-form-item label="价格">
+                            <el-input v-model="currentRow.price"></el-input>
+                        </el-form-item>
+                        <!--                        <el-form-item label="总评分">-->
+                        <!--                            <el-input v-model="currentRow.totalScore"></el-input>-->
+                        <!--                        </el-form-item>-->
+                        <!--                        <el-form-item label="总权重">-->
+                        <!--                            <el-input v-model="currentRow.weightSum"></el-input>-->
+                        <!--                        </el-form-item>-->
+                        <el-form-item label="图片">
+                            <el-upload
+                                    action=""
+                                    class="image-uploader"
+                                    accept="image/*"
+                                    :limit="1"
+                                    :auto-upload="true"
+                                    :show-file-list="false"
+                                    :on-change="onUploadSuccess"
+                            >
+                                <img v-if="currentRow.image" :src="'data:image/png;base64,' + currentRow.image"
+                                     class="image">
+                                <i v-else class="el-icon-plus image-uploader-icon"></i>
+                            </el-upload>
+                        </el-form-item>
+                        <el-button @click="saveEdit" type="primary">保存</el-button>
+                    </el-form>
+                </el-dialog>
 
-      </el-main>
+                <el-dialog title="推荐" :visible.sync="recommendDialogVisible">
+                    <el-form :model="recommendForm" :rules="recommendRule" ref="recommendForm" label-position="top">
+                        <el-form-item label="标题" prop="title">
+                            <el-input v-model="recommendForm.title"></el-input>
+                        </el-form-item>
+                        <el-button @click="recommendDish" type="primary">保存</el-button>
+                    </el-form>
+                </el-dialog>
+
+            </el-main>
+        </el-container>
     </el-container>
-  </el-container>
 </div>
 <script>
-  new Vue({
-    el: '#app',
-    data: function () {
-      return {
-        formInline: {
-          name: '',
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                recommendDialogVisible: false,
+                formInline: {
+                    dishName: '',
+                },
+                recommendForm: {
+                    title: '',
+                    body: '',
+                },
+                recommendRule: {
+                    title: [
+                        {required: true, message: '标题不能为空', trigger: 'blur'}
+                    ],
+                    body: [
+                        {required: true, message: '内容不能为空', trigger: 'blur'}
+                    ]
+                },
+                originData: [],
+                tableData: [],
+                currentPage: 1,
+                dialogVisible: false, // 控制对话框的显示和隐藏
+                currentRow: {
+                    dishName: '',
+                    series: '',
+                    totalScore: '',
+                    weightSum: '',
+                    image: '',
+                    price: '',
+                }, // 当前选中行的数据
+                seriesOptions: ['鲁菜', '川菜', '粤菜', '江苏菜', '闽菜', '浙江菜', '湘菜', '徽菜', '清真餐', '日本餐', '西餐', '其他']
+            };
         },
-        tableData: [
-          //     {
-          //     name: '一食堂',
-          //     time: '8:00-21:00',
-          //     address: '上海理工大学516号第一食堂'
-          // }, {
-          //     name: '二食堂',
-          //     time: '8:00-21:00',
-          //     address: '上海理工大学516号第二食堂'
-          // },
-        ],
-        currentPage: 1,
-        dialogVisible: false, // 控制对话框的显示和隐藏
-        currentRow: {
-          name: '',
-          time: '',
-          address: ''
-        }, // 当前选中行的数据
-      };
-    },
-    methods: {
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      },
-      onSubmit() {
-        const name = this.formInline.name;
-        axios.get(`/restaurant/restaurant?name=${name}`)
-                .then(response => {
-                  const data = response.data;
-                  if (data.length > 0) {
-                    this.tableData = data;
-                  } else {
-                    this.$message.error('未查询到结果');
-                  }
-                })
-                .catch(error => {
-                  console.log(error);
-                  this.$message.error('查询失败，请重试');
+        methods: {
+            fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        if (reader.error) {
+                            reject(reader.error);
+                        } else {
+                            resolve(reader.result);
+                        }
+                    };
+                    reader.readAsDataURL(file);
                 });
-      },
-      handleDelete(row) {
-        const index = this.tableData.indexOf(row);
-        if (index !== -1) {
-          const id = row.id; // 假设后端要求传递被删除数据的 ID
-          axios.delete(`/restaurant/restaurant/${id}`)
-                  .then(response => {
-                    this.tableData.splice(index, 1);
-                    this.$message.success('删除成功');
-                  })
-                  .catch(error => {
-                    console.log(error);
-                    this.$message.error('删除失败，请重试');
-                  });
-        }
-      },
-      handleEdit(row) {
-        this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
-        this.dialogVisible = true; // 显示编辑对话框
-      },
-      saveEdit() {
-        // 处理编辑后的数据保存逻辑
-        const id = this.currentRow.id;
-        axios.post(`/restaurant/save/${id}`, JSON.stringify(this.currentRow), {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-                .then(response => {
-                  const newData = response.data;
-                  this.tableData.push(newData); // 将返回的新数据添加到表格中
-                  this.dialogVisible = false; // 关闭编辑对话框
-                  this.$message.success('保存成功');
+            },
+            onUploadSuccess(response, file, fileList) {
+                this.fileToBase64(response.raw).then(base64 => {
+                    this.currentRow.image = base64.replace(/^data:image\/\w+;base64,/, '');
                 })
-                .catch(error => {
-                  console.log(error);
-                  this.$message.error('保存失败，请重试');
+            },
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+            handleCurrentChange(val) {
+                console.log(`当前页: ${val}`);
+            },
+            onSubmit() {
+                const name = this.formInline.dishName;
+                this.tableData = this.originData.filter(item => {
+                    return item.dishName.indexOf(name) !== -1;
                 });
-      }
-    },
-    mounted() {
-      axios.get('/restaurant/restaurantList')
-              .then(response => {
-                const data = response.data;
-                this.tableData = data;
-              })
-              .catch(error => {
-                console.log(error);
-                this.$message.error('获取数据失败，请重试');
-              }); // 页面加载时获取数据
-    },
-  })
+            },
+            handleDelete(row) {
+                this.$confirm('此操作将永久删除该菜品, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    const index = this.tableData.indexOf(row);
+                    if (index !== -1) {
+                        const id = row.dishId; // 假设后端要求传递被删除数据的 ID
+                        axios.post(`/restaurant/DeleteDish`, {
+                            dishId: id,
+                        })
+                            .then(response => {
+                                this.getList()
+                                this.$message.success('删除成功');
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                this.$message.error('删除失败，请重试');
+                            });
+                    }
+                })
+            },
+            handleEdit(row) {
+                this.currentRow = Object.assign({}, row); // 复制当前行数据，避免直接修改原数据
+                this.dialogVisible = true; // 显示编辑对话框
+            },
+            saveEdit() {
+                // 处理编辑后的数据保存逻辑
+                axios.post(`/restaurant/UpdateDish`, JSON.stringify(this.currentRow), {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        this.getList()
+                        this.dialogVisible = false; // 关闭编辑对话框
+                        this.$message.success('保存成功');
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('保存失败，请重试');
+                    });
+            },
+            recommend() {
+                console.log(this.tableData)
+                this.recommendForm.body = this.tableData.filter(item => item.recommend).map(item => item.dishId)
+                if (this.recommendForm.body.length === 0) {
+                    this.$message.error('请选择菜品');
+                    return;
+                }
+                this.recommendDialogVisible = true
+            },
+            recommendDish() {
+                if (this.recommendForm.body.length === 0) {
+                    this.$message.error('请选择菜品');
+                    return;
+                }
+                this.$refs.recommendForm.validate((valid) => {
+                    if (valid) {
+                        axios.post(`/restaurant/PostRecommendDish`, JSON.stringify(this.recommendForm), {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }).then(response => {
+                                this.recommendDialogVisible = false; // 关闭编辑对话框
+                                this.$message.success('推荐成功');
+                            })
+                            .catch(error => {
+                                console.log(error);
+                                this.$message.error('推荐失败，请重试');
+                            });
+                    }
+                })
+            },
+            getList() {
+                axios.get('/restaurant/GetCanteenDish')
+                    .then(response => {
+                        const data = response.data;
+                        this.tableData = this.originData = data.object.map(item => {
+                            item.recommend = false
+                            return item
+                        });
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('获取数据失败，请重试');
+                    }); // 页面加载时获取数据
+            }
+        },
+        mounted() {
+            this.getList()
+        },
+    })
 </script>
 </body>
 </html>

@@ -76,7 +76,7 @@
                             <span>首页</span>
                         </template>
                         <el-menu-item index="1-1">
-                            <a href="firstView.html" class="aside_item">首页</a>
+                            <a href="first.html" class="aside_item">首页</a>
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="2">
@@ -85,10 +85,7 @@
                             <span>食堂基本信息管理</span>
                         </template>
                         <el-menu-item index="2-1">
-                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
-                        </el-menu-item>
-                        <el-menu-item index="2-2">
-                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                            <a href="modifyRestaurant.html" class="aside_item">编辑食堂信息</a>
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="3">
@@ -111,6 +108,9 @@
                         <el-menu-item index="4-1">
                             <a href="commentList.html" class="aside_item">评价列表</a>
                         </el-menu-item>
+                        <el-menu-item index="4-2">
+                            <a href="reportList.html" class="aside_item">投诉列表</a>
+                        </el-menu-item>
                     </el-submenu>
                     <el-submenu index="5">
                         <template slot="title">
@@ -124,6 +124,15 @@
                             <a href="communicationList.html" class="aside_item">发布公告</a>
                         </el-menu-item>
                     </el-submenu>
+                    <el-submenu index="6">
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span>投票管理</span>
+                        </template>
+                        <el-menu-item index="6-1">
+                            <a href="addVote.html" class="aside_item">发起透明</a>
+                        </el-menu-item>
+                    </el-submenu>
                 </el-menu>
             </el-aside>
             <el-main>
@@ -135,7 +144,7 @@
                             type="warning"
                             v-if="newNotifications > 0"
                     >
-                        <a @click="showNotifications">
+                        <a href="./commentList.html">
                             查看详细内容 ({{ newNotifications }}条)
                         </a>
                     </el-alert>
@@ -150,7 +159,7 @@
                 </div>
                 <div class="card-container">
                     <!-- 食堂维护 -->
-                    <a href="restaurantList.html" class="card">
+                    <a href="modifyRestaurant.html" class="card">
                         <i class="el-icon-food"></i>
                         <div class="card-content">
                             <span>食堂维护</span>
@@ -174,7 +183,7 @@
                     </a>
 
                     <!-- 活动公告 -->
-                    <a href="" class="card">
+                    <a href="./announcement.html" class="card">
                         <i class="el-icon-bell"></i>
                         <div class="card-content">
                             <span>活动公告</span>
@@ -182,7 +191,7 @@
                     </a>
 
                     <!-- 投票调查 -->
-                    <a href="" class="card">
+                    <a href="addVote.html" class="card">
                         <i class="el-icon-s-operation"></i>
                         <div class="card-content">
                             <span>投票调查</span>
@@ -205,12 +214,22 @@
         el: '#app',
         data: function () {
             return {
-                newNotifications: 100
+                newNotifications: 0
             };
         },
         methods:{
 
-        }
+        },
+        mounted() {
+            axios.get('/restaurant/GetCanteenDishComment')
+                .then(response => {
+                    this.newNotifications = response.data.object.length;
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.$message.error('获取数据失败，请重试');
+                });
+        },
     })
 </script>
 </body>

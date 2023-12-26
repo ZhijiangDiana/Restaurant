@@ -37,12 +37,17 @@ public class UploadVote extends HttpServlet {
         HttpSession session = req.getSession(true);
         ServletContext context = getServletContext();
 
-        Integer canteenId = jsonObject.getInteger("canteenId");
+        CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
+        if (canteenAdmin == null) {
+            resp.setStatus(403);
+            pw.print(FrontEndUtils.objectToBody("未登录", "1", null));
+            return;
+        }
+        Integer canteenId = canteenAdmin.getCanteenId();
         Date startTime = jsonObject.getDate("startTime");
         Date endTime = jsonObject.getDate("endTime");
         String title = jsonObject.getString("title");
         JSONArray choices = jsonObject.getJSONArray("choices");
-        CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
         Map<Integer, RunningVote> votes =
                 (Map<Integer, RunningVote>) context.getAttribute("votes");
 

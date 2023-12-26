@@ -10,7 +10,6 @@
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
     <style>
         .aside_item {
             display: flex;
@@ -19,33 +18,6 @@
             align-items: center;
             justify-content: center;
             color: unset;
-        }
-
-        .image-uploader .el-upload {
-            border: 1px dashed #d9d9d9;
-            border-radius: 6px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-uploader .el-upload:hover {
-            border-color: #409EFF;
-        }
-
-        .image-uploader-icon {
-            font-size: 28px;
-            color: #8c939d;
-            width: 178px;
-            height: 178px;
-            line-height: 178px;
-            text-align: center;
-        }
-
-        .image {
-            width: 178px;
-            height: 178px;
-            display: block;
         }
     </style>
 </head>
@@ -57,7 +29,7 @@
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['3']">
+                <el-menu :default-openeds="['2']">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-house"></i>
@@ -124,37 +96,31 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <el-form :model="dish" ref="dishForm" label-width="80px" style="padding: 20px;">
-                    <el-form-item label="菜品名称" prop="dishName">
-                        <el-input v-model="dish.dishName"></el-input>
+                <el-form :model="restaurant" ref="restaurantForm" label-width="80px" style="padding: 20px;">
+                    <el-form-item label="食堂名称" prop="name">
+                        <el-input v-model="restaurant.name"></el-input>
                     </el-form-item>
-                    <el-form-item label="系列" prop="series">
-                        <el-select v-model="dish.series">
-                            <el-option v-for="(item, index) in seriesOptions" :label="item"
-                                       :value="index"></el-option>
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="价格" prop="price">
-                        <el-input type="number" v-model="dish.price"></el-input>
-                    </el-form-item>
-                    <el-form-item label="图片" prop="image">
-                        <el-upload
-                                action=""
-                                class="image-uploader"
-                                accept="image/*"
-                                :limit="1"
-                                :auto-upload="true"
-                                :show-file-list="false"
-                                :on-change="onUploadSuccess"
+                    <el-form-item label="营业时间">
+                        <el-time-picker
+                                v-model="restaurant.startTime"
+                                placeholder="开始时间"
+                                format="HH:mm"
                         >
-                            <img v-if="dish.image" :src="'data:image/png;base64,' + dish.image"
-                                 class="image">
-                            <i v-else class="el-icon-plus image-uploader-icon"></i>
-                        </el-upload>
+                        </el-time-picker>
+                        <el-time-picker
+                                arrow-control
+                                v-model="restaurant.endTime"
+                                placeholder="结束时间"
+                                format="HH:mm"
+                        >
+                        </el-time-picker>
+                    </el-form-item>
+                    <el-form-item label="食堂地址" prop="location">
+                        <el-input v-model="restaurant.location"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="addDish">添加菜品</el-button>
-                        <el-button @click="resetForm">重置表单</el-button>
+                        <el-button type="primary" @click="save">保存</el-button>
+                        <el-button @click="resetForm">重置</el-button>
                     </el-form-item>
                 </el-form>
             </el-main>
@@ -166,41 +132,43 @@
         el: '#app',
         data: function () {
             return {
-                dish: {
-                    dishName: '',
-                    series: '',
-                    price: '',
-                    image: ''
+                restaurant: {
+                    canteenId: '',
+                    name: '',
+                    startTime: '',
+                    endTime: '',
+                    location: ''
                 },
-                seriesOptions: ['鲁菜', '川菜', '粤菜', '江苏菜', '闽菜', '浙江菜', '湘菜', '徽菜', '清真餐', '日本餐', '西餐', '其他']
             };
         },
         methods: {
-            fileToBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        if (reader.error) {
-                            reject(reader.error);
-                        } else {
-                            resolve(reader.result);
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                });
+            formatMillisecondsToHHMMSS(milliseconds) {
+                const seconds = Math.floor(milliseconds / 1000); // 将毫秒转换为秒
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const remainingSeconds = seconds % 60;
+
+                const formattedHours = String(hours).padStart(2, '0');
+                const formattedMinutes = String(minutes).padStart(2, '0');
+                const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+                return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
             },
-            onUploadSuccess(response, file, fileList) {
-                this.fileToBase64(response.raw).then(base64 => {
-                    this.dish.image = base64.replace(/^data:image\/\w+;base64,/, '');
-                })
-            },
-            addDish() {
-                this.$refs.dishForm.validate(valid => {
+            save() {
+                this.$refs.restaurantForm.validate(valid => {
                     if (valid) {
+                        // 判断食堂名称、营业时间和地址是否都填写完全
+                        if (!this.restaurant.name || !this.restaurant.startTime || !this.restaurant.endTime || !this.restaurant.location) {
+                            this.$message.error('请填写完整的食堂信息');
+                            return;
+                        }
                         // 将表单数据转换为 JSON 格式
-                        const requestData = JSON.stringify(this.dish);
+                        const requestData = JSON.stringify(Object.assign(this.restaurant, {
+                            startTime: this.formatMillisecondsToHHMMSS(Math.abs(this.restaurant.startTime)),
+                            endTime: this.formatMillisecondsToHHMMSS(Math.abs(this.restaurant.endTime)),
+                        }));
                         // 发送 POST 请求给后端，传递表单数据
-                        axios.post('/restaurant/UploadDish', requestData, {
+                        axios.post('/restaurant/updateCanteen', requestData, {
                             headers: {
                                 'Content-Type': 'application/json'
                             }
@@ -208,28 +176,37 @@
                             .then(response => {
                                 const flag = response.data.flag;
                                 if (flag === '0') {
-                                    this.dish = {}; // 清空表单数据
+                                    this.restaurant = {}; // 清空表单数据
                                     this.$message({
-                                        message: '添加成功',
+                                        message: '保存成功',
                                         type: 'success'
                                     });
                                 } else {
-                                    this.$message.error('添加失败：' + response.data.error);
+                                    this.$message.error('保存失败：' + response.data.error);
                                 }
                             })
                             .catch(error => {
                                 console.error(error);
-                                this.$message.error('添加失败：' + error.message);
+                                this.$message.error('保存失败：' + error.message);
                             });
                     } else {
-                        this.$message.error('请填写正确的菜品信息');
+                        this.$message.error('请填写正确的食堂信息');
                     }
                 });
             },
-            resetForm() {
-                this.$refs.dishForm.resetFields();
+            resetForm() { //添加重置表单方法
+                this.$refs.restaurantForm.resetFields();
             }
         },
+        mounted() {
+            axios.get('/restaurant/GetCanteenAdminCanteen').then(({data: res}) => {
+                if (res.flag === '0') {
+                    this.restaurant = res.object
+                } else {
+                    this.$message.error(res.message)
+                }
+            })
+        }
     })
 </script>
 </body>
