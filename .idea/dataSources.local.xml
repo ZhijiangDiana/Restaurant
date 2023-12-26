@@ -16,13 +16,8 @@
       </schema-mapping>
     </data-source>
     <data-source name="Restaurant@118.25.43.33 [2]" uuid="39c74fe8-febf-4b36-b402-89525d04b81a">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0">
-        <extra-name-characters>#@</extra-name-characters>
-        <identifier-quote-string>`</identifier-quote-string>
-      </database-info>
-      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="MYSQL" exact-version="0" />
       <secret-storage>forget</secret-storage>
-      <user-name>root</user-name>
       <schema-mapping />
     </data-source>
     <data-source name="@118.25.43.33" uuid="b28a65ed-1429-40c3-b5a8-cb5f61476278">
@@ -31,7 +26,6 @@
         <identifier-quote-string>`</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
-      <secret-storage>master_key</secret-storage>
       <user-name>root</user-name>
       <schema-mapping>
         <introspection-scope>

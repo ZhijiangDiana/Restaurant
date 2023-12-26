@@ -188,8 +188,19 @@ public class CommentService {
             return FrontEndUtils.objectToBody("系统繁忙","0",null);
         }
 
+    }
 
-
+    public Integer getCommentPublisher(String commentId){
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        try(sqlSession){
+            CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
+            Integer commentPublisher = commentMapper.selectCommentPublisher(Integer.parseInt(commentId));
+            return commentPublisher;
+        }catch (Exception e){
+            sqlSession.close();
+            sqlSession.rollback();
+            return 0;
+        }
     }
 
 

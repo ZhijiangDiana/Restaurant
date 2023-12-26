@@ -64,4 +64,9 @@
         WHERE comment_id = #{id}
     </delete>
 
+    <select id="selectCommentPublisher" resultType="Integer">
+        SELECT user_id
+        FROM comment
+        WHERE comment_id = #{commentId}
+    </select>
 </mapper>

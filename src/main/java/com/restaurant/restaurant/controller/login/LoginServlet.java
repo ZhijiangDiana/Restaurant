@@ -64,15 +64,24 @@ public class LoginServlet extends HttpServlet{
             // 点击小红点跳转到类似b站的信息页面对应页面会发请求获取相对应的资源
             // 这里要放入servletcontext是为了有人发消息或者点赞后能够实时更新 看过后数量自然减少
             HashMap<Integer,Integer> replyCounts = new HashMap<>();
+            // 只用于看点赞总数
             HashMap<Integer,Integer> thumbsupCounts = new HashMap<>();
+            // 用于看某个用户的点赞列表
+            HashMap<Integer,List<Integer>> thumbsupDetails = new HashMap<>();
+
             HashMap<Integer,Integer> reportReplyCounts = new HashMap<>();
             Integer userId = user.getUserId();
 
             HashMap<Integer,Integer> replyCounts1 = (HashMap<Integer,Integer>)request.getServletContext().getAttribute("replyCounts");
             HashMap<Integer,Integer> thumbsupCounts1 = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
+            HashMap<Integer,List<Integer>> thumbsupDetails1 = (HashMap<Integer, List<Integer>>) request.getServletContext().getAttribute("thumbsupDetails");
             HashMap<Integer,Integer> reportReplyCounts1 = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("reportReplyCounts");
+
             if (replyCounts1 == null)
                 request.getServletContext().setAttribute("replyCounts",replyCounts);
+            if (thumbsupDetails1 == null){
+                request.getServletContext().setAttribute("thumbsupDetails",thumbsupDetails);
+            }
             if (thumbsupCounts1 == null)
                 request.getServletContext().setAttribute("thumbsupCounts",thumbsupCounts);
             if (reportReplyCounts1 == null)
