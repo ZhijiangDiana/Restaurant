@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>消息</title>
+    <title>追评我的</title>
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
@@ -173,7 +173,7 @@
                             </el-badge>
                         </template>
                         <el-menu-item>
-                            <a href="reply1.html" class="aside_item">投诉回复</a>
+                            <a href="reply2.html" class="aside_item">投诉回复</a>
                             <el-badge :value="unreadCount2" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
@@ -185,7 +185,7 @@
                             </el-badge>
                         </el-menu-item>
                         <el-menu-item>
-                            <a href="social-1.html" class="aside_item">点赞我的</a>
+                            <a href="reply3.html" class="aside_item">点赞我的</a>
                             <el-badge :value="unreadCount4" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
@@ -203,20 +203,34 @@
                 </el-header>
                 <el-main>
                     <el-card>
-                        <h3>回复我的</h3>
+                        <h3>追评我的</h3>
                     </el-card>
                     <el-card id="card_message1">
                         <div>
-                            <div v-for="(item, index) in comments" style="color: black" :key="index">
+                            <div v-for="(item, index) in paginatedComments" style="color: black" :key="index">
                                 <el-card style="margin-bottom: 5px">
                                     <div style="width: 100%;display: flex;color: black">
                                         <span style="font-weight: bold">{{item.name}}</span>&nbsp;&nbsp;
-                                        <span>回复了我标题为&nbsp;<strong>{{item.title}}</strong>的评论</span>
+                                        <span>回复了我标题为&nbsp;<strong>{{item.title}}</strong>&nbsp;的评论</span>
                                     </div>
-                                    <div style="width: 70%;color: black;margin-top: 5px;margin-bottom: 10px">
+                                    <div style="width: 70%;color: black;margin-top: 15px;margin-bottom: 10px">
                                         <span>{{item.body}}</span>
                                     </div>
                                 </el-card>
+                            </div>
+                            <div>
+                                <!-- 显示分页按钮等 -->
+                                <el-pagination
+                                        align="center"
+                                        @size-change="handleSizeChange"
+                                        @current-change="handleCurrentChange"
+                                        :current-page="currentPage"
+                                        :page-sizes="[3, 6, 9,]"
+                                        :page-size="pageSize"
+                                        layout="total, sizes, prev, pager, next, jumper"
+                                        :total="comments.length">
+                                </el-pagination>
+
                             </div>
                         </div>
 
@@ -246,8 +260,6 @@
                 unreadCount2:3,
                 unreadCount3:1,
                 unreadCount4:2,
-                T1:"回复了我标题为",
-                T2:"的评论",
                 comments:[
                     {
                         name: "User1",
@@ -266,8 +278,18 @@
                         title:"11",
                         body: "rsndm",
                     },
-                ]
 
+                ],
+                pageSize: 3, // 每页显示的条数
+                currentPage: 1, // 当前页3
+                total:''
+            }
+        },
+        computed: {
+            paginatedComments() {
+                const startIndex = (this.currentPage - 1) * this.pageSize
+                const endIndex = startIndex + this.pageSize
+                return this.comments.slice(startIndex, endIndex)
             }
         },
         methods:{
@@ -276,6 +298,15 @@
                 this.asideWidth=this.isCollapse ? '64px':'200px'
                 this.collapseIcon=this.isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold'
             },
+            handleSizeChange(size) {
+                this.currentPage = 1;
+                this.pageSize = size
+            },
+            handleCurrentChange(page) {
+
+                this.currentPage = page
+            }
+
         }
 
     })
