@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点赞我的</title>
+    <!-- 引入 Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+
+        .el-menu-item:hover,
+        .el-submenu__title:hover {
+            color: #fff !important;
+        }
+
+        .el-submenu__title:hover i {
+            color: #fff !important;
+        }
+        .logo_title{
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all .3s;
+        }
+        .el-header {
+            line-height: 60px;
+            display: flex;
+            align-items: center;
+            /* 垂直居中对齐 */
+        }
+        .aside_item_title{
+            color: #fff;
+        }
+        .aside_item{
+            text-decoration: none;
+            padding-left: 20px;
+            color: #fff;
+        }
+        .el-aside {
+            color: #333;
+        }
+        .el-header-buttons .el-button {
+            display: flex;
+            background-color: beige;
+            color:black;
+        }
+        .el-form-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+        .el-main-buttons .el-button{
+            background-color: beige;
+            color:black;
+            margin-left: 50px;
+        }
+        #card_message1 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin-top: 5px; /* 添加一些边距，使内容离边框有一定距离 */
+            margin-left: 20px;
+            margin-right: 20px;
+            min-height: 100vh;
+
+        }
+
+        .el-card{
+            /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .el-main-reply-buttons {
+
+            display: flex;
+            gap: 2px; /* 调整按钮之间的间隔 */
+        }
+        .el-main-reply-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+
+
+        .carouselBox {
+            width: 100%;
+            max-width: 1200px;
+            min-width: 1000px;
+            margin: 0 auto;
+            padding: 5px 0 ;
+        }
+        .el-carousel__item img{
+            position: relative;
+            color: #475669;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #f6f8fb;
+            width: 308px;
+            height: 380px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <div >
+        <el-container>
+            <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
+                <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+                    <span class="logo_title" v-show="!isCollapse">USST</span>
+                </div>
+                <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-house"></i>
+                            <span class="aside_item_title">首页</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="firstView.html" class="aside_item">综合信息</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span class="aside_item_title">食堂基本信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-user"></i>
+                            <span class="aside_item_title">账号管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="userList.html" class="aside_item">用户列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-star-on"></i>
+                            <span class="aside_item_title">评价信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="commentList.html" class="aside_item">评价列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu>
+
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">交流社区信息管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="social-1.html" class="aside_item">帖子列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu>
+
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">消息管理</span>
+                            <el-badge :value="unreadCount1" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </template>
+                        <el-menu-item>
+                            <a href="reply2.html" class="aside_item">投诉回复</a>
+                            <el-badge :value="unreadCount2" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="reply1.html" class="aside_item">追评我的</a>
+                            <el-badge :value="unreadCount3" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="reply3.html" class="aside_item">点赞我的</a>
+                            <el-badge :value="unreadCount4" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+
+
+                    </el-submenu>
+
+                </el-menu>
+            </el-aside>
+            <el-container>
+
+                <el-header style="background-color: #953131">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
+                </el-header>
+                <el-main>
+                    <el-card>
+                        <h3>收到的点赞</h3>
+                    </el-card>
+                    <el-card id="card_message1">
+                        <div>
+                            <div v-for="(item, index) in paginatedComments" style="color: black" :key="index">
+                                <el-card style="margin-bottom: 5px">
+                                    <div style="width: 100%;display: flex;color: black">
+                                        <span style="font-weight: bold">{{item.name}}</span>&nbsp;&nbsp;
+                                        <span>点赞了我标题为&nbsp;<strong>{{item.title}}</strong>&nbsp的帖子</span>
+                                    </div>
+                                    <div style="width: 70%;color: black;margin-top: 15px;margin-bottom: 10px">
+                                        <span>{{item.body}}</span>
+                                    </div>
+                                </el-card>
+                            </div>
+                            <div>
+                                <!-- 显示分页按钮等 -->
+                                <el-pagination
+                                        align="center"
+                                        @size-change="handleSizeChange"
+                                        @current-change="handleCurrentChange"
+                                        :current-page="currentPage"
+                                        :page-sizes="[3, 6, 9,]"
+                                        :page-size="pageSize"
+                                        layout="total, sizes, prev, pager, next, jumper"
+                                        :total="comments.length">
+                                </el-pagination>
+
+                            </div>
+                        </div>
+
+                    </el-card>
+                </el-main>
+            </el-container>
+        </el-container>
+
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return{
+                isCollapse:false,
+                asideWidth:'200px',
+                collapseIcon:'el-icon-s-fold',
+                value:'',
+                images: [
+                    'image/food.png',
+                    'image/food_2.png',
+                    'image/hotpot.png',
+                ],
+                unreadCount1:6,
+                unreadCount2:3,
+                unreadCount3:1,
+                unreadCount4:2,
+                comments:[
+                    {
+                        name: "User1",
+                        title:"勾8",
+                        body: "这个好吃！！！",
+                    }, {
+                        name: "User2",
+                        title:"11",
+                        body: "蒸馍？你不扶器？o.O?",
+                    }, {
+                        name: "User3",
+                        title:"11",
+                        body: "蒸馍？你不扶器？o.O?",
+                    }, {
+                        name: "User4",
+                        title:"11",
+                        body: "蒸馍？你不扶器？o.O?",
+                    },
+                ],
+                pageSize: 3, // 每页显示的条数
+                currentPage: 1, // 当前页3
+                total:''
+
+            }
+        },
+        computed: {
+            paginatedComments() {
+                const startIndex = (this.currentPage - 1) * this.pageSize
+                const endIndex = startIndex + this.pageSize
+                return this.comments.slice(startIndex, endIndex)
+                }
+            }
+        ,
+        methods:{
+            handleCollapse(){
+                this.isCollapse=!this.isCollapse
+                this.asideWidth=this.isCollapse ? '64px':'200px'
+                this.collapseIcon=this.isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold'
+            },
+            handleSizeChange(size) {
+                this.currentPage = 1;
+                this.pageSize = size
+            },
+            handleCurrentChange(page) {
+
+                this.currentPage = page
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
