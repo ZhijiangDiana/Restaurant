@@ -173,13 +173,13 @@
                             </el-badge>
                         </template>
                         <el-menu-item>
-                            <a href="reply1.html" class="aside_item">回复我的</a>
+                            <a href="reply1.html" class="aside_item">投诉回复</a>
                             <el-badge :value="unreadCount2" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </el-menu-item>
                         <el-menu-item>
-                            <a href="social-1.html" class="aside_item">追评我的</a>
+                            <a href="reply1.html" class="aside_item">追评我的</a>
                             <el-badge :value="unreadCount3" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
@@ -206,16 +206,20 @@
                         <h3>回复我的</h3>
                     </el-card>
                     <el-card id="card_message1">
-                   <div style="width: 100%;display: flex;color: black">
-                       <span>ID  </span>
-                       <span>回复了我的评论</span>
-                   </div>
-                   <div style="width: 70%;color: black">
-                       <span>XXXXXXXXX</span>
-                   </div>
-                        <div style="width: 70%;color: black">
-                            <span>2023年12月22日 16:11</span>
+                        <div>
+                            <div v-for="(item, index) in comments" style="color: black" :key="index">
+                                <el-card style="margin-bottom: 5px">
+                                    <div style="width: 100%;display: flex;color: black">
+                                        <span style="font-weight: bold">{{item.name}}</span>&nbsp;&nbsp;
+                                        <span>回复了我标题为&nbsp;<strong>{{item.title}}</strong>的评论</span>
+                                    </div>
+                                    <div style="width: 70%;color: black;margin-top: 5px;margin-bottom: 10px">
+                                        <span>{{item.body}}</span>
+                                    </div>
+                                </el-card>
+                            </div>
                         </div>
+
                     </el-card>
                 </el-main>
             </el-container>
@@ -241,7 +245,28 @@
                 unreadCount1:6,
                 unreadCount2:3,
                 unreadCount3:1,
-                unreadCount4:2
+                unreadCount4:2,
+                T1:"回复了我标题为",
+                T2:"的评论",
+                comments:[
+                    {
+                        name: "User1",
+                        title:"11",
+                        body: "rsndm",
+                    }, {
+                        name: "User2",
+                        title:"11",
+                        body: "rsndm",
+                    }, {
+                        name: "User3",
+                        title:"11",
+                        body: "rsndm",
+                    }, {
+                        name: "User4",
+                        title:"11",
+                        body: "rsndm",
+                    },
+                ]
 
             }
         },
