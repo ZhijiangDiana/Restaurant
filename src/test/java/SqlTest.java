@@ -1,4 +1,5 @@
 import com.restaurant.restaurant.mapper.*;
+import com.restaurant.restaurant.pojo.ReplyMessage;
 import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.Constants;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
@@ -124,5 +125,16 @@ public class SqlTest {
         for (Canteen canteen : canteens) {
             System.out.println(canteen);
         }
+    }
+
+    @Test
+    public void asdfadsf(){
+        SqlSession sqlSession1 = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        ReplyMapper mapper = sqlSession1.getMapper(ReplyMapper.class);
+        List<ReplyMessage> replyMessages = mapper.selectDetails(1);
+        for (ReplyMessage replyMessage : replyMessages) {
+            System.out.println(replyMessage);
+        }
+        sqlSession1.close();
     }
 }

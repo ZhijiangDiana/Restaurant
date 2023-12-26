@@ -1,8 +1,7 @@
 package com.restaurant.restaurant.mapper;
 
-import com.restaurant.restaurant.pojo.entity.Canteen;
 import com.restaurant.restaurant.pojo.entity.Comment;
-import com.restaurant.restaurant.pojo.entity.ReplyMessage;
+import com.restaurant.restaurant.pojo.ReplyMessage;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

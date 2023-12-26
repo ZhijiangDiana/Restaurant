@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/thumb")
 public class Thumbup extends HttpServlet {
@@ -27,20 +28,20 @@ public class Thumbup extends HttpServlet {
         }
         else {
             HashMap<Integer,Integer> thumbsupCounts = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
-            HashMap<Integer, List<Integer>> thumbsupDetails = (HashMap<Integer, List<Integer>>) request.getServletContext().getAttribute("thumbsupDetails");
+            HashMap<Integer, Map<Integer,Integer>> thumbsupDetails = (HashMap<Integer, Map<Integer, Integer>>) request.getServletContext().getAttribute("thumbsupDetails");
             User user = (User) request.getSession().getAttribute("user");
             Integer userId = user.getUserId();
             if ("1".equals(flag)) {
                 thumbsupCounts.put(commentPublisher, thumbsupCounts.get(commentPublisher) + 1);
-                List<Integer> thumbsupList = thumbsupDetails.get(commentPublisher);
-                thumbsupList.add(userId);
-                thumbsupDetails.put(commentPublisher,thumbsupList);
+                Map<Integer, Integer> info = thumbsupDetails.get(commentPublisher);
+                info.put(user.getUserId(),Integer.parseInt(commentId));
+                thumbsupDetails.put(commentPublisher,info);
             }
             if ("0".equals(flag)) {
                 thumbsupCounts.put(commentPublisher, thumbsupCounts.get(commentPublisher) - 1);
-                List<Integer> thumbsupList = thumbsupDetails.get(commentPublisher);
-                thumbsupList.remove(userId);
-                thumbsupDetails.put(commentPublisher,thumbsupList);
+                Map<Integer, Integer> info = thumbsupDetails.get(commentPublisher);
+                info.remove(user.getUserId());
+                thumbsupDetails.put(commentPublisher,info);
             }
             response.getWriter().print(commentService.thumbup(flag, commentId));
         }

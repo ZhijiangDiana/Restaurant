@@ -31,4 +31,15 @@
         DELETE FROM reply
         WHERE reply_id = #{id}
     </delete>
+
+    <select id="selectDetails" resultType="com.restaurant.restaurant.pojo.ReplyMessage">
+        SELECT
+            u.username AS name,
+            c.title AS title,
+            r.body AS body
+        FROM reply r
+                 JOIN comment c ON r.comment_id = c.comment_id
+                 JOIN user u ON r.user_id = u.user_id
+        WHERE c.user_id = #{userId};
+    </select>
 </mapper>

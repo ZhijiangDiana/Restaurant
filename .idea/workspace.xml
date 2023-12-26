@@ -10,16 +10,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="登录与系统管理员前端">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/CustomRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/ExistUserFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="点赞">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowReplyDetails.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowReplyNum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowThumbsupDetails.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowThumbsupNum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/ReplyMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/Thumbup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/Thumbup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/current_user_info/GetMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/current_user_info/GetMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/login/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/login/LoginServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/ReplyMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/ReplyMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/pojo/entity/ReplyMessage.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/ReplyMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/ReplyMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/SqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SqlTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +103,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
+    "project.structure.last.edited": "Facets",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.14971977",
     "settings.editor.selected.configurable": "preferences.lookFeel",
@@ -148,6 +155,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="SqlTest.asdfadsf" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="restaurant" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="SqlTest" />
+      <option name="METHOD_NAME" value="asdfadsf" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="SqlTest.sensitiveFilter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="restaurant" />
       <option name="PACKAGE_NAME" value="" />
@@ -157,9 +174,6 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="login.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/restaurant/login.html">
-      <method v="2" />
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -297,7 +311,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JavaScript Debug.login.html" />
+      <item itemvalue="JUnit.SqlTest.asdfadsf" />
       <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
       <item itemvalue="JUnit.SqlTest.CanteenAdminMapperTest" />
       <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
@@ -306,6 +320,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.SqlTest.asdfadsf" />
         <item itemvalue="JUnit.SqlTest.UserMapperTest" />
         <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
         <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
@@ -331,7 +346,10 @@
       <workItem from="1703246725389" duration="3246000" />
       <workItem from="1703255689285" duration="2964000" />
       <workItem from="1703562023292" duration="2727000" />
-      <workItem from="1703570989653" duration="965000" />
+      <workItem from="1703570989653" duration="1745000" />
+      <workItem from="1703572748608" duration="82000" />
+      <workItem from="1703572840258" duration="3018000" />
+      <workItem from="1703576393339" duration="6905000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />
@@ -364,7 +382,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703249265661</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="点赞">
+      <created>1703572133746</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1703572133746</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -387,6 +412,11 @@
                   </entry>
                 </map>
               </option>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Date.ColumnIdWidth" value="72" />
+                </map>
+              </option>
             </State>
           </value>
         </entry>
@@ -400,7 +430,8 @@
     <MESSAGE value="登录注册页面逻辑跑通了" />
     <MESSAGE value="根据工号查id,showUserByID" />
     <MESSAGE value="消息列表已完成，已测试&#10;根据评论id查询评论" />
-    <option name="LAST_COMMIT_MESSAGE" value="消息列表已完成，已测试&#10;根据评论id查询评论" />
+    <MESSAGE value="点赞" />
+    <option name="LAST_COMMIT_MESSAGE" value="点赞" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -417,8 +448,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java</url>
-          <line>27</line>
-          <properties class="com.restaurant.restaurant.mapper.CommentMapper">
+          <line>26</line>
+          <properties class="com.restaurant.restaurant.mapper.CommentMapper" method="selectCommentOrderByLikes">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
