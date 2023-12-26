@@ -47,6 +47,8 @@ public class GetAdmNotifCount extends HttpServlet {
                 reportNotif.put(canteen.getCanteenId(), new ConcurrentHashMap<>());
                 dishCommentNotif.put(canteen.getCanteenId(), new ConcurrentHashMap<>());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 //        // 测试
