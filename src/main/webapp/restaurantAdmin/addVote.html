@@ -21,32 +21,6 @@
             color: unset;
         }
 
-        .image-uploader .el-upload {
-            border: 1px dashed #d9d9d9;
-            border-radius: 6px;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-uploader .el-upload:hover {
-            border-color: #409EFF;
-        }
-
-        .image-uploader-icon {
-            font-size: 28px;
-            color: #8c939d;
-            width: 178px;
-            height: 178px;
-            line-height: 178px;
-            text-align: center;
-        }
-
-        .image {
-            width: 178px;
-            height: 178px;
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -57,7 +31,7 @@
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['3']">
+                <el-menu :default-openeds="['6']">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-house"></i>
@@ -124,37 +98,32 @@
                 </el-menu>
             </el-aside>
             <el-main>
-                <el-form :model="dish" ref="dishForm" label-width="80px" style="padding: 20px;">
-                    <el-form-item label="菜品名称" prop="dishName">
-                        <el-input v-model="dish.dishName"></el-input>
+                <h1>发起投票</h1>
+                <el-form :model="formData" :rules="rules" ref="voteForm" label-width="100px">
+                    <el-form-item label="问题" prop="title">
+                        <el-input v-model="formData.title" placeholder="请输入问题" required></el-input>
                     </el-form-item>
-                    <el-form-item label="系列" prop="series">
-                        <el-select v-model="dish.series">
-                            <el-option v-for="(item, index) in seriesOptions" :label="item"
-                                       :value="index"></el-option>
-                        </el-select>
+                    <el-form-item label="选项">
+                        <el-row v-for="(option, index) in formData.choices" :key="index">
+                            <el-col :span="20">
+                                <el-input v-model="option.value" placeholder="请输入选项" required></el-input>
+                            </el-col>
+                            <el-col :span="4">
+                                <el-button type="danger" @click="deleteOption(index)">删除</el-button>
+                            </el-col>
+                        </el-row>
+                        <el-button @click="addOption" plain>增加选项</el-button>
                     </el-form-item>
-                    <el-form-item label="价格" prop="price">
-                        <el-input type="number" v-model="dish.price"></el-input>
+                    <el-form-item label="开始时间" prop="startTime">
+                        <el-date-picker v-model="formData.startTime" type="datetime" placeholder="选择开始时间"
+                                        required></el-date-picker>
                     </el-form-item>
-                    <el-form-item label="图片" prop="image">
-                        <el-upload
-                                action=""
-                                class="image-uploader"
-                                accept="image/*"
-                                :limit="1"
-                                :auto-upload="true"
-                                :show-file-list="false"
-                                :on-change="onUploadSuccess"
-                        >
-                            <img v-if="dish.image" :src="'data:image/png;base64,' + dish.image"
-                                 class="image">
-                            <i v-else class="el-icon-plus image-uploader-icon"></i>
-                        </el-upload>
+                    <el-form-item label="结束时间" prop="endTime">
+                        <el-date-picker v-model="formData.endTime" type="datetime" placeholder="选择结束时间"
+                                        required></el-date-picker>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="addDish">添加菜品</el-button>
-                        <el-button @click="resetForm">重置表单</el-button>
+                        <el-button type="primary" @click="submitForm('voteForm')">提交</el-button>
                     </el-form-item>
                 </el-form>
             </el-main>
@@ -166,68 +135,70 @@
         el: '#app',
         data: function () {
             return {
-                dish: {
-                    dishName: '',
-                    series: '',
-                    price: '',
-                    image: ''
+                formData: {
+                    title: '',
+                    choices: [{value: ''}],
+                    startTime: '',
+                    endTime: ''
                 },
-                seriesOptions: ['鲁菜', '川菜', '粤菜', '江苏菜', '闽菜', '浙江菜', '湘菜', '徽菜', '清真餐', '日本餐', '西餐', '其他']
-            };
+                rules: {
+                    title: [
+                        {required: true, message: '请输入问题', trigger: 'blur'}
+                    ],
+                    choices: [
+                        {required: true, message: '请输入选项', trigger: 'blur'}
+                    ],
+                    startTime: [
+                        {required: true, message: '请选择开始时间', trigger: 'change'}
+                    ],
+                    endTime: [
+                        {required: true, message: '请选择结束时间', trigger: 'change'}
+                    ]
+                }
+            }
         },
         methods: {
-            fileToBase64(file) {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        if (reader.error) {
-                            reject(reader.error);
-                        } else {
-                            resolve(reader.result);
-                        }
-                    };
-                    reader.readAsDataURL(file);
-                });
+            addOption() {
+                this.formData.choices.push({value: ''});
             },
-            onUploadSuccess(response, file, fileList) {
-                this.fileToBase64(response.raw).then(base64 => {
-                    this.dish.image = base64.replace(/^data:image\/\w+;base64,/, '');
-                })
+            deleteOption(index) {
+                this.formData.choices.splice(index, 1);
             },
-            addDish() {
-                this.$refs.dishForm.validate(valid => {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        // 将表单数据转换为 JSON 格式
-                        const requestData = JSON.stringify(this.dish);
-                        // 发送 POST 请求给后端，传递表单数据
-                        axios.post('/restaurant/UploadDish', requestData, {
+                        axios.post('/restaurant/UploadVote', JSON.stringify({
+                            title: this.formData.title,
+                            startTime: this.formData.startTime,
+                            endTime: this.formData.endTime,
+                            choices: this.formData.choices.map(function (item) {
+                                return item.value;
+                            })
+                        }), {
                             headers: {
                                 'Content-Type': 'application/json'
                             }
-                        })
-                            .then(response => {
-                                const flag = response.data.flag;
-                                if (flag === '0') {
-                                    this.dish = {}; // 清空表单数据
-                                    this.$message({
-                                        message: '添加成功',
-                                        type: 'success'
-                                    });
-                                } else {
-                                    this.$message.error('添加失败：' + response.data.error);
-                                }
-                            })
-                            .catch(error => {
-                                console.error(error);
-                                this.$message.error('添加失败：' + error.message);
+                        }).then((response) => {
+                            // 清空表单数据
+                            this.formData.title = '';
+                            this.formData.choices = [{value: ''}];
+                            this.formData.startTime = '';
+                            this.formData.endTime = '';
+
+                            // 提示投票创建成功
+                            this.$message({
+                                message: '投票创建成功！',
+                                type: 'success'
                             });
+                        }).catch((error) => {
+                            console.log(error);
+                            this.$message.error('投票创建失败！');
+                        });
                     } else {
-                        this.$message.error('请填写正确的菜品信息');
+                        this.$message.error('表单验证失败，请检查输入！');
+                        return false;
                     }
                 });
-            },
-            resetForm() {
-                this.$refs.dishForm.resetFields();
             }
         },
     })
