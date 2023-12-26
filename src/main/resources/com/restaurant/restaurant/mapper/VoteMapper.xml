@@ -25,4 +25,8 @@
         SELECT * FROM `Restaurant`.vote
         WHERE result IS NULL;
     </select>
+    <select id="selectAllFinished" resultType="com.restaurant.restaurant.pojo.entity.Vote">
+        SELECT * FROM Restaurant.vote
+        WHERE result IS NOT NULL;
+    </select>
 </mapper>

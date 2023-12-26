@@ -9,6 +9,7 @@ public interface VoteMapper {
     List<Vote> selectAll();
     Vote selectById(@Param("id") int id);
     List<Vote> selectFinishedByCanteenId(@Param("canteenId") int id);
+    List<Vote> selectAllFinished();
     List<Vote> selectRunning();
     void insertVote(Vote vote);
     void updateResult(Vote vote);

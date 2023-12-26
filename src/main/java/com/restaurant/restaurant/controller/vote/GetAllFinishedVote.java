@@ -15,28 +15,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "GetFinishedVote",value = "/GetFinishedVote")
-public class GetFinishedVote extends HttpServlet {
+@WebServlet(name = "GetAllFinishedVote",value = "/GetAllFinishedVote")
+public class GetAllFinishedVote extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter pw = resp.getWriter();
 
-        HttpSession session = req.getSession(true);
-        CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
-
-//        // 测试用
-//        canteenAdmin = new CanteenAdmin();
-//        canteenAdmin.setCanteenId(1);
-
-        if (canteenAdmin == null) {
-            resp.setStatus(403);
-            pw.print(FrontEndUtils.objectToBody("未登录", "1", null));
-            return;
-        }
-
         GetVoteService getVoteService = new GetVoteService();
-        List<Vote> voteList = getVoteService.getCanteenFinishedVotes(canteenAdmin.getCanteenId());
+        List<Vote> voteList = getVoteService.getAllFinishedVotes();
 
         if(voteList == null || voteList.isEmpty()){
             pw.print(FrontEndUtils.objectToBody("投票列表为空","1",null));

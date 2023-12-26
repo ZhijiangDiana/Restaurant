@@ -35,6 +35,19 @@ public class GetVoteService {
         return voteList;
     }
 
+    public List<Vote> getAllFinishedVotes() {
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
+
+        List<Vote> voteList = null;
+        try (sqlSession) {
+            voteList = voteMapper.selectAllFinished();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return voteList;
+    }
+
     public List<Vote> getRunningVotes(ServletContext context) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         VoteMapper voteMapper = sqlSession.getMapper(VoteMapper.class);
