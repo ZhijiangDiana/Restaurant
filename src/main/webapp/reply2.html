@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>追评我的</title>
+    <title>投诉回复</title>
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
@@ -185,7 +185,7 @@
                             </el-badge>
                         </el-menu-item>
                         <el-menu-item>
-                            <a href="reply3.html" class="aside_item">点赞我的</a>
+                            <a href="social-1.html" class="aside_item">点赞我的</a>
                             <el-badge :value="unreadCount4" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
@@ -203,7 +203,7 @@
                 </el-header>
                 <el-main>
                     <el-card>
-                        <h3>追评我的</h3>
+                        <h3>投诉回复</h3>
                     </el-card>
                     <el-card id="card_message1">
                         <div>
@@ -211,7 +211,7 @@
                                 <el-card style="margin-bottom: 5px">
                                     <div style="width: 100%;display: flex;color: black">
                                         <span style="font-weight: bold">{{item.name}}</span>&nbsp;&nbsp;
-                                        <span>回复了我标题为&nbsp;<strong>{{item.title}}</strong>&nbsp;的评论</span>
+                                        <span>回复了我标题为&nbsp;<strong>{{item.title}}</strong>&nbsp;的投诉</span>
                                     </div>
                                     <div style="width: 70%;color: black;margin-top: 15px;margin-bottom: 10px">
                                         <span>{{item.body}}</span>
@@ -262,27 +262,27 @@
                 unreadCount4:2,
                 comments:[
                     {
-                        name: "User1",
-                        title:"11",
-                        body: "rsndm",
+                        name: "食堂管理员1",
+                        title:"吃到答辩了",
+                        body: "蒸馍？你不扶器？o.O?",
                     }, {
-                        name: "User2",
-                        title:"11",
-                        body: "rsndm",
+                        name: "食堂管理员2",
+                        title:"吃到答辩了",
+                        body: "蒸馍？你不扶器？o.O?",
                     }, {
-                        name: "User3",
-                        title:"11",
-                        body: "rsndm",
+                        name: "食堂管理员3",
+                        title:"吃到答辩了",
+                        body: "蒸馍？你不扶器？o.O?",
                     }, {
-                        name: "User4",
-                        title:"11",
-                        body: "rsndm",
+                        name: "食堂管理员4",
+                        title:"吃到答辩了",
+                        body: "蒸馍？你不扶器？o.O?",
                     },
-
                 ],
                 pageSize: 3, // 每页显示的条数
                 currentPage: 1, // 当前页3
                 total:''
+
             }
         },
         computed: {
@@ -306,7 +306,6 @@
 
                 this.currentPage = page
             }
-
         }
 
     })
