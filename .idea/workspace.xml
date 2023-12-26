@@ -2,17 +2,24 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="Restaurant:war exploded" />
+      <artifact name="restaurant:war" />
+      <artifact name="restaurant:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e67d094-8d55-471d-8769-3007a1f2a13e" name="Changes" comment="更">
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="登录与系统管理员前端">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/CustomRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/ExistUserFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/canteenManage/ShowAllCanteen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/admin/canteenManage/ShowAllCanteen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/Thumbup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/Thumbup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/login/LoginServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/login/LoginServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,16 +89,17 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "dev",
-    "last_opened_file_path": "D:/桌面文件/OIP-C.jpg",
+    "last_opened_file_path": "D:/java/eee",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.14971977",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -167,10 +175,9 @@
     <configuration name="Local Tomcat 10.1.13" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.15" ALTERNATIVE_JRE_ENABLED="false">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/restaurant/login.html" />
       <option name="COMMON_VM_ARGUMENTS" value="-Dfile.encoding=utf-8" />
-      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
-      <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
+      <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <artifact name="Restaurant:war exploded">
+        <artifact name="restaurant:war">
           <settings>
             <option name="CONTEXT_PATH" value="/restaurant" />
           </settings>
@@ -285,6 +292,7 @@
         <option name="BuildArtifacts" enabled="true">
           <artifact name="restaurant:war exploded" />
           <artifact name="Restaurant:war exploded" />
+          <artifact name="restaurant:war" />
         </option>
       </method>
     </configuration>
@@ -308,7 +316,6 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
-      <changelist id="3e67d094-8d55-471d-8769-3007a1f2a13e" name="Changes" comment="消息管理 换设备" />
       <created>1702034609613</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -323,6 +330,8 @@
       <workItem from="1703229479821" duration="4741000" />
       <workItem from="1703246725389" duration="3246000" />
       <workItem from="1703255689285" duration="2964000" />
+      <workItem from="1703562023292" duration="2727000" />
+      <workItem from="1703570989653" duration="965000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />
@@ -372,7 +381,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/dev" />
+                        <option value="dev" />
                       </list>
                     </value>
                   </entry>

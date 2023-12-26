@@ -79,4 +79,9 @@
         JOIN user u ON c.user_id = u.user_id;
     </select>
 
+    <select id="selectCommentPublisher" resultType="Integer">
+        SELECT user_id
+        FROM comment
+        WHERE comment_id = #{commentId}
+    </select>
 </mapper>

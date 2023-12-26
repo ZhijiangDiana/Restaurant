@@ -30,4 +30,6 @@ public interface CommentMapper {
     List<ReplyMessage> selectCommentIdByUserId(@Param("id") int id);//查询别人回复我的评论，相当于b站的回复@我的评论
 
     List<CommentShow> selectDetailedInfo();
+
+    Integer selectCommentPublisher(@Param("commentId") int commentId);
 }
