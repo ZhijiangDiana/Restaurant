@@ -4,7 +4,7 @@ import com.restaurant.restaurant.mapper.CanteenAdminMapper;
 import com.restaurant.restaurant.mapper.CommentMapper;
 import com.restaurant.restaurant.mapper.UserMapper;
 import com.restaurant.restaurant.pojo.CommentShow;
-import com.restaurant.restaurant.pojo.entity.ReplyMessage;
+import com.restaurant.restaurant.pojo.ReplyMessage;
 import com.restaurant.restaurant.pojo.ShowAllPublishedInfo;
 import com.restaurant.restaurant.pojo.entity.*;
 import com.restaurant.restaurant.utils.Constants;

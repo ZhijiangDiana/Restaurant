@@ -24,8 +24,10 @@
         }
 
         .el-aside{
+            text-decoration: none;
             transition: width.3s;
             box-shadow: 2px 0 6px rgba(0,21,41,35);
+            color: #fff;
         }
         .logo_title{
             margin-left: 5px;
@@ -181,25 +183,50 @@
                                     </el-row>
                                 </div>
                             </div>
-                            <div style="margin-bottom: 5px">
-                                <el-button icon="el-icon-document"
-                                           style="color:black;
+                            <div style="display: flex">
+                                <div style="margin-bottom: 5px ;width: 50%">
+                                    <el-button icon="el-icon-document"
+                                               style="color:black;
+                                               background-color: transparent;
+                                               border-color: transparent;
+                                               font-weight: bold;font-size: 20px">投票调查</el-button>
+                                </div>
+                                <div style="margin-bottom: 5px;width: 50%">
+                                    <el-button icon="el-icon-document"
+                                               style="color:black;
                                            background-color: transparent;
                                            border-color: transparent;
-                                           font-weight: bold;font-size: 20px">投票调查</el-button>
+                                           font-weight: bold;font-size: 20px">投票结果</el-button>
+                                </div>
                             </div>
-                            <div style="color: black;margin-bottom: 20px">
-                                <el-table :data="vote" style="width: 50%">
-                                    <el-table-column label="餐厅" prop="canteenName"></el-table-column>
-                                    <el-table-column label="标题" prop="title"></el-table-column>
-                                    <el-table-column label="开始时间" prop="startTime"></el-table-column>
-                                    <el-table-column label="结束时间" prop="endTime"></el-table-column>
-                                    <el-table-column label="">
-                                        <template slot-scope="scope">
-                                            <el-button @click="goToVoteInfo(scope.row)" type="primary">投票</el-button>
-                                        </template>
-                                    </el-table-column>
-                                </el-table>
+                            <div style="display: flex">
+                                <div style="color: black;margin-bottom: 20px">
+                                    <el-table :data="vote" style="width: 500px">
+                                        <el-table-column label="餐厅" prop="canteenName"></el-table-column>
+                                        <el-table-column label="标题" prop="title"></el-table-column>
+                                        <el-table-column label="开始时间" prop="startTime"></el-table-column>
+                                        <el-table-column label="结束时间" prop="endTime"></el-table-column>
+                                        <el-table-column label="">
+                                            <template slot-scope="scope">
+                                                <el-button @click="goToVoteInfo(scope.row)" type="primary">投票</el-button>
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                </div>
+                                <div></div>
+                                <div style="color: black;margin-bottom: 20px">
+                                    <el-table :data="finishedVote" style="width: 500px ;left: 25px">
+                                        <el-table-column label="餐厅" prop="canteenName"></el-table-column>
+                                        <el-table-column label="标题" prop="title"></el-table-column>
+                                        <el-table-column label="开始时间" prop="startTime"></el-table-column>
+                                        <el-table-column label="结束时间" prop="endTime"></el-table-column>
+                                        <el-table-column label="">
+                                            <template slot-scope="scope">
+                                                <el-button @click="ShowFinishedVoteInfo(scope.row)" type="primary">结果</el-button>
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                </div>
                             </div>
                             <div style="margin-bottom: 5px">
                                 <el-button icon="el-icon-knife-fork"
@@ -323,6 +350,29 @@
                                 </el-form>
                             </el-dialog>
 
+                            <el-dialog title="投票结果" :visible.sync="dialogVisible2">
+                                <el-form :model="finishedVoteInfo" label-position="top">
+                                    <el-form-item label="发起餐厅">
+                                        <el-input v-model="finishedVoteInfo.cateenName" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="标题">
+                                        <el-input v-model="finishedVoteInfo.title" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="开始时间">
+                                        <el-input v-model="finishedVoteInfo.startTime" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="结束时间">
+                                        <el-input v-model="finishedVoteInfo.endTime" :disabled="true"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="结束时间">
+                                        <!-- 编辑表单的内容 -->
+                                        <p v-for="(value, key) in finishedVoteInfo.currentResult" :key="key">
+                                            {{ key }}: {{ value }}
+                                        </p>
+                                    </el-form-item>
+                                </el-form>
+                            </el-dialog>
+
                         </div>
                     </el-card>
                 </el-main>
@@ -347,11 +397,16 @@
                     '../image/hotpot.png',
                 ],
                 dialogVisible: false,
+                dialogVisible2: false,
                 canteenRank: [],
                 dishRank: [],
                 allCanteen: [],
                 vote: [],
+                finishedVote:[],
                 voteInfo: {
+                    currentResult: '',
+                },
+                finishedVoteInfo:{
                     currentResult: '',
                 },
                 userVote: [],
@@ -384,6 +439,16 @@
                 this.dialogVisible = true;
                 // alert("点击了投票详情" + index)
                 // alert(this.voteInfo.result)
+            },
+            ShowFinishedVoteInfo(row){
+                this.dialogVisible2 = true;
+                const index = this.finishedVote.indexOf(row);
+                this.finishedVoteInfo = this.finishedVote[index];
+                this.finishedVoteInfo.currentResult = JSON.parse(this.finishedVote.result)
+
+
+                // alert("点击了投票详情" + index)
+                // alert(this.finishedVote.result)
             },
             saveSubmit() {
                 const postJson = {
@@ -433,6 +498,7 @@
 
                             // 刷新后四个页面
                             this.getRunningVote();
+                            this.getFinishedVote();
                             this.getDishRank();
                             this.getDiscountDish();
                             this.getRecommendDish();
@@ -504,6 +570,32 @@
                         console.error(error);
                         this.$message.error('网络异常：' + error.message);
                     });
+            },
+            getFinishedVote() {
+                axios.post('/restaurant/GetAllFinishedVote')
+                    .then(response => {
+                        const json = response.data
+                        const object = json.object;
+                        const flag = json.flag;
+
+                        if (object === null || object === undefined || object === "")
+                            return;
+
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                // alert(item)
+                                item.startTime = timeStampToDateTime(item.startTime);
+                                item.endTime = timeStampToDateTime(item.endTime);
+                                item.canteenName = this.getCanteenName(item.canteenId)
+                            });
+                            this.finishedVote= object;
+                        }
+                    }).catch(error => {
+                    console.error(error);
+                    this.$message.error('网络异常：' + error.message);
+                });
             },
             getDiscountDish() {
                 axios.get('/restaurant/showDiscountDish')
