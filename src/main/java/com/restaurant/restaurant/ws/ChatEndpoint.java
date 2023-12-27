@@ -144,12 +144,14 @@ public class ChatEndpoint {
             // jakarta.websocket.Session.getBasicRemote()" because "session" is null
             // 问题在于对方还没开聊天框 所以session是空。所以应该先存进数据库里。
             if (sessionTo == null){
+                System.out.println("对方不在线");
                 // 用于告知前端对方不在线 直接再调一次fetchMessage就行
                 String msg2 = MessageUtils.getMessage(false, toId, 0);
                 sessionFrom.getBasicRemote().sendText(msg2);
                 // 这里不能调接收方session 因为是空的
             }
             else {
+                System.out.println("对方在线");
                 sessionFrom.getBasicRemote().sendText(msg1);
                 // 不然永远都是发送方发消息
                 String msg3 = MessageUtils.getMessage(false,null,mess);
