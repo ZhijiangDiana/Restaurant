@@ -167,7 +167,7 @@ public class CommentService {
                 return FrontEndUtils.objectToBody("别想通过url动坏脑筋", "1", null);
             }
         }catch (Exception e){
-            sqlSession.close();
+            e.printStackTrace();
             sqlSession.rollback();
             return FrontEndUtils.objectToBody("系统繁忙","0",null);
         }

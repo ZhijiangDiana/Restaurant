@@ -222,7 +222,7 @@
                                      </el-form-item>
                                      <el-form-item class="el-main-reply-buttons">
                                          <el-button type="primary" @click="submitComment">发表回复</el-button>
-                                         <el-button type="primary" icon="el-icon-thumb">
+                                         <el-button type="primary" @click="thumbup" icon="el-icon-thumb">
                                              <el-badge :value="currentRow.likes" class="icon" style="margin-left: 15px;">
                                                  <el-icon-button  icon="el-icon-message"></el-icon-button>
                                              </el-badge>
@@ -473,10 +473,26 @@
                         if (flag === '1') {
                             this.$message.error("回复失败")
                         } else {
-                            this.$message.error("回复成功")
+                            this.$message.success("回复成功")
                         }
                     }).error(error => {
-                    this.$message.error('获取列表失败');
+                    this.$message.error('回复失败');
+                    console.log(error);
+                })
+            },
+            thumbup() {
+                // TODO 只做了点赞，没做取消点赞
+                axios.get('/restaurant/thumb?commentId=' + this.currentRow.commentId + "&flag=1")
+                    .then(response => {
+                        const flag = response.data.flag;
+                        if (flag === '1') {
+                            this.$message.error("点赞失败")
+                        } else {
+                            this.currentRow.likes++;
+                            this.$message.success("点赞成功")
+                        }
+                    }).error(error => {
+                    this.$message.error('点赞失败');
                     console.log(error);
                 })
             },
