@@ -1,0 +1,193 @@
+// 使用说明：改完侧边栏之后需要在这里进行修改，并应用于所有页面
+
+<!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
+<el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
+    <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+        <span class="logo_title" v-show="!isCollapse">USST</span>
+    </div>
+    <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+        <el-submenu>
+            <template slot="title">
+                <i class="el-icon-house"></i>
+                <span class="aside_item_title">首页</span>
+            </template>
+            <el-menu-item>
+                <a href="firstView.html" class="aside_item">综合信息</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu>
+            <template slot="title">
+                <i class="el-icon-s-shop"></i>
+                <span class="aside_item_title">食堂基本信息管理</span>
+            </template>
+            <el-menu-item>
+                <a href="searchDish.html" class="aside_item">食堂列表</a>
+            </el-menu-item>
+            <el-menu-item>
+                <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+            </el-menu-item>
+        </el-submenu>
+
+        <el-submenu>
+            <template slot="title">
+                <i class="el-icon-user"></i>
+                <span class="aside_item_title">账号管理</span>
+            </template>
+            <el-menu-item>
+                <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
+            </el-menu-item>
+            <el-menu-item>
+                <a href="userList.html" class="aside_item">用户列表</a>
+            </el-menu-item>
+        </el-submenu>
+
+        <el-submenu>
+            <template slot="title">
+                <i class="el-icon-star-on"></i>
+                <span class="aside_item_title">评价信息管理</span>
+            </template>
+            <el-menu-item>
+                <a href="commentList.html" class="aside_item">评价列表</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu>
+            <template slot="title">
+                <i class="el-icon-chat-line-round"></i>
+                <span class="aside_item_title">交流社区信息管理</span>
+            </template>
+            <el-menu-item>
+                <a href="social-1.html" class="aside_item">帖子列表</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu>
+            <template slot="title">
+                <i class="el-icon-chat-line-round"></i>
+                <span class="aside_item_title">消息管理</span>
+                <el-badge :value="unreadTotalCount" class="icon" style="margin-left: 15px;">
+                    <el-icon-button  icon="el-icon-message"></el-icon-button>
+                </el-badge>
+            </template>
+            <el-menu-item>
+                <a href="reply2.html" class="aside_item">投诉回复</a>
+                <el-badge :value=" unreadReportReplyCount" class="icon" style="margin-left: 15px;">
+                    <el-icon-button  icon="el-icon-message"></el-icon-button>
+                </el-badge>
+            </el-menu-item>
+            <el-menu-item>
+                <a href="reply1.html" class="aside_item">追评我的</a>
+                <el-badge :value="unreadCommentReplyCount" class="icon" style="margin-left: 15px;">
+                    <el-icon-button  icon="el-icon-message"></el-icon-button>
+                </el-badge>
+            </el-menu-item>
+            <el-menu-item>
+                <a href="reply3.html" class="aside_item">点赞我的</a>
+                <el-badge :value="unreadThumbsupCount" class="icon" style="margin-left: 15px;">
+                    <el-icon-button  icon="el-icon-message"></el-icon-button>
+                </el-badge>
+            </el-menu-item>
+        </el-submenu>
+
+    </el-menu>
+</el-aside>
+<!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+
+<!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
+unreadTotalCount:0,
+unreadReportReplyCount:3,
+unreadCommentReplyCount:1,
+unreadThumbsupCount:2,
+<!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+
+<!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
+this.getCommentReplyNum();
+this.getThumbsupNum();
+this.getReportReplyNum();
+this.sumTotalUnreadNum();
+<!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+
+<!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
+sumTotalUnreadNum(){
+this.unreadTotalCount = this.unreadThumbsupCount + this.unreadCommentReplyCount + this.unreadReportReplyCount;
+},
+getCommentReplyNum(){
+fetch('/restaurant/showReplyNum', {
+method: 'GET',
+headers: {
+'Content-Type': 'application/json'
+}
+})
+.then(response => {
+if (!response.ok) {
+throw new Error('Network response was not ok');
+}
+return response.json();
+})
+.then(result => {
+if (result.flag === '0') {
+this.$message.success('获取列表成功');
+this.unreadCommentReplyCount = result.object
+this.sumTotalUnreadNum();
+} else {
+this.$message.error(result.message);
+}
+})
+.catch(error => {
+this.$message.error('获取列表失败');
+console.log(error);
+});
+},
+getThumbsupNum(){
+fetch('/restaurant/showThumbsupNum', {
+method: 'GET',
+headers: {
+'Content-Type': 'application/json'
+}
+})
+.then(response => {
+if (!response.ok) {
+throw new Error('Network response was not ok');
+}
+return response.json();
+})
+.then(result => {
+if (result.flag === '0') {
+this.$message.success('获取列表成功');
+this.unreadThumbsupCount = result.object;
+this.sumTotalUnreadNum();
+} else {
+this.$message.error(result.message);
+}
+})
+.catch(error => {
+this.$message.error('获取列表失败');
+console.log(error);
+});
+},
+getReportReplyNum(){
+fetch('/restaurant/showReportReplyNum', {
+method: 'post',
+headers: {
+'Content-Type': 'application/json'
+}
+})
+.then(response => {
+if (!response.ok) {
+throw new Error('Network response was not ok');
+}
+return response.json();
+})
+.then(result => {
+if (result.flag === '0') {
+this.$message.success('获取列表成功');
+this.unreadReportReplyCount = result.object;
+this.sumTotalUnreadNum();
+} else {
+this.$message.error(result.message);
+}
+})
+.catch(error => {
+this.$message.error('获取列表失败');
+console.log(error);
+});
+},
+<!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
