@@ -10,11 +10,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="消息中心的bug修改">
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="按热门 正序降序">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowReplyNum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowReplyNum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowThumbsupNum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/user_info_combination/ShowThumbsupNum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/ExistUserFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/ExistUserFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/reply1.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/reply1.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/user/social-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/user/social-1.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -340,7 +342,7 @@
       <workItem from="1703572840258" duration="3018000" />
       <workItem from="1703576393339" duration="7772000" />
       <workItem from="1703605505334" duration="49000" />
-      <workItem from="1703644469687" duration="2306000" />
+      <workItem from="1703644469687" duration="5830000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />
@@ -387,7 +389,14 @@
       <option name="project" value="LOCAL" />
       <updated>1703585445146</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="按热门 正序降序">
+      <created>1703647549262</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1703647549262</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -430,7 +439,8 @@
     <MESSAGE value="消息列表已完成，已测试&#10;根据评论id查询评论" />
     <MESSAGE value="点赞" />
     <MESSAGE value="消息中心的bug修改" />
-    <option name="LAST_COMMIT_MESSAGE" value="消息中心的bug修改" />
+    <MESSAGE value="按热门 正序降序" />
+    <option name="LAST_COMMIT_MESSAGE" value="按热门 正序降序" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
