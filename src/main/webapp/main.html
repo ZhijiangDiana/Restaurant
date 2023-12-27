@@ -136,6 +136,7 @@
             this.initWebSocket();   //
             // 模拟设置当前用户的ID，实际情况应从登录信息中获取
             this.fetchUserId();
+            this.fetchRelatedUserList();
         },
         methods: {
             async fetchUserId(){
