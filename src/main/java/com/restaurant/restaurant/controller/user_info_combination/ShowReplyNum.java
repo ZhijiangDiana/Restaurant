@@ -41,9 +41,12 @@ public class ShowReplyNum extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Object a = request.getServletContext().getAttribute("a");
         HashMap<Integer,Integer> replyCounts = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("replyCounts");
+        System.out.println("showReplyNum: " + replyCounts);
         User user = (User)request.getSession().getAttribute("user");
         if (user == null) {
+            response.setStatus(403);
             response.getWriter().print(FrontEndUtils.objectToBody("账户未登录","1",null));
+            return;
         }
         response.getWriter().print(FrontEndUtils.objectToBody(null,"0",replyCounts.get(user.getUserId())));
     }

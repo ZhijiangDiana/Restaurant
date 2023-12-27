@@ -65,6 +65,7 @@ public class CommentService {
          * 要改 userid从session里拿
          */
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        Integer userId = null;
         try (sqlSession) {
             CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
@@ -83,17 +84,11 @@ public class CommentService {
                     } else if (LegalSpeakFilter.banFromSpeaking(user.getUserId())) {
                         return FrontEndUtils.objectToBody("过往有不积极行为,暂禁发言", "1", null);
                     } else {
-                        Integer userId = user.getUserId();
+                        userId = user.getUserId();
                         if (img == null) {
                             Comment comment = new Comment(userId, title, body, null, new Date(), 0);
                             mapper.insertComment(comment);
-                            // 更新经验
-                            ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
-                            Integer experience = experienceCaculateService.caculateExperience(userId, Constants.COMMUNITY_EXP);
-
                             sqlSession.commit();
-                            sqlSession.close();
-                            return FrontEndUtils.objectToBody("发布成功", "0", comment);
                         }
                         img = img.substring(img.indexOf(",") + 1);
                         byte[] imageBytes = Base64.getDecoder().decode(img);
@@ -101,7 +96,6 @@ public class CommentService {
                         mapper.insertComment(comment);
                         sqlSession.commit();
                         sqlSession.close();
-                        return FrontEndUtils.objectToBody("发布成功", "0", null);
                     }
                 }
             }
@@ -110,6 +104,10 @@ public class CommentService {
             sqlSession.rollback();
             return FrontEndUtils.objectToBody("系统繁忙","0",null);
         }
+        // 更新经验
+        ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
+        Integer experience = experienceCaculateService.caculateExperience(userId, Constants.COMMUNITY_EXP);
+        return FrontEndUtils.objectToBody("发布成功", "0", null);
     }
 
     public String getUserInfoById(String id){

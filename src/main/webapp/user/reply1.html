@@ -104,6 +104,7 @@
 <div id="app">
     <div >
         <el-container>
+            <!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
             <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
                 <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
                     <span class="logo_title" v-show="!isCollapse">USST</span>
@@ -124,7 +125,7 @@
                             <span class="aside_item_title">食堂基本信息管理</span>
                         </template>
                         <el-menu-item>
-                            <a href="restaurantList.html" class="aside_item">食堂列表</a>
+                            <a href="searchDish.html" class="aside_item">食堂列表</a>
                         </el-menu-item>
                         <el-menu-item>
                             <a href="addRestaurant.html" class="aside_item">新增食堂</a>
@@ -192,6 +193,8 @@
 
                 </el-menu>
             </el-aside>
+            <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+
             <el-container>
 
                 <el-header style="background-color: #953131">
@@ -252,10 +255,12 @@
                     'image/food_2.png',
                     'image/hotpot.png',
                 ],
+                <!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
                 unreadTotalCount:0,
                 unreadReportReplyCount:3,
                 unreadCommentReplyCount:1,
                 unreadThumbsupCount:2,
+                <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
                 comments:[
                     {
                         name: "User1",
@@ -281,11 +286,14 @@
                 total:''
             }
         },
+
         mounted(){
+            <!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
             this.getCommentReplyNum();
             this.getThumbsupNum();
             this.getReportReplyNum();
             this.sumTotalUnreadNum();
+            <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
         },
         computed: {
             paginatedComments() {
@@ -295,9 +303,6 @@
             }
         },
         methods:{
-            sumTotalUnreadNum(){
-                this.unreadTotalCount = this.unreadThumbsupCount + this.unreadCommentReplyCount + this.unreadReportReplyCount;
-            },
             handleCollapse(){
                 this.isCollapse=!this.isCollapse
                 this.asideWidth=this.isCollapse ? '64px':'200px'
@@ -309,6 +314,11 @@
             },
             handleCurrentChange(page) {
                 this.currentPage = page
+            },
+
+            <!----------------------------------------------------- 侧边栏开始 ----------------------------------------------------->
+            sumTotalUnreadNum(){
+                this.unreadTotalCount = this.unreadThumbsupCount + this.unreadCommentReplyCount + this.unreadReportReplyCount;
             },
             getCommentReplyNum(){
                 fetch('/restaurant/showReplyNum', {
@@ -365,7 +375,7 @@
                     });
             },
             getReportReplyNum(){
-                fetch('/restaurant/GetAdmNotifCount', {
+                fetch('/restaurant/showReportReplyNum', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -391,6 +401,7 @@
                         console.log(error);
                     });
             },
+            <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
         },
     })
 </script>

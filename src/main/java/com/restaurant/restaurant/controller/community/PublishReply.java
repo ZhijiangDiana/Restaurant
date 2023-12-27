@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.restaurant.restaurant.mapper.CommentMapper;
 import com.restaurant.restaurant.pojo.entity.Comment;
+import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.service.ReplyService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.LegalSpeakFilter;
@@ -13,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.ibatis.session.SqlSession;
 
 import java.io.BufferedReader;
@@ -37,35 +39,52 @@ public class PublishReply extends HttpServlet {
         // 从 JSON 对象中提取数据
         String commentId = jsonObject.getString("commentId");
         String body = jsonObject.getString("body");
-        String id = jsonObject.getString("Id");
+
+        HttpSession session = request.getSession(true);
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            response.setStatus(403);
+            response.getWriter().print(FrontEndUtils.objectToBody("未登录","1",null));
+            return ;
+        }
+
+        String id = String.valueOf(user.getUserId());
         System.out.println(commentId + body + id);
-        if (body == null || body == ""){
+        if (body == null || body.isEmpty()){
             response.getWriter().print(FrontEndUtils.objectToBody("内容不能为空","1",null));
             return ;
         }
 
-        if (LegalSpeakFilter.filterSensitiveWords(body) == true){
-            response.getWriter().print(FrontEndUtils.objectToBody("涉及敏感发言","1",null));
-            return ;
-        }
 
-        if (LegalSpeakFilter.banFromSpeaking(Integer.parseInt(id))){
-            response.getWriter().print(FrontEndUtils.objectToBody("由于过往潜在不文明行为被禁止评论","1",null));
-        }
+//        if (LegalSpeakFilter.filterSensitiveWords(body) == true){
+//            response.getWriter().print(FrontEndUtils.objectToBody("涉及敏感发言","1",null));
+//            return ;
+//        }
+//
+//        if (LegalSpeakFilter.banFromSpeaking(Integer.parseInt(id))){
+//            response.getWriter().print(FrontEndUtils.objectToBody("由于过往潜在不文明行为被禁止评论","1",null));
+//        }
 
         ReplyService replyService = new ReplyService();
         replyService.addReply(id,commentId,body);
         // 小红点提醒
+
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
-        Comment comment = commentMapper.selectById(Integer.parseInt(id));
-        Integer userId = comment.getUserId();
-        HashMap<Integer,Integer> replyCounts =(HashMap<Integer, Integer>) request.getServletContext().getAttribute("replyCounts");
-        Integer counts = replyCounts.get(userId);
-        counts += 1;
-        replyCounts.put(userId,counts);
-        request.getServletContext().setAttribute("replyCounts",replyCounts);
-        sqlSession.close();
-        response.getWriter().print(FrontEndUtils.objectToBody("添加成功","0",null));
+        try (sqlSession) {
+            Comment comment = commentMapper.selectById(Integer.parseInt(commentId));
+            Integer userId = comment.getUserId();
+            HashMap<Integer,Integer> replyCounts =(HashMap<Integer, Integer>) request.getServletContext().getAttribute("replyCounts");
+            Integer counts = replyCounts.get(userId);
+            counts += 1;
+            replyCounts.put(userId,counts);
+            request.getServletContext().setAttribute("replyCounts",replyCounts);
+            response.getWriter().print(FrontEndUtils.objectToBody("添加成功","0",null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(500);
+            response.getWriter().print(FrontEndUtils.objectToBody("添加失败","1",null));
+        }
+
     }
 }

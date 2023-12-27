@@ -218,7 +218,7 @@
                                  <!-- 其他帖子内容，可以根据需要添加 -->
                                  <el-form style="margin-top: 20px;">
                                      <el-form-item label="评论内容">
-                                         <el-input type="textarea" v-model="commentContent" placeholder="请输入评论内容"></el-input>
+                                         <el-input type="textarea" v-model="form.commentContent" placeholder="请输入评论内容"></el-input>
                                      </el-form-item>
                                      <el-form-item class="el-main-reply-buttons">
                                          <el-button type="primary" @click="submitComment">发表回复</el-button>
@@ -359,7 +359,15 @@
                     body: "",
                     likes: '',
                 },
-                likeCount:8
+                likeCount:8,
+                form: {
+                    commentContent: '',
+                },
+                rules: {
+                    commentContent: [
+                        {required: true, message: '请输入内容', trigger: 'blur'},
+                    ]
+                }
             }
         },
         mounted() {
@@ -449,6 +457,28 @@
                 this.currentRow=Object.assign({},row);
                 const  index=this.tableData.indexOf(row);
                 this.getAllReply(this.currentRow.commentId);
+            },
+            submitComment(){
+                var commentReply = {
+                    commentId: this.currentRow.commentId,
+                    body: this.form.commentContent,
+                }
+                axios.post('/restaurant/publishReply', commentReply, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        const flag = response.data.flag;
+                        if (flag === '1') {
+                            this.$message.error("回复失败")
+                        } else {
+                            this.$message.error("回复成功")
+                        }
+                    }).error(error => {
+                    this.$message.error('获取列表失败');
+                    console.log(error);
+                })
             },
             //每页条数改变时触发 选择一页显示多少行
             handleSizeChange(val) {

@@ -73,9 +73,7 @@ public class ReplyService {
             }
             else {
                 Reply reply = new Reply(Integer.parseInt(commentId),Integer.parseInt(id),null,body);
-                replyMapper.insertAdminReply(reply);
-                ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
-                experienceCaculateService.caculateExperience(Integer.parseInt(id), Constants.REPLY_EXP);
+                replyMapper.insertUserReply(reply);
                 sqlSession.commit();
                 sqlSession.close();
             }
@@ -83,6 +81,12 @@ public class ReplyService {
             e.printStackTrace();
             sqlSession.rollback();
             sqlSession.close();
+        }
+
+        // 对于用户，经验+3
+        if (id.length() != 6) {
+            ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
+            experienceCaculateService.caculateExperience(Integer.parseInt(id), Constants.REPLY_EXP);
         }
     }
 }

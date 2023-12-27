@@ -45,13 +45,13 @@ public class ShowThumbsupNum extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
+        HashMap<Integer,Integer> thumbsupCounts = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
+        System.out.println("showThumbsupNum: " + thumbsupCounts);
         if (user == null){
+            response.setStatus(403);
             response.getWriter().print(FrontEndUtils.objectToBody("暂未登陆","1",null));
+            return;
         }
-        else {
-            HashMap<Integer,Integer> thumbsupCounts = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
-            response.getWriter().print(FrontEndUtils.objectToBody(null,"0",thumbsupCounts.get(user.getUserId())));
-        }
-
+        response.getWriter().print(FrontEndUtils.objectToBody(null,"0", thumbsupCounts.get(user.getUserId())));
     }
 }

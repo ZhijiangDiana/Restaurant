@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class ShowTotalUnreadNum extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO: 2023/12/27 注册用户时将这三个attribute加入context中
         HashMap<Integer,Integer> replyCounts = (HashMap<Integer,Integer>)request.getServletContext().getAttribute("replyCounts");
         HashMap<Integer,Integer> thumbsupCounts = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("thumbsupCounts");
         HashMap<Integer,Integer> reportReplyCounts = (HashMap<Integer, Integer>) request.getServletContext().getAttribute("reportReplyCounts");
