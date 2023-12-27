@@ -126,23 +126,34 @@
                     </el-submenu>
 
                     <el-submenu>
-                        <template slot="title">
-                            <i class="el-icon-star-on"></i>
-                            <span class="aside_item_title">评价信息管理</span>
-                        </template>
-                        <el-menu-item>
-                            <a href="commentList.html" class="aside_item">评价列表</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu>
 
                         <template slot="title">
                             <i class="el-icon-chat-line-round"></i>
-                            <span class="aside_item_title">交流社区信息管理</span>
+                            <span class="aside_item_title">消息管理</span>
+                            <el-badge :value="unreadCount1" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
                         </template>
                         <el-menu-item>
-                            <a href="social-1.html" class="aside_item">帖子列表</a>
+                            <a href="reply2.html" class="aside_item">投诉回复</a>
+                            <el-badge :value="unreadCount2" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
                         </el-menu-item>
+                        <el-menu-item>
+                            <a href="reply1.html" class="aside_item">追评我的</a>
+                            <el-badge :value="unreadCount3" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+                        <el-menu-item>
+                            <a href="reply3.html" class="aside_item">点赞我的</a>
+                            <el-badge :value="unreadCount4" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </el-menu-item>
+
+
                     </el-submenu>
 
                 </el-menu>
@@ -183,7 +194,7 @@
                             <div class="block" style="margin-top:15px;">
                                 <el-pagination align='center' @size-change="handleSizeChange" @current-change="handleCurrentChange"
                                                :current-page="currentPage"
-                                               :page-sizes="[3,6,9]"
+                                               :page-sizes="[9]"
                                                :page-size="pageSize"
                                                layout="total, sizes, prev, pager, next, jumper"
                                                :total="tableData.length">
@@ -210,7 +221,7 @@
                                          <el-input type="textarea" v-model="commentContent" placeholder="请输入评论内容"></el-input>
                                      </el-form-item>
                                      <el-form-item class="el-main-reply-buttons">
-                                         <el-button type="primary" @click="submitComment">发表评论</el-button>
+                                         <el-button type="primary" @click="submitComment">发表回复</el-button>
                                          <el-button type="primary" icon="el-icon-thumb">
                                              <el-badge :value="currentRow.likes" class="icon" style="margin-left: 15px;">
                                                  <el-icon-button  icon="el-icon-message"></el-icon-button>
@@ -267,6 +278,10 @@
         el: '#app',
         data(){
             return{
+                unreadCount2:3,
+                unreadCount3:4,
+                unreadCount4:123123,
+                type : "0",
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
@@ -329,11 +344,11 @@
                 ],
                 currentPage: 1, // 当前页码
                 total: '', // 总条数
-                pageSize: 3,// 每页的数据条数
+                pageSize: 9,// 每页的数据条数
 
                 currentPage2: 1, // 当前页码
                 total2: '', // 总条数
-                pageSize2: 3,// 每页的数据条数
+                pageSize2: 9,// 每页的数据条数
                 dialogVisible1:false,
                 currentRow:{
                     commentId: '',
@@ -398,7 +413,6 @@
                                 item.publishTime = timeStampToDateTime(item.publishTime)
                                 // console.log(item.image)
                             });
-                            alert(result.object)
                             this.tableData =result.object;
                             this.total = this.tableData.length;
                         } else {
@@ -457,6 +471,105 @@
             handleCurrentChange2(val) {
                 console.log(`当前页: ${val}`);
                 this.currentPage2 = val;
+            },
+            sortByHotness(){
+                fetch('/restaurant/showComments?type=1', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            result.object.forEach(item => {
+                                item.image = b64ToURI(item.image)
+                                item.publishTime = timeStampToDateTime(item.publishTime)
+                                // console.log(item.image)
+                            });
+                            this.tableData =result.object;
+                            this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
+            sortByAscending(){
+                fetch('/restaurant/showComments?type=2', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            result.object.forEach(item => {
+                                item.image = b64ToURI(item.image)
+                                item.publishTime = timeStampToDateTime(item.publishTime)
+                                // console.log(item.image)
+                            });
+                            this.tableData =result.object;
+                            this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
+            sortByDescending(){
+                fetch('/restaurant/showComments?type=3', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            result.object.forEach(item => {
+                                item.image = b64ToURI(item.image)
+                                item.publishTime = timeStampToDateTime(item.publishTime)
+                                // console.log(item.image)
+                            });
+                            this.tableData =result.object;
+                            this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
             }
         }
 
