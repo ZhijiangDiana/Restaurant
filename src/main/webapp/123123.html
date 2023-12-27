@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive User Interface</title>
+  <link rel="stylesheet" href="css/detail-chat.css">
+  <meta charset="UTF-8">
+</head>
+<body>
+<div class="name-link" onclick="showOptions(this)">John Doe</div>
+
+<div class="options-box" id="optionsBox">
+  <div class="option" onclick="goToDetails()">查看详情</div>
+  <div class="option" onclick="startChat()">进行聊天</div>
+</div>
+
+<script>
+  function showOptions(element) {
+    var box = document.getElementById("optionsBox");
+    box.style.display = "block";
+    box.style.left = element.getBoundingClientRect().left + "px";
+    box.style.top = element.getBoundingClientRect().bottom + "px";
+  }
+
+  function goToDetails() {
+    window.location.href = "/details"; // 修改为实际的详情页面 URL
+  }
+
+  function startChat() {
+    window.location.href = "/chat"; // 修改为实际的聊天页面 URL
+  }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+/* 主体样式 */
+.body {
+    font-family: Arial, sans-serif;
+}
+
+/* 链接样式 */
+.name-link {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    display: block; /* 确保是块级元素 */
+}
+
+/* 选项框样式 */
+.options-box {
+    display: none;
+    position: absolute;
+    border: 1px solid #aaa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 150px; /* 调整宽度 */
+    z-index: 1000; /* 确保在其他元素上方 */
+}
+
+/* 选项样式 */
+.option {
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.3s ease;
+    display: block; /* 确保选项是块级元素，实现竖向排列 */
+}
+
+/* 最后一个选项样式 */
+.option:last-child {
+    border-bottom: none;
+}
+
+/* 鼠标悬停效果 */
+.option:hover {
+    background-color: #f0f0f0;
+}

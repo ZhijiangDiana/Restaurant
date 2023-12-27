@@ -55,22 +55,25 @@ public class ChatEndpoint {
 
         //1，将session进行保存
         this.httpSession = (HttpSession) session.getUserProperties().get("httpSession");
-        String user = (String) this.httpSession.getAttribute("username");
+        User user1 = (User) this.httpSession.getAttribute("user");
+        String user = user1.getUsername();
         List<Message> messageMappers = mapper.selectAll();
         List<Message> messages = mapper.selectById(1);
         HashSet<String> friends = new HashSet<>();
         UserMapper mapper1 = sqlSession.getMapper(UserMapper.class);
         for (Message message : messages) {
+            System.out.println(message);
             Integer senderUserId = message.getSenderUserId();
             Integer receiverUserId = message.getReceiverUserId();
             User sender_user = mapper1.selectById(senderUserId);
             User receiver_user = mapper1.selectById(receiverUserId);
             String senderName = sender_user.getUsername();
             String receiverName = receiver_user.getUsername();
+            System.out.println("发送方" + senderName + "接收方:" + receiverName);
             if (!senderName.equals(user)){
                 friends.add(senderName);
             }
-            if (!receiverName.contains(user)){
+            if (!receiverName.equals(user)){
                 friends.add(receiverName);
             }
         }
@@ -144,12 +147,14 @@ public class ChatEndpoint {
             // jakarta.websocket.Session.getBasicRemote()" because "session" is null
             // 问题在于对方还没开聊天框 所以session是空。所以应该先存进数据库里。
             if (sessionTo == null){
+                System.out.println("对方不在线");
                 // 用于告知前端对方不在线 直接再调一次fetchMessage就行
                 String msg2 = MessageUtils.getMessage(false, toId, 0);
                 sessionFrom.getBasicRemote().sendText(msg2);
                 // 这里不能调接收方session 因为是空的
             }
             else {
+                System.out.println("对方在线");
                 sessionFrom.getBasicRemote().sendText(msg1);
                 // 不然永远都是发送方发消息
                 String msg3 = MessageUtils.getMessage(false,null,mess);

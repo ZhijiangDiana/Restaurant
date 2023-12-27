@@ -51,10 +51,6 @@ public class FetchPeople extends HttpServlet {
                         users.add(user);
                     }
                 }
-
-                for (User user : users) {
-                    System.out.println(user);
-                }
                 sqlSession.close();
                 response.getWriter().print(FrontEndUtils.objectToBody(null, "0", users));
             }

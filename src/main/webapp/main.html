@@ -190,6 +190,7 @@
                 this.fetchHistoryMessages(user.userId);
             },
             fetchHistoryMessages(toId) {
+                alert("当前用户" + this.userId + "对方id" + toId)
                 axios.get('/restaurant/getOfflineMessages?fromId=' + this.userId + '&toId=' + toId)
                     .then(response => {
                         this.historyMessage = response.data;
@@ -208,6 +209,7 @@
                     });
                     ws.send(JSON.stringify(this.sendMessage));
                     this.sendMessage.message = "";
+                    this.fetchHistoryMessages(this.selectedUser.userId)
                 }
             },
             onOpen() {
@@ -230,7 +232,8 @@
                         }
                     }
                 }else {
-                    if(res.message === 0){
+                    if(res.message === 0 || res.message === null){
+                        alert("今夕是何年")
                         this.fetchHistoryMessages(res.fromName);
                     }
                     else {

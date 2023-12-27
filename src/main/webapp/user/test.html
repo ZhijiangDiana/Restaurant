@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>追评我的</title>
+  <!-- 引入 Element UI 样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <link rel="stylesheet" href="../css/chat.css">
+  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+  <script src="js/vue.js"></script>
+  <script src="../js/axios-0.18.0.js"></script>
+  <style>
+
+    .el-menu-item:hover,
+    .el-submenu__title:hover {
+      color: #fff !important;
+    }
+
+    .el-submenu__title:hover i {
+      color: #fff !important;
+    }
+    .logo_title{
+      margin-left: 5px;
+      font-size: 20px;
+      transition: all .3s;
+    }
+    .el-header {
+      line-height: 60px;
+      display: flex;
+      align-items: center;
+      /* 垂直居中对齐 */
+    }
+    .aside_item_title{
+      color: #fff;
+    }
+    .aside_item{
+      text-decoration: none;
+      padding-left: 20px;
+      color: #fff;
+    }
+    .el-aside {
+      color: #333;
+    }
+    .el-header-buttons .el-button {
+      display: flex;
+      background-color: beige;
+      color:black;
+    }
+    .el-form-buttons .el-button{
+      background-color: beige;/* 按钮之间的右边距 */
+      color:black;
+    }
+    .el-main-buttons .el-button{
+      background-color: beige;
+      color:black;
+      margin-left: 50px;
+    }
+    #card_message1 {
+      /*background-color: #244235 ;*/
+      color: #fff; /* 文本颜色为白色 */
+      margin-top: 5px; /* 添加一些边距，使内容离边框有一定距离 */
+      margin-left: 20px;
+      margin-right: 20px;
+      min-height: 100vh;
+
+    }
+
+    .el-card{
+      /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+    .el-main-reply-buttons {
+
+      display: flex;
+      gap: 2px; /* 调整按钮之间的间隔 */
+    }
+    .el-main-reply-buttons .el-button{
+      background-color: beige;/* 按钮之间的右边距 */
+      color:black;
+    }
+
+
+    .carouselBox {
+      width: 100%;
+      max-width: 1200px;
+      min-width: 1000px;
+      margin: 0 auto;
+      padding: 5px 0 ;
+    }
+    .el-carousel__item img{
+      position: relative;
+      color: #475669;
+      margin: 0 auto;
+      text-align: center;
+      background-color: #f6f8fb;
+      width: 308px;
+      height: 380px;
+      border-radius: 14px;
+      box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+    }
+  </style>
+</head>
+
+<body>
+<div id="app">
+  <div >
+    <el-container>
+      <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
+        <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+          <span class="logo_title" v-show="!isCollapse">USST</span>
+        </div>
+        <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-house"></i>
+              <span class="aside_item_title">首页</span>
+            </template>
+            <el-menu-item>
+              <a href="firstView.html" class="aside_item">综合信息</a>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-s-shop"></i>
+              <span class="aside_item_title">食堂基本信息管理</span>
+            </template>
+            <el-menu-item>
+              <a href="restaurantList.html" class="aside_item">食堂列表</a>
+            </el-menu-item>
+            <el-menu-item>
+              <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-user"></i>
+              <span class="aside_item_title">账号管理</span>
+            </template>
+            <el-menu-item>
+              <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
+            </el-menu-item>
+            <el-menu-item>
+              <a href="userList.html" class="aside_item">用户列表</a>
+            </el-menu-item>
+          </el-submenu>
+
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-star-on"></i>
+              <span class="aside_item_title">评价信息管理</span>
+            </template>
+            <el-menu-item>
+              <a href="commentList.html" class="aside_item">评价列表</a>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-chat-line-round"></i>
+              <span class="aside_item_title">交流社区信息管理</span>
+            </template>
+            <el-menu-item>
+              <a href="social-1.html" class="aside_item">帖子列表</a>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-chat-line-round"></i>
+              <span class="aside_item_title">消息管理</span>
+              <el-badge :value="unreadTotalCount" class="icon" style="margin-left: 15px;">
+                <el-icon-button  icon="el-icon-message"></el-icon-button>
+              </el-badge>
+            </template>
+            <el-menu-item>
+              <a href="reply2.html" class="aside_item">投诉回复</a>
+              <el-badge :value=" unreadReportReplyCount" class="icon" style="margin-left: 15px;">
+                <el-icon-button  icon="el-icon-message"></el-icon-button>
+              </el-badge>
+            </el-menu-item>
+            <el-menu-item>
+              <a href="reply1.html" class="aside_item">追评我的</a>
+              <el-badge :value="unreadCommentReplyCount" class="icon" style="margin-left: 15px;">
+                <el-icon-button  icon="el-icon-message"></el-icon-button>
+              </el-badge>
+            </el-menu-item>
+            <el-menu-item>
+              <a href="reply3.html" class="aside_item">点赞我的</a>
+              <el-badge :value="unreadThumbsupCount" class="icon" style="margin-left: 15px;">
+                <el-icon-button  icon="el-icon-message"></el-icon-button>
+              </el-badge>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu>
+            <template slot="title">
+              <i class="el-icon-chat-line-round"></i>
+              <span class="aside_item_title">聊天管理</span>
+            </template>
+            <el-menu-item>
+              <a href="test.html" class="aside_item">聊天详情</a>
+            </el-menu-item>
+          </el-submenu>
+
+        </el-menu>
+      </el-aside>
+
+      <el-container>
+        <el-header style="background-color: #953131">
+          <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
+        </el-header>
+
+        <el-main>
+          <!-- 主内容区域 -->
+          <!-- ... 主要内容 ... -->
+
+          <!-- 聊天面板 -->
+          <div class="container" >
+            <!-- 铃铛图标 -->
+            <div class="notification-bell" @click="showNotifications">
+              <i class="bell-icon">🔔</i>
+            </div>
+
+            <!-- 用户名字列表 -->
+            <div class="names-list">
+              <ul>
+                <li v-for="user in allUserList" :key="user.userId">
+                  {{ user.username }}
+                  <button @click.stop="showChat(user)">发送信息</button>
+                </li>
+
+              </ul>
+            </div>
+
+            <button id="chatToggle" @click="toggleChat">打开聊天框</button>
+
+            <div v-if="isShowChat" class="chat-panel">
+              <!-- 聊天头部 -->
+              <div class="chat-header">
+                <div id="chatMes" v-show="chatMes">
+                  正在和 <span class="chat-partner-name">{{toName}}</span> 聊天
+                </div>
+              </div>
+
+              <!-- 聊天主体 -->
+              <div class="chat-body">
+                <div class="chat-area" id="chatArea" v-show="isShowChat">
+                  <!-- 聊天消息展示区域 -->
+                  <div class="chat-messages" id="show">
+                    <div class="pnl-list" id="msgs" v-for="message in historyMessage">
+                      <!-- 消息展示 -->
+                      <div class="msg guest" v-if="message.fromName">
+                        <div class="msg-right">
+                          <div class="msg-host photo"
+                               style="background-image: url(../img/avatar/Member003.jpg)"></div>
+                          <div class="msg-ball">{{message.message}}</div>
+                        </div>
+                      </div>
+                      <div class="msg robot" v-else>
+                        <div class="msg-left" worker="">
+                          <div class="msg-host photo"
+                               style="background-image: url(../img/avatar/Member002.jpg)"></div>
+                          <div class="msg-ball">{{message.message}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 输入区域 -->
+                  <div class="chat-input">
+                    <textarea id="context_text" @keyup.enter="submit" placeholder="在此输入文字信息..." v-model="sendMessage.message"></textarea>
+                    <button class="send-button" id="submit" @click="submit">发送</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 聊天侧边栏 -->
+              <div class="chat-sidebar">
+                <div class="friends-list">
+                  <div class="chat-sidebar">
+                    <div class="friends-list">
+                      <ul>
+                        历史记录<br><br>
+                        <li v-for="user in relatedUserList" @click='showChat(user)'>{{ user.username }}在线</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </el-main>
+      </el-container>
+    </el-container>
+
+  </div>
+</div>
+
+<script>
+  new Vue({
+    el: '#app',
+    data(){
+      return{
+        unreadMessages: [], // 存储未读消息
+        isShowChat: false,
+        allUserList: [], // 存储用户列表
+        relatedUserList:[],// 和我通过话的
+        selectedUser: null, // 当前选中的用户对象
+        chatMes: false,
+        isOnline: true,
+        username: "",
+        userId: 1111111111, // 假设您在某处设置了当前登录用户的ID
+        toName: "",
+        sendMessage: {
+          fromId: "",
+          toName: "",
+          toId: "",
+          message: ""
+        },
+        inputMessage: "",
+        historyMessage: [],
+        friendsList: [],
+        systemMessages: [],
+        isCollapse:false,
+        asideWidth:'200px',
+        collapseIcon:'el-icon-s-fold',
+        value:'',
+        images: [
+          'image/food.png',
+          'image/food_2.png',
+          'image/hotpot.png',
+        ],
+        unreadTotalCount:0,
+        unreadReportReplyCount:3,
+        unreadCommentReplyCount:1,
+        unreadThumbsupCount:2,
+        comments:[
+          {
+            name: "User1",
+            title:"11",
+            body: "rsndm",
+          }, {
+            name: "User2",
+            title:"11",
+            body: "rsndm",
+          }, {
+            name: "User3",
+            title:"11",
+            body: "rsndm",
+          }, {
+            name: "User4",
+            title:"11",
+            body: "rsndm",
+          },
+
+        ],
+        pageSize: 3, // 每页显示的条数
+        currentPage: 1, // 当前页3
+        total:''
+      }
+    },
+    mounted(){
+      this.fetchAllUserList();
+        //
+      // 模拟设置当前用户的ID，实际情况应从登录信息中获取
+      //this.fetchUserId();
+      this.fetchRelatedUserList();
+      this.getCommentReplyNum();
+      this.getThumbsupNum();
+      this.getReportReplyNum();
+      this.sumTotalUnreadNum();
+    },
+    computed: {
+      paginatedComments() {
+        const startIndex = (this.currentPage - 1) * this.pageSize
+        const endIndex = startIndex + this.pageSize
+        return this.comments.slice(startIndex, endIndex)
+      }
+    },
+    methods:{
+      async fetchUserId(){
+        const response = await axios.get('/restaurant/fetchUserId');
+        this.userId = response.data;
+      },
+      async fetchAllUserList() {
+        try {
+          const response = await axios.get('/restaurant/fetchPeople');
+          this.allUserList = response.data.object; // 假设后端直接返回用户列表数组
+        } catch (error) {
+          console.error('Error fetching user list:', error);
+        }
+      },
+      fetchRelatedUserList(){
+        alert(this.userId)
+        axios.get('/restaurant/fetchPeople?userId=' + this.userId)
+                .then(response => {
+                  this.relatedUserList = response.data.object;
+                })
+                .catch(error => {
+                  console.error('Error fetching history messages:', error);
+                });
+      },
+      initWebSocket() {
+        ws = new WebSocket(`ws://localhost:8080/restaurant/chat`);
+        ws.onopen = this.onOpen;
+        ws.onmessage = this.onMessage;
+        ws.onclose = this.onClose;
+      },
+      toggleChat() {
+        this.isShowChat = !this.isShowChat; // 切换聊天框的显示状态
+      },
+      showNotifications() {
+        this.fetchRelatedUserList()
+        this.isShowChat = true;
+        this.initWebSocket(0)
+        // 这里可以处理显示未读消息的逻辑
+      },
+      showChat(user) {
+        this.initWebSocket();
+        this.selectedUser = user;
+        if (user.username === undefined){
+          this.toName = user;
+        }
+        else {
+          this.toName = user.username;
+        }
+        this.initWebSocket(); // 假设user对象有userId属性
+        this.isShowChat = true;
+        this.chatMes = true;
+        this.fetchHistoryMessages(user.userId);
+      },
+      fetchHistoryMessages(toId) {
+        alert("当前用户" + this.userId + "对方id" + toId)
+        axios.get('/restaurant/getOfflineMessages?fromId=' + this.userId + '&toId=' + toId)
+                .then(response => {
+                  this.historyMessage = response.data;
+                })
+                .catch(error => {
+                  console.error('Error fetching history messages:', error);
+                });
+      },
+      submit() {
+        if(this.selectedUser) {
+          this.sendMessage.fromId = this.userId;
+          this.sendMessage.toId = this.selectedUser.userId;
+          this.sendMessage.toName = this.selectedUser.username;
+          this.$nextTick(() => {
+            this.sendMessage.message = "";
+          });
+          ws.send(JSON.stringify(this.sendMessage));
+          this.sendMessage.message = "";
+          this.fetchHistoryMessages(this.selectedUser.userId)
+        }
+      },
+      onOpen() {
+        this.isOnline = true;
+      },
+      onClose() {
+        this.isOnline = false;
+      },
+      onMessage(evt) {
+        const res = JSON.parse(evt.data);
+        if(res.system) {
+          // 处理系统消息
+          var names = res.message;
+          this.friendsList = [];
+          this.systemMessages = [];
+          for (let i = 0; i < names.length; i++) {
+            if (names[i] != this.username) {
+              this.friendsList.push(names[i]);
+              this.systemMessages.push(names[i]);
+            }
+          }
+        }else {
+          if(res.message === 0 || res.message === null){
+            alert("今夕是何年")
+            this.fetchHistoryMessages(res.fromName);
+          }
+          else {
+            //非系统消息 且双方都在线,存在浏览器的session里,不存数据库里
+            var history = sessionStorage.getItem(res.fromName);
+            // if (!history) {
+            //     this.historyMessage = [res];
+            // } else {
+            this.historyMessage.push(res);
+            // }
+            sessionStorage.setItem(res.fromName, JSON.stringify(this.historyMessage));
+          }
+        }
+      },
+      sumTotalUnreadNum(){
+        this.unreadTotalCount = this.unreadThumbsupCount + this.unreadCommentReplyCount + this.unreadReportReplyCount;
+      },
+      handleCollapse(){
+        this.isCollapse=!this.isCollapse
+        this.asideWidth=this.isCollapse ? '64px':'200px'
+        this.collapseIcon=this.isCollapse ? 'el-icon-s-unfold':'el-icon-s-fold'
+      },
+      handleSizeChange(size) {
+        this.currentPage = 1;
+        this.pageSize = size
+      },
+      handleCurrentChange(page) {
+        this.currentPage = page
+      },
+      getCommentReplyNum(){
+        fetch('/restaurant/showReplyNum', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(result => {
+                  if (result.flag === '0') {
+                    this.$message.success('获取列表成功');
+                    this.unreadCommentReplyCount = result.object
+                    this.sumTotalUnreadNum();
+                  } else {
+                    this.$message.error(result.message);
+                  }
+                })
+                .catch(error => {
+                  this.$message.error('获取列表失败');
+                  console.log(error);
+                });
+      },
+      getThumbsupNum(){
+        fetch('/restaurant/showThumbsupNum', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(result => {
+                  if (result.flag === '0') {
+                    this.$message.success('获取列表成功');
+                    this.unreadThumbsupCount = result.object;
+                    this.sumTotalUnreadNum();
+                  } else {
+                    this.$message.error(result.message);
+                  }
+                })
+                .catch(error => {
+                  this.$message.error('获取列表失败');
+                  console.log(error);
+                });
+      },
+      getReportReplyNum(){
+        fetch('/restaurant/GetAdmNotifCount', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+                .then(response => {
+                  if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+                })
+                .then(result => {
+                  if (result.flag === '0') {
+                    this.$message.success('获取列表成功');
+                    this.unreadReportReplyCount = result.object;
+                    this.sumTotalUnreadNum();
+                  } else {
+                    this.$message.error(result.message);
+                  }
+                })
+                .catch(error => {
+                  this.$message.error('获取列表失败');
+                  console.log(error);
+                });
+      },
+    },
+  })
+</script>
+</body>
+</html>
