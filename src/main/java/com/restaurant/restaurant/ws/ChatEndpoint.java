@@ -55,22 +55,25 @@ public class ChatEndpoint {
 
         //1，将session进行保存
         this.httpSession = (HttpSession) session.getUserProperties().get("httpSession");
-        String user = (String) this.httpSession.getAttribute("username");
+        User user1 = (User) this.httpSession.getAttribute("user");
+        String user = user1.getUsername();
         List<Message> messageMappers = mapper.selectAll();
         List<Message> messages = mapper.selectById(1);
         HashSet<String> friends = new HashSet<>();
         UserMapper mapper1 = sqlSession.getMapper(UserMapper.class);
         for (Message message : messages) {
+            System.out.println(message);
             Integer senderUserId = message.getSenderUserId();
             Integer receiverUserId = message.getReceiverUserId();
             User sender_user = mapper1.selectById(senderUserId);
             User receiver_user = mapper1.selectById(receiverUserId);
             String senderName = sender_user.getUsername();
             String receiverName = receiver_user.getUsername();
+            System.out.println("发送方" + senderName + "接收方:" + receiverName);
             if (!senderName.equals(user)){
                 friends.add(senderName);
             }
-            if (!receiverName.contains(user)){
+            if (!receiverName.equals(user)){
                 friends.add(receiverName);
             }
         }

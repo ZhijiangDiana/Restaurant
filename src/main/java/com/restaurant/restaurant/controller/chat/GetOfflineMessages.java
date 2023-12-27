@@ -38,12 +38,12 @@ public class GetOfflineMessages extends HttpServlet {
                 Message message = iterator.next();
                 Integer receiverUserId = message.getReceiverUserId();
                 Integer senderUserId = message.getSenderUserId();
-                System.out.println("应该的toId" + toId + "应该的获取id" + receiverUserId + "两者相等吗" + (abs(toId -receiverUserId) < 0.5));
+                //System.out.println("应该的toId" + toId + "应该的获取id" + receiverUserId + "两者相等吗" + (abs(toId -receiverUserId) < 0.5));
                 if ((abs(toId -receiverUserId) < 0.5) || (abs(toId - senderUserId) < 0.5)) {
                     // 什么都不做
                 }
                 else {
-                    System.out.println("移除了" + "发送方：" + senderUserId + "接收方：" + receiverUserId);
+                   // System.out.println("移除了" + "发送方：" + senderUserId + "接收方：" + receiverUserId);
                     iterator.remove();
                 }
             }
