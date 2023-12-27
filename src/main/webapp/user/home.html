@@ -313,7 +313,7 @@
                                             <el-table :data="commentRank" style="width: 600px">
                                                 <el-table-column label="排名" type="index"></el-table-column>
                                                 <el-table-column label="标题" prop="title"></el-table-column>
-                                                <el-table-column label="发布时间" prop="publicTime"></el-table-column>
+                                                <el-table-column label="发布时间" prop="publishTime"></el-table-column>
                                                 <el-table-column label="点赞" prop="likes"></el-table-column>
                                             </el-table>
                                         </div>
@@ -325,7 +325,7 @@
                                 <!-- 编辑表单的内容 -->
                                 <el-form :model="voteInfo" label-position="top">
                                     <el-form-item label="发起餐厅">
-                                        <el-input v-model="voteInfo.cateenName" :disabled="true"></el-input>
+                                        <el-input v-model="voteInfo.canteenName" :disabled="true"></el-input>
                                     </el-form-item>
                                     <el-form-item label="标题">
                                         <el-input v-model="voteInfo.title" :disabled="true"></el-input>
@@ -339,7 +339,7 @@
                                     <el-form-item label="信息">
                                         <el-checkbox-group v-model="userVote">
                                             <!-- 使用v-for循环渲染result对象的键 -->
-                                            <el-checkbox v-for="(key, value) in voteInfo.currentResult" :label="value" :key="value">
+                                            <el-checkbox v-for="(key, value) in voteInfo.result" :label="value" :key="value">
                                                 {{ value }}
                                             </el-checkbox>
                                         </el-checkbox-group>
@@ -353,7 +353,7 @@
                             <el-dialog title="投票结果" :visible.sync="dialogVisible2">
                                 <el-form :model="finishedVoteInfo" label-position="top">
                                     <el-form-item label="发起餐厅">
-                                        <el-input v-model="finishedVoteInfo.cateenName" :disabled="true"></el-input>
+                                        <el-input v-model="finishedVoteInfo.canteenName" :disabled="true"></el-input>
                                     </el-form-item>
                                     <el-form-item label="标题">
                                         <el-input v-model="finishedVoteInfo.title" :disabled="true"></el-input>
@@ -364,9 +364,9 @@
                                     <el-form-item label="结束时间">
                                         <el-input v-model="finishedVoteInfo.endTime" :disabled="true"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="结束时间">
+                                    <el-form-item label="投票结果">
                                         <!-- 编辑表单的内容 -->
-                                        <p v-for="(value, key) in finishedVoteInfo.currentResult" :key="key">
+                                        <p v-for="(value, key) in finishedVoteInfo.result" :key="key">
                                             {{ key }}: {{ value }}
                                         </p>
                                     </el-form-item>
@@ -444,11 +444,6 @@
                 this.dialogVisible2 = true;
                 const index = this.finishedVote.indexOf(row);
                 this.finishedVoteInfo = this.finishedVote[index];
-                this.finishedVoteInfo.currentResult = JSON.parse(this.finishedVote.result)
-
-
-                // alert("点击了投票详情" + index)
-                // alert(this.finishedVote.result)
             },
             saveSubmit() {
                 const postJson = {
@@ -536,7 +531,7 @@
                             this.$message.error('网络异常：' + response.data.error);
                         } else {
                             object.forEach((item) => {
-                                item.publicTime = timeStampToDateTime(item.publicTime)
+                                item.publishTime = timeStampToDateTime(item.publishTime)
                             })
                             this.commentRank = object;
                         }
@@ -589,6 +584,7 @@
                                 item.startTime = timeStampToDateTime(item.startTime);
                                 item.endTime = timeStampToDateTime(item.endTime);
                                 item.canteenName = this.getCanteenName(item.canteenId)
+                                item.result = JSON.parse(item.result)
                             });
                             this.finishedVote= object;
                         }
