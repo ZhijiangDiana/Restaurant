@@ -9,11 +9,16 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
+        .block{
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center
+
+        }
         .aside_item_title{
             color: #fff;
         }
@@ -135,7 +140,6 @@
                 <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
             </el-header>
             <el-main>
-
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
                     <el-form-item label="菜品名称">
                         <el-input v-model="formInline.dishName" placeholder="菜品名称"></el-input>
@@ -146,7 +150,8 @@
                 </el-form>
 
                 <el-button @click="recommend" type="primary" style="float: right">推荐</el-button>
-                <el-table :data="tableData" border style="width: 100%; margin-top: 10px">
+
+                <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" border fix style="margin-top: 10px">
                     <el-table-column fixed="left" prop="dishName" label="菜品名称">
                     </el-table-column>
                     <el-table-column prop="series" label="系列">
@@ -185,7 +190,12 @@
                     </el-table-column>
                 </el-table>
 
-
+                <div class="block">
+                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                   :current-page="currentPage" :page-sizes="[3,6,9]" :page-size="pageSize"
+                                   layout="total, sizes, prev, pager, next, jumper" :total="total">
+                    </el-pagination>
+                </div>
                 <el-dialog title="编辑" :visible.sync="dialogVisible">
                     <el-form :model="currentRow" label-position="top">
                         <el-form-item label="菜品名称">
@@ -243,6 +253,9 @@
         el: '#app',
         data: function () {
             return {
+                currentPage: 1,
+                pageSize: 6, // 每页显示条数
+                total: 0, // 总条数
                 isCollapse: false,
                 asideWidth: '200px',
                 collapseIcon: 'el-icon-s-fold',
@@ -264,7 +277,6 @@
                 },
                 originData: [],
                 tableData: [],
-                currentPage: 1,
                 dialogVisible: false, // 控制对话框的显示和隐藏
                 currentRow: {
                     dishName: '',
@@ -278,6 +290,15 @@
             };
         },
         methods: {
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+                this.currentPage=1;
+                this.pageSize=val;
+            },
+            handleCurrentChange(val) {
+                this.currentPage=val;
+                console.log(`当前页: ${val}`);
+            },
             handleCollapse() {
                 this.isCollapse = !this.isCollapse
                 this.asideWidth = this.isCollapse ? '64px' : '200px'
@@ -300,12 +321,6 @@
                 this.fileToBase64(response.raw).then(base64 => {
                     this.currentRow.image = base64.replace(/^data:image\/\w+;base64,/, '');
                 })
-            },
-            handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
-            },
-            handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
             },
             onSubmit() {
                 const name = this.formInline.dishName;
@@ -396,6 +411,7 @@
                             item.recommend = false
                             return item
                         });
+                        this.total = this.tableData.length;
                     })
                     .catch(error => {
                         console.log(error);
