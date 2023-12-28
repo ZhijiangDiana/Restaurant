@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
 
         .el-menu-item:hover,
@@ -261,25 +263,7 @@
                 unreadThumbsupCount:2,
                 <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
 
-                comments:[
-                    {
-                        name: "User1",
-                        title:"勾8",
-                        body: "这个好吃！！！",
-                    }, {
-                        name: "User2",
-                        title:"11",
-                        body: "蒸馍？你不扶器？o.O?",
-                    }, {
-                        name: "User3",
-                        title:"11",
-                        body: "蒸馍？你不扶器？o.O?",
-                    }, {
-                        name: "User4",
-                        title:"11",
-                        body: "蒸馍？你不扶器？o.O?",
-                    },
-                ],
+                comments:[],
                 pageSize: 3, // 每页显示的条数
                 currentPage: 1, // 当前页3
                 total:''
@@ -293,6 +277,7 @@
             this.getReportReplyNum();
             this.sumTotalUnreadNum();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            this.getThumbsup();
         },
         computed: {
             paginatedComments() {
@@ -402,6 +387,22 @@
                     });
             },
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            getThumbsup() {
+                axios.get(`/restaurant/showThumbsupDetails`)
+                    .then(response => {
+                        const flag = response.data.flag;
+                        const object = response.data.object;
+                        if (object.length === 0 || flag == 1) {
+                            this.$message.error('暂无管理员回复');
+                        } else {
+                            this.comments = object;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('查询失败，请重试');
+                    });
+            },
         }
 
     })
