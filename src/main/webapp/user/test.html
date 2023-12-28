@@ -101,6 +101,46 @@
       border-radius: 14px;
       box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
     }
+
+
+    .container {
+        display: flex;
+        height: 100vh; /* 设置容器高度 */
+    }
+
+    .chat-panel {
+        width: 100%;
+        display: flex;
+        flex-direction: column; /* 垂直布局 */
+    }
+
+    .chat-sidebar {
+        width: 200px; /* 设置侧边栏宽度 */
+        background-color: #f0f0f0;
+
+        /* 其他样式... */
+    }
+
+    .chat-body {
+        flex: 1; /* 填充剩余空间 */
+        /* 其他样式... */
+    }
+
+    @media (min-width: 800px) {
+        .container {
+            display: flex;
+        }
+
+        .chat-panel {
+            margin-right: 20px; /* 留出一些空隙 */
+        }
+
+        .chat-sidebar {
+            position: relative; /* 设置相对定位 */
+            top: 0;
+            left: 0;
+        }
+    }
   </style>
 </head>
 
@@ -212,85 +252,57 @@
         </el-header>
 
         <el-main>
-          <!-- 主内容区域 -->
-          <!-- ... 主要内容 ... -->
-
-          <!-- 聊天面板 -->
-          <div class="container" >
-            <!-- 铃铛图标 -->
-            <div class="notification-bell" @click="showNotifications">
-              <i class="bell-icon">🔔</i>
-            </div>
-
-            <!-- 用户名字列表 -->
-            <div class="names-list">
-              <ul>
-                <li v-for="user in allUserList" :key="user.userId">
-                  {{ user.username }}
-                  <button @click.stop="showChat(user)">发送信息</button>
-                </li>
-
-              </ul>
-            </div>
-
-            <button id="chatToggle" @click="toggleChat">打开聊天框</button>
-
-            <div v-if="isShowChat" class="chat-panel">
-              <!-- 聊天头部 -->
-              <div class="chat-header">
-                <div id="chatMes" v-show="chatMes">
-                  正在和 <span class="chat-partner-name">{{toName}}</span> 聊天
-                </div>
-              </div>
-
-              <!-- 聊天主体 -->
-              <div class="chat-body">
-                <div class="chat-area" id="chatArea" v-show="isShowChat">
-                  <!-- 聊天消息展示区域 -->
-                  <div class="chat-messages" id="show">
-                    <div class="pnl-list" id="msgs" v-for="message in historyMessage">
-                      <!-- 消息展示 -->
-                      <div class="msg guest" v-if="message.fromName">
-                        <div class="msg-right">
-                          <div class="msg-host photo"
-                               style="background-image: url(../img/avatar/Member003.jpg)"></div>
-                          <div class="msg-ball">{{message.message}}</div>
+            <div class="container">
+                <div class="chat-panel" style="height: 100%;width: 80%">
+                    <!-- 聊天头部 -->
+                    <div class="chat-header" style="height: 5%;">
+                        <div id="chatMes" v-show="chatMes" >
+                            <span class="chat-partner-name" style="color: black">  正在和{{toName}}聊天</span>
                         </div>
-                      </div>
-                      <div class="msg robot" v-else>
-                        <div class="msg-left" worker="">
-                          <div class="msg-host photo"
-                               style="background-image: url(../img/avatar/Member002.jpg)"></div>
-                          <div class="msg-ball">{{message.message}}</div>
-                        </div>
-                      </div>
                     </div>
-                  </div>
+                    <!-- 聊天主体 -->
+                    <div class="chat-body" style="height: 95%;">
+                        <div class="chat-area" id="chatArea" v-show="isShowChat" style="width: 80%">
+                            <!-- 聊天消息展示区域 -->
+                            <div class="chat-messages" id="show" style="width:80%">
+                                <div class="pnl-list" id="msgs" v-for="message in historyMessage" style="width: 80%">
+                                    <!-- 消息展示 -->
+                                    <div class="msg guest" v-if="message.fromName">
+                                        <div class="msg-right">
+                                            <div class="msg-host photo"
+                                                 style="background-image: url(../img/avatar/Member003.jpg)"></div>
+                                            <div class="msg-ball">{{message.message}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="msg robot" v-else>
+                                        <div class="msg-left" worker="">
+                                            <div class="msg-host photo"
+                                                 style="background-image: url(../img/avatar/Member002.jpg)"></div>
+                                            <div class="msg-ball">{{message.message}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                  <!-- 输入区域 -->
-                  <div class="chat-input">
-                    <textarea id="context_text" @keyup.enter="submit" placeholder="在此输入文字信息..." v-model="sendMessage.message"></textarea>
-                    <button class="send-button" id="submit" @click="submit">发送</button>
-                  </div>
+                            <!-- 输入区域 -->
+                            <div class="chat-input">
+                                <textarea id="context_text" @keyup.enter="submit" placeholder="在此输入文字信息..." v-model="sendMessage.message"></textarea>
+                                <button class="send-button" id="submit" @click="submit">发送</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
 
-              <!-- 聊天侧边栏 -->
-              <div class="chat-sidebar">
-                <div class="friends-list">
-                  <div class="chat-sidebar">
+                <!-- 侧边栏 -->
+                <div class="chat-sidebar" style="height: 100%">
                     <div class="friends-list">
-                      <ul>
-                        历史记录<br><br>
-                        <li v-for="user in relatedUserList" @click='showChat(user)'>{{ user.username }}在线</li>
-                      </ul>
+                        <ul>
+                            历史记录<br><br>
+                            <li v-for="user in relatedUserList" @click='showChat(user)'>{{ user.username }}在线</li>
+                        </ul>
                     </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-
         </el-main>
       </el-container>
     </el-container>
@@ -304,7 +316,7 @@
     data(){
       return{
         unreadMessages: [], // 存储未读消息
-        isShowChat: false,
+        isShowChat: true,
         allUserList: [], // 存储用户列表
         relatedUserList:[],// 和我通过话的
         selectedUser: null, // 当前选中的用户对象
@@ -407,9 +419,6 @@
         ws.onopen = this.onOpen;
         ws.onmessage = this.onMessage;
         ws.onclose = this.onClose;
-      },
-      toggleChat() {
-        this.isShowChat = !this.isShowChat; // 切换聊天框的显示状态
       },
       showNotifications() {
         this.fetchRelatedUserList()

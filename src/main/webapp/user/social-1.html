@@ -242,20 +242,24 @@
                     </div>
                     <el-dialog :visible.sync="dialogVisible2" size="large" title="发表帖子" style="min-width: 500px">
                         <el-card id="card_message2">
-                            <el-form style="margin-top: 20px;">
-                                <el-form-item label="标题">
-                                    <el-input type="textarea" v-model="MessageTitle" placeholder="请输入帖子内容"></el-input>
+                            <el-form :model="messageContant" ref="messageForm" label-width="80px" style="padding: 20px;" :rules="rules">
+                                <el-form-item label="标题" prop="title">
+                                    <el-input v-model="messageContant.title"></el-input>
                                 </el-form-item>
-                                <el-form-item label="图片">
-                                    <el-input type="textarea" v-model="MessageImage" placeholder="请输入帖子内容"></el-input>
+                                <el-form-item label="内容" prop="body">
+                                    <el-input v-model="messageContant.body"></el-input>
                                 </el-form-item>
-                                <el-form-item label="帖子内容">
-                                    <el-input type="textarea" v-model="MessageContent" placeholder="请输入帖子内容"></el-input>
+                                <el-form-item label="上传图片" prop="img">
+                                    <div>
+                                        <input type="file" @change="handleFileUpload" />
+                                    </div>
                                 </el-form-item>
 
-                                <el-form-item class="el-main-reply-buttons" style="margin-left: 80%">
-                                    <el-button type="primary" @click="submitMessage">发表</el-button>
+                                <el-form-item>
+                                    <el-button type="primary" @click="addMessage">发表</el-button>
+                                    <el-button @click="resetForm">重置</el-button>
                                 </el-form-item>
+
                             </el-form>
                         </el-card>
                     </el-dialog>
@@ -464,7 +468,14 @@
                     commentContent: [
                         {required: true, message: '请输入内容', trigger: 'blur'},
                     ]
+                },
+                messageContant:{
+                    title: '',
+                    body:'',
+                    img:''
                 }
+
+
             }
         },
         mounted() {
@@ -492,7 +503,7 @@
                 reader.onload = function(e) {
                     var base64String = e.target.result;
                     // console.log(base64String); // 在控制台输出base64字符串
-                    self.currentRow.image = uriToB64(base64String)
+                    self.currentRow.img = uriToB64(base64String)
                 };
                 reader.readAsDataURL(file);
             },
@@ -528,6 +539,47 @@
                         this.$message.error('获取列表失败');
                         console.log(error);
                     });
+            },
+            addMessage() {
+                this.$refs.messageForm.validate(valid => {
+                    if (valid) {
+                        // 判断食堂名称、营业时间和地址是否都填写完全
+                        if (!this.messageContant.title || !this.messageContant.body) {
+                            this.$message.error('请填写完整的帖子信息');
+                            return;
+                        }
+                        // alert(this.restaurant.image)
+                        // 将表单数据转换为 JSON 格式
+                        const requestData = JSON.stringify(this.message)
+                        // 发送 POST 请求给后端，传递表单数据
+                        axios.post('/restaurant/publishComment', requestData, {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => {
+                                const flag = response.data.flag;
+                                if (flag === '0') {
+                                    this.restaurant = {}; // 清空表单数据
+                                    this.$message({
+                                        message: '发送成功',
+                                        type: 'success'
+                                    });
+                                } else {
+                                    this.$message.error('发送失败：' + response.data.error);
+                                }
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                this.$message.error('发送失败：' + error.message);
+                            });
+                    } else {
+                        this.$message.error('填写格式有误');
+                    }
+                });
+            },
+            resetForm() { //添加重置表单方法
+                this.$refs.messageForm.resetFields();
             },
             getAllReply(commentId) {
                 axios.get('/restaurant/showReply?commentId=' + commentId)
@@ -734,7 +786,7 @@
                 window.location.href = "user_all_message.html";
             },
             startChat(){
-                window.location.href = "main.html";
+                window.location.href = "test.html";
             }
         }
 
