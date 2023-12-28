@@ -243,7 +243,7 @@
                                 <el-card style="margin-bottom: 5px">
                                     <div style="width: 100%;display: flex;color: black">
                                         <span style="font-weight: bold">{{item.name}}</span>&nbsp;&nbsp;
-                                        <span>我发布了标题为&nbsp;<strong>{{item.title}}</strong>&nbsp;的帖子</span>
+                                        <span>发布了标题为&nbsp;<strong>{{item.title}}</strong>&nbsp;的帖子</span>
                                     </div>
                                     <div style="width: 70%;color: black;margin-top: 15px;margin-bottom: 10px">
                                         <span>&nbsp;&nbsp;{{item.body}}</span>
@@ -257,7 +257,7 @@
                                         @size-change="handleSizeChange"
                                         @current-change="handleCurrentChange"
                                         :current-page="currentPage"
-                                        :page-sizes="[1]"
+                                        :page-sizes="[9]"
                                         :page-size="pageSize"
                                         layout="total, sizes, prev, pager, next, jumper"
                                         :total="myPosts.length">
@@ -279,7 +279,6 @@
         el: '#app',
         data(){
             return{
-                userId:1111111112,
                 textColor:"#fff",
                 userExp: 80, // 用户当前的经验值
                 maxExp:100,
@@ -309,9 +308,10 @@
                     //     body: "rsndm",
                     // },
                 ],
-                pageSize: 1, // 每页显示的条数
+                pageSize: 9, // 每页显示的条数
                 currentPage: 1, // 当前页3
-                total:''
+                total:'',
+                toId: '-1',
             }
         },
         computed: {
@@ -326,7 +326,13 @@
         },
         methods:{
             getCommentReply() {
-                axios.get(`/restaurant/searchUser?id=` + this.userId)
+                this.toId = localStorage.getItem("toId");
+                localStorage.setItem("toId", "-1");
+                // alert(localStorage.getItem("userId") + " " + this.toId);
+                if (this.toId === "-1") {
+                    this.toId = localStorage.getItem("userId")
+                }
+                axios.get(`/restaurant/searchUser?id=` + this.toId)
                     .then(response => {
                         const flag = response.data.flag;
                         this.myPosts = response.data.object.commentList;

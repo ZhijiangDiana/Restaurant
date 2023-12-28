@@ -322,7 +322,7 @@
                                 </el-table-column>
                                 <el-table-column prop="name" label="发表人" >
                                     <template slot-scope="scope">
-                                        <a @click="showOptions(this)" style="font-weight:bold;">{{ scope.row.name }}</a>
+                                        <a @click="showOptions(this, scope.row)" style="font-weight:bold;">{{ scope.row.name }}</a>
                                     </template>
                                 </el-table-column>
                                 <el-table-column prop="publishTime" label="发表时间">
@@ -791,15 +791,18 @@
             sendMessage(){
                 this.dialogVisible2=true;
             },
-            showOptions(element) {
+            showOptions(element, row) {
                 var box = document.getElementById("optionsBox");
                 if (box.style.display === "block") {
                     box.style.display = "none";
                 } else {
                     box.style.display = "block";
-                    box.style.left = element.getBoundingClientRect().left + "px";
-                    box.style.top = element.getBoundingClientRect().bottom + "px";
+                    // box.style.left = element.getBoundingClientRect().left + "px";
+                    // box.style.top = element.getBoundingClientRect().bottom + "px";
                 }
+                this.currentRow = Object.assign({}, row);
+                localStorage.setItem("toId", this.currentRow.userId);
+                // alert(this.currentRow.userId)
             },
             goToDetails() {
                 window.location.href = "user_all_message.html"; // 修改为实际的详情页面 URL
