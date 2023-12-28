@@ -212,10 +212,10 @@
                         <img src="../image/food.png" alt="" style="width: 50px;height: 50px" @click="goToDetails">
                     </div>
                     <div style="color: white;">
-                        <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
-                        <span>Lv:13</span>
+                        <span style="font-weight: bold">{{user.username}}</span>&nbsp;&nbsp;
+                        <span>Lv: {{ userLevel }}</span>
                         <div style="margin-top: 0">
-                            <el-progress :percentage="userExp/maxExp * 100" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
+                            <el-progress :percentage="remainPercent" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
                         </div>
                     </div>
                 </el-header>
@@ -496,6 +496,9 @@
                 discountDish: [],
                 recommendDish: [],
                 commentRank: [],
+                user: '',
+                userLevel: '',
+                remainPercent: '',
             }
         },
         mounted() {
@@ -514,9 +517,13 @@
             getUserId(){
                 axios.get('/restaurant/getUserId')
                     .then(response => {
-                        this.userId = response.data.object;
+                        var object = response.data.object;
+                        this.userId = object.userId;
+                        this.user = object;
                         localStorage.setItem("userId",this.userId)
-                        alert(this.userId)
+                        this.userLevel = expToLevel(this.user.experience);
+                        this.remainPercent = remainExp(this.user.experience, this.userLevel)
+                        // alert(this.userId)
                     }).catch(error => {
                     console.error(error);
                     this.$message.error('网络异常：' + error.message);

@@ -57,3 +57,25 @@ function timeStampToDateTime(timeStamp) {
 
     return `${yyyy}-${MM}-${dd} ${HH}:${mm}:${ss}`
 }
+
+const levelList = [200, 500, 1000, 2000, 5000, 99999, 1e9];
+function expToLevel(exp) {
+    if (exp < levelList[0])
+        return 0;
+    else if (exp < levelList[1])
+        return 1;
+    else if (exp < levelList[2])
+        return 2;
+    else if (exp < levelList[3])
+        return 3;
+    else if (exp < levelList[4])
+        return 4;
+    else if (exp < levelList[5])
+        return 5;
+    else
+        return 6;
+}
+
+function remainExp(exp, level) {
+    return exp * 100.0 / levelList[level+1] ;
+}

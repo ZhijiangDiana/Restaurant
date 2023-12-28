@@ -16,6 +16,6 @@ public class GetUserId extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
-        response.getWriter().print(FrontEndUtils.objectToBody(null,"0",user.getUserId()));
+        response.getWriter().print(FrontEndUtils.objectToBody(null,"0",user));
     }
 }
