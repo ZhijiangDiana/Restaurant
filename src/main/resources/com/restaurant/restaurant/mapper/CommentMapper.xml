@@ -85,4 +85,10 @@
         WHERE comment_id = #{commentId}
     </select>
 
+    <select id="selectVagueComment" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+        SELECT *
+        FROM comment
+        WHERE title LIKE CONCAT('%', #{title}, '%')
+    </select>
+
 </mapper>

@@ -31,4 +31,6 @@ public interface CommentMapper {
     List<CommentShow> selectDetailedInfo();
 
     Integer selectCommentPublisher(@Param("commentId") int commentId);
+
+    List<Comment> selectVagueComment(@Param("title") String title);
 }
