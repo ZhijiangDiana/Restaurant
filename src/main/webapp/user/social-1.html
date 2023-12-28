@@ -497,7 +497,13 @@
         },
         methods:{
             search(){
-
+                axios.get('/restaurant/showVagueComment?title=' + encodeURIComponent(this.value))
+                    .then(response => {
+                        this.tableData = response.data.object;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching history messages:', error);
+                    });
             },
             handleFileUpload(event) {
                 const file = event.target.files[0];
