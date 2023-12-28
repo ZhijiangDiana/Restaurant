@@ -31,7 +31,6 @@
             text-decoration: none;
             transition: width.3s;
             box-shadow: 2px 0 6px rgba(0,21,41,35);
-            color: #fff;
         }
         .logo_title{
             margin-left: 5px;
@@ -192,7 +191,8 @@
                         <el-table-column prop="totalScore" label="分数" :formatter="rounding"></el-table-column>
                         <el-table-column prop="image" label="图片">
                             <template slot-scope="scope">
-                                <img :src="scope.row.image" alt="" height="50" width="50">
+                                <img v-if="scope.row.image" :src="scope.row.image" alt="" height="50" width="50">
+                                <span v-else>暂无图片</span>
                             </template>
                         </el-table-column>
 
@@ -395,6 +395,9 @@
                 pageSize: 6,
             }
         },
+        // mounted() {
+        //     this.getAllDish()
+        // },
         methods:{
             rounding(row,column) {
                 const score = row[column.property];
@@ -434,7 +437,7 @@
                     }
                 }).catch(error => {
                     console.log(error);
-                    this.$message.error('查询失败3，请重试');
+                    this.$message.error('查询失败，请重试');
                 });
 
                 this.dialogVisible3 = true;
@@ -478,11 +481,11 @@
                             type: 'success'
                         });
                     } else {
-                        this.$message.error('添加失败1：' + response.data.error);
+                        this.$message.error('添加失败：' + response.data.error);
                     }
                 }).catch(error => {
                         console.error(error);
-                        this.$message.error('添加失败2：' + error.message);
+                        this.$message.error('添加失败：' + error.message);
                     });
             },
             handleCollapse() {
@@ -536,7 +539,7 @@
                     // alert(min);
                     // alert(max);
                     if(min==="" || max===""){
-                        this.$message.warning('请输入详细jiage');
+                        this.$message.warning('请输入详细价格');
                         return;
                     }
                 }
@@ -560,7 +563,7 @@
                     }
                 }).catch(error => {
                     console.log(error);
-                    this.$message.error('查询失败1，请重试');
+                    this.$message.error('查询失败，请重试');
                 });
             },
 
@@ -589,11 +592,11 @@
                             type: 'success'
                         });
                     } else {
-                        this.$message.error('添加失败1：' + response.data.error);
+                        this.$message.error('添加失败：' + response.data.error);
                     }
                 }).catch(error => {
                     console.error(error);
-                    this.$message.error('添加失败2：' + error.message);
+                    this.$message.error('添加失败：' + error.message);
                 });
             },
 

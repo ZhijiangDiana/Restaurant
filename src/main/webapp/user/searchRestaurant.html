@@ -329,11 +329,11 @@
                             type: 'success'
                         });
                     } else {
-                        this.$message.error('添加失败1：' + response.data.error);
+                        this.$message.error('添加失败：' + response.data.error);
                     }
                 }).catch(error => {
                     console.error(error);
-                    this.$message.error('添加失败2：' + error.message);
+                    this.$message.error('添加失败：' + error.message);
                 });
             },
 
@@ -377,7 +377,7 @@
                 })
                     .catch(error => {
                     console.log(error);
-                    this.$message.error('查询失败2，请重试');
+                    this.$message.error('查询失败，请重试');
                 });
 
                 this.dialogVisible1 = true; // 显示编辑对话框
