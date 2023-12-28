@@ -30,6 +30,10 @@
         FROM `Restaurant`.dish;
     </select>
 
+    <select id="selectAllWithFile" resultType="com.restaurant.restaurant.pojo.entity.Dish">
+        SELECT * FROM dish;
+    </select>
+
     <select id="selectById" resultType="com.restaurant.restaurant.pojo.entity.Dish">
         SELECT dish_id, canteen_id, dish_name, series, price, price_sale, total_score, weight_sum
         FROM `Restaurant`.dish

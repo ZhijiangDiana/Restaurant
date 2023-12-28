@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface DishMapper {
     List<Dish> selectAll();
+    List<Dish> selectAllWithFile();
     Dish selectById(@Param("id") int id); // 按id查询不包含文件的记录
     Dish selectByIdWithFile(@Param("id") int id); // 按id查询包含文件的记录
     List<Dish> selectBySeries(@Param("series") int series);
