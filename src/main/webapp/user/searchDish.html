@@ -395,9 +395,9 @@
                 pageSize: 6,
             }
         },
-        // mounted() {
-        //     this.getAllDish()
-        // },
+        mounted() {
+            this.getAllDish()
+        },
         methods:{
             rounding(row,column) {
                 const score = row[column.property];
@@ -664,6 +664,25 @@
                 this.currentPage=val;
                 console.log(`当前页: ${val}`);
             },
+            getAllDish(){
+                axios.get('/restaurant/GetDish')
+                    .then(response => {
+                        if (response.data.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            response.data.object.forEach(item => {
+                                item.image = b64ToURI(item.image)
+                            });
+                            this.tableData = response.data.object;
+                            this.total = this.tableData.length;
+                        } else {
+                            this.$message.error(response.data.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            }
 
         },
 
