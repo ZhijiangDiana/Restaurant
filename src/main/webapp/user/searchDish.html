@@ -10,14 +10,6 @@
     <script src="../js/axios-0.18.0.js"></script>
     <script src="../js/utils.js"></script>
     <style>
-        .el-menu--inline  {
-            background-color: #1b1b1b  !important;
-        }
-        .el-menu--inline .el-menu-item {
-            background-color: #1b1b1b  !important;
-            padding-left: 51px !important;
-        }
-
         .el-menu-item:hover,
         .el-submenu__title:hover {
             color: #fff !important;
@@ -26,21 +18,28 @@
         .el-submenu__title:hover i {
             color: #fff !important;
         }
-
-        .el-aside{
-            text-decoration: none;
-            transition: width.3s;
-            box-shadow: 2px 0 6px rgba(0,21,41,35);
-        }
         .logo_title{
             margin-left: 5px;
             font-size: 20px;
             transition: all .3s;
         }
-        .el-header{
-            box-shadow: 2px 0 6px rgba(0,21,41,35);
+        .el-header {
+            line-height: 20px;
             display: flex;
             align-items: center;
+
+            /* 垂直居中对齐 */
+        }
+        .aside_item_title{
+            color: #fff;
+        }
+        .aside_item{
+            text-decoration: none;
+            padding-left: 20px;
+            color: #fff;
+        }
+        .el-aside {
+            color: #333;
         }
         .el-header-buttons .el-button {
             display: flex;
@@ -49,7 +48,7 @@
         }
         .el-form-buttons .el-button{
             background-color: beige;/* 按钮之间的右边距 */
-            color:black ;
+            color:black;
         }
         .el-main-buttons .el-button{
             background-color: beige;
@@ -65,9 +64,7 @@
             min-height: 100vh;
 
         }
-        .button-container{
-            text-align: right;
-        }
+
         .el-card{
             /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
             margin-left: 20px;
@@ -82,6 +79,8 @@
             background-color: beige;/* 按钮之间的右边距 */
             color:black;
         }
+
+
         .carouselBox {
             width: 100%;
             max-width: 1200px;
@@ -100,6 +99,20 @@
             border-radius: 14px;
             box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
         }
+        .custom-progress .el-progress-bar__inner {
+            background-color: #ff9900; /* 设置进度条的背景颜色 */
+
+        }
+        .avatar {
+
+            overflow: hidden;
+        }
+
+        .avatar img {
+            height: auto;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
     </style>
 </head>
 
@@ -107,40 +120,103 @@
 <div id="app">
     <div>
         <el-container>
-            <el-aside  :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b " >
-
+            <el-aside :width="asideWidth" style="min-height: 100vh;background-color:#1b1b1b ">
                 <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
                     <span class="logo_title" v-show="!isCollapse">USST</span>
                 </div>
-
-                <el-menu :collapse="isCollapse"  background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
-                    <el-menu-item>
-                        <i class="el-icon-house"></i>
-                        <span slot="title">系统首页</span>
-                    </el-menu-item>
-                    <el-menu-item>
-                        <i class="el-icon-postcard"></i>
-                        <span slot="title">交流社区</span>
-                    </el-menu-item>
-                    <el-submenu>
+                <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+                    <el-submenu index="1">
                         <template slot="title">
-                            <i class="el-icon-search"></i>
-                            <span>信息检索</span>
+                            <i class="el-icon-house"></i>
+                            <span class="aside_item_title">首页</span>
                         </template>
-                        <el-menu-item>
-                            <a href="searchRestaurant.html" class="el-aside">食堂检索</a>
-                        </el-menu-item>
-                        <el-menu-item >
-                            <a href="searchDish.html" class="el-aside">菜品检索</a>
+                        <el-menu-item index="1-1">
+                            <a href="home.html" class="aside_item">综合信息</a>
                         </el-menu-item>
                     </el-submenu>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i class="el-icon-s-shop"></i>
+                            <span class="aside_item_title">信息检索</span>
+                        </template>
+                        <el-menu-item index="2-1">
+                            <a href="searchRestaurant.html" class="aside_item">食堂检索</a>
+                        </el-menu-item>
+                        <el-menu-item index="2-2">
+                            <a href="searchDish.html" class="aside_item">菜品检索</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="3">
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">交流社区信息管理</span>
+                        </template>
+                        <el-menu-item index="3-1">
+                            <a href="social-1.html" class="aside_item">帖子列表</a>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="4">
+                        <template slot="title">
+                            <i class="el-icon-bell"></i>
+                            <span class="aside_item_title">消息管理</span>
+                            <el-badge :value="unreadTotalCount" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                        </template>
+                        <el-menu-item index="4-1">
+                            <a href="reply2.html" class="aside_item">投诉回复</a>
+                            <span v-if="unreadReportReplyCount !== 0">
+                            <el-badge :value=" unreadReportReplyCount" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                            </span>
+                        </el-menu-item>
+                        <el-menu-item index="4-2">
+                            <a href="reply1.html" class="aside_item">追评我的</a>
+                            <span v-if="unreadCommentReplyCount !== 0">
+                            <el-badge :value="unreadCommentReplyCount" class="icon" style="margin-left: 15px;">
+                                <el-icon-button  icon="el-icon-message"></el-icon-button>
+                            </el-badge>
+                            </span>
+                        </el-menu-item>
+                        <el-menu-item index="4-3">
+                            <a href="reply3.html" class="aside_item">点赞我的</a>
+                            <span v-if="unreadThumbsupCount !== 0">
+                                <el-badge :value="unreadThumbsupCount" class="icon" style="margin-left: 15px;">
+                                    <el-icon-button icon="el-icon-message"></el-icon-button>
+                                </el-badge>
+                            </span>
+                        </el-menu-item>
+                    </el-submenu>
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-chat-dot-round"></i>
+                            <span class="aside_item_title">聊天管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="test.html" class="aside_item">聊天室</a>
+                        </el-menu-item>
 
+                    </el-submenu>
                 </el-menu>
             </el-aside>
 
             <el-container>
-                <el-header style="background-color: #1b1b1b">
-                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>\
+                <el-header style="background-color: #953131;display: flex;">
+                    <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
+                    <div style="width: 85%"  >
+
+                    </div>
+                    <div class="avatar">
+                        <img src="/image/food.png" alt="" style="width: 50px;height: 50px" @click="goToDetails">
+                    </div>
+                    <div style="color: white;">
+                        <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
+                        <span>Lv:13</span>
+                        <div style="margin-top: 0">
+                            <el-progress :percentage="userExp/maxExp * 100" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
+                        </div>
+                    </div>
                 </el-header>
 
                 <el-main>
@@ -178,7 +254,7 @@
                         </el-form-item>
 
                         <el-form-item label-width="27px">
-                            <el-button type="success" @click="onSubmit">查询</el-button>
+                            <el-button type="primary" @click="onSubmit">查询</el-button>
                         </el-form-item>
                     </el-form>
 
@@ -360,6 +436,9 @@
         el: '#app',
         data(){
             return{
+                textColor:"#fff",
+                userExp: 80, // 用户当前的经验值
+                maxExp:100,
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
@@ -383,6 +462,12 @@
                 },
                 reply:{
                 },
+
+                unreadTotalCount:0,
+                unreadReportReplyCount:3,
+                unreadCommentReplyCount:1,
+                unreadThumbsupCount:2,
+
                 commentData:[],
                 commentCommentData:[],
                 textarea: '太好吃了',
@@ -396,9 +481,18 @@
             }
         },
         mounted() {
-            this.getAllDish()
+            this.getCommentReplyNum();
+            this.getThumbsupNum();
+            this.getReportReplyNum();
+            this.sumTotalUnreadNum();
+            <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            this.getCommentReply();
+            this.getAllDish();
         },
         methods:{
+            goToDetails() {
+                window.location.href = "user_all_message.html"; // 修改为实际的详情页面 URL
+            },
             rounding(row,column) {
                 const score = row[column.property];
                 if (score === null || score === '' || score === undefined)
@@ -682,8 +776,108 @@
                         this.$message.error('获取列表失败');
                         console.log(error);
                     });
-            }
-
+            },
+            sumTotalUnreadNum(){
+                this.unreadTotalCount = this.unreadThumbsupCount + this.unreadCommentReplyCount + this.unreadReportReplyCount;
+            },
+            getCommentReplyNum(){
+                fetch('/restaurant/showReplyNum', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            this.unreadCommentReplyCount = result.object
+                            this.sumTotalUnreadNum();
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
+            getThumbsupNum(){
+                fetch('/restaurant/showThumbsupNum', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            this.unreadThumbsupCount = result.object;
+                            this.sumTotalUnreadNum();
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
+            getReportReplyNum(){
+                fetch('/restaurant/showReportReplyNum', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(result => {
+                        if (result.flag === '0') {
+                            this.$message.success('获取列表成功');
+                            this.unreadReportReplyCount = result.object;
+                            this.sumTotalUnreadNum();
+                        } else {
+                            this.$message.error(result.message);
+                        }
+                    })
+                    .catch(error => {
+                        this.$message.error('获取列表失败');
+                        console.log(error);
+                    });
+            },
+            <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            getThumbsup() {
+                axios.get(`/restaurant/showThumbsupDetails`)
+                    .then(response => {
+                        const flag = response.data.flag;
+                        const object = response.data.object;
+                        if (object.length === 0 || flag == 1) {
+                            this.$message.error('暂无管理员回复');
+                        } else {
+                            this.comments = object;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('查询失败，请重试');
+                    });
+            },
         },
 
     })

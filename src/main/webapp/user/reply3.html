@@ -25,9 +25,10 @@
             transition: all .3s;
         }
         .el-header {
-            line-height: 60px;
+            line-height: 20px;
             display: flex;
             align-items: center;
+
             /* 垂直居中对齐 */
         }
         .aside_item_title{
@@ -99,6 +100,20 @@
             border-radius: 14px;
             box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
         }
+        .custom-progress .el-progress-bar__inner {
+            background-color: #ff9900; /* 设置进度条的背景颜色 */
+
+        }
+        .avatar {
+
+            overflow: hidden;
+        }
+
+        .avatar img {
+            height: auto;
+            border-radius: 50%;
+            margin-right: 15px;
+        }
     </style>
 </head>
 
@@ -112,94 +127,99 @@
                     <span class="logo_title" v-show="!isCollapse">USST</span>
                 </div>
                 <el-menu :collapse="isCollapse" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
-                    <el-submenu>
+                    <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-house"></i>
                             <span class="aside_item_title">首页</span>
                         </template>
-                        <el-menu-item>
-                            <a href="firstView.html" class="aside_item">综合信息</a>
+                        <el-menu-item index="1-1">
+                            <a href="home.html" class="aside_item">综合信息</a>
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu>
+                    <el-submenu index="2">
                         <template slot="title">
                             <i class="el-icon-s-shop"></i>
-                            <span class="aside_item_title">食堂基本信息管理</span>
+                            <span class="aside_item_title">信息检索</span>
                         </template>
-                        <el-menu-item>
-                            <a href="searchDish.html" class="aside_item">食堂列表</a>
+                        <el-menu-item index="2-1">
+                            <a href="searchRestaurant.html" class="aside_item">食堂检索</a>
                         </el-menu-item>
-                        <el-menu-item>
-                            <a href="addRestaurant.html" class="aside_item">新增食堂</a>
+                        <el-menu-item index="2-2">
+                            <a href="searchDish.html" class="aside_item">菜品检索</a>
                         </el-menu-item>
                     </el-submenu>
-
-                    <el-submenu>
-                        <template slot="title">
-                            <i class="el-icon-user"></i>
-                            <span class="aside_item_title">账号管理</span>
-                        </template>
-                        <el-menu-item>
-                            <a href="restaurantAdminList.html" class="aside_item">食堂管理员列表</a>
-                        </el-menu-item>
-                        <el-menu-item>
-                            <a href="userList.html" class="aside_item">用户列表</a>
-                        </el-menu-item>
-                    </el-submenu>
-
-                    <el-submenu>
-                        <template slot="title">
-                            <i class="el-icon-star-on"></i>
-                            <span class="aside_item_title">评价信息管理</span>
-                        </template>
-                        <el-menu-item>
-                            <a href="commentList.html" class="aside_item">评价列表</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu>
+                    <el-submenu index="3">
                         <template slot="title">
                             <i class="el-icon-chat-line-round"></i>
                             <span class="aside_item_title">交流社区信息管理</span>
                         </template>
-                        <el-menu-item>
+                        <el-menu-item index="3-1">
                             <a href="social-1.html" class="aside_item">帖子列表</a>
                         </el-menu-item>
                     </el-submenu>
-                    <el-submenu>
+                    <el-submenu index="4">
                         <template slot="title">
-                            <i class="el-icon-chat-line-round"></i>
+                            <i class="el-icon-bell"></i>
                             <span class="aside_item_title">消息管理</span>
                             <el-badge :value="unreadTotalCount" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </template>
-                        <el-menu-item>
+                        <el-menu-item index="4-1">
                             <a href="reply2.html" class="aside_item">投诉回复</a>
+                            <span v-if="unreadReportReplyCount !== 0">
                             <el-badge :value=" unreadReportReplyCount" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
+                            </span>
                         </el-menu-item>
-                        <el-menu-item>
+                        <el-menu-item index="4-2">
                             <a href="reply1.html" class="aside_item">追评我的</a>
+                            <span v-if="unreadCommentReplyCount !== 0">
                             <el-badge :value="unreadCommentReplyCount" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
+                            </span>
                         </el-menu-item>
-                        <el-menu-item>
+                        <el-menu-item index="4-3">
                             <a href="reply3.html" class="aside_item">点赞我的</a>
-                            <el-badge :value="unreadThumbsupCount" class="icon" style="margin-left: 15px;">
-                                <el-icon-button  icon="el-icon-message"></el-icon-button>
-                            </el-badge>
+                            <span v-if="unreadThumbsupCount !== 0">
+                                <el-badge :value="unreadThumbsupCount" class="icon" style="margin-left: 15px;">
+                                    <el-icon-button icon="el-icon-message"></el-icon-button>
+                                </el-badge>
+                            </span>
                         </el-menu-item>
                     </el-submenu>
+                    <el-submenu index="5">
+                        <template slot="title">
+                            <i class="el-icon-chat-dot-round"></i>
+                            <span class="aside_item_title">聊天管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="test.html" class="aside_item">聊天室</a>
+                        </el-menu-item>
 
+                    </el-submenu>
                 </el-menu>
             </el-aside>
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
             <el-container>
 
-                <el-header style="background-color: #953131">
+                <el-header style="background-color: #953131;display: flex;">
                     <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
+                    <div style="width: 85%"  >
+
+                    </div>
+                    <div class="avatar">
+                        <img src="/image/food.png" alt="" style="width: 50px;height: 50px" @click="goToDetails">
+                    </div>
+                    <div style="color: white;">
+                        <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
+                        <span>Lv:13</span>
+                        <div style="margin-top: 0">
+                            <el-progress :percentage="userExp/maxExp * 100" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
+                        </div>
+                    </div>
                 </el-header>
                 <el-main>
                     <el-card>
@@ -247,6 +267,9 @@
         el: '#app',
         data(){
             return{
+                textColor:"#fff",
+                userExp: 80, // 用户当前的经验值
+                maxExp:100,
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
@@ -288,6 +311,9 @@
             }
         ,
         methods:{
+            goToDetails() {
+                window.location.href = "user_all_message.html"; // 修改为实际的详情页面 URL
+            },
             handleCollapse(){
                 this.isCollapse=!this.isCollapse
                 this.asideWidth=this.isCollapse ? '64px':'200px'
