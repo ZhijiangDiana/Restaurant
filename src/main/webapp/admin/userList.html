@@ -94,20 +94,20 @@
                 </el-form>
 
                 <!-- 投诉 -->
-                <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" border style="width: 100%">
-                    <el-table-column prop="userId" label="学号/工号" width="250">
+                <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" border fix>
+                    <el-table-column prop="userId" label="学号/工号">
                     </el-table-column>
-                    <el-table-column prop="username" label="姓名" width="200">
+                    <el-table-column prop="username" label="姓名">
                     </el-table-column>
-                    <el-table-column prop="password" label="密码" width="200">
+                    <el-table-column prop="password" label="密码">
                     </el-table-column>
-                    <el-table-column prop="experience" label="经验值" width="100">
+                    <el-table-column prop="experience" label="经验值">
                     </el-table-column>
 <!--                    <el-table-column prop="forbidden" label="封禁" width="100">-->
 <!--                    </el-table-column>-->
-                    <el-table-column prop="illegality" label="张三指数" width="100">
+                    <el-table-column prop="illegality" label="张三指数">
                     </el-table-column>
-                    <el-table-column fixed="right" label="操作" width="300">
+                    <el-table-column fixed="right" label="操作">
                         <template slot-scope="scope">
                             <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
                             <el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
