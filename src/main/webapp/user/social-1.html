@@ -64,6 +64,14 @@
 
         }
 
+        #card_message3 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin: 20px; /* 添加一些边距，使内容离边框有一定距离 */
+            min-height: 100vh;
+
+        }
+
         .el-card{
             /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
             margin-left: 20px;
@@ -255,7 +263,7 @@
                     <div style="margin-bottom: 30px">
                         <div>
                             <div class="options-box" id="optionsBox" style="color: black">
-                                <div class="option" @click="goToDetails(scope.row.id )">查看详情</div>
+                                <div class="option" @click="goToDetails()">查看详情</div>
                                 <div class="option" @click="startChat()">进行聊天</div>
                             </div>
                             <!-- 表格 -->
@@ -289,7 +297,7 @@
                             </div>
                         </div>
                      <el-dialog :visible.sync="dialogVisible1" size="large" title="帖子详情" style="min-width: 500px">
-                             <el-card id="card_message2">
+                             <el-card id="card_message3">
                                  <div>
                                      <h2 style="color:black ">{{currentRow.title}}</h2>
                                      <div>
@@ -719,8 +727,8 @@
                     box.style.top = element.getBoundingClientRect().bottom + "px";
                 }
             },
-            goToDetails(id) {
-                window.location.href = "user_all_message.html?id"; // 修改为实际的详情页面 URL
+            goToDetails() {
+                window.location.href = "user_all_message.html"; // 修改为实际的详情页面 URL
             },
             seeUser(){
                 window.location.href = "user_all_message.html";
