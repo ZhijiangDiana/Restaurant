@@ -175,21 +175,27 @@
                         </template>
                         <el-menu-item>
                             <a href="reply2.html" class="aside_item">投诉回复</a>
+                            <span v-if="unreadReportReplyCount !== 0">
                             <el-badge :value=" unreadReportReplyCount" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
+                            </span>
                         </el-menu-item>
                         <el-menu-item>
                             <a href="reply1.html" class="aside_item">追评我的</a>
+                            <span v-if="unreadCommentReplyCount !== 0">
                             <el-badge :value="unreadCommentReplyCount" class="icon" style="margin-left: 15px;">
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
+                            </span>
                         </el-menu-item>
                         <el-menu-item>
                             <a href="reply3.html" class="aside_item">点赞我的</a>
-                            <el-badge :value="unreadThumbsupCount" class="icon" style="margin-left: 15px;">
-                                <el-icon-button  icon="el-icon-message"></el-icon-button>
-                            </el-badge>
+                            <span v-if="unreadThumbsupCount !== 0">
+                                <el-badge :value="unreadThumbsupCount" class="icon" style="margin-left: 15px;">
+                                    <el-icon-button icon="el-icon-message"></el-icon-button>
+                                </el-badge>
+                            </span>
                         </el-menu-item>
                     </el-submenu>
 
@@ -261,7 +267,7 @@
                 unreadTotalCount:0,
                 unreadReportReplyCount:3,
                 unreadCommentReplyCount:1,
-                unreadThumbsupCount:2,
+                unreadThumbsupCount:0,
                 <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
                 comments:[],
                 pageSize: 3, // 每页显示的条数
