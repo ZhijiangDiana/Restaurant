@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../css/chat.css">
   <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-
+    <script src="../js/utils.js"></script>
   <script src="js/vue.js"></script>
   <script src="../js/axios-0.18.0.js"></script>
   <style>
@@ -253,10 +253,10 @@
                   <img src="../image/food.png" alt="" style="width: 50px;height: 50px" @click="goToDetails">
               </div>
               <div style="color: white;">
-                  <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
-                  <span>Lv:13</span>
+                  <span style="font-weight: bold">{{user.username}}</span>&nbsp;&nbsp;
+                  <span>Lv: {{ userLevel }}</span>
                   <div style="margin-top: 0">
-                      <el-progress :percentage="userExp/maxExp * 100" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
+                      <el-progress :percentage="remainPercent" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
                   </div>
               </div>
           </el-header>
@@ -382,10 +382,14 @@
         ],
         pageSize: 3, // 每页显示的条数
         currentPage: 1, // 当前页3
-        total:''
+        total:'',
+          user: '',
+          userLevel: '',
+          remainPercent: '',
       }
     },
     mounted(){
+        this.getUserId();
       this.fetchAllUserList();
         //
       // 模拟设置当前用户的ID，实际情况应从登录信息中获取
@@ -395,6 +399,7 @@
       this.getThumbsupNum();
       this.getReportReplyNum();
       this.sumTotalUnreadNum();
+
     },
     computed: {
       paginatedComments() {
@@ -404,6 +409,38 @@
       }
     },
     methods:{
+        getUserId(){
+            axios.get('/restaurant/getUserId')
+                .then(response => {
+                    var object = response.data.object;
+                    this.userId = object.userId;
+                    this.user = object;
+                    localStorage.setItem("userId",this.userId)
+                    this.userLevel = expToLevel(this.user.experience);
+                    this.remainPercent = remainExp(this.user.experience, this.userLevel)
+                    // alert(this.userId)
+                }).catch(error => {
+                console.error(error);
+                this.$message.error('网络异常：' + error.message);
+            });
+
+        },
+        getUserId(){
+            axios.get('/restaurant/getUserId')
+                .then(response => {
+                    var object = response.data.object;
+                    this.userId = object.userId;
+                    this.user = object;
+                    localStorage.setItem("userId",this.userId)
+                    this.userLevel = expToLevel(this.user.experience);
+                    this.remainPercent = remainExp(this.user.experience, this.userLevel)
+                    // alert(this.userId)
+                }).catch(error => {
+                console.error(error);
+                this.$message.error('网络异常：' + error.message);
+            });
+
+        },
         goToDetails() {
             window.location.href = "user_all_message.html"; // 修改为实际的详情页面 URL
         },
