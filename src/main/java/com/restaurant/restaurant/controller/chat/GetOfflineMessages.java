@@ -56,7 +56,7 @@ public class GetOfflineMessages extends HttpServlet {
                 String username = user.getUsername();
                 ResultMessage resultMessage = new ResultMessage();
                 // 用去前端区分谁在聊天框左谁在聊天框右
-                if (senderUserId == fromId){
+                if ((senderUserId-fromId) < 0.5){
                     resultMessage.setFromName(username);
                 }
                 resultMessage.setMessage(body);

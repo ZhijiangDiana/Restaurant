@@ -360,6 +360,7 @@
         el: '#app',
         data(){
             return{
+                userId:'',
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
@@ -395,9 +396,9 @@
                 pageSize: 6,
             }
         },
-        // mounted() {
-        //     this.getAllDish()
-        // },
+        mounted() {
+            this.userId = localStorage.getItem("userId");
+        },
         methods:{
             rounding(row,column) {
                 const score = row[column.property];

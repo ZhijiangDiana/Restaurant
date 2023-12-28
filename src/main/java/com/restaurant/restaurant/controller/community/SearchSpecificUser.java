@@ -17,6 +17,7 @@ public class SearchSpecificUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest requset, HttpServletResponse response) throws ServletException, IOException {
         String id = requset.getParameter("id");
+        System.out.println(id);
         CommentService commentService = new CommentService();
         response.getWriter().print(commentService.getUserInfoById(id));
     }

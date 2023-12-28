@@ -271,6 +271,7 @@
                 textColor:"#fff",
                 userExp: 80, // 用户当前的经验值
                 maxExp:100,
+                userId:'',
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
@@ -301,6 +302,7 @@
             this.sumTotalUnreadNum();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
             this.getCommentReply();
+            this.userId = localStorage.getItem("userId");
         },
         computed: {
             paginatedComments() {

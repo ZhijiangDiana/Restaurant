@@ -286,6 +286,7 @@
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
+                userId:'',
                 formInline: {},
                 tableData: [],
                 announcementData:[],
@@ -304,7 +305,8 @@
             }
         },
         mounted() {
-            this.getAllCanteen()
+            this.getAllCanteen();
+            this.userId = localStorage.getItem("userId");
         },
         methods:{
             saveSubmit() {
