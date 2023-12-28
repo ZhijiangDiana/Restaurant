@@ -9,6 +9,19 @@ import java.util.List;
 
 public class SearchDishService {
     // 已改try-with-resources
+    public List<Dish> getAllDish() {
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
+
+        List<Dish> res = null;
+        try (sqlSession) {
+            res = dishMapper.selectAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
     public List<Dish> searchDishBySeries(int series) {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         DishMapper dishMapper = sqlSession.getMapper(DishMapper.class);
