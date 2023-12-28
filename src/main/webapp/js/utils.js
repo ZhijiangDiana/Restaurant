@@ -28,9 +28,11 @@ function uriToB64(b64Str) {
  * @type {string}
  */
 function b64ToURI(uri) {
-    return prefixPng + uri;
+    if (uri && uri.trim() !== "" && uri !== undefined) {
+        return prefixPng + uri;
+    }
+    else return null;
 }
-
 /**
  * 将timestamp
  * @param timeStamp
