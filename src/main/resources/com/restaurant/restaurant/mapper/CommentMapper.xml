@@ -78,7 +78,8 @@
     <select id="selectDetailedInfo" resultType="com.restaurant.restaurant.pojo.CommentShow">
         SELECT *
         FROM comment c
-        JOIN user u ON c.user_id = u.user_id;
+        JOIN user u ON c.user_id = u.user_id
+        ORDER BY c.comment_id DESC;
     </select>
 
     <select id="selectCommentPublisher" resultType="Integer">

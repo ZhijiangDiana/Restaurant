@@ -29,10 +29,10 @@ public class Register extends HttpServlet {
         JSONObject jsonObject = JSON.parseObject(sb.toString());
         // 从 JSON 对象中提取数据
         String id = jsonObject.getString("id");
+        String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
-        String repassword = jsonObject.getString("repassword");
 
         RegisterService registerService = new RegisterService();
-        response.getWriter().print(registerService.registerUser(id, password, repassword));
+        response.getWriter().print(registerService.registerUser(id, username, password));
     }
 }

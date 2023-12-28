@@ -18,7 +18,8 @@
             <dataSource type="POOLED">
                 <!-- 连接信息 -->
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://118.25.43.33:3306/Restaurant?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Asia/Shanghai&amp;autoReconnect=true"/>
+<!--                <property name="url" value="jdbc:mysql://118.25.43.33:3306/Restaurant?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Asia/Shanghai&amp;autoReconnect=true"/>-->
+                <property name="url" value="jdbc:mysql://localhost:3306/Restaurant?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=Asia/Shanghai&amp;autoReconnect=true"/>
                 <property name="username" value="root"/>
                 <property name="password" value="114514"/>
             </dataSource>
