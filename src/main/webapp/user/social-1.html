@@ -132,6 +132,42 @@
             background-color: #f0f0f0;
         }
 
+        .aside_item {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+            color: unset;
+        }
+
+        .image-uploader .el-upload {
+            border: 1px dashed #d9d9d9;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-uploader .el-upload:hover {
+            border-color: #409EFF;
+        }
+
+        .image-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+        }
+
+        .image {
+            width: 178px;
+            height: 178px;
+            display: block;
+        }
+
     </style>
 </head>
 
@@ -249,10 +285,20 @@
                                 <el-form-item label="内容" prop="body">
                                     <el-input v-model="messageContant.body"></el-input>
                                 </el-form-item>
-                                <el-form-item label="上传图片" prop="img">
-                                    <div>
-                                        <input type="file" @change="handleFileUpload" />
-                                    </div>
+                                <el-form-item label="上传图片" prop="image">
+                                    <el-upload
+                                            action=""
+                                            class="image-uploader"
+                                            accept="image/*"
+                                            :limit="1"
+                                            :auto-upload="true"
+                                            :show-file-list="false"
+                                            :on-change="handleFileUpload"
+                                    >
+                                        <img v-if="messageContant.image" :src="'data:image/png;base64,' + messageContant.image"
+                                             class="image" alt="">
+                                        <i v-else class="el-icon-plus image-uploader-icon"></i>
+                                    </el-upload>
                                 </el-form-item>
 
                                 <el-form-item>
@@ -307,7 +353,7 @@
                                      <div>
                                          <span>{{currentRow.name}}</span>
                                      </div>
-                                     <div style="width: 200px;height: 200px">
+                                     <div v-if="currentRow.image" style="width: 200px;height: 200px">
                                          <img :src="currentRow.image" alt="Image" style="width: 100%;height: 100%">
                                      </div>
                                     <div>
@@ -457,18 +503,24 @@
                         console.error('Error fetching history messages:', error);
                     });
             },
-            handleFileUpload(event) {
-                const file = event.target.files[0];
-                var reader = new FileReader();
-
-                const self=this;
-                reader.onload = function(e) {
-                    var base64String = e.target.result;
-                    // console.log(base64String); // 在控制台输出base64字符串
-                    self.messageContant.image = uriToB64(base64String);
-                    reader.abort();
-                };
-                reader.readAsDataURL(file);
+            fileToBase64(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        if (reader.error) {
+                            reject(reader.error);
+                        } else {
+                            resolve(reader.result);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+            },
+            handleFileUpload(response, file, fileList) {
+                var self = this;
+                this.fileToBase64(response.raw).then(base64 => {
+                    self.messageContant.image = base64.replace(/^data:image\/\w+;base64,/, '');
+                })
             },
             getAllComment(){
                 fetch('/restaurant/showComments?type=0', {
