@@ -208,7 +208,7 @@
 
                     </div>
                     <div class="avatar">
-                        <img src="/image/food.png" alt="" style="width: 50px;height: 50px" @click="goToDetails">
+                        <img src="../image/food.png" alt="" style="width: 50px;height: 50px" @click="goToDetails">
                     </div>
                     <div style="color: white;">
                         <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
@@ -482,13 +482,13 @@
             }
         },
         mounted() {
+            this.getAllDish();
             this.getCommentReplyNum();
             this.getThumbsupNum();
             this.getReportReplyNum();
             this.sumTotalUnreadNum();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
             this.getCommentReply();
-            this.getAllDish();
             this.userId = localStorage.getItem("userId");
         },
         methods:{
