@@ -70,9 +70,9 @@ public class CommentService {
             CommentMapper mapper = sqlSession.getMapper(CommentMapper.class);
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
             CanteenAdminMapper canteenAdminMapper = sqlSession.getMapper(CanteenAdminMapper.class);
-            user = new User();
-            user.setForbidden(false);
-            user.setUserId(2);
+//            user = new User();
+//            user.setForbidden(false);
+//            user.setUserId(2);
             if (user.getForbidden() == true) {
                 return FrontEndUtils.objectToBody("由于过往潜在不文明行为被禁止评论", "1", null);
             } else {
@@ -204,7 +204,7 @@ public class CommentService {
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try(sqlSession){
             CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
-            List<Comment> commentList = commentMapper.selectVagueComment(title);
+            List<CommentShow> commentList = commentMapper.selectVagueComment(title);
             return FrontEndUtils.objectToBody("查询成功","0",commentList);
         }catch (Exception e){
             sqlSession.close();

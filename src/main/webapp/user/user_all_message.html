@@ -326,7 +326,6 @@
         },
         methods:{
             getCommentReply() {
-                alert(1231231)
                 axios.get(`/restaurant/searchUser?id=` + this.userId)
                     .then(response => {
                         const flag = response.data.flag;

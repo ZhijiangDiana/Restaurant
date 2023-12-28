@@ -140,12 +140,12 @@ public class SqlTest {
 
     @Test
     public void asfaef(){
-        SqlSession sqlSession1 = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
-        CommentMapper mapper = sqlSession1.getMapper(CommentMapper.class);
-        List<Comment> commentList = mapper.selectVagueComment("wqs看看你的");
-        for (Comment comment : commentList) {
-            System.out.println(comment);
-        }
-        sqlSession1.close();
+//        SqlSession sqlSession1 = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+//        CommentMapper mapper = sqlSession1.getMapper(CommentMapper.class);
+//        List<Comment> commentList = mapper.selectVagueComment("wqs看看你的");
+//        for (Comment comment : commentList) {
+//            System.out.println(comment);
+//        }
+//        sqlSession1.close();
     }
 }

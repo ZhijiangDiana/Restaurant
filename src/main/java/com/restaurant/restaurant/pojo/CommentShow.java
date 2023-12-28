@@ -6,21 +6,30 @@ import java.util.Date;
 public class CommentShow {
     private Integer commentId;
     private String username;
-
+    private Integer userId;
     private String title;
     private String body;
     private byte[] image;
     private Date publishTime;
     private Integer likes;
 
-    public CommentShow(Integer commentId, String username, String title, String body, byte[] image, Date publishTime, Integer likes) {
-        this.commentId = commentId;
+    public CommentShow() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
         this.username = username;
-        this.title = title;
-        this.body = body;
-        this.image = image;
-        this.publishTime = publishTime;
-        this.likes = likes;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public Integer getCommentId() {

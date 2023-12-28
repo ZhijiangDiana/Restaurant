@@ -39,7 +39,7 @@ public class PublishComment extends HttpServlet {
         String title = jsonObject.getString("title");
         String body = jsonObject.getString("body");
         String img = jsonObject.getString("image");
-        User user = (User)request.getSession().getAttribute("User");
+        User user = (User)request.getSession().getAttribute("user");
 
         CommentService commentService = new CommentService();
         String info = commentService.insertComment(user, title, body, img);

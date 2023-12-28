@@ -497,7 +497,13 @@
             search(){
                 axios.get('/restaurant/showVagueComment?title=' + encodeURIComponent(this.value))
                     .then(response => {
-                        this.tableData = response.data.object;
+                        var object = response.data.object;
+                        object.forEach(item => {
+                            item.image = b64ToURI(item.image)
+                            item.publishTime = timeStampToDateTime(item.publishTime)
+                            // console.log(item.image)
+                        });
+                        this.tableData = object;
                     })
                     .catch(error => {
                         console.error('Error fetching history messages:', error);

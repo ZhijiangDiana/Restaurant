@@ -14,21 +14,21 @@
     </select>
 
     <select id="selectAllByLikes" resultType="com.restaurant.restaurant.pojo.CommentShow">
-        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        SELECT *
         FROM comment c
                  JOIN user u ON c.user_id = u.user_id
         order by likes desc;
     </select>
 
     <select id="selectAllDesc" resultType="com.restaurant.restaurant.pojo.CommentShow">
-        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        SELECT *
         FROM comment c
                  JOIN user u ON c.user_id = u.user_id
         order by publish_time desc;
     </select>
 
     <select id="selectAllAsc" resultType="com.restaurant.restaurant.pojo.CommentShow">
-        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        SELECT *
         FROM comment c
                  JOIN user u ON c.user_id = u.user_id
         order by publish_time asc;
@@ -38,8 +38,10 @@
         select comment_id, user_id, title, body,likes from Restaurant.comment where comment_id=#{id};
     </select>
 
-    <select id="selectCommentOrderByLikes" resultType="com.restaurant.restaurant.pojo.entity.Comment">
-        select * from comment order by likes DESC ;
+    <select id="selectCommentOrderByLikes" resultType="com.restaurant.restaurant.pojo.CommentShow">
+        select * from comment c
+            JOIN user u ON c.user_id = u.user_id
+            order by likes DESC ;
     </select>
     <select id="selectCommentIdByUserId" resultType="com.restaurant.restaurant.pojo.ReplyMessage">
         select t.username, body
@@ -74,7 +76,7 @@
     </delete>
 
     <select id="selectDetailedInfo" resultType="com.restaurant.restaurant.pojo.CommentShow">
-        SELECT c.comment_id, u.username, c.title, c.body, c.image, c.publish_time, c.likes
+        SELECT *
         FROM comment c
         JOIN user u ON c.user_id = u.user_id;
     </select>
@@ -85,9 +87,9 @@
         WHERE comment_id = #{commentId}
     </select>
 
-    <select id="selectVagueComment" resultType="com.restaurant.restaurant.pojo.entity.Comment">
+    <select id="selectVagueComment" resultType="com.restaurant.restaurant.pojo.CommentShow">
         SELECT *
-        FROM comment
+        FROM comment c JOIN user u ON c.user_id = u.user_id
         WHERE title LIKE CONCAT('%', #{title}, '%')
     </select>
 
