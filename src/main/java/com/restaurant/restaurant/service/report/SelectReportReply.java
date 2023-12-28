@@ -22,7 +22,6 @@ public class SelectReportReply {
         List<ReportReplyShow> reportList = null;
         try (sqlSession) {
             reportList = reportReplyMapper.selectByUserId(userId);
-            // TODO: 2023/12/28 还需添加管理员回复后增加num数
             reportReplyCounts.replace(userId, 0);
         } catch (Exception e) {
             e.printStackTrace();
