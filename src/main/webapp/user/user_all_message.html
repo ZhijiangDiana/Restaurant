@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
 
         .el-menu-item:hover,
@@ -208,10 +209,10 @@
                             <img src="../image/food.png" alt="" style="width: 50px;height: 50px" @click="goToDetails">
                     </div>
                     <div style="color: white;">
-                            <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
-                            <span>Lv:13</span>
+                        <span style="font-weight: bold">{{user.username}}</span>&nbsp;&nbsp;
+                        <span>Lv: {{ userLevel }}</span>
                         <div style="margin-top: 0">
-                            <el-progress :percentage="userExp/maxExp * 100" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
+                            <el-progress :percentage="remainPercent" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
                         </div>
                     </div>
                 </el-header>
@@ -299,6 +300,9 @@
                 currentPage: 1, // 当前页3
                 total:'',
                 toId: '-1',
+                user: '',
+                userLevel: '',
+                remainPercent: '',
             }
         },
         computed: {
@@ -314,9 +318,26 @@
             this.getThumbsupNum();
             this.getReportReplyNum();
             this.sumTotalUnreadNum();
+            this.getUserId();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
         },
         methods:{
+            getUserId(){
+                axios.get('/restaurant/getUserId')
+                    .then(response => {
+                        var object = response.data.object;
+                        this.userId = object.userId;
+                        this.user = object;
+                        localStorage.setItem("userId",this.userId)
+                        this.userLevel = expToLevel(this.user.experience);
+                        this.remainPercent = remainExp(this.user.experience, this.userLevel)
+                        // alert(this.userId)
+                    }).catch(error => {
+                    console.error(error);
+                    this.$message.error('网络异常：' + error.message);
+                });
+
+            },
             getCommentReply() {
                 this.toId = localStorage.getItem("toId");
                 localStorage.setItem("toId", "-1");
