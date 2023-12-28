@@ -19,6 +19,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static java.lang.Math.abs;
+
 @WebServlet("/fetchPeople")
 public class FetchPeople extends HttpServlet {
     @Override
@@ -42,11 +44,12 @@ public class FetchPeople extends HttpServlet {
                 for (Message message : messages) {
                     Integer senderUserId = message.getSenderUserId();
                     Integer receiverUserId = message.getReceiverUserId();
-                    if (senderUserId != Integer.parseInt(userId)) {
+                    System.out.println("发送人" + senderUserId + "接收方" + receiverUserId + "当前人" + userId);
+                    if (abs(senderUserId - Integer.parseInt(userId)) > 0.5) {
                         User user = userMapper.selectById(senderUserId);
                         users.add(user);
                     }
-                    if (receiverUserId != Integer.parseInt(userId)) {
+                    if (abs(receiverUserId - Integer.parseInt(userId)) > 0.5) {
                         User user = userMapper.selectById(receiverUserId);
                         users.add(user);
                     }

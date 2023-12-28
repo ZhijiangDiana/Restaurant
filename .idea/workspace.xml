@@ -10,13 +10,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="动态获取消息列表小红点(食堂)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/community/ShowVagueComment.java" afterDir="false" />
+    <list default="true" id="afd030c4-4ae9-47c3-aa49-7aed4c5ae3cf" name="更改" comment="别刷commit了！！！！！">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/mapper/CommentMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/service/CommentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/restaurant/restaurant/mapper/CommentMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/SqlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/SqlTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/FetchPeople.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/FetchPeople.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/GetOfflineMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/controller/chat/GetOfflineMessages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/ExistUserFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/filter/ExistUserFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/ChatEndpoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/restaurant/restaurant/ws/ChatEndpoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/user/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/user/test.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,17 +114,14 @@
       <recent name="C:\Users\14838\IdeaProjects\restaurant\src\main\java\com\restaurant\restaurant" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.SqlTest.asfaef">
-    <configuration name="SqlTest.CommentMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="restaurant" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SqlTest" />
-      <option name="METHOD_NAME" value="CommentMapperTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunDashboard">
+    <option name="excludedTypes">
+      <set>
+        <option value="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Local Tomcat 10.1.13">
     <configuration name="SqlTest.UserMapperTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="restaurant" />
       <option name="PACKAGE_NAME" value="" />
@@ -155,15 +152,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SqlTest.sensitiveFilter" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="restaurant" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="SqlTest" />
-      <option name="METHOD_NAME" value="sensitiveFilter" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
+    <configuration name="social-1.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/restaurant/user/social-1.html">
+      <method v="2" />
+    </configuration>
+    <configuration name="test.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/restaurant/user/test.html">
+      <method v="2" />
     </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <method v="2">
@@ -301,20 +294,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JavaScript Debug.test.html" />
+      <item itemvalue="JavaScript Debug.social-1.html" />
       <item itemvalue="JUnit.SqlTest.asfaef" />
       <item itemvalue="JUnit.SqlTest.asdfadsf" />
-      <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
-      <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
       <item itemvalue="JUnit.SqlTest.UserMapperTest" />
       <item itemvalue="Tomcat Server.Local Tomcat 10.1.13" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.test.html" />
+        <item itemvalue="JavaScript Debug.social-1.html" />
         <item itemvalue="JUnit.SqlTest.asfaef" />
         <item itemvalue="JUnit.SqlTest.asdfadsf" />
         <item itemvalue="JUnit.SqlTest.UserMapperTest" />
-        <item itemvalue="JUnit.SqlTest.sensitiveFilter" />
-        <item itemvalue="JUnit.SqlTest.CommentMapperTest" />
       </list>
     </recent_temporary>
   </component>
@@ -342,6 +335,10 @@
       <workItem from="1703576393339" duration="7772000" />
       <workItem from="1703605505334" duration="49000" />
       <workItem from="1703644469687" duration="8668000" />
+      <workItem from="1703797718436" duration="320000" />
+      <workItem from="1703798049231" duration="255000" />
+      <workItem from="1703798313087" duration="3108000" />
+      <workItem from="1703801443189" duration="2054000" />
     </task>
     <task id="LOCAL-00001" summary="登录与系统管理员前端">
       <option name="closed" value="true" />
@@ -402,7 +399,28 @@
       <option name="project" value="LOCAL" />
       <updated>1703652519369</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="模糊查询title">
+      <created>1703769687894</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1703769687895</updated>
+    </task>
+    <task id="LOCAL-00010" summary="模糊查询title">
+      <created>1703777380687</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1703777380687</updated>
+    </task>
+    <task id="LOCAL-00011" summary="别刷commit了！！！！！">
+      <created>1703778404512</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1703778404512</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -419,7 +437,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="dev111" />
+                        <option value="origin/dev" />
                       </list>
                     </value>
                   </entry>
@@ -447,7 +465,9 @@
     <MESSAGE value="消息中心的bug修改" />
     <MESSAGE value="按热门 正序降序" />
     <MESSAGE value="动态获取消息列表小红点(食堂)" />
-    <option name="LAST_COMMIT_MESSAGE" value="动态获取消息列表小红点(食堂)" />
+    <MESSAGE value="模糊查询title" />
+    <MESSAGE value="别刷commit了！！！！！" />
+    <option name="LAST_COMMIT_MESSAGE" value="别刷commit了！！！！！" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -470,6 +490,16 @@
             <option name="WATCH_EXIT" value="false" />
           </properties>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/webapp/user/test.html</url>
+          <line>393</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/webapp/user/test.html</url>
+          <line>439</line>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

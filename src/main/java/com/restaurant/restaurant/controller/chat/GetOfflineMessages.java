@@ -28,6 +28,7 @@ public class GetOfflineMessages extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Integer fromId = Integer.parseInt(request.getParameter("fromId"));
         Integer toId = Integer.parseInt(request.getParameter("toId"));
+        System.out.println("-----------谁发："+fromId + "--------------接收：" + toId);
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try (sqlSession){
             MessageMapper mapper = sqlSession.getMapper(MessageMapper.class);
@@ -56,7 +57,7 @@ public class GetOfflineMessages extends HttpServlet {
                 String username = user.getUsername();
                 ResultMessage resultMessage = new ResultMessage();
                 // 用去前端区分谁在聊天框左谁在聊天框右
-                if ((senderUserId-fromId) < 0.5){
+                if (abs(senderUserId-fromId) < 0.5){
                     resultMessage.setFromName(username);
                 }
                 resultMessage.setMessage(body);
