@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>食堂点评交流系统</title>
-    <link rel="stylesheet" href="../css/addRestaurant.css">
+    <link rel="stylesheet" href="../css/adminFirst.css">
 
     <!-- 引入 Element UI 样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
         .aside_item {
@@ -18,7 +17,89 @@
             height: 100%;
             align-items: center;
             justify-content: center;
-            color: unset;
+            color: #fff;
+        }
+        .el-menu-item:hover,
+        .el-submenu__title:hover {
+            color: #fff !important;
+        }
+
+        .el-submenu__title:hover i {
+            color: #fff !important;
+        }
+        .logo_title{
+            margin-left: 5px;
+            font-size: 20px;
+            transition: all .3s;
+        }
+        .el-header {
+            line-height: 60px;
+            display: flex;
+            align-items: center;
+            /* 垂直居中对齐 */
+        }
+        .aside_item_title{
+            color: #fff;
+        }
+        .el-aside {
+            color: #333;
+        }
+        .el-header-buttons .el-button {
+            display: flex;
+            background-color: beige;
+            color:black;
+        }
+        .el-form-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+        .el-main-buttons .el-button{
+            background-color: beige;
+            color:black;
+            margin-left: 50px;
+        }
+        #card_message1 {
+            /*background-color: #244235 ;*/
+            color: #fff; /* 文本颜色为白色 */
+            margin-top: 5px; /* 添加一些边距，使内容离边框有一定距离 */
+            margin-left: 20px;
+            margin-right: 20px;
+            min-height: 100vh;
+
+        }
+        .el-card{
+            /*background-color: #244235 ; !* 与 el-menu 的背景色相同 *!*/
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .el-main-reply-buttons {
+            display: flex;
+            gap: 2px; /* 调整按钮之间的间隔 */
+        }
+        .el-main-reply-buttons .el-button{
+            background-color: beige;/* 按钮之间的右边距 */
+            color:black;
+        }
+        .carouselBox {
+            width: 100%;
+            max-width: 1200px;
+            min-width: 1000px;
+            margin: 0 auto;
+            padding: 5px 0 ;
+        }
+        .el-carousel__item img{
+            position: relative;
+            color: #475669;
+            margin: 0 auto;
+            text-align: center;
+            background-color: #f6f8fb;
+            width: 308px;
+            height: 380px;
+            border-radius: 14px;
+            box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+        }
+        .aside_item_title{
+            color: #fff;
         }
 
     </style>
@@ -26,77 +107,82 @@
 <body>
 <div id="app">
     <el-container style="height: 700px; border: 1px solid #eee">
-        <el-header style="background: #34b0cb;display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
-            <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
-        </el-header>
+        <el-aside width="220px" style="min-height: 100vh;background-color:#1b1b1b ">
+            <div style="height: 60px;color: white;display: flex;align-items: center;justify-content: center">
+                <span class="logo_title" v-show="!isCollapse">USST</span>
+            </div>
+            <el-menu :collapse="isCollapse" :default-openeds="['1']" background-color="#1b1b1b" text-color="rgba(255,255,255,0.65)">
+                <el-submenu index="1">
+                    <template slot="title">
+                        <i class="el-icon-house"></i>
+                        <span class="aside_item_title">首页</span>
+                    </template>
+                    <el-menu-item index="1-1">
+                        <a href="first.html" class="aside_item">首页</a>
+                    </el-menu-item>
+                </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title">
+                        <i class="el-icon-s-shop"></i>
+                        <span class="aside_item_title">食堂基本信息管理</span>
+                    </template>
+                    <el-menu-item index="2-1">
+                        <a href="modifyRestaurant.html" class="aside_item">编辑食堂信息</a>
+                    </el-menu-item>
+                </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title">
+                        <i class="el-icon-shopping-cart-1"></i>
+                        <span class="aside_item_title">菜品管理</span>
+                    </template>
+                    <el-menu-item index="3-1">
+                        <a href="dishList.html" class="aside_item">菜品信息列表</a>
+                    </el-menu-item>
+                    <el-menu-item index="3-2">
+                        <a href="addDish.html" class="aside_item">添加菜品信息</a>
+                    </el-menu-item>
+                </el-submenu>
+
+                <el-submenu index="4">
+                    <template slot="title">
+                        <i class="el-icon-star-on"></i>
+                        <span class="aside_item_title">评价信息管理</span>
+                    </template>
+                    <el-menu-item index="4-1">
+                        <a href="commentList.html" class="aside_item">评价列表</a>
+                    </el-menu-item>
+                    <el-menu-item index="4-2">
+                        <a href="reportList.html" class="aside_item">投诉列表</a>
+                    </el-menu-item>
+                </el-submenu>
+                <el-submenu index="5">
+                    <template slot="title">
+                        <i class="el-icon-chat-line-round"></i>
+                        <span class="aside_item_title">活动公告</span>
+                    </template>
+                    <el-menu-item index="5-1">
+                        <a href="/restaurant/restaurantAdmin/announcement.html" class="aside_item">公告列表</a>
+                    </el-menu-item>
+                    <el-menu-item index="5-2">
+                        <a href="/restaurant/restaurantAdmin/addAnnouncement.html" class="aside_item">发布公告</a>
+                    </el-menu-item>
+                </el-submenu>
+                <el-submenu index="6">
+                    <template slot="title">
+                        <i class="el-icon-star-on"></i>
+                        <span class="aside_item_title">投票管理</span>
+                    </template>
+                    <el-menu-item index="6-1">
+                        <a href="addVote.html" class="aside_item">发起投票</a>
+                    </el-menu-item>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+        <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
         <el-container>
-            <el-aside width="220px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['1']">
-                    <el-submenu index="1">
-                        <template slot="title">
-                            <i class="el-icon-house"></i>
-                            <span>首页</span>
-                        </template>
-                        <el-menu-item index="1-1">
-                            <a href="first.html" class="aside_item">首页</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="2">
-                        <template slot="title">
-                            <i class="el-icon-s-shop"></i>
-                            <span>食堂基本信息管理</span>
-                        </template>
-                        <el-menu-item index="2-1">
-                            <a href="modifyRestaurant.html" class="aside_item">编辑食堂信息</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="3">
-                        <template slot="title">
-                            <i class="el-icon-shopping-cart-1"></i>
-                            <span>菜品管理</span>
-                        </template>
-                        <el-menu-item index="3-1">
-                            <a href="dishList.html" class="aside_item">菜品信息列表</a>
-                        </el-menu-item>
-                        <el-menu-item index="3-2">
-                            <a href="addDish.html" class="aside_item">添加菜品信息</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="4">
-                        <template slot="title">
-                            <i class="el-icon-star-on"></i>
-                            <span>评价信息管理</span>
-                        </template>
-                        <el-menu-item index="4-1">
-                            <a href="commentList.html" class="aside_item">评价列表</a>
-                        </el-menu-item>
-                        <el-menu-item index="4-2">
-                            <a href="reportList.html" class="aside_item">投诉列表</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="5">
-                        <template slot="title">
-                            <i class="el-icon-chat-line-round"></i>
-                            <span>活动公告</span>
-                        </template>
-                        <el-menu-item index="5-1">
-                            <a href="/restaurant/restaurantAdmin/announcement.html" class="aside_item">公告列表</a>
-                        </el-menu-item>
-                        <el-menu-item index="5-2">
-                            <a href="/restaurant/restaurantAdmin/addAnnouncement.html" class="aside_item">发布公告</a>
-                        </el-menu-item>
-                    </el-submenu>
-                    <el-submenu index="6">
-                        <template slot="title">
-                            <i class="el-icon-star-on"></i>
-                            <span>投票管理</span>
-                        </template>
-                        <el-menu-item index="6-1">
-                            <a href="addVote.html" class="aside_item">发起投票</a>
-                        </el-menu-item>
-                    </el-submenu>
-                </el-menu>
-            </el-aside>
+            <el-header style="background-color: #953131">
+                <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
+            </el-header>
             <el-main>
                 <el-form :model="form" ref="dataForm" label-width="80px" :rules="rules" style="padding: 20px;">
                     <el-form-item label="标题" prop="announce_title">
