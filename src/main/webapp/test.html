@@ -73,7 +73,7 @@
     },
     methods: {
       fetchComments() {
-        fetch('http://localhost:8080/restaurant/showComments?type=40', { method: 'GET' })
+        fetch('/restaurant/showComments?type=40', { method: 'GET' })
                 .then(response => response.json())
                 .then(data => {
                   // 确保 data.object 是一个数组
@@ -128,7 +128,7 @@
           image: imageBase64
         };
 
-        fetch('http://localhost:8080/restaurant/publishComment', {
+        fetch('/restaurant/publishComment', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -144,7 +144,7 @@
                 .then(data => {
                   if (data.flag === "1") {
                     // 如果后端返回错误，显示错误消息
-                    alert(data.message); // 或者使用更复杂的弹窗库来显示错误
+                    // alert(data.message); // 或者使用更复杂的弹窗库来显示错误
                   } else {
                     // 如果没有错误，处理正常的响应
                     this.showDialog = false;
@@ -152,7 +152,7 @@
                   }
                 })
                 .catch(error => {
-                  alert(1212)
+                  // alert(1212)
                   console.error('Error:', error);
                   // 可以在这里处理错误，例如显示错误消息
                 });

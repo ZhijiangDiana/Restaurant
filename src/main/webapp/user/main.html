@@ -176,7 +176,7 @@
                 this.fetchHistoryMessages(user.userId);
             },
             fetchHistoryMessages(toId) {
-                alert("当前用户" + this.userId + "对方id" + toId)
+                // alert("当前用户" + this.userId + "对方id" + toId)
                 axios.get('/restaurant/getOfflineMessages?fromId=' + this.userId + '&toId=' + toId)
                     .then(response => {
                         this.historyMessage = response.data;

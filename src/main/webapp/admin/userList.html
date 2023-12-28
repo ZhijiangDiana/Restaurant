@@ -336,8 +336,8 @@
                 this.adminDialogVisible= true // 显示表单
             },
             submitForm() {
-                alert(this.formData.userId);
-                alert(this.formData.canteenName);
+                // alert(this.formData.userId);
+                // alert(this.formData.canteenName);
                 axios.post(`/restaurant/setCanteenAdmin`, JSON.stringify({id:this.formData.userId,canteenName:this.formData.canteenName}), {
                     headers: {
                         'Content-Type': 'application/json'

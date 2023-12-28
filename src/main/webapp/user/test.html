@@ -434,7 +434,7 @@
       fetchRelatedUserList(){
         this.getUserId();
         this.userId = localStorage.getItem("userId");
-        alert(this.userId);
+        // alert(this.userId);
         axios.get('/restaurant/fetchPeople?userId=' + this.userId)
                 .then(response => {
                   this.relatedUserList = response.data.object;
@@ -444,7 +444,7 @@
                 });
       },
       initWebSocket() {
-        ws = new WebSocket(`ws://localhost:8080/restaurant/chat`);
+        ws = new WebSocket(`ws://118.25.43.33:8080/restaurant/chat`);
         ws.onopen = this.onOpen;
         ws.onmessage = this.onMessage;
         ws.onclose = this.onClose;
