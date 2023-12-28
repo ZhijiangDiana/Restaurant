@@ -16,4 +16,11 @@
         SELECT * FROM `Restaurant`.report_reply
         WHERE report_id = #{id};
     </select>
+    <select id="selectByUserId" resultType="com.restaurant.restaurant.pojo.ReportReplyShow">
+        SELECT canteen_admin.username, report.title, report_reply.body
+        FROM report, report_reply, canteen_admin
+        WHERE report.report_id = report_reply.report_id
+          AND report_reply.canteen_admin_id = canteen_admin.canteen_admin_id
+          AND user_id = #{id};
+    </select>
 </mapper>

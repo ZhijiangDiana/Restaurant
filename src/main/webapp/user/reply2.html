@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
 
         .el-menu-item:hover,
@@ -208,7 +210,7 @@
                             <div v-for="(item, index) in paginatedComments" style="color: black" :key="index">
                                 <el-card style="margin-bottom: 5px">
                                     <div style="width: 100%;display: flex;color: black">
-                                        <span style="font-weight: bold">{{item.name}}</span>&nbsp;&nbsp;
+                                        <span style="font-weight: bold">{{item.username}}</span>&nbsp;&nbsp;
                                         <span>回复了我标题为&nbsp;<strong>{{item.title}}</strong>&nbsp;的投诉</span>
                                     </div>
                                     <div style="width: 70%;color: black;margin-top: 15px;margin-bottom: 10px">
@@ -260,25 +262,7 @@
                 unreadCommentReplyCount:1,
                 unreadThumbsupCount:2,
                 <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
-                comments:[
-                    {
-                        name: "食堂管理员1",
-                        title:"吃到答辩了",
-                        body: "蒸馍？你不扶器？o.O?",
-                    }, {
-                        name: "食堂管理员2",
-                        title:"吃到答辩了",
-                        body: "蒸馍？你不扶器？o.O?",
-                    }, {
-                        name: "食堂管理员3",
-                        title:"吃到答辩了",
-                        body: "蒸馍？你不扶器？o.O?",
-                    }, {
-                        name: "食堂管理员4",
-                        title:"吃到答辩了",
-                        body: "蒸馍？你不扶器？o.O?",
-                    },
-                ],
+                comments:[],
                 pageSize: 3, // 每页显示的条数
                 currentPage: 1, // 当前页3
                 total:''
@@ -292,6 +276,7 @@
             this.getReportReplyNum();
             this.sumTotalUnreadNum();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            this.getReportReply();
         },
         computed: {
             paginatedComments() {
@@ -400,6 +385,22 @@
                     });
             },
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            getReportReply() {
+                axios.post(`/restaurant/GetUserReportReply`)
+                    .then(response => {
+                        const flag = response.data.flag;
+                        const object = response.data.object;
+                        if (object.length === 0 || flag == 1) {
+                            this.$message.error('暂无管理员回复');
+                        } else {
+                            this.comments = object;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('查询失败，请重试');
+                    });
+            },
         }
 
     })
