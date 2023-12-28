@@ -89,13 +89,13 @@ public class CommentService {
                             Comment comment = new Comment(userId, title, body, null, new Date(), 0);
                             mapper.insertComment(comment);
                             sqlSession.commit();
+                        } else {
+                            img = img.substring(img.indexOf(",") + 1);
+                            byte[] imageBytes = Base64.getDecoder().decode(img);
+                            Comment comment = new Comment(userId, title, body, imageBytes, new Date(), 0);
+                            mapper.insertComment(comment);
+                            sqlSession.commit();
                         }
-                        img = img.substring(img.indexOf(",") + 1);
-                        byte[] imageBytes = Base64.getDecoder().decode(img);
-                        Comment comment = new Comment(userId, title, body, imageBytes, new Date(), 0);
-                        mapper.insertComment(comment);
-                        sqlSession.commit();
-                        sqlSession.close();
                     }
                 }
             }
