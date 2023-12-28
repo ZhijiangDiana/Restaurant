@@ -1,4 +1,4 @@
-package com.restaurant.restaurant.controller.report;
+package com.restaurant.restaurant.controller.user_info_combination;
 
 import java.io.*;
 import java.util.List;

@@ -47,8 +47,15 @@ public class ShowThumbsupDetails extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User)request.getSession().getAttribute("user");
         Integer userId = user.getUserId();
-        HashMap<Integer, Map<Integer,Integer>> thumbsupDetails = (HashMap<Integer, Map<Integer, Integer>>) request.getServletContext().getAttribute("thumbsupDetails");
+        ServletContext context = getServletContext();
+        HashMap<Integer, Map<Integer,Integer>> thumbsupDetails =
+                (HashMap<Integer, Map<Integer, Integer>>) context.getAttribute("thumbsupDetails");
+        HashMap<Integer, Integer> thumbsupCounts =
+                (HashMap<Integer, Integer>) context.getAttribute("thumbsupCounts");
+
         Map<Integer, Integer> info = thumbsupDetails.get(userId);
+        thumbsupCounts.replace(userId, 0);
+
         List<ReplyMessage> replyMessages = new ArrayList<>();
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try(sqlSession){

@@ -5,6 +5,7 @@ import com.restaurant.restaurant.pojo.ReplyMessage;
 import com.restaurant.restaurant.pojo.entity.User;
 import com.restaurant.restaurant.utils.FrontEndUtils;
 import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +15,9 @@ import org.apache.ibatis.logging.jdbc.PreparedStatementLogger;
 import org.apache.ibatis.session.SqlSession;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/showReplyDetails")
 public class ShowReplyDetails extends HttpServlet {
@@ -25,6 +28,11 @@ public class ShowReplyDetails extends HttpServlet {
             response.setStatus(403);
             return;
         }
+
+        ServletContext context = getServletContext();
+        Map<Integer, Integer> replyCounts = (Map<Integer, Integer>) context.getAttribute("replyCounts");
+        replyCounts.replace(user.getUserId(), 0);
+
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try(sqlSession){
             ReplyMapper replyMapper = sqlSession.getMapper(ReplyMapper.class);
