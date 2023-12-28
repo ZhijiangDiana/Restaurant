@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
 
     <style>
         .aside_item {
@@ -31,7 +32,7 @@
         </el-header>
         <el-container>
             <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['6']">
+                <el-menu :default-openeds="['1']">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-house"></i>
@@ -80,10 +81,10 @@
                             <span>活动公告</span>
                         </template>
                         <el-menu-item index="5-1">
-                            <a href="/restaurant/restaurantAdmin/announcement.html" class="aside_item">公告列表</a>
+                            <a href="announcement.html" class="aside_item">公告列表</a>
                         </el-menu-item>
                         <el-menu-item index="5-2">
-                            <a href="/restaurant/restaurantAdmin/addAnnouncement.html" class="aside_item">发布公告</a>
+                            <a href="addAnnouncement.html" class="aside_item">发布公告</a>
                         </el-menu-item>
                     </el-submenu>
                     <el-submenu index="6">
@@ -92,7 +93,7 @@
                             <span>投票管理</span>
                         </template>
                         <el-menu-item index="6-1">
-                            <a href="addVote.html" class="aside_item">发起透明</a>
+                            <a href="addVote.html" class="aside_item">发起投票</a>
                         </el-menu-item>
                     </el-submenu>
                 </el-menu>
@@ -126,6 +127,46 @@
                         <el-button type="primary" @click="submitForm('voteForm')">提交</el-button>
                     </el-form-item>
                 </el-form>
+                <div style="margin-bottom: 5px;width: 50%">
+                    <el-button icon="el-icon-document"
+                               style="color:black;
+                                           background-color: transparent;
+                                           border-color: transparent;
+                                           font-weight: bold;font-size: 20px">投票结果</el-button>
+                </div>
+                <div style="color: black;margin-bottom: 20px">
+                    <el-table :data="finishedVote" style="width: 500px ;left: 25px">
+                        <el-table-column label="标题" prop="title"></el-table-column>
+                        <el-table-column label="开始时间" prop="startTime"></el-table-column>
+                        <el-table-column label="结束时间" prop="endTime"></el-table-column>
+                        <el-table-column label="">
+                            <template slot-scope="scope">
+                                <el-button @click="ShowFinishedVoteInfo(scope.row)" type="primary">结果</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </div>
+
+                <el-dialog title="投票结果" :visible.sync="dialogVisible">
+                    <el-form :model="finishedVoteInfo" label-position="top">
+                        <el-form-item label="标题">
+                            <el-input v-model="finishedVoteInfo.title" :disabled="true"></el-input>
+                        </el-form-item>
+                        <el-form-item label="开始时间">
+                            <el-input v-model="finishedVoteInfo.startTime" :disabled="true"></el-input>
+                        </el-form-item>
+                        <el-form-item label="结束时间">
+                            <el-input v-model="finishedVoteInfo.endTime" :disabled="true"></el-input>
+                        </el-form-item>
+                        <el-form-item label="投票结果">
+                            <!-- 编辑表单的内容 -->
+                            <p v-for="(value, key) in finishedVoteInfo.result" :key="key">
+                                {{ key }}: {{ value }}
+                            </p>
+                        </el-form-item>
+                    </el-form>
+                </el-dialog>
+
             </el-main>
         </el-container>
     </el-container>
@@ -154,8 +195,14 @@
                     endTime: [
                         {required: true, message: '请选择结束时间', trigger: 'change'}
                     ]
-                }
+                },
+                dialogVisible: false,
+                finishedVote: [],
+                finishedVoteInfo: '',
             }
+        },
+        mounted() {
+            this.getFinishedVote();
         },
         methods: {
             addOption() {
@@ -199,7 +246,38 @@
                         return false;
                     }
                 });
-            }
+            },
+            ShowFinishedVoteInfo(row){
+                this.dialogVisible = true;
+                const index = this.finishedVote.indexOf(row);
+                this.finishedVoteInfo = this.finishedVote[index];
+            },
+            getFinishedVote() {
+                axios.post('/restaurant/GetFinishedVote')
+                    .then(response => {
+                        const json = response.data
+                        const object = json.object;
+                        const flag = json.flag;
+
+                        if (object === null || object === undefined || object === "")
+                            return;
+
+                        if (flag === '1') {
+                            this.$message.error('网络异常：' + response.data.error);
+                        } else {
+                            object.forEach((item) => {
+                                // alert(item)
+                                item.startTime = timeStampToDateTime(item.startTime);
+                                item.endTime = timeStampToDateTime(item.endTime);
+                                item.result = JSON.parse(item.result)
+                            });
+                            this.finishedVote= object;
+                        }
+                    }).catch(error => {
+                    console.error(error);
+                    this.$message.error('网络异常：' + error.message);
+                });
+            },
         },
     })
 </script>

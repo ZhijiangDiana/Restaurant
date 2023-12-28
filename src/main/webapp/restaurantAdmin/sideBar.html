@@ -1,0 +1,67 @@
+<el-aside width="250px" style="height: 700px; border: 1px solid #eee">
+    <el-menu :default-openeds="['1']">
+        <el-submenu index="1">
+            <template slot="title">
+                <i class="el-icon-house"></i>
+                <span>首页</span>
+            </template>
+            <el-menu-item index="1-1">
+                <a href="first.html" class="aside_item">首页</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="2">
+            <template slot="title">
+                <i class="el-icon-s-shop"></i>
+                <span>食堂基本信息管理</span>
+            </template>
+            <el-menu-item index="2-1">
+                <a href="modifyRestaurant.html" class="aside_item">编辑食堂信息</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="3">
+            <template slot="title">
+                <i class="el-icon-shopping-cart-1"></i>
+                <span>菜品管理</span>
+            </template>
+            <el-menu-item index="3-1">
+                <a href="dishList.html" class="aside_item">菜品信息列表</a>
+            </el-menu-item>
+            <el-menu-item index="3-2">
+                <a href="addDish.html" class="aside_item">添加菜品信息</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="4">
+            <template slot="title">
+                <i class="el-icon-star-on"></i>
+                <span>评价信息管理</span>
+            </template>
+            <el-menu-item index="4-1">
+                <a href="commentList.html" class="aside_item">评价列表</a>
+            </el-menu-item>
+            <el-menu-item index="4-2">
+                <a href="reportList.html" class="aside_item">投诉列表</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="5">
+            <template slot="title">
+                <i class="el-icon-chat-line-round"></i>
+                <span>活动公告</span>
+            </template>
+            <el-menu-item index="5-1">
+                <a href="announcement.html" class="aside_item">公告列表</a>
+            </el-menu-item>
+            <el-menu-item index="5-2">
+                <a href="addAnnouncement.html" class="aside_item">发布公告</a>
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="6">
+            <template slot="title">
+                <i class="el-icon-star-on"></i>
+                <span>投票管理</span>
+            </template>
+            <el-menu-item index="6-1">
+                <a href="addVote.html" class="aside_item">发起投票</a>
+            </el-menu-item>
+        </el-submenu>
+    </el-menu>
+</el-aside>
