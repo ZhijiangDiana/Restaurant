@@ -15,7 +15,7 @@ public class SearchDishService {
 
         List<Dish> res = null;
         try (sqlSession) {
-            res = dishMapper.selectAll();
+            res = dishMapper.selectAllWithFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
