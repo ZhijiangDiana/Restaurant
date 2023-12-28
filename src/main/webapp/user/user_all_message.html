@@ -23,7 +23,7 @@
             transition: all .3s;
         }
         .el-header {
-            line-height: 60px;
+            line-height: 30px;
             display: flex;
             align-items: center;
             /* 垂直居中对齐 */
@@ -96,6 +96,10 @@
             height: 380px;
             border-radius: 14px;
             box-shadow: 0px 0px 11px 0px rgba(35, 35, 35, 0.14);
+        }
+        .custom-progress .el-progress-bar__inner {
+            background-color: #ff9900; /* 设置进度条的背景颜色 */
+
         }
     </style>
 </head>
@@ -195,14 +199,19 @@
             </el-aside>
             <el-container>
 
-                <el-header style="background-color: #953131">
+                <el-header style="background-color: #953131;display: flex">
                     <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
+                    <div style="width: 85%"></div>
+                    <div style="color: white">
+                            <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
+                            <span>Lv:13</span>
+                        <div style="margin-top: 0">
+                            <el-progress :percentage="getPercentage()" :text-color="textColor" style="width: 200px;" class="custom-progress"></el-progress>
+                        </div>
+                    </div>
                 </el-header>
                 <el-main>
-                    <el-card>
-                        <span style="font-weight: bold">CJ</span>&nbsp;&nbsp;
-                        <span>Lv:13</span>
-                    </el-card>
+
                     <el-card>
                         <h3>帖子数：3208</h3>
                     </el-card>
@@ -248,6 +257,9 @@
         el: '#app',
         data(){
             return{
+                textColor:"#fff",
+                userExp: 60, // 用户当前的经验值
+                maxExp:[200,500,1000,2000,5000,99999],
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
