@@ -9,10 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
         .aside_item_title{
             color: #fff;
@@ -135,7 +133,6 @@
                 <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
             </el-header>
             <el-main>
-
                 <el-form :inline="true" :model="formInline" class="demo-form-inline">
                     <el-form-item label="菜品名称">
                         <el-input v-model="formInline.dishName" placeholder="菜品名称"></el-input>
@@ -146,7 +143,7 @@
                 </el-form>
 
                 <el-button @click="recommend" type="primary" style="float: right">推荐</el-button>
-                <el-table :data="tableData" border style="width: 100%; margin-top: 10px">
+                <el-table :data="tableData" border fix style="margin-top: 10px">
                     <el-table-column fixed="left" prop="dishName" label="菜品名称">
                     </el-table-column>
                     <el-table-column prop="series" label="系列">

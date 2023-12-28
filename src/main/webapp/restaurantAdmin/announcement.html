@@ -9,10 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
   <style>
       .aside_item_title{
           color: #fff;
@@ -109,7 +107,7 @@
             </el-header>
       <el-main>
 
-        <el-table :data="tableData" border style="width: 100%">
+        <el-table :data="tableData" border fix>
           <el-table-column prop="title" label="标题" >
           </el-table-column>
           <el-table-column prop="body" label="内容" >

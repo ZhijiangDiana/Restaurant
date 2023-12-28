@@ -9,10 +9,8 @@
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
-    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/axios-0.18.0.js"></script>
+    <script src="../js/utils.js"></script>
     <style>
         .aside_item_title{
             color: #fff;
@@ -109,8 +107,8 @@
             </el-header>
             <el-main>
 
-                <el-table :data="tableData" border style="width: 100%">
-                    <el-table-column fixed="left" prop="userId" label="学号" width="100">
+                <el-table :data="tableData" border fix>
+                    <el-table-column fixed="left" prop="userId" label="学号">
                     </el-table-column>
                     <el-table-column prop="title" label="标题" >
                     </el-table-column>
@@ -126,9 +124,9 @@
                 <el-dialog title="回复" :visible.sync="dialogVisible">
                     <!-- 编辑表单的内容 -->
                     <el-form :model="currentRow" :rules="rules" ref="form" label-position="top">
-<!--                        <el-form-item label="标题" prop="title">-->
-<!--                            <el-input v-model="currentRow.title"></el-input>-->
-<!--                        </el-form-item>-->
+                        <!--                        <el-form-item label="标题" prop="title">-->
+                        <!--                            <el-input v-model="currentRow.title"></el-input>-->
+                        <!--                        </el-form-item>-->
                         <el-form-item label="内容" prop="body">
                             <el-input type="textarea" v-model="currentRow.body"></el-input>
                         </el-form-item>
