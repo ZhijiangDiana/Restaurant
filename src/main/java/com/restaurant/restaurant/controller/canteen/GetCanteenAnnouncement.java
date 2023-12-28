@@ -29,12 +29,18 @@ public class GetCanteenAnnouncement extends HttpServlet {
 
         HttpSession session = req.getSession(true);
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
+        Integer canteenId;
         if (canteenAdmin == null) {
-            resp.setStatus(403);
-            pw.print(FrontEndUtils.objectToBody("未登录", "1", null));
-            return;
+            JSONObject reqJson = FrontEndUtils.bodyToJson(req);
+            canteenId = reqJson.getInteger("canteenId");
+            if (canteenId == null) {
+                resp.setStatus(403);
+                pw.print(FrontEndUtils.objectToBody("未登录", "1", null));
+                return;
+            }
+        } else {
+            canteenId = canteenAdmin.getCanteenId();
         }
-        Integer canteenId = canteenAdmin.getCanteenId();
 
         GetCanteenAnnouncementService getCanteenAnnouncementService = new GetCanteenAnnouncementService();
         List<Announcement> res = getCanteenAnnouncementService.getCanteenAnnouncement(canteenId);

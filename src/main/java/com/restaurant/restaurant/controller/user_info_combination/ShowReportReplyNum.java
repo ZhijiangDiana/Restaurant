@@ -41,7 +41,6 @@ public class ShowReportReplyNum extends HttpServlet {
         resp.setContentType("text/html; charset = UTF-8");
         PrintWriter pw = resp.getWriter();
 
-        // TODO: 2023/12/28 未在回复servlet中给变量+1
         HashMap<Integer,Integer> reportReplyCount = (HashMap<Integer, Integer>) req.getServletContext().getAttribute("reportReplyCounts");
         System.out.println("reportReplyCount: " + reportReplyCount);
         User user = (User)req.getSession().getAttribute("user");

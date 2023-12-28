@@ -64,16 +64,26 @@ public class LoginServlet extends HttpServlet{
             // 点击小红点跳转到类似b站的信息页面对应页面会发请求获取相对应的资源
             // 这里要放入servletcontext是为了有人发消息或者点赞后能够实时更新 看过后数量自然减
             // 只用于看点赞总数
-            HashMap<Integer,Integer> thumbsupCounts = new HashMap<>();
-            // 用于看某个用户的点赞列表
-            HashMap<Integer,List<Integer>> thumbsupDetails = new HashMap<>();
-
-            HashMap<Integer,Integer> reportReplyCounts = new HashMap<>();
             Integer userId = user.getUserId();
             session.setAttribute("user",user);
             session.setAttribute("userCommentsPerOnline",0);
             Queue<Date> commentQueue = new ConcurrentLinkedQueue<>();
             session.setAttribute("commentQueue", commentQueue);
+
+            // 若context里没有，则将其
+            ServletContext context = getServletContext();
+            Map<Integer, Integer> thumbsupCounts =
+                    (Map<Integer, Integer>) context.getAttribute("thumbsupCounts");
+            Map<Integer, Map<Integer,Integer>> thumbsupDetails =
+                    (Map<Integer, Map<Integer, Integer>>) context.getAttribute("thumbsupDetails");
+            Map<Integer, Integer> reportReplyCounts =
+                    (Map<Integer, Integer>) context.getAttribute("reportReplyCounts");
+            Map<Integer, Integer> replyCounts =
+                    (Map<Integer, Integer>) context.getAttribute("replyCounts");
+            thumbsupCounts.putIfAbsent(userId, 0);
+            thumbsupDetails.computeIfAbsent(userId, k -> new HashMap<>());
+            reportReplyCounts.putIfAbsent(userId, 0);
+            replyCounts.putIfAbsent(userId, 0);
         }
 
         if(canteenAdmin != null){

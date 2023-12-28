@@ -19,6 +19,17 @@ import java.util.List;
 /**
  * 服务器启动时执行init方法
  */
+/*
+    注册用户时添加：
+    HashMap<Integer, Integer> "thumbsupCounts"
+    HashMap<Integer, Map<Integer,Integer>> "thumbsupDetails"
+    HashMap<Integer, Integer> "reportReplyCounts"
+    HashMap<Integer, Integer> "replyCounts"
+
+    注册餐厅时添加：
+    Map<Integer, Map<Integer, Report>> "reportNotif"
+    Map<Integer, Map<Integer, DishComment>> "dishCommentNotif"
+ */
 @WebServlet(value = "/showThumbsupNum",loadOnStartup = 0)
 public class ShowThumbsupNum extends HttpServlet {
     @Override

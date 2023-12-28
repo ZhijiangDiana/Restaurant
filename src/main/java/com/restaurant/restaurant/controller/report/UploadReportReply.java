@@ -7,6 +7,7 @@ import com.restaurant.restaurant.pojo.entity.CanteenAdmin;
 import com.restaurant.restaurant.pojo.entity.ReportReply;
 import com.restaurant.restaurant.service.report.ReportService;
 import com.restaurant.restaurant.utils.FrontEndUtils;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -29,6 +30,7 @@ public class UploadReportReply extends HttpServlet {
         String body = reqJson.getString("body");
 
         HttpSession session = req.getSession(true);
+        ServletContext context = getServletContext();
         CanteenAdmin canteenAdmin = (CanteenAdmin) session.getAttribute("canteenAdmin");
 
 //        // 测试用
@@ -49,7 +51,7 @@ public class UploadReportReply extends HttpServlet {
         reportReply.setBody(body);
 
         ReportService replyReportService = new ReportService();
-        boolean isSuccess = replyReportService.replyReport(reportReply);
+        boolean isSuccess = replyReportService.replyReport(reportReply, context);
         if (isSuccess) {
             String respJson = FrontEndUtils.objectToBody("", "0", "");
             pw.print(respJson);

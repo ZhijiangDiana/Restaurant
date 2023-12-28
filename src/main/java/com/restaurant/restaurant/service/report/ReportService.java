@@ -10,6 +10,7 @@ import com.restaurant.restaurant.utils.SqlSessionFactoryUtils;
 import jakarta.servlet.ServletContext;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ReportService {
@@ -40,14 +41,27 @@ public class ReportService {
         return isSuccess;
     }
 
-    public boolean replyReport(ReportReply reportReply) {
+    public boolean replyReport(ReportReply reportReply, ServletContext context) {
         boolean isSuccess;
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         ReportReplyMapper reportReplyMapper = sqlSession.getMapper(ReportReplyMapper.class);
+        ReportMapper reportMapper = sqlSession.getMapper(ReportMapper.class);
 
         try (sqlSession) {
             reportReplyMapper.insertReportReply(reportReply);
             sqlSession.commit();
+            Integer reportReplyId = reportReply.getReportReplyId();
+            if (reportReplyId == null)
+                return false;
+
+            Integer reportId = reportReply.getReportId();
+            Report report = reportMapper.selectById(reportId);
+            Integer userId = report.getUserId();
+
+            Map<Integer, Integer> reportReplyCounts =
+                    (Map<Integer, Integer>) context.getAttribute("reportReplyCounts");
+            reportReplyCounts.replace(userId, reportReplyCounts.get(userId) + 1);
+
             isSuccess = true;
         } catch (Exception e) {
             e.printStackTrace();
