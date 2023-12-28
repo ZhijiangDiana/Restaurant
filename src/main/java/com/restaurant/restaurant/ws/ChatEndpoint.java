@@ -156,6 +156,7 @@ public class ChatEndpoint {
             else {
                 System.out.println("对方在线");
                 sessionFrom.getBasicRemote().sendText(msg1);
+                System.out.println("-----------------toId=" + toId);
                 // 不然永远都是发送方发消息
                 String msg3 = MessageUtils.getMessage(false,null,mess);
                 sessionTo.getBasicRemote().sendText(msg3);

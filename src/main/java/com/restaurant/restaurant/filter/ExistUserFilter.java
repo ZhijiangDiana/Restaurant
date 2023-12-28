@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/user/*", "/restaurantAdmin/*"})
+//@WebFilter(urlPatterns = {"/user/*", "/restaurantAdmin/*"})
 public class ExistUserFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
     }

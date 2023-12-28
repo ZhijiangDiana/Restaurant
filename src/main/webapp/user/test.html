@@ -335,7 +335,8 @@
         chatMes: false,
         isOnline: true,
         username: "",
-        userId: 1111111111, // 假设您在某处设置了当前登录用户的ID
+        toId:'',
+        userId: '', // 假设您在某处设置了当前登录用户的ID
         toName: "",
         sendMessage: {
           fromId: "",
@@ -383,23 +384,21 @@
         pageSize: 3, // 每页显示的条数
         currentPage: 1, // 当前页3
         total:'',
-          user: '',
-          userLevel: '',
-          remainPercent: '',
+        remainPercent:'',
+        user :'',
+        userLevel:'',
       }
     },
     mounted(){
-        this.getUserId();
       this.fetchAllUserList();
         //
       // 模拟设置当前用户的ID，实际情况应从登录信息中获取
       //this.fetchUserId();
-      this.fetchRelatedUserList();
       this.getCommentReplyNum();
       this.getThumbsupNum();
       this.getReportReplyNum();
       this.sumTotalUnreadNum();
-
+      this.fetchRelatedUserList();
     },
     computed: {
       paginatedComments() {
@@ -409,37 +408,18 @@
       }
     },
     methods:{
-        getUserId(){
+        getUserId() {
             axios.get('/restaurant/getUserId')
                 .then(response => {
                     var object = response.data.object;
-                    this.userId = object.userId;
                     this.user = object;
-                    localStorage.setItem("userId",this.userId)
-                    this.userLevel = expToLevel(this.user.experience);
+                    this.userLevel = expToLevel(this.user.experience)
                     this.remainPercent = remainExp(this.user.experience, this.userLevel)
-                    // alert(this.userId)
+                    this.toId = localStorage.getItem("toId");
                 }).catch(error => {
                 console.error(error);
-                this.$message.error('网络异常：' + error.message);
+                this.$message.error('网络异常:+ error .message');
             });
-
-        },
-        getUserId(){
-            axios.get('/restaurant/getUserId')
-                .then(response => {
-                    var object = response.data.object;
-                    this.userId = object.userId;
-                    this.user = object;
-                    localStorage.setItem("userId",this.userId)
-                    this.userLevel = expToLevel(this.user.experience);
-                    this.remainPercent = remainExp(this.user.experience, this.userLevel)
-                    // alert(this.userId)
-                }).catch(error => {
-                console.error(error);
-                this.$message.error('网络异常：' + error.message);
-            });
-
         },
         goToDetails() {
             window.location.href = "user_all_message.html"; // 修改为实际的详情页面 URL
@@ -457,7 +437,9 @@
         }
       },
       fetchRelatedUserList(){
-        alert(this.userId)
+        this.getUserId();
+        this.userId = localStorage.getItem("userId");
+        alert(this.userId);
         axios.get('/restaurant/fetchPeople?userId=' + this.userId)
                 .then(response => {
                   this.relatedUserList = response.data.object;
@@ -487,13 +469,11 @@
         else {
           this.toName = user.username;
         }
-        this.initWebSocket(); // 假设user对象有userId属性
         this.isShowChat = true;
         this.chatMes = true;
         this.fetchHistoryMessages(user.userId);
       },
       fetchHistoryMessages(toId) {
-        alert("当前用户" + this.userId + "对方id" + toId)
         axios.get('/restaurant/getOfflineMessages?fromId=' + this.userId + '&toId=' + toId)
                 .then(response => {
                   this.historyMessage = response.data;
@@ -536,7 +516,6 @@
           }
         }else {
           if(res.message === 0 || res.message === null){
-            alert("今夕是何年")
             this.fetchHistoryMessages(res.fromName);
           }
           else {
