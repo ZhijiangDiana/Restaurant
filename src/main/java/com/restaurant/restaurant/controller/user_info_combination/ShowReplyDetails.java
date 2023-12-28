@@ -21,10 +21,14 @@ public class ShowReplyDetails extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.setStatus(403);
+            return;
+        }
         SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
         try(sqlSession){
             ReplyMapper replyMapper = sqlSession.getMapper(ReplyMapper.class);
-            List<ReplyMessage> replyMessages = replyMapper.selectDetails(1);
+            List<ReplyMessage> replyMessages = replyMapper.selectDetails(user.getUserId());
             response.getWriter().print(FrontEndUtils.objectToBody(null,"0",replyMessages));
         }catch (Exception e){
             e.printStackTrace();

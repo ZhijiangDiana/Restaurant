@@ -277,6 +277,7 @@
             this.getReportReplyNum();
             this.sumTotalUnreadNum();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            this.getCommentReply();
         },
         computed: {
             paginatedComments() {
@@ -385,6 +386,22 @@
                     });
             },
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
+            getCommentReply() {
+                axios.get(`/restaurant/showReplyDetails`)
+                    .then(response => {
+                        const flag = response.data.flag;
+                        const object = response.data.object;
+                        if (object.length === 0 || flag == 1) {
+                            this.$message.error('暂无管理员回复');
+                        } else {
+                            this.comments = object;
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.$message.error('查询失败，请重试');
+                    });
+            },
         },
     })
 </script>
