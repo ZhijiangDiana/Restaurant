@@ -188,6 +188,16 @@
                                 </el-badge>
                             </span>
                         </el-menu-item>
+                        <el-submenu>
+                            <template slot="title">
+                                <i class="el-icon-chat-line-round"></i>
+                                <span class="aside_item_title">聊天管理</span>
+                            </template>
+                            <el-menu-item>
+                                <a href="test.html" class="aside_item">聊天室</a>
+                            </el-menu-item>
+
+                        </el-submenu>
                     </el-submenu>
                     <el-submenu index="5">
                         <template slot="title">
@@ -273,6 +283,7 @@
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
                 value:'',
+                userId:'',
                 images: [
                     'image/food.png',
                     'image/food_2.png',
@@ -299,6 +310,7 @@
             this.sumTotalUnreadNum();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
             this.getReportReply();
+            this.userId = localStorage.getItem("userId");
         },
         computed: {
             paginatedComments() {

@@ -201,7 +201,15 @@
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </el-menu-item>
-
+                    </el-submenu>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">聊天管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="test.html" class="aside_item">聊天室</a>
+                        </el-menu-item>
 
                     </el-submenu>
 
@@ -327,6 +335,7 @@
                     .catch(error => {
                         console.log(error);
                         this.$message.error('查询失败，请重试');
+
                     });
             },
             handleCollapse(){

@@ -363,6 +363,7 @@
                 isCollapse:false,
                 asideWidth:'200px',
                 collapseIcon:'el-icon-s-fold',
+                userId:'',
                 formInline: {},
                 tableData: [],
                 announcementData:[],
@@ -393,6 +394,7 @@
             this.sumTotalUnreadNum();
             <!----------------------------------------------------- 侧边栏结束 ----------------------------------------------------->
             this.getCommentReply();
+            this.userId = localStorage.getItem("userId");
         },
         methods:{
             goToDetails() {
