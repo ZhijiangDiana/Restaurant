@@ -56,7 +56,7 @@ public class CommentService {
         }catch (Exception e){
             sqlSession.close();
             sqlSession.rollback();
-            return FrontEndUtils.objectToBody("系统繁忙","0",null);
+            return FrontEndUtils.objectToBody("系统繁忙","1",null);
         }
     }
 
@@ -102,7 +102,7 @@ public class CommentService {
         }catch (Exception e){
             sqlSession.close();
             sqlSession.rollback();
-            return FrontEndUtils.objectToBody("系统繁忙","0",null);
+            return FrontEndUtils.objectToBody("系统繁忙","1",null);
         }
         // 更新经验
         ExperienceCaculateService experienceCaculateService = new ExperienceCaculateService();
@@ -132,7 +132,7 @@ public class CommentService {
         }catch (Exception e){
             sqlSession.close();
             sqlSession.rollback();
-            return FrontEndUtils.objectToBody("系统繁忙","0",null);
+            return FrontEndUtils.objectToBody("系统繁忙","1",null);
         }
     }
 
@@ -169,7 +169,7 @@ public class CommentService {
         }catch (Exception e){
             e.printStackTrace();
             sqlSession.rollback();
-            return FrontEndUtils.objectToBody("系统繁忙","0",null);
+            return FrontEndUtils.objectToBody("系统繁忙","1",null);
         }
     }
     public String selectUserId(Integer userid){
@@ -182,7 +182,7 @@ public class CommentService {
         catch (Exception e){
             sqlSession.close();
             sqlSession.rollback();
-            return FrontEndUtils.objectToBody("系统繁忙","0",null);
+            return FrontEndUtils.objectToBody("系统繁忙","1",null);
         }
 
     }
@@ -198,6 +198,20 @@ public class CommentService {
             sqlSession.rollback();
             return 0;
         }
+    }
+
+    public String getVagueCommentList(String title){
+        SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();
+        try(sqlSession){
+            CommentMapper commentMapper = sqlSession.getMapper(CommentMapper.class);
+            List<Comment> commentList = commentMapper.selectVagueComment(title);
+            return FrontEndUtils.objectToBody("查询成功","0",commentList);
+        }catch (Exception e){
+            sqlSession.close();
+            sqlSession.rollback();
+            return FrontEndUtils.objectToBody("系统繁忙","1",null);
+        }
+
     }
 
 
