@@ -78,6 +78,52 @@
             background-color: beige;/* 按钮之间的右边距 */
             color:black;
         }
+
+
+
+
+        /* 链接样式 */
+        .name-link {
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+            margin-bottom: 10px;
+            display: block; /* 确保是块级元素 */
+        }
+
+        /* 选项框样式 */
+        .options-box {
+            display: none;
+            position: absolute;
+            border: 1px solid #aaa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            width: 150px; /* 调整宽度 */
+            z-index: 1000; /* 确保在其他元素上方 */
+        }
+
+        /* 选项样式 */
+        .option {
+            padding: 10px;
+            cursor: pointer;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+            display: block; /* 确保选项是块级元素，实现竖向排列 */
+        }
+
+        /* 最后一个选项样式 */
+        .option:last-child {
+            border-bottom: none;
+        }
+
+        /* 鼠标悬停效果 */
+        .option:hover {
+            background-color: #f0f0f0;
+        }
+
     </style>
 </head>
 
@@ -111,7 +157,6 @@
                             <a href="addRestaurant.html" class="aside_item">新增食堂</a>
                         </el-menu-item>
                     </el-submenu>
-
                     <el-submenu>
                         <template slot="title">
                             <i class="el-icon-user"></i>
@@ -152,7 +197,15 @@
                                 <el-icon-button  icon="el-icon-message"></el-icon-button>
                             </el-badge>
                         </el-menu-item>
-
+                    </el-submenu>
+                    <el-submenu>
+                        <template slot="title">
+                            <i class="el-icon-chat-line-round"></i>
+                            <span class="aside_item_title">聊天管理</span>
+                        </template>
+                        <el-menu-item>
+                            <a href="main.html" class="aside_item">聊天室</a>
+                        </el-menu-item>
 
                     </el-submenu>
 
@@ -161,24 +214,58 @@
             <el-container>
                 <el-header style="background-color: #953131">
                     <i :class="collapseIcon" style="font-size:26px;color: beige" @click="handleCollapse"></i>
-                    <div style="margin-left: 100px">
-                        <el-input style="width: 500px" v-model="value" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
+                    <div style="margin-left: 100px;">
+                        <div style="align-items: center;display: flex">
+                            <el-input style="width: 500px" v-model="value" placeholder="请输入内容" prefix-icon="el-icon-search"></el-input>
+                            <el-button style="height: 80%;" @click="search">搜索</el-button>
+                        </div>
                     </div>
-                    <div class="el-header-buttons" style="display: flex;justify-content: end;margin-left: 200px">
+                    <div class="el-header-buttons" style="display: flex;justify-content: end;margin-left: 150px">
                         <el-button type="primary" style="background-color: #953131;border: #953131" @click="sortByHotness">热门</el-button>
                         <el-button type="primary" style="background-color: #953131;border: #953131" @click="sortByAscending">正序</el-button>
                         <el-button type="primary" style="background-color: #953131;border: #953131" @click="sortByDescending">倒序</el-button>
                     </div>
                 </el-header>
                 <el-main>
+                    <div style="margin-left: 90%">
+                        <el-button icon="el-icon-circle-plus" @click="sendMessage">
+
+                        </el-button>
+                    </div>
+                    <el-dialog :visible.sync="dialogVisible2" size="large" title="发表帖子" style="min-width: 500px">
+                        <el-card id="card_message2">
+                            <el-form style="margin-top: 20px;">
+                                <el-form-item label="标题">
+                                    <el-input type="textarea" v-model="MessageTitle" placeholder="请输入帖子内容"></el-input>
+                                </el-form-item>
+                                <el-form-item label="图片">
+                                    <el-input type="textarea" v-model="MessageImage" placeholder="请输入帖子内容"></el-input>
+                                </el-form-item>
+                                <el-form-item label="帖子内容">
+                                    <el-input type="textarea" v-model="MessageContent" placeholder="请输入帖子内容"></el-input>
+                                </el-form-item>
+
+                                <el-form-item class="el-main-reply-buttons" style="margin-left: 80%">
+                                    <el-button type="primary" @click="submitMessage">发表</el-button>
+                                </el-form-item>
+                            </el-form>
+                        </el-card>
+                    </el-dialog>
                     <el-card id="card_message1">
                     <div style="margin-bottom: 30px">
                         <div>
+                            <div class="options-box" id="optionsBox" style="color: black">
+                                <div class="option" @click="goToDetails(scope.row.id )">查看详情</div>
+                                <div class="option" @click="startChat()">进行聊天</div>
+                            </div>
                             <!-- 表格 -->
                             <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" style="width: 100%">
                                 <el-table-column prop="title" label="标题">
                                 </el-table-column>
-                                <el-table-column prop="name" label="发表人">
+                                <el-table-column prop="name" label="发表人" >
+                                    <template slot-scope="scope">
+                                        <a @click="showOptions(this)" style="font-weight:bold;">{{ scope.row.name }}</a>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column prop="publishTime" label="发表时间">
                                 </el-table-column>
@@ -350,6 +437,8 @@
                 total2: '', // 总条数
                 pageSize2: 9,// 每页的数据条数
                 dialogVisible1:false,
+                dialogVisible2:false,
+                dialogVisible3:false,
                 currentRow:{
                     commentId: '',
                     title: "",
@@ -616,6 +705,28 @@
                         this.$message.error('获取列表失败');
                         console.log(error);
                     });
+            },
+            sendMessage(){
+                this.dialogVisible2=true;
+            },
+            showOptions(element) {
+                var box = document.getElementById("optionsBox");
+                if (box.style.display === "block") {
+                    box.style.display = "none";
+                } else {
+                    box.style.display = "block";
+                    box.style.left = element.getBoundingClientRect().left + "px";
+                    box.style.top = element.getBoundingClientRect().bottom + "px";
+                }
+            },
+            goToDetails(id) {
+                window.location.href = "user_all_message.html?id"; // 修改为实际的详情页面 URL
+            },
+            seeUser(){
+                window.location.href = "user_all_message.html";
+            },
+            startChat(){
+                window.location.href = "main.html";
             }
         }
 
