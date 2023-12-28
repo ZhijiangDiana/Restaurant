@@ -26,12 +26,12 @@
 <body>
 <div id="app">
     <el-container style="height: 700px; border: 1px solid #eee">
-        <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
+        <el-header style="background: #34b0cb;display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
             <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
         </el-header>
         <el-container>
-            <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['6']">
+            <el-aside width="220px" style="height: 700px; border: 1px solid #eee">
+                <el-menu :default-openeds="['1']">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-house"></i>
@@ -109,10 +109,10 @@
                                 <el-input v-model="option.value" placeholder="请输入选项" required></el-input>
                             </el-col>
                             <el-col :span="4">
-                                <el-button type="danger" @click="deleteOption(index)">删除</el-button>
+                                <el-button type="danger" @click="deleteOption(index)" style="margin-left: 10px">删除</el-button>
                             </el-col>
                         </el-row>
-                        <el-button @click="addOption" plain>增加选项</el-button>
+                        <el-button style="margin-top: 10px" @click="addOption" plain>增加选项</el-button>
                     </el-form-item>
                     <el-form-item label="开始时间" prop="startTime">
                         <el-date-picker v-model="formData.startTime" type="datetime" placeholder="选择开始时间"

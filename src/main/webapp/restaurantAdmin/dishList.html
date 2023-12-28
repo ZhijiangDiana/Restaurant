@@ -51,12 +51,12 @@
 <body>
 <div id="app">
     <el-container style="height: 700px; border: 1px solid #eee">
-        <el-header style="display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
+        <el-header style="background: #34b0cb;display: flex; align-items: center; justify-content: space-between; padding: 0 20px;">
             <div style="font-size: 24px; color: #fff;">上海理工大学食堂点评交流系统</div>
         </el-header>
         <el-container>
-            <el-aside width="250px" style="height: 700px; border: 1px solid #eee">
-                <el-menu :default-openeds="['3']">
+            <el-aside width="220px" style="height: 700px; border: 1px solid #eee">
+                <el-menu :default-openeds="['1']">
                     <el-submenu index="1">
                         <template slot="title">
                             <i class="el-icon-house"></i>
@@ -134,7 +134,8 @@
                     </el-form-item>
                 </el-form>
 
-                <el-button @click="recommend" type="primary" style="float: right">推荐</el-button>
+                <el-button @click="recommend" type="primary" style="float: right; margin-bottom: 20px">推荐</el-button>
+
                 <el-table :data="tableData" border style="width: 100%; margin-top: 10px">
                     <el-table-column fixed="left" prop="dishName" label="菜品名称">
                     </el-table-column>
