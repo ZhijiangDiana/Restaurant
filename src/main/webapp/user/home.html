@@ -541,7 +541,7 @@
             goToVoteInfo(row) {
                 const index = this.vote.indexOf(row);
                 this.voteInfo = this.vote[index];
-                this.voteInfo.currentResult = JSON.parse(this.voteInfo.result)
+                // this.voteInfo.currentResult = JSON.parse(this.voteInfo.result)
 
                 this.dialogVisible = true;
                 // alert("点击了投票详情" + index)
@@ -662,6 +662,7 @@
                         } else {
                             object.forEach((item) => {
                                 // alert(item)
+                                item.result = JSON.parse(item.result)
                                 item.startTime = timeStampToDateTime(item.startTime);
                                 item.endTime = timeStampToDateTime(item.endTime);
                                 item.canteenName = this.getCanteenName(item.canteenId)
