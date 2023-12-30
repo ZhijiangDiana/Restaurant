@@ -35,7 +35,7 @@ public class SqlTest {
         sqlSession.commit();
         List<User> users = userMapper.selectAll();
         for (User usere : users) {
-            System.out.println(usere);
+    //        System.out.println(usere);
         }
 
         sqlSession.close();
@@ -49,7 +49,7 @@ public class SqlTest {
         List<Comment> comments = mapper.selectAll();
         System.out.println(comments);
         for (Comment comment1 : comments){
-            System.out.println(comment1);
+    //        System.out.println(comment1);
         }
 
     }
