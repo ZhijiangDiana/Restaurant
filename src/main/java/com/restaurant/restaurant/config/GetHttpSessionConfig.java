@@ -22,7 +22,7 @@ public class GetHttpSessionConfig extends ServerEndpointConfig.Configurator {
         if (request.getHttpSession() == null){
             System.out.println("session为空");
         }
-        System.out.println("nmsl");
+//        System.out.println("nmsl");
         HttpSession httpSession = (HttpSession) request.getHttpSession();
         sec.getUserProperties().put("httpSession", httpSession);
         ServletContext servletContext = ((HttpSession) request.getHttpSession()).getServletContext();
