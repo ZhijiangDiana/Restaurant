@@ -19,7 +19,7 @@ public class VoteTest {
         System.out.println(vote);
         Map<String, Object> map = JSON.parseObject(vote.getResult());
         for (Map.Entry<String, Object> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + ": " + entry.getValue());
+        //    System.out.println(entry.getKey() + ": " + entry.getValue());
         }
 
         sqlSession.close();
