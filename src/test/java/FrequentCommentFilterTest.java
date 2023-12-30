@@ -18,7 +18,7 @@ public class FrequentCommentFilterTest {
     public void filterTest() {
         Queue<Date> queue = new LinkedList<>();
         for (int i=0;i<20;i++) {
-            System.out.println(FrequentCommentFilter.frequencyCommentFilter(queue) + " " + queue.size());
+           // System.out.println(FrequentCommentFilter.frequencyCommentFilter(queue) + " " + queue.size());
         }
     }
 }
