@@ -8,6 +8,6 @@ public class DogSpeakTest {
         String text = "你妈nm";
 //        Pair<Boolean, Boolean> res = LegalSpeakFilter.isBanOrSensitive(text, 1);
 //        System.out.println(res);
-        System.out.println(LegalSpeakFilter.returnMessage(text, 1));
+//        System.out.println(LegalSpeakFilter.returnMessage(text, 1));
     }
 }
